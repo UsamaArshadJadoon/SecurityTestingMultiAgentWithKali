@@ -1,13 +1,34 @@
 # Agent: Cross-Site Scripting
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Overview
 Specialized security testing for Cross-Site Scripting with integrated tools and comprehensive vulnerability assessment.
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Tools Integrated
 - xsser - XSS vulnerability scanner
 - dom-xss-scanner - DOM-based XSS finder
 - burp - Web application firewall
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Testing Approach
 1. Identify injection points
 2. Test payload encoding
@@ -15,6 +36,13 @@ Specialized security testing for Cross-Site Scripting with integrated tools and 
 4. Evaluate impact
 5. Document findings
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Validation Requirements
 - Real vulnerability confirmation
 - Authentic tool output evidence
@@ -22,6 +50,13 @@ Specialized security testing for Cross-Site Scripting with integrated tools and 
 - Clear technical documentation
 - Developer-actionable remediation
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## CVSS Scoring Factors
 - Severity: Based on impact level
 - Attack Vector: Network
@@ -30,6 +65,13 @@ Specialized security testing for Cross-Site Scripting with integrated tools and 
 - Scope: Changed where applicable
 - CIA Impact: Varies by finding
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Remediation Examples
 - Input validation implementation
 - Security headers configuration
@@ -37,6 +79,13 @@ Specialized security testing for Cross-Site Scripting with integrated tools and 
 - Code review and testing
 - Security library integration
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Success Criteria
 ✓ Vulnerability confirmed
 ✓ Real proof of concept

@@ -1,8 +1,22 @@
 # Agent-019: AWS Cloud Security Testing
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Overview
 Comprehensive AWS security assessment agent for cloud infrastructure penetration testing.
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Tools Integrated
 - aws-cli - AWS command line interface
 - prowler - AWS security scanner
@@ -11,6 +25,13 @@ Comprehensive AWS security assessment agent for cloud infrastructure penetration
 - cloudmapper - AWS network visualization
 - pacu - AWS exploitation framework
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Testing Approach
 1. **Enumeration**
    - List AWS accounts and regions
@@ -20,6 +41,13 @@ Comprehensive AWS security assessment agent for cloud infrastructure penetration
    - Identify RDS databases
    - Catalog Lambda functions
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 2. **IAM Testing**
    - Analyze permission policies
    - Identify overprivileged roles
@@ -28,6 +56,13 @@ Comprehensive AWS security assessment agent for cloud infrastructure penetration
    - Find insecure trust relationships
    - Test credential theft scenarios
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 3. **Storage Security**
    - Check S3 bucket permissions
    - Verify encryption status
@@ -36,6 +71,13 @@ Comprehensive AWS security assessment agent for cloud infrastructure penetration
    - Analyze logging configuration
    - Test bucket lifecycle policies
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 4. **Compute Security**
    - Test EC2 security groups
    - Verify instance metadata endpoint
@@ -44,6 +86,13 @@ Comprehensive AWS security assessment agent for cloud infrastructure penetration
    - Analyze user data scripts
    - Identify unrestricted ports
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Validation Requirements
 - Authorized AWS testing scope
 - Real AWS account access
@@ -51,6 +100,13 @@ Comprehensive AWS security assessment agent for cloud infrastructure penetration
 - Documented exploitation path
 - Working proof-of-concept
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## CVSS Scoring
 - Severity: Cloud infrastructure compromise
 - Attack Vector: Network (AWS API)
@@ -59,6 +115,13 @@ Comprehensive AWS security assessment agent for cloud infrastructure penetration
 - Scope: Changed (multi-service impact)
 - CIA Impact: Critical (full access possible)
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Remediation Examples
 - Apply least privilege IAM policies
 - Enable MFA for all users
@@ -67,6 +130,13 @@ Comprehensive AWS security assessment agent for cloud infrastructure penetration
 - Enable CloudTrail logging
 - Restrict default security groups
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Success Criteria
 ✓ Successful AWS enumeration
 ✓ IAM permission issues documented

@@ -1,19 +1,47 @@
 # Agent: SOAP Web Services
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Overview
 Specialized security testing for SOAP Web Services with integrated tools and comprehensive vulnerability assessment.
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Tools Integrated
 - soapui - SOAP testing
 - burp - SOAP interception
 - wsdl2java - WSDL analysis
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Testing Approach
 1. Enumerate WSDL
 2. Test SOAP methods
 3. Check WS-Security
 4. Test XXE in SOAP
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Validation Requirements
 - Real vulnerability confirmation
 - Authentic tool output evidence
@@ -21,6 +49,13 @@ Specialized security testing for SOAP Web Services with integrated tools and com
 - Clear technical documentation
 - Developer-actionable remediation
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## CVSS Scoring Factors
 - Severity: Based on impact level
 - Attack Vector: Network
@@ -29,6 +64,13 @@ Specialized security testing for SOAP Web Services with integrated tools and com
 - Scope: Changed where applicable
 - CIA Impact: Varies by finding
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Remediation Examples
 - Input validation implementation
 - Security headers configuration
@@ -36,6 +78,13 @@ Specialized security testing for SOAP Web Services with integrated tools and com
 - Code review and testing
 - Security library integration
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Success Criteria
 ✓ Vulnerability confirmed
 ✓ Real proof of concept

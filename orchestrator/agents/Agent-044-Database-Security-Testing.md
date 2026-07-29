@@ -1,8 +1,22 @@
 # Agent-023: Database Security Testing
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Overview
 Database penetration testing agent for SQL/NoSQL injection and database security assessment.
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Tools Integrated
 - sqlmap - SQL injection testing
 - sqlninja - SQL injection exploitation
@@ -12,6 +26,13 @@ Database penetration testing agent for SQL/NoSQL injection and database security
 - mongo - MongoDB client
 - hashcat - Password cracking
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Testing Approach
 1. **SQL Injection Testing**
    - Identify injection points
@@ -22,6 +43,13 @@ Database penetration testing agent for SQL/NoSQL injection and database security
    - Escalate privileges
    - Execute system commands
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 2. **NoSQL Injection**
    - Test MongoDB injection
    - Exploit JSON queries
@@ -30,6 +58,13 @@ Database penetration testing agent for SQL/NoSQL injection and database security
    - Modify documents
    - Execute database functions
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 3. **Database Enumeration**
    - Map database structure
    - List users and privileges
@@ -38,6 +73,13 @@ Database penetration testing agent for SQL/NoSQL injection and database security
    - Check default credentials
    - Identify weak permissions
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 4. **Data Extraction**
    - Dump sensitive databases
    - Extract credentials
@@ -46,6 +88,13 @@ Database penetration testing agent for SQL/NoSQL injection and database security
    - Calculate data breach impact
    - Confirm confidentiality breach
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Validation Requirements
 - Real injection vulnerability
 - Authenticated database access
@@ -54,6 +103,13 @@ Database penetration testing agent for SQL/NoSQL injection and database security
 - Working SQL injection proof
 - Clear exploitation steps
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## CVSS Scoring
 - Severity: Complete database access
 - Attack Vector: Network
@@ -62,6 +118,13 @@ Database penetration testing agent for SQL/NoSQL injection and database security
 - Scope: Changed (entire database)
 - CIA Impact: Critical (data breach)
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Remediation Examples
 - Use parameterized queries/prepared statements
 - Implement input validation
@@ -70,6 +133,13 @@ Database penetration testing agent for SQL/NoSQL injection and database security
 - Enable database auditing
 - Use Web Application Firewall
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Success Criteria
 ✓ Injection vulnerability confirmed
 ✓ Database structure enumerated

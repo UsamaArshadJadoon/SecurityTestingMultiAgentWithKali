@@ -1,8 +1,22 @@
 # Agent-018: Binary Reverse Engineering & Analysis
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Overview
 Advanced binary analysis and reverse engineering agent for exploit development and vulnerability discovery.
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Tools Integrated
 - ghidra - NSA reverse engineering tool
 - ida-pro - Interactive disassembler
@@ -11,6 +25,13 @@ Advanced binary analysis and reverse engineering agent for exploit development a
 - gdb/lldb - Debuggers
 - objdump - Object file dumper
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Testing Approach
 1. **Binary Analysis**
    - Disassemble binary code
@@ -19,6 +40,13 @@ Advanced binary analysis and reverse engineering agent for exploit development a
    - Map data structures
    - Find vulnerable patterns
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 2. **Vulnerability Identification**
    - Buffer overflow detection
    - Unsafe function calls (strcpy, sprintf)
@@ -26,6 +54,13 @@ Advanced binary analysis and reverse engineering agent for exploit development a
    - Race conditions
    - Integer overflows
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 3. **Exploit Development**
    - Write shellcode
    - Craft payload delivery
@@ -33,6 +68,13 @@ Advanced binary analysis and reverse engineering agent for exploit development a
    - Test exploit reliability
    - Develop working proof-of-concept
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 4. **Protection Analysis**
    - Identify security mitigations
    - Test bypass techniques
@@ -40,6 +82,13 @@ Advanced binary analysis and reverse engineering agent for exploit development a
    - Evaluate defense effectiveness
    - Document protection gaps
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Validation Requirements
 - Real binary analysis
 - Working exploit code
@@ -47,6 +96,13 @@ Advanced binary analysis and reverse engineering agent for exploit development a
 - Confirmed code execution
 - Reproducible exploitation
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## CVSS Scoring
 - Severity: Code execution level
 - Attack Vector: Network or local
@@ -55,6 +111,13 @@ Advanced binary analysis and reverse engineering agent for exploit development a
 - Scope: Usually unchanged
 - CIA Impact: Critical if code execution
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Remediation Examples
 - Implement ASLR and DEP/NX
 - Use safe functions (strncpy, snprintf)
@@ -62,6 +125,13 @@ Advanced binary analysis and reverse engineering agent for exploit development a
 - Implement stack canaries
 - Use modern compiler protections
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Success Criteria
 ✓ Binary disassembly output
 ✓ Vulnerability identification

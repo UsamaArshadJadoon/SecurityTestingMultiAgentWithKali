@@ -1,18 +1,46 @@
 # Agent: Mass Assignment Vulnerability
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Overview
 Specialized security testing for Mass Assignment Vulnerability with integrated tools and comprehensive vulnerability assessment.
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Tools Integrated
 - burp - Parameter modification
 - nuclei - Mass assignment patterns
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Testing Approach
 1. Identify assignable fields
 2. Test parameter injection
 3. Modify admin fields
 4. Escalate privileges
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Validation Requirements
 - Real vulnerability confirmation
 - Authentic tool output evidence
@@ -20,6 +48,13 @@ Specialized security testing for Mass Assignment Vulnerability with integrated t
 - Clear technical documentation
 - Developer-actionable remediation
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## CVSS Scoring Factors
 - Severity: Based on impact level
 - Attack Vector: Network
@@ -28,6 +63,13 @@ Specialized security testing for Mass Assignment Vulnerability with integrated t
 - Scope: Changed where applicable
 - CIA Impact: Varies by finding
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Remediation Examples
 - Input validation implementation
 - Security headers configuration
@@ -35,6 +77,13 @@ Specialized security testing for Mass Assignment Vulnerability with integrated t
 - Code review and testing
 - Security library integration
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Success Criteria
 ✓ Vulnerability confirmed
 ✓ Real proof of concept

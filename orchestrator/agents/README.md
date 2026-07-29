@@ -1,6 +1,6 @@
 # 📋 86 Specialized Penetration Testing Agents
 
-Complete specifications for all 86 agents organized across 30 sequential testing phases.
+Complete specifications for all 87 agents organized across 30 sequential testing phases.
 
 **Framework Statistics:**
 - **86 Agent Specification Files** (Agent-001 through Agent-044 with variants)

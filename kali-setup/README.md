@@ -134,7 +134,7 @@ bash kali-setup/install-tools.sh
 
 ## Available Tools
 
-See [TOOLS.md](../docs/TOOLS.md) for a complete list of 150+ integrated tools.
+See [DOCUMENTATION.md](../docs/DOCUMENTATION.md) or the built-in integration for a complete list of 150+ integrated tools.
 
 ## Security Notes
 
