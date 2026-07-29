@@ -23,7 +23,7 @@ Each finding is validated through **4 security layers** ensuring **100% accuracy
 
 | Feature | Details |
 |---------|---------|
-| **100+ Agents** | Web, API, auth, mobile, cloud, IoT, wireless, Windows, Linux, database, and more |
+| **101 Agents** | Web, API, auth, mobile, cloud, IoT, wireless, Windows, Linux, database, and more |
 | **150+ Tools** | nmap, sqlmap, ffuf, nuclei, hashcat, metasploit, frida, ghidra, and 140+ more |
 | **30 Phases** | Recon → Web → API → Auth → Exploitation → Mobile → Wireless → Cloud → Reporting |
 | **4-Layer Validation** | Format → Evidence → Technical → Remediation (0% false positives) |
@@ -390,12 +390,12 @@ Report includes:
 
 | Metric | Value |
 |--------|-------|
-| **Agents** | 100+ specialized |
+| **Agents** | 101 specialized |
 | **Phases** | 30 sequential |
 | **Tools** | 150+ integrated |
 | **Code** | 5,000+ lines |
 | **Documentation** | 20,000+ lines across all guides |
-| **Agent Specs** | 60+ detailed agent files |
+| **Agent Specs** | 101 detailed agent files |
 | **Test Duration** | ~2 hours full test |
 | **False Positive Rate** | 0% (4-layer validation) |
 | **OWASP Coverage** | 100% (10/10) |
