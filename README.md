@@ -128,7 +128,7 @@ start engagements/my-client/report/report.html
 ## 🎯 What You Get
 
 ### **Framework Core**
-- ✅ Orchestrator.js (500+ lines) - Agent orchestration
+- ✅ Orchestrator.js (750+ lines) - Agent orchestration
 - ✅ 86 agent specifications - Detailed requirements
 - ✅ 150+ tool integrations - Kali tools via SSH
 - ✅ 30 sequential phases - Data flow between phases
@@ -152,7 +152,7 @@ start engagements/my-client/report/report.html
 - ✅ Remediation steps - Clear & actionable
 
 ### **Documentation**
-- ✅ 15+ comprehensive guides
+- ✅ Interactive portal + step-by-step guide + full reference
 - ✅ Installation instructions
 - ✅ Usage examples
 - ✅ Troubleshooting
@@ -165,42 +165,43 @@ start engagements/my-client/report/report.html
 SecurityTestingMultiAgentWithKali/
 │
 ├── orchestrator/                     # Core orchestration engine
-│   ├── Orchestrator.js               # Main engine (500+ lines)
-│   ├── 📁 agents/                    # Agent specifications (86 files)
+│   ├── Orchestrator.js               # Main engine (750+ lines)
+│   ├── agents/                       # Agent specifications (86 files)
 │   │   ├── README.md                 # Agents overview
 │   │   ├── Agent-001-Reconnaissance.md
 │   │   ├── Agent-002-Web-Pentest.md
-│   │   └── ... (Agent-003 through Agent-035)
-│   ├── kali-wrapper.sh
-│   └── kali-health-check.sh
+│   │   └── ...                       # through Agent-044 + sub-agents (86 total)
+│   ├── kali-wrapper.sh               # Run tools on Kali over SSH
+│   └── kali-health-check.sh          # Verify Kali connectivity & tools
 │
 ├── kali-setup/                       # Kali VM setup
+│   ├── README.md
 │   ├── kali-init.sh
 │   ├── install-tools.sh
 │   └── verify-tools.sh
 │
 ├── scripts/                          # Utility scripts
-│   ├── setup-engagement.sh
-│   ├── run-pentest.sh
-│   ├── validate-config.sh
-│   └── check-status.sh
+│   ├── setup-engagement.sh           # Create a new engagement
+│   ├── validate-config.sh            # Validate engagement config
+│   ├── run-pentest.sh                # Run the orchestrator
+│   └── check-status.sh               # Show run progress
 │
-├── docs/                             # Comprehensive documentation
+├── docs/                             # Documentation
 │   ├── Master-Documentation-Portal.html  # Interactive documentation hub
-│   ├── DOCUMENTATION.md                 # Complete 20,000+ line guide
-│   └── Claude-Code-Integration.md       # Claude Code integration guide
+│   ├── Getting-Started-Guide.html        # Step-by-step guide + live simulation
+│   ├── DOCUMENTATION.md                  # Complete reference (1,600+ lines)
+│   └── Claude-Code-Integration.md        # Claude Code integration guide
 │
-├── engagements/                      # Test engagements
-│   └── template/
+├── templates/                        # Schemas & templates
+│   ├── README.md
+│   └── finding-schema.json           # Validated-finding JSON schema
+│
+├── engagements/                      # Created per engagement at runtime (git-ignored)
+│   └── <name>/                       # e.g. acme-corp
 │       ├── config.yaml               # Configuration
 │       ├── scope.md                  # Scope & authorization
 │       ├── .secrets                  # Credentials (git-ignored)
-│       └── .env                      # Environment vars
-│
-├── templates/                        # JSON schemas & templates
-│   ├── finding-schema.json
-│   ├── report-template.html
-│   └── agent-prompt-template.md
+│       └── report/report.html        # Generated report
 │
 ├── README.md                         # This file
 ├── LICENSE                           # Apache 2.0
@@ -664,7 +665,7 @@ Report includes:
 10. **FAQ** - Common questions answered
 
 **📚 Documentation Hub:**
-- **[DOCUMENTATION.md](docs/DOCUMENTATION.md)** - Complete reference with all agents, tools, validation system (20,000+ lines)
+- **[DOCUMENTATION.md](docs/DOCUMENTATION.md)** - Complete reference with all agents, tools, validation system (1,600+ lines)
 - **[Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)** - Interactive documentation with tabs (Agents, Phases, Validation, Security, Installation, FAQ)
 
 **🔍 For Specific Topics:**
@@ -683,7 +684,7 @@ Report includes:
 | **Phases** | 30 sequential |
 | **Tools** | 150+ integrated |
 | **Code** | 5,000+ lines |
-| **Documentation** | 20,000+ lines across all guides |
+| **Documentation** | Comprehensive guides + interactive portal |
 | **Agent Specs** | 86 detailed agent files |
 | **Test Duration** | ~2 hours full test |
 | **False Positive Rate** | 0% (4-layer validation) |
@@ -706,7 +707,7 @@ Apache License 2.0 - See [LICENSE](LICENSE) file for details
 
 ## 📞 Support
 
-- **Documentation:** See `/docs` directory (3 comprehensive guides)
+- **Documentation:** See `/docs` directory (interactive portal, getting-started guide, full reference, integration guide)
 - **Interactive Guides:** Explore [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html) (complete interactive documentation)
 - **Complete Reference:** See [DOCUMENTATION.md](docs/DOCUMENTATION.md) for detailed information
 - **Claude Code Integration:** See [Claude-Code-Integration.md](docs/Claude-Code-Integration.md)
@@ -721,7 +722,7 @@ Apache License 2.0 - See [LICENSE](LICENSE) file for details
 ✅ **Secure:** Credentials protected, PII masked automatically  
 ✅ **Actionable:** Code examples & clear remediation steps  
 ✅ **Professional:** Enterprise-grade HTML reports  
-✅ **Documented:** 15+ comprehensive guides included  
+✅ **Documented:** Interactive portal, step-by-step guide, and full reference  
 ✅ **Production-Ready:** Battle-tested, hardened for enterprise  
 
 ---
