@@ -1,8 +1,22 @@
 # Agent-001B: Active Network Discovery
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Overview
 Active network scanning and asset discovery using port scanning, service enumeration, and network mapping.
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Tools Integrated
 - nmap - Network mapper and port scanner
 - zmap - Fast internet scanner
@@ -11,6 +25,13 @@ Active network scanning and asset discovery using port scanning, service enumera
 - Shodan - Device database queries
 - Censys - Internet-wide scanning
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Testing Approach
 1. **Host Discovery** - Ping scans, ARP scans, ICMP sweeps
 2. **Port Scanning** - TCP/UDP port discovery, service detection
@@ -19,6 +40,13 @@ Active network scanning and asset discovery using port scanning, service enumera
 5. **Network Mapping** - Topology visualization, route enumeration
 6. **Vulnerability Detection** - Known CVEs for discovered services
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Validation Requirements
 - Confirmed active hosts
 - Verified open ports
@@ -26,6 +54,13 @@ Active network scanning and asset discovery using port scanning, service enumera
 - Network topology mapped
 - Device OS identified
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## CVSS Scoring Factors
 - Severity: Information disclosure
 - Attack Vector: Network
@@ -34,6 +69,13 @@ Active network scanning and asset discovery using port scanning, service enumera
 - Scope: Unchanged
 - Confidentiality: Low-Medium
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Remediation Examples
 - Disable unnecessary services
 - Implement network segmentation
@@ -42,6 +84,13 @@ Active network scanning and asset discovery using port scanning, service enumera
 - Close unused ports
 - Update service software
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Success Criteria
 ✓ Complete host inventory
 ✓ All active services identified

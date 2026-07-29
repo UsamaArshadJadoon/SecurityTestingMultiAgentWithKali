@@ -1,6 +1,6 @@
 # 🔐 Security Testing Multi-Agent Framework
 
-**Complete Penetration Testing Framework with 101 Specialized Agents & 150+ Kali Tools**
+**Complete Penetration Testing Framework with 86 Specialized Agents & 150+ Kali Tools**
 
 ![Version](https://img.shields.io/badge/Version-2.0.0-brightgreen)
 ![Python](https://img.shields.io/badge/Python-3.8+-blue)
@@ -11,7 +11,7 @@
 
 ## 📋 What is This?
 
-A production-ready penetration testing framework that orchestrates **101 specialized security agents** across **30 sequential testing phases**, integrating **150+ Kali Linux tools** via SSH. 
+A production-ready penetration testing framework that orchestrates **86 specialized security agents** across **30 sequential testing phases**, integrating **150+ Kali Linux tools** via SSH. 
 
 Each finding is validated through **4 security layers** ensuring **100% accuracy with zero false positives**, backed by **real evidence**, **reproducible steps**, and **working code fixes**.
 
@@ -204,8 +204,7 @@ SecurityTestingMultiAgentWithKali/
 │
 ├── README.md                         # This file
 ├── LICENSE                           # Apache 2.0
-├── .gitignore                        # Ignores credentials
-└── CONTRIBUTING.md                   # Contribution guide
+└── .gitignore                        # Ignores credentials
 ```
 
 ---
@@ -705,19 +704,12 @@ Apache License 2.0 - See [LICENSE](LICENSE) file for details
 
 ---
 
-## 🤝 Contributing
-
-Contributions are welcome! See [Contributing.md](Contributing.md) for guidelines.
-
----
-
 ## 📞 Support
 
 - **Documentation:** See `/docs` directory (3 comprehensive guides)
 - **Interactive Guides:** Explore [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html) (complete interactive documentation)
-- **Issues:** Check GitHub issues for known problems
-- **Troubleshooting:** See [Troubleshooting.md](docs/Troubleshooting.md)
-- **FAQ:** Common questions answered in docs
+- **Complete Reference:** See [DOCUMENTATION.md](docs/DOCUMENTATION.md) for detailed information
+- **Claude Code Integration:** See [Claude-Code-Integration.md](docs/Claude-Code-Integration.md)
 
 ---
 

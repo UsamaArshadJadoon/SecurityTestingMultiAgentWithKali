@@ -4,7 +4,7 @@
 1. [Installation & Setup](#installation--setup)
 2. [Usage & Running Tests](#usage--running-tests)
 3. [Understanding Reports](#understanding-reports)
-4. [All 86 Agents](#all-86-agents)
+4. [All 86 Agents](#all-87-agents)
 5. [150+ Tools Reference](#150-tools-reference)
 6. [Framework Overview](#framework-overview)
 7. [Validation System](#validation-system)
@@ -85,7 +85,7 @@ In Claude Code, run:
 Run full penetration test for my-client
 ```
 
-The orchestrator will execute 30 phases with 86 agents, taking ~2 hours for a complete penetration test.
+The orchestrator will execute 30 phases with 87 agents, taking ~2 hours for a complete penetration test.
 
 #### Step 7: Review Report
 ```bash
@@ -256,7 +256,7 @@ At a glance:
 
 ---
 
-## All 31 Agents
+## All 86 Agents
 
 ### Phase 1: Reconnaissance (1 Agent)
 
@@ -1094,7 +1094,7 @@ Phase Manager (Sequential Execution)
         ↓
     Phase 1-13 (13 Phases)
         ↓
-Agent Dispatch (31 Agents)
+Agent Dispatch (86 Agents)
         ↓
 Tool Execution (55+ Tools via SSH)
         ↓
@@ -1110,7 +1110,7 @@ Report Generation (HTML Report)
 #### 1. Orchestrator.js
 - Main orchestration engine (500+ lines)
 - Manages 30 sequential phases
-- Dispatches 86 agents
+- Dispatches 87 agents
 - Handles data flow between phases
 - Implements retry logic and error handling
 - Tracks execution metrics
@@ -1122,7 +1122,7 @@ Report Generation (HTML Report)
 - Collects findings from agents
 - Validates findings before next phase
 
-#### 3. Agent Specifications (86 files)
+#### 3. Agent Specifications (87 files)
 - Located in `orchestrator/agents/`
 - Each agent has detailed specification
 - Tools used by agent

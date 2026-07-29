@@ -1,19 +1,47 @@
 # Agent: XML External Entity Injection
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Overview
 Specialized security testing for XML External Entity Injection with integrated tools and comprehensive vulnerability assessment.
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Tools Integrated
 - burp - XXE payload testing
 - nuclei - XXE patterns
 - custom tools - Entity parsing
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Testing Approach
 1. Identify XML parsing
 2. Test XXE payloads
 3. Attempt entity expansion
 4. Verify file access
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Validation Requirements
 - Real vulnerability confirmation
 - Authentic tool output evidence
@@ -21,6 +49,13 @@ Specialized security testing for XML External Entity Injection with integrated t
 - Clear technical documentation
 - Developer-actionable remediation
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## CVSS Scoring Factors
 - Severity: Based on impact level
 - Attack Vector: Network
@@ -29,6 +64,13 @@ Specialized security testing for XML External Entity Injection with integrated t
 - Scope: Changed where applicable
 - CIA Impact: Varies by finding
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Remediation Examples
 - Input validation implementation
 - Security headers configuration
@@ -36,6 +78,13 @@ Specialized security testing for XML External Entity Injection with integrated t
 - Code review and testing
 - Security library integration
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Success Criteria
 ✓ Vulnerability confirmed
 ✓ Real proof of concept

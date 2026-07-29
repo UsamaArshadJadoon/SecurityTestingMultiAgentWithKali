@@ -1,8 +1,22 @@
 # Agent-001A: Passive Reconnaissance
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Overview
 Passive information gathering and open-source intelligence for target identification and attack surface discovery without active probing.
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Tools Integrated
 - whois - Domain registration lookup
 - nslookup - DNS query tool
@@ -12,6 +26,13 @@ Passive information gathering and open-source intelligence for target identifica
 - Shodan - Public search engine for internet devices
 - Censys - Internet-wide survey data
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Testing Approach
 1. **WHOIS Lookup** - Registrant information, registrar details, domain history
 2. **DNS Enumeration** - DNS records, MX records, NS servers
@@ -21,6 +42,13 @@ Passive information gathering and open-source intelligence for target identifica
 6. **Web Archive** - Wayback machine historical data
 7. **Public Records** - Business registrations, court records, news articles
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Validation Requirements
 - Verified public data collection
 - Documented source references
@@ -28,6 +56,13 @@ Passive information gathering and open-source intelligence for target identifica
 - Legally obtained information only
 - Complete data correlation
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## CVSS Scoring Factors
 - Severity: Information disclosure (low-medium)
 - Attack Vector: Network (public data)
@@ -36,6 +71,13 @@ Passive information gathering and open-source intelligence for target identifica
 - Scope: Unchanged
 - Confidentiality: Low (public information)
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Remediation Examples
 - Minimize public information exposure
 - Configure DNS security
@@ -44,6 +86,13 @@ Passive information gathering and open-source intelligence for target identifica
 - Review social media presence
 - Remove sensitive data from archives
 
+## Evidence Collection
+- Actual HTTP requests and responses
+- Command execution proof
+- System screenshots
+- Tool output and logs
+- Configuration file excerpts
+- Database dumps (if applicable)
 ## Success Criteria
 ✓ Complete WHOIS information gathered
 ✓ All DNS records enumerated
