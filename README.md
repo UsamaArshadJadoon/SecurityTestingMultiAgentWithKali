@@ -88,7 +88,7 @@ Me: "Run full penetration test for my-client"
 
 Result:
   ✅ Phase 1-30: All testing phases complete
-  ✅ 101 agents executed sequentially
+  ✅ 86 agents executed sequentially
   ✅ All findings validated (4-layer validation)
   ✅ Report generated: engagements/my-client/report/report.html
 ```
@@ -108,8 +108,8 @@ start engagements/my-client/report/report.html
 
 **🌟 [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)** - Complete interactive documentation with:
 - Overview & Framework Summary
-- All 31 Agents (searchable)
-- 13 Sequential Phases
+- All 86 Agents (searchable)
+- 30 Sequential Phases
 - 4-Layer Validation System
 - Security & Credentials Management
 - Complete Data Flow Architecture
@@ -121,7 +121,7 @@ start engagements/my-client/report/report.html
 ### Comprehensive Documentation
 | Document | Contains |
 |----------|----------|
-| **[DOCUMENTATION.md](docs/DOCUMENTATION.md)** | Everything: Installation, Usage, Reports, All 31 Agents, 55+ Tools, Framework Overview, Validation System, Security Management |
+| **[DOCUMENTATION.md](docs/DOCUMENTATION.md)** | Everything: Installation, Usage, Reports, All 86 Agents, 150+ Tools, Framework Overview, Validation System, Security Management |
 
 ---
 
@@ -129,7 +129,7 @@ start engagements/my-client/report/report.html
 
 ### **Framework Core**
 - ✅ Orchestrator.js (500+ lines) - Agent orchestration
-- ✅ 101 agent specifications - Detailed requirements
+- ✅ 86 agent specifications - Detailed requirements
 - ✅ 150+ tool integrations - Kali tools via SSH
 - ✅ 30 sequential phases - Data flow between phases
 
