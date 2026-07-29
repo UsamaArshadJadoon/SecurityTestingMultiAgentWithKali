@@ -129,9 +129,9 @@ start engagements/my-client/report/report.html
 
 ### **Framework Core**
 - ✅ Orchestrator.js (500+ lines) - Agent orchestration
-- ✅ 31 agent specifications - Detailed requirements
-- ✅ 55+ tool integrations - Kali tools via SSH
-- ✅ 13 sequential phases - Data flow between phases
+- ✅ 101 agent specifications - Detailed requirements
+- ✅ 150+ tool integrations - Kali tools via SSH
+- ✅ 30 sequential phases - Data flow between phases
 
 ### **Quality Assurance**
 - ✅ 4-layer validation gates - Format → Evidence → Technical → Remediation
