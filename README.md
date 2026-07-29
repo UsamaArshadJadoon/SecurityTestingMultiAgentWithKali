@@ -163,7 +163,16 @@ start engagements/my-client/report/report.html
 ```
 SecurityTestingMultiAgentWithKali/
 │
-├── Orchestrator.js          # Main orchestration engine
+├── orchestrator/                     # Core orchestration engine
+│   ├── Orchestrator.js               # Main engine (500+ lines)
+│   ├── 📁 agents/                    # Agent specifications (35 files)
+│   │   ├── README.md                 # Agents overview
+│   │   ├── Agent-001-Reconnaissance.md
+│   │   ├── Agent-002-Web-Pentest.md
+│   │   └── ... (Agent-003 through Agent-035)
+│   ├── kali-wrapper.sh
+│   └── kali-health-check.sh
+│
 ├── kali-setup/                       # Kali VM setup
 │   ├── kali-init.sh
 │   ├── install-tools.sh
