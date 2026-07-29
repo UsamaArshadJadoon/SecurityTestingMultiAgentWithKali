@@ -123,6 +123,34 @@
   .acc-item.open .acc-body{max-height:340px}
   .acc-body div{padding:0 18px 15px}
 
+  /* ===== live simulation ===== */
+  .sim{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(20,28,46,.72),rgba(11,17,32,.72));padding:20px 22px;margin:28px 0 6px}
+  .sim-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+  .sim-top h3{margin:0;font-size:1.08rem;letter-spacing:-.01em}
+  .sim-top .sbadge{font-family:var(--mono);font-size:.62rem;color:var(--teal);border:1px solid rgba(34,199,187,.4);border-radius:999px;padding:3px 9px}
+  .sim-ctl{display:flex;gap:8px;align-items:center;margin-left:auto;flex-wrap:wrap}
+  .sbtn{font-family:var(--mono);font-size:.78rem;font-weight:600;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);padding:8px 14px;border-radius:10px;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:6px}
+  .sbtn:hover{border-color:var(--teal);background:rgba(34,199,187,.1)}
+  .sbtn.play{background:linear-gradient(90deg,var(--teal2),var(--teal));border-color:transparent;color:#04231f}
+  .sspeed{display:flex;gap:4px;align-items:center;font-family:var(--mono);font-size:.72rem;color:var(--faint)}
+  .sspeed button{font-family:var(--mono);font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--muted);border-radius:7px;padding:4px 8px;cursor:pointer}
+  .sspeed button.on{border-color:var(--teal);color:var(--teal)}
+  .track{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+  .track .t{width:27px;height:27px;border-radius:8px;display:grid;place-items:center;font-family:var(--mono);font-size:.7rem;font-weight:700;border:1px solid var(--line);color:var(--faint);background:var(--bg1);transition:.2s}
+  .track .t.active{border-color:var(--teal);color:var(--teal);box-shadow:0 0 0 4px rgba(34,199,187,.15)}
+  .track .t.done{border-color:var(--green);color:var(--green)}
+  .termwin{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#05080f}
+  .termbar{display:flex;align-items:center;gap:7px;padding:9px 13px;background:#0b1120;border-bottom:1px solid var(--line)}
+  .termbar i{width:11px;height:11px;border-radius:50%;display:inline-block}
+  .termbar .r{background:#ef6b7e}.termbar .y{background:#e2a13c}.termbar .g{background:#3ecf7a}
+  .termbar span{font-family:var(--mono);font-size:.7rem;color:var(--faint);margin-left:8px}
+  .term{font-family:var(--mono);font-size:.82rem;line-height:1.65;padding:16px;height:360px;overflow-y:auto;white-space:pre-wrap;word-break:break-word}
+  .term .who{color:var(--purple)}.term .dollar{color:var(--teal);margin-right:6px}.term .cmd{color:#cfe}
+  .term .cmt{color:var(--faint)}.term .out{color:var(--muted)}.term .ok{color:var(--green)}.term .stp{color:var(--amber)}
+  .term .cur{display:inline-block;width:8px;height:1em;vertical-align:-2px;background:var(--teal);animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .sim-note{color:var(--faint);font-size:.78rem;font-family:var(--mono);margin-top:10px}
+
   footer{max-width:1180px;margin:0 auto;padding:24px 20px 40px;color:var(--faint);font-size:.82rem;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   footer .mk{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:.9rem;background:linear-gradient(135deg,var(--teal2),var(--purple))}
   footer b{color:var(--ink)}
@@ -153,6 +181,28 @@
     <span class="p">6–9 · Configure</span><span class="arw">→</span>
     <span class="p">10 · Run</span><span class="arw">→</span>
     <span class="p">11–12 · Report</span>
+  </div>
+
+  <!-- LIVE SIMULATION -->
+  <div class="sim" id="sim">
+    <div class="sim-top">
+      <h3>▶ Live simulation</h3><span class="sbadge">watch steps 1 → 12</span>
+      <div class="sim-ctl">
+        <button class="sbtn play" id="simPlay" type="button">▶&nbsp; Play</button>
+        <button class="sbtn" id="simReset" type="button">⟲&nbsp; Reset</button>
+        <div class="sspeed">speed
+          <button data-s="1.6" type="button">0.5×</button>
+          <button data-s="1" class="on" type="button">1×</button>
+          <button data-s="0.5" type="button">2×</button>
+        </div>
+      </div>
+    </div>
+    <div class="track" id="simTrack"></div>
+    <div class="termwin">
+      <div class="termbar"><i class="r"></i><i class="y"></i><i class="g"></i><span>bash — SecurityTestingMultiAgentWithKali</span></div>
+      <div class="term" id="term"></div>
+    </div>
+    <div class="sim-note">Illustrative replay of Steps 1–12 for the sample engagement "acme-corp" — nothing real runs. Scroll down for the actual, copyable steps.</div>
   </div>
 
   <div class="layout">
@@ -467,6 +517,110 @@ and vulnerable-vs-fixed code. PII is masked automatically.</div>
     },{rootMargin:"-40% 0px -55% 0px"});
     STEPS.forEach(function(s){var el=document.getElementById(s[0]);if(el)obs.observe(el);});
   }
+})();
+
+/* ===== Live simulation engine ===== */
+(function(){
+  "use strict";
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var term=document.getElementById("term"),track=document.getElementById("simTrack");
+  var playBtn=document.getElementById("simPlay"),resetBtn=document.getElementById("simReset");
+  if(!term)return;
+
+  // Each step: prompt user, command line(s), and output line(s). {cmt}=comment, {ok}=green, plain=muted.
+  var SIM=[
+    {n:1, cmd:["node --version && python3 --version && git --version"],
+      out:["v18.19.0","Python 3.11.6","git version 2.43.0"]},
+    {n:2, cmd:["git clone https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali.git","cd SecurityTestingMultiAgentWithKali"],
+      out:["Cloning into 'SecurityTestingMultiAgentWithKali'...","Receiving objects: 100% (842/842), done.","{ok}✓ ready in project folder"]},
+    {n:3, cmd:["bash kali-setup/install-tools.sh"],
+      out:["{cmt}# installing 150+ Kali tools (this takes ~20-30 min)...","{ok}✅ nmap  ✅ sqlmap  ✅ nuclei  ✅ ffuf  ✅ hydra  (+145 more)","{ok}✅ All required tools are installed!"]},
+    {n:4, cmd:["ssh-copy-id -i ~/.ssh/kali_key.pub kali@192.168.56.101","export KALI_HOST=192.168.56.101 KALI_USER=kali KALI_KEY=~/.ssh/kali_key","ssh -i ~/.ssh/kali_key kali@192.168.56.101 \"echo connected\""],
+      out:["Number of key(s) added: 1","{ok}connected"]},
+    {n:5, cmd:["bash orchestrator/kali-health-check.sh"],
+      out:["🔍 Kali health check","  SSH connectivity... {ok}✅","  nmap... {ok}✅   sqlmap... {ok}✅   nuclei... {ok}✅","{ok}✅ Kali is ready."]},
+    {n:6, cmd:["bash scripts/setup-engagement.sh acme-corp"],
+      out:["🔧 Setting up engagement: acme-corp","{ok}✅ Engagement setup complete!","{cmt}# created engagements/acme-corp/ (config.yaml, scope.md, .secrets.template)"]},
+    {n:7, cmd:["cp engagements/acme-corp/.secrets.template engagements/acme-corp/.secrets","nano engagements/acme-corp/.secrets"],
+      out:["{cmt}# TARGET_URL=https://staging.acme-corp.com","{cmt}# TARGET_USERNAME=testuser@acme-corp.com","{ok}✓ saved .secrets (git-ignored)"]},
+    {n:8, cmd:["nano engagements/acme-corp/scope.md"],
+      out:["{stp}+ authorization.confirmed: true","{cmt}# in-scope: web app + APIs   out-of-scope: production DB","{ok}✓ saved scope.md — safety gate satisfied"]},
+    {n:9, cmd:["bash scripts/validate-config.sh acme-corp"],
+      out:["🔍 Validating engagement configuration: acme-corp","{ok}✅ Found: config.yaml","{ok}✅ Found: scope.md","{ok}✅ Found: .secrets","{ok}✅ Configuration validation complete!"]},
+    {n:10, cmd:["bash scripts/run-pentest.sh acme-corp"],
+      out:["🚀 Starting penetration test for: acme-corp","{ok}✅ Scope gate passed","║  86 Agents | 30 Phases | Claude Code Agent Dispatch  ║","{stp}Phase 1 · Reconnaissance ......... done (5 findings)","{stp}Phase 2 · Surface Exploitation ... done (20 findings)","{stp}Phase 3 · Deep Exploitation ...... done (8 findings)","{cmt}# ... phases 4-29 ...  4-layer validation on every finding","{stp}Phase 30 · Reporting ............. done"]},
+    {n:11, cmd:["bash scripts/check-status.sh acme-corp"],
+      out:["📊 Status for engagement: acme-corp","  Completed phases: 30","  Completed agents: 86/86","  Findings: 57   Errors: 0"]},
+    {n:12, cmd:["start engagements/acme-corp/report/report.html"],
+      out:["{cmt}# opening report in your browser...","{ok}✅ Report ready — 57 findings, all evidence-backed, PII masked","{ok}🎉 Engagement complete!"]}
+  ];
+
+  // build track
+  track.innerHTML=SIM.map(function(s){return '<div class="t" data-n="'+s.n+'">'+s.n+'</div>';}).join("");
+  var chips=Array.prototype.slice.call(track.children);
+
+  var gen=0, playing=false, started=false, done=false, speed=1;
+
+  function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
+  async function gate(myGen){ while(!playing && gen===myGen && !done){ await sleep(60); } }
+  function addLine(cls,txt){var d=document.createElement("div");if(cls)d.className=cls;if(txt!=null)d.textContent=txt;term.appendChild(d);term.scrollTop=term.scrollHeight;return d;}
+  function clsOf(line){ if(line.indexOf("{ok}")===0)return["ok",line.slice(4)]; if(line.indexOf("{cmt}")===0)return["cmt",line.slice(5)]; if(line.indexOf("{stp}")===0)return["stp",line.slice(5)]; return["out",line]; }
+
+  function setLabel(){ playBtn.textContent = done ? "⟲  Replay" : (playing ? "⏸  Pause" : "▶  Play"); }
+  function resetSim(){ gen++; playing=false; started=false; done=false; term.innerHTML=""; chips.forEach(function(c){c.classList.remove("active","done");}); addLine("cmt","# press ▶ Play to simulate the full run"); setLabel(); }
+
+  async function run(myGen){
+    for(var i=0;i<SIM.length && gen===myGen;i++){
+      var s=SIM[i];
+      await gate(myGen); if(gen!==myGen)return;
+      chips.forEach(function(c){c.classList.remove("active");});
+      chips[i].classList.add("active");
+      addLine("stp","── Step "+s.n+" ──");
+      // type each command line
+      for(var c=0;c<s.cmd.length;c++){
+        await gate(myGen); if(gen!==myGen)return;
+        var line=addLine(null,null);
+        line.innerHTML='<span class="who">you@host</span><span class="dollar">:~$</span>';
+        var span=document.createElement("span");span.className="cmd";line.appendChild(span);
+        var cur=document.createElement("span");cur.className="cur";line.appendChild(cur);
+        var text=s.cmd[c];
+        for(var k=0;k<text.length;k++){
+          if(gen!==myGen)return; await gate(myGen);
+          span.appendChild(document.createTextNode(text[k]));
+          term.scrollTop=term.scrollHeight;
+          await sleep((reduce?0:14)*speed);
+        }
+        cur.remove();
+        await sleep((reduce?0:120)*speed);
+      }
+      // output lines
+      for(var o=0;o<s.out.length;o++){
+        await gate(myGen); if(gen!==myGen)return;
+        var parsed=clsOf(s.out[o]);
+        addLine(parsed[0],parsed[1]);
+        await sleep((reduce?0:120)*speed);
+      }
+      chips[i].classList.remove("active");chips[i].classList.add("done");
+      addLine("","");
+      await sleep((reduce?0:420)*speed);
+    }
+    if(gen===myGen){ done=true; playing=false; setLabel(); }
+  }
+
+  playBtn.addEventListener("click",function(){
+    if(done){ resetSim(); }
+    if(!started){ started=true; playing=true; term.innerHTML=""; setLabel(); run(gen); }
+    else { playing=!playing; setLabel(); }
+  });
+  resetBtn.addEventListener("click",resetSim);
+  document.querySelectorAll(".sspeed button").forEach(function(b){
+    b.addEventListener("click",function(){
+      document.querySelectorAll(".sspeed button").forEach(function(x){x.classList.remove("on");});
+      b.classList.add("on"); speed=parseFloat(b.getAttribute("data-s"));
+    });
+  });
+
+  resetSim();
 })();
 </script>
 </body>
