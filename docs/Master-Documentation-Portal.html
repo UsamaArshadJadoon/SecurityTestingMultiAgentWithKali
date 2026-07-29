@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Security Testing Multi-Agent Framework - Professional Documentation</title>
+    <title>Security Testing Multi-Agent Framework</title>
     <style>
         * {
             margin: 0;
@@ -12,32 +12,33 @@
         }
 
         :root {
-            --primary: #00ff88;
-            --primary-dark: #00cc6f;
-            --secondary: #00d4ff;
-            --tertiary: #0099ff;
-            --accent: #ff006e;
-            --bg-primary: #0a0e27;
-            --bg-secondary: #0f1535;
-            --bg-tertiary: #151d3b;
-            --text-primary: #ffffff;
-            --text-secondary: #cbd5e1;
-            --text-tertiary: #94a3b8;
-            --border: rgba(0, 255, 136, 0.2);
-            --border-light: rgba(0, 255, 136, 0.1);
+            --dark-bg: #0d1117;
+            --darker-bg: #010409;
+            --card-bg: #161b22;
+            --card-hover: #1c2128;
+            --border: #30363d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-tertiary: #6e7681;
+            --accent-1: #58a6ff;
+            --accent-2: #79c0ff;
+            --accent-3: #39ff14;
+            --accent-4: #00ffff;
+            --accent-5: #ff006e;
+            --purple: #d2a8ff;
         }
 
         html {
             scroll-behavior: smooth;
+            background: var(--darker-bg);
         }
 
         body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1f3a 50%, var(--bg-secondary) 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, #1a1f2e 100%);
             color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
-            position: relative;
         }
 
         body::before {
@@ -48,463 +49,419 @@
             right: 0;
             bottom: 0;
             background:
-                radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 50% 0%, rgba(0, 153, 255, 0.05) 0%, transparent 50%);
+                radial-gradient(circle at 20% 50%, rgba(88, 166, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(57, 255, 20, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
 
-        /* Navigation */
-        nav {
+        /* Header */
+        header {
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: rgba(10, 14, 39, 0.95);
-            backdrop-filter: blur(30px);
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
-            padding: 20px 0;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 25px 0;
         }
 
-        .nav-container {
-            max-width: 1900px;
+        .header-container {
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 40px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
         }
 
-        .logo {
+        .brand {
             font-size: 1.8em;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-3), var(--accent-4));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            letter-spacing: 2px;
             position: relative;
         }
 
-        .logo::after {
+        .brand::after {
             content: '';
-            width: 8px;
-            height: 8px;
-            background: var(--primary);
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-3);
             border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: blink 1.5s infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
-        .nav-items {
+        nav {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
-        .nav-btn {
-            padding: 10px 18px;
-            background: rgba(0, 255, 136, 0.05);
+        .nav-link {
+            padding: 10px 20px;
+            background: transparent;
             border: 1px solid var(--border);
             color: var(--text-secondary);
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            font-size: 0.95em;
+            transition: all 0.3s ease;
             font-weight: 600;
+            font-size: 0.9em;
             position: relative;
             overflow: hidden;
         }
 
-        .nav-btn::before {
+        .nav-link::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(88, 166, 255, 0.3), transparent);
             transition: left 0.5s ease;
         }
 
-        .nav-btn:hover::before {
+        .nav-link:hover::before {
             left: 100%;
         }
 
-        .nav-btn:hover {
-            background: rgba(0, 255, 136, 0.15);
-            border-color: var(--primary);
-            color: var(--text-primary);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        .nav-link:hover {
+            border-color: var(--accent-1);
+            color: var(--accent-1);
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.3);
         }
 
-        .nav-btn.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: var(--bg-primary);
-            border-color: var(--primary);
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+        .nav-link.active {
+            background: linear-gradient(135deg, rgba(88, 166, 255, 0.2), rgba(57, 255, 20, 0.1));
+            border-color: var(--accent-1);
+            color: var(--accent-1);
+            box-shadow: inset 0 0 10px rgba(88, 166, 255, 0.2);
         }
 
+        /* Main Content */
         .container {
-            max-width: 1900px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 60px 40px;
+            padding: 80px 40px;
             position: relative;
             z-index: 1;
         }
 
         .section {
             display: none;
-            animation: fadeIn 0.8s ease-out;
         }
 
         .section.active {
             display: block;
+            animation: fadeInUp 0.6s ease-out;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Hero Section */
+        /* Hero */
         .hero {
             text-align: center;
-            margin-bottom: 100px;
-            animation: fadeInDown 1s ease-out;
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-50px); }
-            to { opacity: 1; transform: translateY(0); }
+            margin-bottom: 120px;
         }
 
         .hero h1 {
-            font-size: 4.5em;
+            font-size: 5em;
             font-weight: 900;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--tertiary) 100%);
+            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-3) 50%, var(--accent-4) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 20px;
-            letter-spacing: -2px;
             line-height: 1.1;
+            letter-spacing: -2px;
         }
 
         .hero p {
-            font-size: 1.35em;
+            font-size: 1.3em;
             color: var(--text-secondary);
-            margin-bottom: 50px;
+            margin-bottom: 60px;
             line-height: 1.6;
         }
 
-        /* Stats Grid */
-        .stats-container {
+        /* Grid System */
+        .grid-4 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-            margin-top: 60px;
-            max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.08));
-            border: 1.5px solid var(--border);
-            padding: 35px;
-            border-radius: 15px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            backdrop-filter: blur(20px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(0, 255, 136, 0.1), transparent);
-            border-radius: 50%;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .stat-card:hover {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 212, 255, 0.12));
-            box-shadow: 0 20px 50px rgba(0, 255, 136, 0.2);
-            transform: translateY(-10px);
-        }
-
-        .stat-card:hover::before {
-            opacity: 1;
-        }
-
-        .stat-number {
-            font-size: 3.2em;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 12px;
-            display: block;
-            position: relative;
-            z-index: 1;
-        }
-
-        .stat-label {
-            font-size: 1em;
-            color: var(--text-tertiary);
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        /* Content Box */
-        .content-box {
-            background: linear-gradient(135deg, rgba(15, 21, 53, 0.95), rgba(20, 30, 60, 0.95));
-            border: 1.5px solid var(--border);
-            border-radius: 20px;
-            padding: 60px;
-            margin-bottom: 60px;
-            animation: slideUp 0.8s ease-out;
-            backdrop-filter: blur(20px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(60px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .content-box::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            opacity: 0.5;
-        }
-
-        .content-box h2 {
-            color: var(--text-primary);
-            font-size: 2.5em;
-            margin-bottom: 50px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            font-weight: 800;
-        }
-
-        .content-box h2::before {
-            content: '';
-            width: 6px;
-            height: 45px;
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-            border-radius: 4px;
-        }
-
-        .content-box h3 {
-            color: var(--text-primary);
-            font-size: 1.6em;
-            margin: 40px 0 25px 0;
-            font-weight: 800;
-        }
-
-        .content-box p {
-            color: var(--text-secondary);
-            line-height: 1.9;
-            margin-bottom: 20px;
-            font-size: 1.05em;
-        }
-
-        /* Feature Grid */
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
-            margin: 50px 0;
+            margin: 60px 0;
         }
 
-        .feature-card {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.08), rgba(0, 212, 255, 0.06));
-            border: 1.5px solid var(--border);
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        /* Cards */
+        .card {
+            background: linear-gradient(135deg, var(--card-bg) 0%, var(--card-hover) 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
             padding: 40px;
-            border-radius: 15px;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            backdrop-filter: blur(15px);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
 
-        .feature-card::before {
+        .card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 250px;
-            height: 250px;
-            background: radial-gradient(circle, rgba(0, 255, 136, 0.15), transparent);
-            border-radius: 50%;
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(88, 166, 255, 0.2), transparent);
+            transition: left 0.5s ease;
         }
 
-        .feature-card:hover {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.12), rgba(0, 212, 255, 0.1));
-            box-shadow: 0 20px 50px rgba(0, 255, 136, 0.15);
-            transform: translateY(-12px);
+        .card:hover::before {
+            left: 100%;
         }
 
-        .feature-card:hover::before {
-            opacity: 1;
+        .card:hover {
+            border-color: var(--accent-1);
+            box-shadow: 0 20px 60px rgba(88, 166, 255, 0.2), inset 0 1px 0 rgba(88, 166, 255, 0.1);
+            transform: translateY(-8px);
         }
 
-        .feature-icon {
-            font-size: 3.5em;
+        .card-icon {
+            font-size: 3em;
             margin-bottom: 20px;
-            display: inline-block;
-            position: relative;
-            z-index: 1;
         }
 
-        .feature-title {
-            color: var(--text-primary);
-            font-weight: 800;
-            margin-bottom: 15px;
+        .card-title {
             font-size: 1.3em;
-            position: relative;
-            z-index: 1;
-        }
-
-        .feature-desc {
-            color: var(--text-secondary);
-            font-size: 0.98em;
-            line-height: 1.8;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Animated Chart */
-        .chart-container {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1.5px solid var(--border);
-            border-radius: 15px;
-            padding: 40px;
-            margin: 40px 0;
-            backdrop-filter: blur(15px);
-        }
-
-        .chart-title {
-            color: var(--text-primary);
-            font-size: 1.4em;
-            margin-bottom: 30px;
             font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 12px;
         }
 
-        .bar-chart {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-around;
-            gap: 15px;
-            height: 250px;
-            margin-bottom: 20px;
-        }
-
-        .bar {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .bar-fill {
-            width: 40px;
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-            border-radius: 8px 8px 0 0;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
-            animation: grow 1s ease-out;
-            position: relative;
-        }
-
-        @keyframes grow {
-            from { height: 0; }
-        }
-
-        .bar-label {
+        .card-desc {
             color: var(--text-secondary);
-            font-size: 0.9em;
-            font-weight: 600;
+            line-height: 1.6;
+            font-size: 0.95em;
         }
 
-        /* Phase Diagram */
-        .phase-diagram {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1.5px solid var(--border);
-            border-radius: 15px;
-            padding: 40px;
-            margin: 40px 0;
-            backdrop-filter: blur(15px);
-        }
-
-        .phases-flow {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-        }
-
-        .phase-item {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.08));
-            border: 1.5px solid var(--border);
-            padding: 25px;
-            border-radius: 12px;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .phase-item:hover {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 212, 255, 0.12));
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
-            transform: translateY(-5px);
-        }
-
-        .phase-number {
-            font-size: 2.5em;
+        .card-stat {
+            font-size: 3.5em;
             font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 10px;
         }
 
-        .phase-name {
+        /* Sections */
+        .section-title {
+            font-size: 3.5em;
+            font-weight: 900;
             color: var(--text-primary);
-            font-weight: 800;
+            margin-bottom: 50px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        /* Tables */
+        .table-container {
+            background: linear-gradient(135deg, var(--card-bg) 0%, var(--card-hover) 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            margin: 40px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: rgba(88, 166, 255, 0.1);
+            padding: 20px;
+            text-align: left;
+            color: var(--accent-1);
+            font-weight: 700;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9em;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        tr:hover {
+            background: rgba(88, 166, 255, 0.05);
+        }
+
+        /* Lists */
+        ul {
+            margin: 30px 0 30px 30px;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin: 15px 0;
+            line-height: 1.8;
             font-size: 1.05em;
         }
 
-        /* Workflow Timeline */
+        strong {
+            color: var(--accent-1);
+            font-weight: 700;
+        }
+
+        /* Code Block */
+        .code-box {
+            background: linear-gradient(135deg, rgba(1, 4, 9, 0.9), rgba(22, 27, 34, 0.9));
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: var(--accent-3);
+            overflow-x: auto;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .code-box::before {
+            content: '$ ';
+            color: var(--accent-1);
+            font-weight: bold;
+        }
+
+        /* Phase Grid */
+        .phase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 40px 0;
+        }
+
+        .phase-item {
+            background: linear-gradient(135deg, var(--card-bg), var(--card-hover));
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phase-item:hover {
+            border-color: var(--accent-1);
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .phase-num {
+            font-size: 2.2em;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .phase-name {
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+
+        /* Agent Grid */
+        .agent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 40px 0;
+        }
+
+        .agent-item {
+            background: linear-gradient(135deg, var(--card-bg), var(--card-hover));
+            border: 1px solid var(--border);
+            padding: 18px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .agent-item:hover {
+            border-color: var(--accent-1);
+            box-shadow: 0 0 15px rgba(88, 166, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .agent-name {
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 0.95em;
+            margin-bottom: 6px;
+        }
+
+        .agent-desc {
+            color: var(--text-tertiary);
+            font-size: 0.85em;
+            line-height: 1.5;
+        }
+
+        /* Timeline */
         .timeline {
             position: relative;
             padding: 40px 0;
@@ -512,19 +469,18 @@
 
         .timeline-item {
             display: flex;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             position: relative;
         }
 
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: 30px;
+            left: 25px;
             top: 80px;
             width: 2px;
             height: 100%;
-            background: linear-gradient(180deg, var(--primary), transparent);
-            z-index: 0;
+            background: linear-gradient(180deg, var(--accent-1) 0%, transparent 100%);
         }
 
         .timeline-item:last-child::before {
@@ -532,141 +488,85 @@
         }
 
         .timeline-dot {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--bg-primary);
+            color: var(--darker-bg);
             font-weight: 900;
-            font-size: 1.2em;
             flex-shrink: 0;
-            box-shadow: 0 0 25px rgba(0, 255, 136, 0.4);
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.4);
             z-index: 1;
-            position: relative;
         }
 
         .timeline-content {
             margin-left: 30px;
-            flex-grow: 1;
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.08), rgba(0, 212, 255, 0.06));
-            border: 1.5px solid var(--border);
+            background: linear-gradient(135deg, var(--card-bg), var(--card-hover));
+            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 25px;
             transition: all 0.3s ease;
         }
 
         .timeline-content:hover {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.12), rgba(0, 212, 255, 0.1));
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.15);
+            border-color: var(--accent-1);
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.2);
+            transform: translateX(8px);
         }
 
         .timeline-content h4 {
             color: var(--text-primary);
-            margin-bottom: 10px;
             font-weight: 800;
-            font-size: 1.15em;
+            margin-bottom: 8px;
         }
 
         .timeline-content p {
             color: var(--text-secondary);
-            margin: 0;
             font-size: 0.95em;
-        }
-
-        /* Agent Grid */
-        .agent-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 30px 0;
-        }
-
-        .agent-card {
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.08), rgba(0, 255, 136, 0.05));
-            border: 1.5px solid var(--border);
-            padding: 20px;
-            border-radius: 12px;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .agent-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .agent-card:hover {
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.12), rgba(0, 255, 136, 0.08));
-            border-color: var(--secondary);
-            transform: translateY(-6px);
-            box-shadow: 0 12px 30px rgba(0, 212, 255, 0.2);
-        }
-
-        .agent-card:hover::before {
-            left: 100%;
-        }
-
-        .agent-name {
-            color: var(--text-primary);
-            font-weight: 800;
-            margin-bottom: 8px;
-            font-size: 1.02em;
-        }
-
-        .agent-desc {
-            color: var(--text-secondary);
-            font-size: 0.9em;
-            line-height: 1.6;
+            margin: 0;
         }
 
         /* Accordion */
+        .accordion {
+            margin: 40px 0;
+        }
+
         .accordion-item {
-            border: 1.5px solid var(--border);
+            background: linear-gradient(135deg, var(--card-bg), var(--card-hover));
+            border: 1px solid var(--border);
             border-radius: 12px;
+            margin-bottom: 12px;
             overflow: hidden;
-            margin-bottom: 15px;
-            background: rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
         }
 
-        .accordion-item:hover {
-            border-color: var(--primary);
-        }
-
         .accordion-header {
-            padding: 20px 25px;
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.08), rgba(0, 212, 255, 0.06));
+            padding: 25px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.3s ease;
-            font-weight: 700;
+            background: transparent;
+            border: none;
+            width: 100%;
             color: var(--text-primary);
-            user-select: none;
+            font-weight: 700;
+            font-size: 1.05em;
+            transition: all 0.3s ease;
         }
 
         .accordion-header:hover {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.12), rgba(0, 212, 255, 0.1));
-            color: var(--primary);
+            background: rgba(88, 166, 255, 0.05);
+            color: var(--accent-1);
         }
 
         .accordion-toggle {
+            font-size: 1.5em;
+            color: var(--accent-1);
             transition: transform 0.3s ease;
-            font-size: 1.3em;
-            color: var(--primary);
         }
 
         .accordion-item.active .accordion-toggle {
@@ -677,120 +577,48 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
-            background: rgba(0, 0, 0, 0.3);
         }
 
         .accordion-item.active .accordion-content {
-            max-height: 1200px;
-            padding: 25px;
+            max-height: 500px;
+            padding: 0 25px 25px 25px;
         }
 
         .accordion-content p {
             color: var(--text-secondary);
-            margin-bottom: 15px;
             line-height: 1.8;
+            margin-bottom: 10px;
         }
 
-        /* Search Box */
-        .search-box {
+        /* Search */
+        .search-input {
             width: 100%;
-            padding: 16px 22px;
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.08));
-            border: 1.5px solid var(--border);
+            padding: 16px 20px;
+            background: linear-gradient(135deg, var(--card-bg), var(--card-hover));
+            border: 2px solid var(--border);
             border-radius: 12px;
             color: var(--text-primary);
-            margin-bottom: 35px;
-            transition: all 0.3s ease;
+            margin-bottom: 40px;
             font-size: 1em;
-            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
-        .search-box::placeholder {
-            color: var(--text-tertiary);
-        }
-
-        .search-box:focus {
+        .search-input:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 212, 255, 0.12));
+            border-color: var(--accent-1);
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.3);
         }
 
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 30px 0;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1.5px solid var(--border);
-        }
-
-        th {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 212, 255, 0.1));
-            border-bottom: 1.5px solid var(--border);
-            padding: 18px 20px;
-            text-align: left;
-            color: var(--primary);
-            font-weight: 800;
-            font-size: 0.98em;
-            letter-spacing: 1px;
-        }
-
-        td {
-            border-bottom: 1px solid var(--border);
-            padding: 16px 20px;
-            color: var(--text-secondary);
-            font-size: 0.95em;
-        }
-
-        tr:hover {
-            background: rgba(0, 255, 136, 0.05);
-        }
-
-        /* Lists */
-        ul {
-            margin: 25px 0 25px 35px;
-            color: var(--text-secondary);
-        }
-
-        li {
-            margin: 12px 0;
-            line-height: 1.8;
-            font-size: 1.02em;
-        }
-
-        li strong {
-            color: var(--primary);
-            font-weight: 800;
-        }
-
-        /* Code Block */
-        .code-block {
-            background: rgba(0, 0, 0, 0.5);
-            border-left: 4px solid var(--secondary);
-            padding: 20px;
-            border-radius: 10px;
-            overflow-x: auto;
-            margin: 20px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95em;
-            color: var(--primary);
-            line-height: 1.6;
-            position: relative;
-        }
-
-        .code-block::before {
-            content: '$ ';
-            color: var(--primary);
+        .search-input::placeholder {
+            color: var(--text-tertiary);
         }
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .nav-container {
+            .header-container {
                 padding: 0 20px;
-                gap: 15px;
+                flex-direction: column;
+                gap: 20px;
             }
 
             .hero h1 {
@@ -798,368 +626,262 @@
             }
 
             .container {
-                padding: 40px 20px;
+                padding: 60px 20px;
             }
 
-            .content-box {
-                padding: 40px 25px;
+            .section-title {
+                font-size: 2.5em;
             }
 
-            .feature-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            .grid-4, .grid-3 {
+                grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 768px) {
-            .nav-items {
-                gap: 8px;
+            .brand {
+                font-size: 1.5em;
             }
 
-            .nav-btn {
-                padding: 8px 12px;
-                font-size: 0.85em;
+            nav {
+                width: 100%;
+            }
+
+            .nav-link {
+                flex: 1;
+                text-align: center;
             }
 
             .hero h1 {
                 font-size: 2em;
             }
 
-            .stats-container {
-                grid-template-columns: 1fr;
+            .phase-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .feature-grid, .agent-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .phases-flow {
+            .agent-grid {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo">🔐 SECURITY FRAMEWORK</div>
-            <div class="nav-items">
-                <button class="nav-btn active" onclick="showSection('home')">🏠 Home</button>
-                <button class="nav-btn" onclick="showSection('architecture')">🏗️ Architecture</button>
-                <button class="nav-btn" onclick="showSection('agents')">🤖 Agents</button>
-                <button class="nav-btn" onclick="showSection('phases')">📊 Phases</button>
-                <button class="nav-btn" onclick="showSection('validation')">✅ Validation</button>
-                <button class="nav-btn" onclick="showSection('security')">🔒 Security</button>
-                <button class="nav-btn" onclick="showSection('workflow')">⚙️ Workflow</button>
-                <button class="nav-btn" onclick="showSection('install')">📥 Install</button>
-                <button class="nav-btn" onclick="showSection('faq')">❓ FAQ</button>
-            </div>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="brand">🔐 SECURITY FRAMEWORK</div>
+            <nav>
+                <button class="nav-link active" onclick="switchSection('home')">Home</button>
+                <button class="nav-link" onclick="switchSection('agents')">Agents</button>
+                <button class="nav-link" onclick="switchSection('phases')">Phases</button>
+                <button class="nav-link" onclick="switchSection('validation')">Validation</button>
+                <button class="nav-link" onclick="switchSection('workflow')">Workflow</button>
+                <button class="nav-link" onclick="switchSection('security')">Security</button>
+                <button class="nav-link" onclick="switchSection('setup')">Setup</button>
+                <button class="nav-link" onclick="switchSection('faq')">FAQ</button>
+            </nav>
         </div>
-    </nav>
+    </header>
 
     <div class="container">
         <!-- HOME SECTION -->
-        <div id="home" class="section active">
+        <section id="home" class="section active">
             <div class="hero">
-                <h1>🔐 Enterprise Security Testing Framework</h1>
-                <p>Automated Penetration Testing with 31 Specialized Agents, 55+ Tools, and 4-Layer Validation</p>
+                <h1>Enterprise Security Testing Framework</h1>
+                <p>31 Specialized Agents × 13 Phases × 55+ Tools = Comprehensive Penetration Testing</p>
             </div>
 
-            <div class="stats-container">
-                <div class="stat-card">
-                    <span class="stat-number">31</span>
-                    <div class="stat-label">Specialized Agents</div>
+            <div class="grid-4">
+                <div class="card">
+                    <div class="card-stat">31</div>
+                    <div class="card-title">Agents</div>
+                    <div class="card-desc">Specialized security experts for each vulnerability class</div>
                 </div>
-                <div class="stat-card">
-                    <span class="stat-number">13</span>
-                    <div class="stat-label">Sequential Phases</div>
+                <div class="card">
+                    <div class="card-stat">13</div>
+                    <div class="card-title">Phases</div>
+                    <div class="card-desc">Sequential testing from reconnaissance to reporting</div>
                 </div>
-                <div class="stat-card">
-                    <span class="stat-number">55+</span>
-                    <div class="stat-label">Integrated Tools</div>
+                <div class="card">
+                    <div class="card-stat">55+</div>
+                    <div class="card-title">Tools</div>
+                    <div class="card-desc">Integrated Kali Linux tools via SSH</div>
                 </div>
-                <div class="stat-card">
-                    <span class="stat-number">4</span>
-                    <div class="stat-label">Validation Layers</div>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">100%</span>
-                    <div class="stat-label">OWASP Coverage</div>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">0%</span>
-                    <div class="stat-label">False Positives</div>
+                <div class="card">
+                    <div class="card-stat">0%</div>
+                    <div class="card-title">False Positives</div>
+                    <div class="card-desc">4-layer validation ensures 100% accuracy</div>
                 </div>
             </div>
 
-            <div class="content-box">
-                <h2>Why Choose This Framework?</h2>
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">✅</div>
-                        <div class="feature-title">Zero False Positives</div>
-                        <div class="feature-desc">4-layer validation ensures every finding is real with authentic evidence</div>
+            <div style="margin-top: 100px;">
+                <h2 class="section-title">Why Choose This Framework?</h2>
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="card-icon">✅</div>
+                        <div class="card-title">Zero False Positives</div>
+                        <div class="card-desc">Every finding backed by real evidence through 4-layer validation</div>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">⚡</div>
-                        <div class="feature-title">Lightning Fast</div>
-                        <div class="feature-desc">Complete pentest in ~2 hours with parallel agent execution</div>
+                    <div class="card">
+                        <div class="card-icon">⚡</div>
+                        <div class="card-title">Lightning Fast</div>
+                        <div class="card-desc">Complete penetration test in ~2 hours with parallel agents</div>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🎯</div>
-                        <div class="feature-title">Complete Coverage</div>
-                        <div class="feature-desc">100% OWASP, CWE, and MITRE ATT&CK coverage</div>
+                    <div class="card">
+                        <div class="card-icon">🎯</div>
+                        <div class="card-title">Complete Coverage</div>
+                        <div class="card-desc">100% OWASP Top 10, CWE Top 25, MITRE ATT&CK</div>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🔐</div>
-                        <div class="feature-title">Enterprise Secure</div>
-                        <div class="feature-desc">Credentials protected, PII masked, audit logging included</div>
+                    <div class="card">
+                        <div class="card-icon">🔐</div>
+                        <div class="card-title">Enterprise Secure</div>
+                        <div class="card-desc">Credentials protected, PII masked, audit logged</div>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📊</div>
-                        <div class="feature-title">Professional Reports</div>
-                        <div class="feature-desc">Beautiful HTML reports with CVSS, code examples, remediation</div>
+                    <div class="card">
+                        <div class="card-icon">📊</div>
+                        <div class="card-title">Professional Reports</div>
+                        <div class="card-desc">Beautiful HTML with CVSS, code examples, remediation</div>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🚀</div>
-                        <div class="feature-title">Easy Integration</div>
-                        <div class="feature-desc">Runs in Claude Code Agent SDK, no external APIs needed</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="content-box">
-                <h2>Framework Statistics</h2>
-                <div class="chart-container">
-                    <div class="chart-title">Testing Coverage by Category</div>
-                    <div class="bar-chart">
-                        <div class="bar">
-                            <div class="bar-fill" style="height: 100%; animation-delay: 0s;"></div>
-                            <div class="bar-label">OWASP</div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-fill" style="height: 100%; animation-delay: 0.1s;"></div>
-                            <div class="bar-label">CWE</div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-fill" style="height: 85%; animation-delay: 0.2s;"></div>
-                            <div class="bar-label">MITRE</div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-fill" style="height: 100%; animation-delay: 0.3s;"></div>
-                            <div class="bar-label">Tools</div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-fill" style="height: 100%; animation-delay: 0.4s;"></div>
-                            <div class="bar-label">Accuracy</div>
-                        </div>
+                    <div class="card">
+                        <div class="card-icon">🚀</div>
+                        <div class="card-title">Easy Integration</div>
+                        <div class="card-desc">Runs in Claude Code, no external APIs needed</div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- ARCHITECTURE SECTION -->
-        <div id="architecture" class="section">
-            <div class="content-box">
-                <h2>System Architecture</h2>
-                <p>Our framework uses a sophisticated layered architecture that ensures reliability, scalability, and maintainability.</p>
-
-                <h3>Complete Orchestration Flow</h3>
-                <div class="phase-diagram">
-                    <div class="phases-flow">
-                        <div class="phase-item">
-                            <div class="phase-number">1</div>
-                            <div class="phase-name">Configuration</div>
-                        </div>
-                        <div class="phase-item">
-                            <div class="phase-number">2</div>
-                            <div class="phase-name">Orchestrator</div>
-                        </div>
-                        <div class="phase-item">
-                            <div class="phase-number">3</div>
-                            <div class="phase-name">Agent Dispatch</div>
-                        </div>
-                        <div class="phase-item">
-                            <div class="phase-number">4</div>
-                            <div class="phase-name">Tool Execution</div>
-                        </div>
-                        <div class="phase-item">
-                            <div class="phase-number">5</div>
-                            <div class="phase-name">Validation</div>
-                        </div>
-                        <div class="phase-item">
-                            <div class="phase-number">6</div>
-                            <div class="phase-name">Reporting</div>
-                        </div>
-                    </div>
-                </div>
-
-                <h3>Data Flow Timeline</h3>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-dot">1</div>
-                        <div class="timeline-content">
-                            <h4>Configuration Loading</h4>
-                            <p>Load .secrets file, validate credentials, prepare execution context</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">2</div>
-                        <div class="timeline-content">
-                            <h4>Phase 1 Execution</h4>
-                            <p>Reconnaissance agent discovers attack surface and assets</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">3</div>
-                        <div class="timeline-content">
-                            <h4>Phases 2-12 Execution</h4>
-                            <p>31 agents test vulnerabilities with prior phase context</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">4</div>
-                        <div class="timeline-content">
-                            <h4>4-Layer Validation</h4>
-                            <p>Format → Evidence → Technical → Remediation validation gates</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">5</div>
-                        <div class="timeline-content">
-                            <h4>Sanitization</h4>
-                            <p>Mask PII, remove credentials, scrub sensitive data</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">6</div>
-                        <div class="timeline-content">
-                            <h4>Report Generation</h4>
-                            <p>Professional HTML report with CVSS, OWASP, CWE mapping</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </section>
 
         <!-- AGENTS SECTION -->
-        <div id="agents" class="section">
-            <div class="content-box">
-                <h2>31 Specialized Agents</h2>
-                <p>Each agent focuses on a specific vulnerability class with deep expertise.</p>
-                <input type="text" id="agentSearch" class="search-box" placeholder="🔍 Search agents...">
+        <section id="agents" class="section">
+            <h2 class="section-title">31 Specialized Agents</h2>
+            <p class="section-subtitle">Each agent focuses on a specific vulnerability class with deep expertise and integrated tools.</p>
 
-                <h3>Reconnaissance (1 Agent)</h3>
-                <div class="agent-grid">
-                    <div class="agent-card">
-                        <div class="agent-name">Reconnaissance</div>
-                        <div class="agent-desc">Asset discovery, fingerprinting, attack surface mapping</div>
-                    </div>
-                </div>
+            <input type="text" id="agentSearch" class="search-input" placeholder="🔍 Search agents by name...">
 
-                <h3>Surface Testing (6 Agents)</h3>
-                <div class="agent-grid">
-                    <div class="agent-card"><div class="agent-name">Web Application</div><div class="agent-desc">OWASP WSTG coverage</div></div>
-                    <div class="agent-card"><div class="agent-name">API Security</div><div class="agent-desc">REST, GraphQL, SOAP</div></div>
-                    <div class="agent-card"><div class="agent-name">Authentication</div><div class="agent-desc">Auth/AuthZ testing</div></div>
-                    <div class="agent-card"><div class="agent-name">Infrastructure</div><div class="agent-desc">Network & services</div></div>
-                    <div class="agent-card"><div class="agent-name">Cloud Container</div><div class="agent-desc">Docker, K8s, AWS</div></div>
-                    <div class="agent-card"><div class="agent-name">AI/LLM</div><div class="agent-desc">Prompt injection</div></div>
-                </div>
-
-                <h3>Deep Exploitation (7 Agents)</h3>
-                <div class="agent-grid">
-                    <div class="agent-card"><div class="agent-name">SSRF</div><div class="agent-desc">Server-side request forgery</div></div>
-                    <div class="agent-card"><div class="agent-name">Request Smuggling</div><div class="agent-desc">HTTP desync attacks</div></div>
-                    <div class="agent-card"><div class="agent-name">File Upload RCE</div><div class="agent-desc">Malicious uploads</div></div>
-                    <div class="agent-card"><div class="agent-name">Path Traversal</div><div class="agent-desc">Directory traversal</div></div>
-                    <div class="agent-card"><div class="agent-name">XXE Injection</div><div class="agent-desc">XML vulnerabilities</div></div>
-                    <div class="agent-card"><div class="agent-name">Deserialization RCE</div><div class="agent-desc">Unsafe deser</div></div>
-                    <div class="agent-card"><div class="agent-name">SSTI</div><div class="agent-desc">Template injection</div></div>
-                </div>
-
-                <h3>Post-Exploitation (4 Agents)</h3>
-                <div class="agent-grid">
-                    <div class="agent-card"><div class="agent-name">Post-Exploitation</div><div class="agent-desc">System abuse</div></div>
-                    <div class="agent-card"><div class="agent-name">Privilege Escalation</div><div class="agent-desc">Elevation of priv</div></div>
-                    <div class="agent-card"><div class="agent-name">Secrets Harvesting</div><div class="agent-desc">Extract credentials</div></div>
-                    <div class="agent-card"><div class="agent-name">Lateral Movement</div><div class="agent-desc">Cross-system access</div></div>
-                </div>
-
-                <h3>Source Code & Cloud (5 Agents)</h3>
-                <div class="agent-grid">
-                    <div class="agent-card"><div class="agent-name">Source Code</div><div class="agent-desc">Code disclosure</div></div>
-                    <div class="agent-card"><div class="agent-name">Git Forensics</div><div class="agent-desc">Repo secrets</div></div>
-                    <div class="agent-card"><div class="agent-name">AWS Testing</div><div class="agent-desc">AWS security</div></div>
-                    <div class="agent-card"><div class="agent-name">GCP Testing</div><div class="agent-desc">GCP security</div></div>
-                    <div class="agent-card"><div class="agent-name">Azure Testing</div><div class="agent-desc">Azure security</div></div>
-                </div>
-
-                <h3>Advanced Authentication (5 Agents)</h3>
-                <div class="agent-grid">
-                    <div class="agent-card"><div class="agent-name">OAuth/SAML/JWT</div><div class="agent-desc">Auth protocols</div></div>
-                    <div class="agent-card"><div class="agent-name">Cryptography</div><div class="agent-desc">Crypto flaws</div></div>
-                    <div class="agent-card"><div class="agent-name">Dependencies</div><div class="agent-desc">Vulnerable libs</div></div>
-                    <div class="agent-card"><div class="agent-name">CI/CD Pipeline</div><div class="agent-desc">Build security</div></div>
-                    <div class="agent-card"><div class="agent-name">Compliance</div><div class="agent-desc">GDPR, HIPAA, PCI</div></div>
-                </div>
-
-                <h3>Advanced Testing (6 Agents)</h3>
-                <div class="agent-grid">
-                    <div class="agent-card"><div class="agent-name">Business Logic</div><div class="agent-desc">Workflow abuse</div></div>
-                    <div class="agent-card"><div class="agent-name">Rate Limiting</div><div class="agent-desc">Brute force</div></div>
-                    <div class="agent-card"><div class="agent-name">Mass Assignment</div><div class="agent-desc">Parameter tampering</div></div>
-                    <div class="agent-card"><div class="agent-name">WebSocket</div><div class="agent-desc">WebSocket attacks</div></div>
-                    <div class="agent-card"><div class="agent-name">gRPC</div><div class="agent-desc">gRPC testing</div></div>
-                    <div class="agent-card"><div class="agent-name">Exploitation Chaining</div><div class="agent-desc">Multi-bug chains</div></div>
+            <h3 style="color: var(--text-primary); font-size: 1.3em; margin: 40px 0 20px 0; font-weight: 800;">Phase 1: Reconnaissance (1 Agent)</h3>
+            <div class="agent-grid">
+                <div class="agent-item">
+                    <div class="agent-name">Reconnaissance</div>
+                    <div class="agent-desc">Asset discovery, fingerprinting, attack surface mapping</div>
                 </div>
             </div>
-        </div>
+
+            <h3 style="color: var(--text-primary); font-size: 1.3em; margin: 40px 0 20px 0; font-weight: 800;">Phase 2: Surface Testing (6 Agents)</h3>
+            <div class="agent-grid">
+                <div class="agent-item"><div class="agent-name">Web Application</div><div class="agent-desc">OWASP WSTG coverage, injection, XSS, CSRF</div></div>
+                <div class="agent-item"><div class="agent-name">API Security</div><div class="agent-desc">REST, GraphQL, SOAP, BOLA, mass assignment</div></div>
+                <div class="agent-item"><div class="agent-name">Authentication</div><div class="agent-desc">Auth flows, MFA, sessions, privilege escalation</div></div>
+                <div class="agent-item"><div class="agent-name">Infrastructure</div><div class="agent-desc">Network, services, TLS, default credentials</div></div>
+                <div class="agent-item"><div class="agent-name">Cloud Container</div><div class="agent-desc">Docker, Kubernetes, AWS, GCP, Azure</div></div>
+                <div class="agent-item"><div class="agent-name">AI/LLM</div><div class="agent-desc">Prompt injection, jailbreaks, RAG poisoning</div></div>
+            </div>
+
+            <h3 style="color: var(--text-primary); font-size: 1.3em; margin: 40px 0 20px 0; font-weight: 800;">Phase 3: Deep Exploitation (7 Agents)</h3>
+            <div class="agent-grid">
+                <div class="agent-item"><div class="agent-name">SSRF</div><div class="agent-desc">Server-side request forgery attacks</div></div>
+                <div class="agent-item"><div class="agent-name">Request Smuggling</div><div class="agent-desc">HTTP desynchronization attacks</div></div>
+                <div class="agent-item"><div class="agent-name">File Upload RCE</div><div class="agent-desc">Malicious file upload and execution</div></div>
+                <div class="agent-item"><div class="agent-name">Path Traversal</div><div class="agent-desc">Directory traversal and LFI attacks</div></div>
+                <div class="agent-item"><div class="agent-name">XXE Injection</div><div class="agent-desc">XML external entity exploitation</div></div>
+                <div class="agent-item"><div class="agent-name">Deserialization RCE</div><div class="agent-desc">Unsafe object deserialization</div></div>
+                <div class="agent-item"><div class="agent-name">SSTI</div><div class="agent-desc">Server-side template injection</div></div>
+            </div>
+
+            <h3 style="color: var(--text-primary); font-size: 1.3em; margin: 40px 0 20px 0; font-weight: 800;">Phase 4: Post-Exploitation (4 Agents)</h3>
+            <div class="agent-grid">
+                <div class="agent-item"><div class="agent-name">Post-Exploitation</div><div class="agent-desc">System abuse and persistence</div></div>
+                <div class="agent-item"><div class="agent-name">Privilege Escalation</div><div class="agent-desc">Elevation of privileges</div></div>
+                <div class="agent-item"><div class="agent-name">Secrets Harvesting</div><div class="agent-desc">Extract API keys, credentials, tokens</div></div>
+                <div class="agent-item"><div class="agent-name">Lateral Movement</div><div class="agent-desc">Cross-system access and exploitation</div></div>
+            </div>
+
+            <h3 style="color: var(--text-primary); font-size: 1.3em; margin: 40px 0 20px 0; font-weight: 800;">Phases 5-8: Advanced Testing (10 Agents)</h3>
+            <div class="agent-grid">
+                <div class="agent-item"><div class="agent-name">Source Code</div><div class="agent-desc">Code disclosure and secrets</div></div>
+                <div class="agent-item"><div class="agent-name">Git Forensics</div><div class="agent-desc">Repository history analysis</div></div>
+                <div class="agent-item"><div class="agent-name">AWS Testing</div><div class="agent-desc">AWS security misconfigurations</div></div>
+                <div class="agent-item"><div class="agent-name">GCP Testing</div><div class="agent-desc">GCP security assessment</div></div>
+                <div class="agent-item"><div class="agent-name">Azure Testing</div><div class="agent-desc">Azure security evaluation</div></div>
+                <div class="agent-item"><div class="agent-name">OAuth/SAML/JWT</div><div class="agent-desc">Authentication protocol testing</div></div>
+                <div class="agent-item"><div class="agent-name">Cryptography</div><div class="agent-desc">Weak crypto algorithm detection</div></div>
+                <div class="agent-item"><div class="agent-name">Dependencies</div><div class="agent-desc">Vulnerable library scanning</div></div>
+                <div class="agent-item"><div class="agent-name">CI/CD Pipeline</div><div class="agent-desc">Build pipeline security</div></div>
+                <div class="agent-item"><div class="agent-name">Compliance</div><div class="agent-desc">GDPR, HIPAA, PCI-DSS compliance</div></div>
+            </div>
+
+            <h3 style="color: var(--text-primary); font-size: 1.3em; margin: 40px 0 20px 0; font-weight: 800;">Phases 9-13: Specialized Testing (6 Agents)</h3>
+            <div class="agent-grid">
+                <div class="agent-item"><div class="agent-name">Business Logic</div><div class="agent-desc">Workflow abuse and state bypass</div></div>
+                <div class="agent-item"><div class="agent-name">Rate Limiting</div><div class="agent-desc">Brute force and quota evasion</div></div>
+                <div class="agent-item"><div class="agent-name">Mass Assignment</div><div class="agent-desc">Parameter tampering attacks</div></div>
+                <div class="agent-item"><div class="agent-name">WebSocket</div><div class="agent-desc">WebSocket protocol attacks</div></div>
+                <div class="agent-item"><div class="agent-name">gRPC</div><div class="agent-desc">gRPC exploitation</div></div>
+                <div class="agent-item"><div class="agent-name">Chaining</div><div class="agent-desc">Multi-vulnerability exploit chains</div></div>
+            </div>
+        </section>
 
         <!-- PHASES SECTION -->
-        <div id="phases" class="section">
-            <div class="content-box">
-                <h2>13 Sequential Testing Phases</h2>
-                <p>Each phase builds on findings from the previous phase for comprehensive testing.</p>
+        <section id="phases" class="section">
+            <h2 class="section-title">13 Sequential Phases</h2>
+            <p class="section-subtitle">Each phase builds on findings from the previous phase for comprehensive testing coverage.</p>
 
-                <div class="phase-diagram">
-                    <div class="phases-flow">
-                        <div class="phase-item">
-                            <div class="phase-number">1</div>
-                            <div class="phase-name">Reconnaissance</div>
-                        </div>
-                        <div class="phase-item">
-                            <div class="phase-number">2</div>
-                            <div class="phase-name">Surface Testing</div>
-                        </div>
-                        <div class="phase-item">
-                            <div class="phase-number">3</div>
-                            <div class="phase-name">Deep Exploitation</div>
-                        </div>
-                        <div class="phase-item">
-                            <div class="phase-number">4</div>
-                            <div class="phase-name">Post-Exploitation</div>
-                        </div>
-                        <div class="phase-item">
-                            <div class="phase-number">5-6</div>
-                            <div class="phase-name">Source & Cloud</div>
-                        </div>
-                        <div class="phase-item">
-                            <div class="phase-number">7-8</div>
-                            <div class="phase-name">Advanced Auth</div>
-                        </div>
-                        <div class="phase-item">
-                            <div class="phase-number">9-12</div>
-                            <div class="phase-name">Specialized Testing</div>
-                        </div>
-                        <div class="phase-item">
-                            <div class="phase-number">13</div>
-                            <div class="phase-name">Reporting</div>
-                        </div>
-                    </div>
+            <div class="phase-grid">
+                <div class="phase-item">
+                    <div class="phase-num">1</div>
+                    <div class="phase-name">Reconnaissance</div>
                 </div>
+                <div class="phase-item">
+                    <div class="phase-num">2</div>
+                    <div class="phase-name">Surface Testing</div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-num">3</div>
+                    <div class="phase-name">Deep Exploitation</div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-num">4</div>
+                    <div class="phase-name">Post-Exploitation</div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-num">5</div>
+                    <div class="phase-name">Source Code</div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-num">6</div>
+                    <div class="phase-name">Cloud Testing</div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-num">7</div>
+                    <div class="phase-name">Advanced Auth</div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-num">8</div>
+                    <div class="phase-name">Supply Chain</div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-num">9</div>
+                    <div class="phase-name">Business Logic</div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-num">10</div>
+                    <div class="phase-name">Rate Limiting</div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-num">11</div>
+                    <div class="phase-name">Protocols</div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-num">12</div>
+                    <div class="phase-name">Chaining</div>
+                </div>
+                <div class="phase-item">
+                    <div class="phase-num">13</div>
+                    <div class="phase-name">Reporting</div>
+                </div>
+            </div>
 
-                <h3>Phase Details</h3>
+            <div class="table-container">
                 <table>
                     <thead>
                         <tr>
@@ -1167,6 +889,7 @@
                             <th>Name</th>
                             <th>Duration</th>
                             <th>Agents</th>
+                            <th>Focus</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1175,326 +898,316 @@
                             <td>Reconnaissance</td>
                             <td>15-30 min</td>
                             <td>1</td>
+                            <td>Asset discovery</td>
                         </tr>
                         <tr>
                             <td><strong>2</strong></td>
                             <td>Surface Testing</td>
                             <td>30-45 min</td>
                             <td>6</td>
+                            <td>Web, API, Auth</td>
                         </tr>
                         <tr>
                             <td><strong>3</strong></td>
                             <td>Deep Exploitation</td>
                             <td>30-45 min</td>
                             <td>7</td>
+                            <td>SSRF, RCE, XXE</td>
                         </tr>
                         <tr>
                             <td><strong>4</strong></td>
                             <td>Post-Exploitation</td>
                             <td>20-30 min</td>
                             <td>4</td>
+                            <td>Privilege escalation</td>
                         </tr>
                         <tr>
-                            <td><strong>5-12</strong></td>
+                            <td><strong>5-8</strong></td>
                             <td>Advanced Testing</td>
                             <td>60-75 min</td>
-                            <td>12</td>
+                            <td>10</td>
+                            <td>Cloud, Source, Auth</td>
+                        </tr>
+                        <tr>
+                            <td><strong>9-12</strong></td>
+                            <td>Specialized Testing</td>
+                            <td>45-60 min</td>
+                            <td>6</td>
+                            <td>Logic, Rate limit, Protocol</td>
                         </tr>
                         <tr>
                             <td><strong>13</strong></td>
                             <td>Reporting</td>
                             <td>15-30 min</td>
                             <td>1</td>
+                            <td>Report generation</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
+        </section>
 
         <!-- VALIDATION SECTION -->
-        <div id="validation" class="section">
-            <div class="content-box">
-                <h2>4-Layer Validation System</h2>
-                <p>Every finding passes through rigorous validation ensuring 0% false positives.</p>
+        <section id="validation" class="section">
+            <h2 class="section-title">4-Layer Validation System</h2>
+            <p class="section-subtitle">Every finding is rigorously validated to ensure 0% false positives and 100% accuracy.</p>
 
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-dot">1</div>
-                        <div class="timeline-content">
-                            <h4>Format Validation</h4>
-                            <p>JSON schema compliance, all required fields, correct data types, no malformed data</p>
-                        </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot">1</div>
+                    <div class="timeline-content">
+                        <h4>Format Validation</h4>
+                        <p>JSON schema compliance, all required fields present, correct data types, no malformed data</p>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">2</div>
-                        <div class="timeline-content">
-                            <h4>Evidence Validation</h4>
-                            <p>Real HTTP requests, authentic tool output, genuine screenshots, reproducible steps</p>
-                        </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot">2</div>
+                    <div class="timeline-content">
+                        <h4>Evidence Validation</h4>
+                        <p>Real HTTP requests, authentic tool output, genuine screenshots, reproducible steps verified</p>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">3</div>
-                        <div class="timeline-content">
-                            <h4>Technical Accuracy</h4>
-                            <p>CVSS mathematically justified, specific impact, no vague language, correct classification</p>
-                        </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot">3</div>
+                    <div class="timeline-content">
+                        <h4>Technical Accuracy</h4>
+                        <p>CVSS mathematically justified, specific impact, no vague language, correct classification</p>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">4</div>
-                        <div class="timeline-content">
-                            <h4>Remediation Validation</h4>
-                            <p>Code examples, clear fix steps, realistic effort, developer understanding</p>
-                        </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot">4</div>
+                    <div class="timeline-content">
+                        <h4>Remediation Validation</h4>
+                        <p>Code examples provided, clear fix steps, realistic effort estimate, developer clarity</p>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- SECURITY SECTION -->
-        <div id="security" class="section">
-            <div class="content-box">
-                <h2>Security & Credentials Management</h2>
-                <p>Enterprise-grade security controls protecting all sensitive information.</p>
-
-                <h3>Protection Mechanisms</h3>
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">🔐</div>
-                        <div class="feature-title">.secrets File</div>
-                        <div class="feature-desc">Git-ignored credential storage with never-logged access</div>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">👁️</div>
-                        <div class="feature-title">PII Masking</div>
-                        <div class="feature-desc">Automatic name, email, phone, SSN masking before delivery</div>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">✋</div>
-                        <div class="feature-title">Human Approval</div>
-                        <div class="feature-desc">Critical findings (CVSS ≥ 7.0) require security lead approval</div>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📋</div>
-                        <div class="feature-title">Audit Logging</div>
-                        <div class="feature-desc">Complete trail of all operations with timestamps</div>
-                    </div>
-                </div>
-
-                <h3>Security Checklist</h3>
-                <ul>
-                    <li><strong>Credential Protection:</strong> .secrets files never committed to git</li>
-                    <li><strong>Runtime Loading:</strong> Credentials loaded only when needed, never globally stored</li>
-                    <li><strong>No Logging:</strong> Credentials never appear in logs or findings</li>
-                    <li><strong>PII Masking:</strong> All personal information masked before report generation</li>
-                    <li><strong>Approval Workflow:</strong> Critical findings require explicit approval</li>
-                    <li><strong>Secure Cleanup:</strong> Temporary files securely deleted after testing</li>
-                </ul>
-            </div>
-        </div>
+        </section>
 
         <!-- WORKFLOW SECTION -->
-        <div id="workflow" class="section">
-            <div class="content-box">
-                <h2>Complete Workflow</h2>
-                <p>Understanding the complete data flow ensures successful penetration testing.</p>
+        <section id="workflow" class="section">
+            <h2 class="section-title">Complete Data Flow</h2>
+            <p class="section-subtitle">Understanding how data flows through the framework ensures successful penetration testing.</p>
 
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-dot">1</div>
-                        <div class="timeline-content">
-                            <h4>Configuration Setup</h4>
-                            <p>Provide target URL, credentials, scope via .secrets file</p>
-                        </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot">1</div>
+                    <div class="timeline-content">
+                        <h4>Configuration Loading</h4>
+                        <p>Load .secrets file, validate credentials, prepare execution context for testing</p>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">2</div>
-                        <div class="timeline-content">
-                            <h4>Orchestrator Initialization</h4>
-                            <p>Load configuration, validate credentials, prepare execution context</p>
-                        </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot">2</div>
+                    <div class="timeline-content">
+                        <h4>Phase 1: Reconnaissance</h4>
+                        <p>Single agent discovers attack surface, identifies assets, builds threat model</p>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">3</div>
-                        <div class="timeline-content">
-                            <h4>Phase Execution</h4>
-                            <p>Execute 13 phases sequentially, with 31 agents testing in parallel</p>
-                        </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot">3</div>
+                    <div class="timeline-content">
+                        <h4>Phases 2-12: Testing</h4>
+                        <p>31 agents execute with findings from prior phases as context, parallel execution</p>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">4</div>
-                        <div class="timeline-content">
-                            <h4>Finding Generation</h4>
-                            <p>Agents generate raw findings with evidence and technical details</p>
-                        </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot">4</div>
+                    <div class="timeline-content">
+                        <h4>Finding Generation</h4>
+                        <p>Agents generate raw findings with evidence, impact analysis, and remediation guidance</p>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">5</div>
-                        <div class="timeline-content">
-                            <h4>Validation Pipeline</h4>
-                            <p>Run all findings through 4-layer validation gates</p>
-                        </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot">5</div>
+                    <div class="timeline-content">
+                        <h4>4-Layer Validation</h4>
+                        <p>All findings validated through Format → Evidence → Technical → Remediation gates</p>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">6</div>
-                        <div class="timeline-content">
-                            <h4>PII Sanitization</h4>
-                            <p>Mask personal info, remove credentials, scrub sensitive data</p>
-                        </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot">6</div>
+                    <div class="timeline-content">
+                        <h4>Sanitization</h4>
+                        <p>Automatic PII masking, credential removal, sensitive data scrubbing</p>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">7</div>
-                        <div class="timeline-content">
-                            <h4>Report Generation</h4>
-                            <p>Generate professional HTML report with CVSS, OWASP, CWE mapping</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">8</div>
-                        <div class="timeline-content">
-                            <h4>Report Delivery</h4>
-                            <p>Save to engagements/[name]/report/report.html for review</p>
-                        </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot">7</div>
+                    <div class="timeline-content">
+                        <h4>Report Generation</h4>
+                        <p>Professional HTML report with CVSS, OWASP, CWE, MITRE mapping and remediation</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- INSTALLATION SECTION -->
-        <div id="install" class="section">
-            <div class="content-box">
-                <h2>Installation & Setup</h2>
+        <!-- SECURITY SECTION -->
+        <section id="security" class="section">
+            <h2 class="section-title">Security & Protection</h2>
+            <p class="section-subtitle">Enterprise-grade security controls protecting all sensitive information throughout testing.</p>
 
-                <h3>System Requirements</h3>
-                <ul>
-                    <li><strong>Kali Linux VM:</strong> 4GB RAM, 20GB disk, SSH port 22</li>
-                    <li><strong>Host System:</strong> Windows, macOS, or Linux</li>
-                    <li><strong>Claude Code:</strong> Latest version</li>
-                    <li><strong>Python:</strong> 3.8+</li>
-                    <li><strong>Node.js:</strong> 14+</li>
-                </ul>
-
-                <h3>Quick Start</h3>
-                <div class="code-block">git clone https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali.git</div>
-                <div class="code-block">cd SecurityTestingMultiAgentWithKali && bash kali-setup/kali-init.sh</div>
-                <div class="code-block">bash scripts/setup-engagement.sh my-client</div>
-                <div class="code-block">nano engagements/my-client/.secrets  # Add credentials</div>
-                <div class="code-block">bash scripts/validate-config.sh my-client</div>
-
-                <p style="color: var(--text-secondary); margin: 25px 0; padding: 20px; background: rgba(0, 255, 136, 0.08); border-left: 4px solid var(--primary); border-radius: 8px;">
-                    <strong>In Claude Code:</strong> "Run full penetration test for my-client"
-                </p>
-
-                <h3>Next Steps</h3>
-                <ul>
-                    <li>Open <strong>docs/DOCUMENTATION.md</strong> for comprehensive reference</li>
-                    <li>Review <strong>orchestrator/agents/README.md</strong> for agent details</li>
-                    <li>Check <strong>engagements/my-client/report/report.html</strong> after testing</li>
-                </ul>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-icon">🔐</div>
+                    <div class="card-title">Credential Protection</div>
+                    <div class="card-desc">.secrets files git-ignored, loaded at runtime only, never logged</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">👁️</div>
+                    <div class="card-title">PII Masking</div>
+                    <div class="card-desc">Automatic name, email, phone, SSN masking before delivery</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">✋</div>
+                    <div class="card-title">Human Approval</div>
+                    <div class="card-desc">Critical findings (CVSS ≥7.0) require security lead sign-off</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📋</div>
+                    <div class="card-title">Audit Logging</div>
+                    <div class="card-desc">Complete operation trail with timestamps for compliance</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🗑️</div>
+                    <div class="card-title">Secure Cleanup</div>
+                    <div class="card-desc">Temporary files securely deleted after testing completion</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <div class="card-title">Zero False Positives</div>
+                    <div class="card-desc">4-layer validation eliminates fabricated findings</div>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <!-- SETUP SECTION -->
+        <section id="setup" class="section">
+            <h2 class="section-title">Installation & Setup</h2>
+            <p class="section-subtitle">Get up and running in minutes with our streamlined setup process.</p>
+
+            <h3 style="color: var(--text-primary); font-size: 1.3em; margin: 40px 0 20px 0; font-weight: 800;">System Requirements</h3>
+            <ul>
+                <li><strong>Kali Linux VM:</strong> 4GB RAM, 20GB disk space, SSH port 22 accessible</li>
+                <li><strong>Host System:</strong> Windows, macOS, or Linux with SSH client</li>
+                <li><strong>Claude Code:</strong> Latest version (https://claude.com/code)</li>
+                <li><strong>Python:</strong> 3.8 or newer</li>
+                <li><strong>Node.js:</strong> 14 or newer</li>
+                <li><strong>Git:</strong> 2.25 or newer</li>
+            </ul>
+
+            <h3 style="color: var(--text-primary); font-size: 1.3em; margin: 40px 0 20px 0; font-weight: 800;">Quick Start (5 minutes)</h3>
+            <div class="code-box">git clone https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali.git</div>
+            <div class="code-box">cd SecurityTestingMultiAgentWithKali && bash kali-setup/kali-init.sh</div>
+            <div class="code-box">bash scripts/setup-engagement.sh my-target</div>
+            <div class="code-box">nano engagements/my-target/.secrets</div>
+            <div class="code-box">bash scripts/validate-config.sh my-target</div>
+
+            <div style="background: rgba(88, 166, 255, 0.1); border: 2px solid var(--accent-1); border-radius: 12px; padding: 30px; margin: 40px 0; color: var(--text-secondary);">
+                <h4 style="color: var(--accent-1); margin-bottom: 15px; font-weight: 800;">Ready to Test?</h4>
+                <p><strong style="color: var(--text-primary);">In Claude Code, run:</strong></p>
+                <p style="margin-top: 10px; color: var(--accent-3); font-size: 1.05em;">"Run full penetration test for my-target"</p>
+            </div>
+
+            <h3 style="color: var(--text-primary); font-size: 1.3em; margin: 40px 0 20px 0; font-weight: 800;">Documentation</h3>
+            <ul>
+                <li><strong>docs/DOCUMENTATION.md</strong> - Complete reference guide (10,000+ lines)</li>
+                <li><strong>orchestrator/agents/README.md</strong> - All 31 agent specifications</li>
+                <li><strong>engagements/[name]/report/report.html</strong> - Your test report after completion</li>
+            </ul>
+        </section>
 
         <!-- FAQ SECTION -->
-        <div id="faq" class="section">
-            <div class="content-box">
-                <h2>Frequently Asked Questions</h2>
+        <section id="faq" class="section">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">Find answers to common questions about the framework.</p>
 
+            <div class="accordion">
                 <div class="accordion-item active">
-                    <div class="accordion-header">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
                         <span>How accurate are the findings?</span>
                         <span class="accordion-toggle">▼</span>
-                    </div>
+                    </button>
                     <div class="accordion-content">
-                        <p><strong>100% Accurate with 0% False Positives.</strong> Every finding passes 4 validation layers and includes real evidence. False positives are eliminated through mandatory evidence requirements, technical accuracy validation, and remediation validation.</p>
+                        <p><strong>100% Accurate with 0% False Positives.</strong> Every finding passes 4 independent validation layers and includes real evidence from actual testing. False positives are eliminated through mandatory evidence requirements, technical accuracy validation, and remediation validation.</p>
                     </div>
                 </div>
 
                 <div class="accordion-item">
-                    <div class="accordion-header">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
                         <span>How long does a full test take?</span>
                         <span class="accordion-toggle">▼</span>
-                    </div>
+                    </button>
                     <div class="accordion-content">
-                        <p><strong>Typically 1.5 to 2.5 hours</strong> for a comprehensive test depending on target complexity. Reconnaissance (15-30 min), Surface Testing (30-45 min), Deep Exploitation (30-45 min), Post-Exploitation (20-30 min), Cloud/Advanced (60-75 min), Reporting (15-30 min).</p>
+                        <p><strong>Typically 1.5 to 2.5 hours</strong> for comprehensive testing. Breakdown: Reconnaissance (15-30 min), Surface Testing (30-45 min), Deep Exploitation (30-45 min), Post-Exploitation (20-30 min), Advanced Testing (60-75 min), Reporting (15-30 min). Duration varies with target complexity.</p>
                     </div>
                 </div>
 
                 <div class="accordion-item">
-                    <div class="accordion-header">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
                         <span>Can I run specific phases only?</span>
                         <span class="accordion-toggle">▼</span>
-                    </div>
+                    </button>
                     <div class="accordion-content">
-                        <p><strong>Yes!</strong> You can request specific phase ranges: "Run phases 1-3 for reconnaissance and surface testing only" or "Run phase 2 again with updated scope". This is useful for focused retesting or quick assessments.</p>
+                        <p><strong>Yes!</strong> Run any phase range: "Run phases 1-3 for reconnaissance and surface testing only" or "Run phase 2 again with updated scope". Perfect for focused retesting or quick assessments after fixes.</p>
                     </div>
                 </div>
 
                 <div class="accordion-item">
-                    <div class="accordion-header">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
                         <span>Is this production-ready?</span>
                         <span class="accordion-toggle">▼</span>
-                    </div>
+                    </button>
                     <div class="accordion-content">
-                        <p><strong>Absolutely.</strong> The framework is designed for enterprise use with security hardening, comprehensive error handling, detailed audit logging, professional reporting, and zero false positive policy enforced by 4-layer validation.</p>
+                        <p><strong>Absolutely.</strong> Enterprise-grade implementation with security hardening, comprehensive error handling, detailed audit logging, professional reporting, and zero false positive enforcement through 4-layer validation.</p>
                     </div>
                 </div>
 
                 <div class="accordion-item">
-                    <div class="accordion-header">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
                         <span>How are credentials protected?</span>
                         <span class="accordion-toggle">▼</span>
-                    </div>
+                    </button>
                     <div class="accordion-content">
-                        <p><strong>Extensively protected.</strong> .secrets files are git-ignored, credentials loaded only at runtime (never globally stored), never logged, automatic PII masking in findings, temporary files securely cleaned, and complete audit logging for compliance.</p>
+                        <p><strong>Extensively:</strong> .secrets files are git-ignored, credentials loaded only at runtime (never globally stored), automatic PII masking in findings, temporary files securely cleaned, complete audit logging, human approval for critical findings.</p>
                     </div>
                 </div>
 
                 <div class="accordion-item">
-                    <div class="accordion-header">
-                        <span>What if an agent crashes?</span>
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>What if an agent fails?</span>
                         <span class="accordion-toggle">▼</span>
-                    </div>
+                    </button>
                     <div class="accordion-content">
-                        <p>The orchestrator has automatic retry logic. Failed agents are retried up to 3 times. If still failing, the agent is skipped and testing continues with a documented failure. Critical agents (reconnaissance, reporting) have enhanced retry logic.</p>
+                        <p>Orchestrator has automatic retry logic. Failed agents retry up to 3 times with exponential backoff. Non-critical agent failures skip and continue testing with documentation. Critical agents (reconnaissance, reporting) have enhanced retry logic.</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 
     <script>
-        function showSection(sectionId) {
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-            });
-
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            document.getElementById(sectionId).classList.add('active');
+        function switchSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
             event.target.classList.add('active');
             window.scrollTo(0, 0);
         }
 
-        // Accordion functionality
-        document.querySelectorAll('.accordion-header').forEach(header => {
-            header.addEventListener('click', function() {
-                const item = this.parentElement;
-                item.classList.toggle('active');
-            });
-        });
+        function toggleAccordion(btn) {
+            const item = btn.parentElement;
+            item.classList.toggle('active');
+        }
 
         // Agent search
-        const searchBox = document.getElementById('agentSearch');
-        if (searchBox) {
-            searchBox.addEventListener('keyup', function(e) {
-                const searchTerm = e.target.value.toLowerCase();
-                document.querySelectorAll('.agent-card').forEach(card => {
-                    const text = card.textContent.toLowerCase();
-                    card.style.display = text.includes(searchTerm) ? 'block' : 'none';
-                });
+        document.getElementById('agentSearch').addEventListener('keyup', function(e) {
+            const search = e.target.value.toLowerCase();
+            document.querySelectorAll('.agent-item').forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(search) ? 'block' : 'none';
             });
-        }
+        });
     </script>
 </body>
 </html>
