@@ -23,9 +23,9 @@ Each finding is validated through **4 security layers** ensuring **100% accuracy
 
 | Feature | Details |
 |---------|---------|
-| **31 Agents** | Web, API, auth, infrastructure, cloud, business logic, reporting, and more |
-| **55+ Tools** | nmap, sqlmap, ffuf, nuclei, hashcat, metasploit, and 50+ more |
-| **13 Phases** | Recon → Surface Testing → Deep Exploitation → Post-Exploitation → Reporting |
+| **100+ Agents** | Web, API, auth, mobile, cloud, IoT, wireless, Windows, Linux, database, and more |
+| **150+ Tools** | nmap, sqlmap, ffuf, nuclei, hashcat, metasploit, frida, ghidra, and 140+ more |
+| **30 Phases** | Recon → Web → API → Auth → Exploitation → Mobile → Wireless → Cloud → Reporting |
 | **4-Layer Validation** | Format → Evidence → Technical → Remediation (0% false positives) |
 | **Enterprise Reporting** | CVSS 3.1, OWASP Top 10, CWE Top 25, MITRE ATT&CK mapping |
 | **Secure Credentials** | .secrets file (git-ignored), automatic PII masking |
@@ -42,10 +42,14 @@ Each finding is validated through **4 security layers** ensuring **100% accuracy
 OWASP Top 10:        10/10 (100%)
 CWE Top 25:          25/25 (100%)
 MITRE ATT&CK:        7+ Tactics
-Cloud Platforms:     AWS, GCP, Azure
-API Types:           REST, GraphQL, SOAP, gRPC, WebSocket
-Advanced Testing:    Business logic, race conditions, supply chain
-Vulnerability Types: 50+ covered
+Cloud Platforms:     AWS, GCP, Azure, Serverless
+API Types:           REST, GraphQL, SOAP, gRPC, WebSocket, Message Queues
+Mobile Platforms:    iOS, Android, mobile web
+Wireless:            WiFi, Bluetooth, Cellular, RFID, NFC
+Protocols:           SMTP, LDAP, RDP, SSH, SMB, DNS
+Databases:           MySQL, PostgreSQL, MongoDB, Oracle, SQL Server
+Advanced:            Windows AD/Kerberos, Linux Kernel, Hardware/BIOS, Cryptanalysis
+Vulnerability Types: 100+ vulnerabilities covered
 ```
 
 ---
@@ -386,17 +390,22 @@ Report includes:
 
 | Metric | Value |
 |--------|-------|
-| **Agents** | 31 specialized |
-| **Phases** | 13 sequential |
-| **Tools** | 55+ integrated |
-| **Code** | 2,000+ lines |
-| **Documentation** | 10,000+ lines in 2 files (Portal + Guide) |
+| **Agents** | 100+ specialized |
+| **Phases** | 30 sequential |
+| **Tools** | 150+ integrated |
+| **Code** | 5,000+ lines |
+| **Documentation** | 20,000+ lines across all guides |
+| **Agent Specs** | 60+ detailed agent files |
 | **Test Duration** | ~2 hours full test |
-| **False Positive Rate** | 0% |
+| **False Positive Rate** | 0% (4-layer validation) |
 | **OWASP Coverage** | 100% (10/10) |
 | **CWE Coverage** | 100% (25/25) |
-| **Cloud Platforms** | 3 (AWS, GCP, Azure) |
-| **API Types** | 5 (REST, GraphQL, SOAP, gRPC, WebSocket) |
+| **Cloud Platforms** | 4 (AWS, GCP, Azure, Serverless) |
+| **API Types** | 6+ (REST, GraphQL, SOAP, gRPC, WebSocket, Message Queues) |
+| **Mobile** | 2 (iOS, Android) |
+| **Wireless** | WiFi, Bluetooth, Cellular, RFID, NFC |
+| **Enterprise** | Windows AD, Kerberos, Linux, BIOS/Firmware |
+| **Compliance** | PCI-DSS, HIPAA, GDPR, SOC2, ISO27001 |
 
 ---
 
