@@ -97,7 +97,7 @@ I will:
 
 ---
 
-## 📋 AGENT SPECIFICATIONS (31 Agents)
+## 📋 AGENT SPECIFICATIONS (86 Agents)
 
 ### PHASE 1: Reconnaissance (1 agent)
 **recon-agent**
