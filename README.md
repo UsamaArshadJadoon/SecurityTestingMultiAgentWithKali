@@ -664,21 +664,15 @@ Report includes:
 9. **Installation** - Step-by-step setup guide
 10. **FAQ** - Common questions answered
 
-**Want to understand the agents?**
-- See [DOCUMENTATION.md](docs/DOCUMENTATION.md) (all 86 agents with detailed specs)
-- All 86 agent files in [orchestrator/agents/](orchestrator/agents/) directory
+**📚 Documentation Hub:**
+- **[DOCUMENTATION.md](docs/DOCUMENTATION.md)** - Complete reference with all agents, tools, validation system (20,000+ lines)
+- **[Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)** - Interactive documentation with tabs (Agents, Phases, Validation, Security, Installation, FAQ)
 
-**Want to understand the tools?**
-- See [DOCUMENTATION.md](docs/DOCUMENTATION.md) (all 150+ tools documented)
-- Tools integrated in each agent specification file
-
-**Interested in validation?**
-- See [DOCUMENTATION.md](docs/DOCUMENTATION.md) (complete 4-layer validation system)
-- Interactive visualization in [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)
-
-**Want to see agent workflows?**
-- See [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html) (complete interactive documentation)
-- See data flow diagram above in this README (agent-to-agent data flow)
+**🔍 For Specific Topics:**
+- **Agents:** See [orchestrator/agents/](orchestrator/agents/) directory (86 individual specification files) or DOCUMENTATION.md
+- **Tools:** All 150+ tools documented in each agent spec file and DOCUMENTATION.md
+- **Validation:** 4-layer system explained in DOCUMENTATION.md with interactive visualization in Master Portal
+- **Workflows:** Agent-to-agent data flow diagram above in this README, plus complete interactive documentation
 
 ---
 
