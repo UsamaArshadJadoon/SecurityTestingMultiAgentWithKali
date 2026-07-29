@@ -100,20 +100,19 @@ start engagements/my-client/report/report.html
 
 ## 📚 Documentation
 
-### Beautiful Interactive Pages
+### 📚 Documentation Hub
 
-**🌟 START HERE:** [**Master-Documentation-Portal.html**](docs/Master-Documentation-Portal.html) - Complete interactive documentation hub with all guides, agents, phases, and workflows in one stunning page!
+**🌟 [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)** - Complete interactive documentation with:
+- Overview & Framework Summary
+- All 31 Agents (searchable)
+- 13 Sequential Phases
+- 4-Layer Validation System
+- Security & Credentials Management
+- Complete Data Flow Architecture
+- Installation & Setup Guide
+- Frequently Asked Questions
 
-| Document | Purpose |
-|----------|---------|
-| **[Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)** | 🎯 ALL documentation in one beautiful interactive hub (tabs, search, animations) |
-| **[Complete-Orchestration-Workflow.html](docs/Complete-Orchestration-Workflow.html)** | 🎯 Complete agent orchestration with full data flow visualization |
-| **[Getting-Started.html](docs/Getting-Started.html)** | 📘 Beautiful interactive setup guide |
-| **[Interactive-Agent-Directory.html](docs/Interactive-Agent-Directory.html)** | 🔍 Searchable 31-agent directory with filtering |
-| **[Beautiful-Installation-Guide.html](docs/Beautiful-Installation-Guide.html)** | 🚀 Step-by-step animated installation |
-| **[Validation-Workflow-Visualization.html](docs/Validation-Workflow-Visualization.html)** | ✅ Visual 4-layer validation pipeline |
-| **[Framework-Architecture-Overview.html](docs/Framework-Architecture-Overview.html)** | 🏗️ Complete architecture visualization |
-| **[Agent-Workflow-Diagram.html](docs/Agent-Workflow-Diagram.html)** | 📊 31 agents across 13 phases flow |
+**Everything you need in one beautiful, professional, fully interactive page!**
 
 ### Documentation Guides
 | Document | Purpose |
@@ -361,22 +360,18 @@ Report includes:
 
 ## 🎓 Learning Path
 
-**New to the framework?**
+**New to the framework?** Open [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html) and explore:
 
-1. **Start Here:** [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html) (all-in-one interactive hub with tabs for every topic)
-2. **Quick Overview:** Home tab covers everything at a glance
-3. **Explore Agents:** Agents tab with searchable 31-agent directory
-4. **Learn Phases:** Phases tab shows 13 sequential testing phases
-5. **Understand Validation:** Validation tab explains 4-layer quality gates
-6. **See Workflow:** Workflow tab visualizes complete data flow
-7. **Install:** Installation tab with step-by-step setup
-8. **FAQ:** Common questions answered
-
-**Or access individual guides:**
-- [Getting-Started.html](docs/Getting-Started.html) (interactive guide)
-- [Interactive-Agent-Directory.html](docs/Interactive-Agent-Directory.html) (explore all agents)
-- [Beautiful-Installation-Guide.html](docs/Beautiful-Installation-Guide.html) (animated guide)
-- [Framework-Architecture-Overview.html](docs/Framework-Architecture-Overview.html) (architecture)
+1. **Home** - Framework overview with statistics
+2. **Overview** - Why use this framework, unique features, FAQ
+3. **Features** - Vulnerability coverage, advanced capabilities
+4. **Agents** - All 31 agents explained (searchable)
+5. **Phases** - 13 sequential testing phases with timing
+6. **Validation** - 4-layer validation system and accuracy
+7. **Security** - Credential protection, PII masking, audit logging
+8. **Workflow** - Complete data flow architecture
+9. **Installation** - Step-by-step setup guide
+10. **FAQ** - Common questions answered
 
 **Want to understand the agents?**
 - See [Agent-Specifications.md](docs/Agent-Specifications.md) (all 31 agents)
@@ -449,16 +444,14 @@ Contributions are welcome! See [Contributing.md](Contributing.md) for guidelines
 
 ## 🚀 Get Started Now
 
-1. Clone the repository
-2. Run `bash kali-setup/kali-init.sh && bash kali-setup/install-tools.sh`
-3. **Open [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)** ← Start here! (All documentation in one beautiful page)
-4. Create engagement: `bash scripts/setup-engagement.sh my-target`
-5. Add credentials to `.secrets` file
-6. In Claude Code: "Run full penetration test for my-target"
-7. Review report in `engagements/my-target/report/report.html`
+1. **Clone:** `git clone https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali.git`
+2. **Setup Tools:** `bash kali-setup/kali-init.sh && bash kali-setup/install-tools.sh`
+3. **Read Docs:** Open [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)
+4. **Create Test:** `bash scripts/setup-engagement.sh my-target`
+5. **Configure:** Add credentials to `engagements/my-target/.secrets`
+6. **Run Test:** In Claude Code: "Run full penetration test for my-target"
+7. **Review:** Open `engagements/my-target/report/report.html`
 
 ---
 
-**Ready to test your security?** 🎯
-
-**Start with:** [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html) - Complete interactive hub covering Quick Start, Features, All 31 Agents, Installation, Validation, Workflow, and FAQ — all in one beautiful page!
+**🌟 Everything you need is in [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)**
