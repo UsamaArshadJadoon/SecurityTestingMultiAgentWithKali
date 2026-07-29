@@ -127,7 +127,7 @@ start engagements/my-client/report/report.html
 ## 🎯 What You Get
 
 ### **Framework Core**
-- ✅ orchestrator-improved.js (500+ lines) - Agent orchestration
+- ✅ Orchestrator.js (500+ lines) - Agent orchestration
 - ✅ 31 agent specifications - Detailed requirements
 - ✅ 55+ tool integrations - Kali tools via SSH
 - ✅ 13 sequential phases - Data flow between phases
@@ -163,7 +163,7 @@ start engagements/my-client/report/report.html
 ```
 SecurityTestingMultiAgentWithKali/
 │
-├── orchestrator-improved.js          # Main orchestration engine
+├── Orchestrator.js          # Main orchestration engine
 ├── kali-setup/                       # Kali VM setup
 │   ├── kali-init.sh
 │   ├── install-tools.sh
