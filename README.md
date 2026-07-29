@@ -100,17 +100,27 @@ start engagements/my-client/report/report.html
 
 ## 📚 Documentation
 
+### Beautiful Interactive Pages
 | Document | Purpose |
 |----------|---------|
-| **[GETTING-STARTED.html](docs/GETTING-STARTED.html)** | 📘 Interactive guide (open in browser) |
-| **[INSTALLATION.md](docs/INSTALLATION.md)** | Step-by-step setup |
-| **[USAGE.md](docs/USAGE.md)** | How to run tests |
-| **[REPORTING.md](docs/REPORTING.md)** | Understanding reports |
-| **[AGENT-SPECIFICATIONS.md](docs/AGENT-SPECIFICATIONS.md)** | All 31 agents detailed |
-| **[TOOL-REFERENCE.md](docs/TOOL-REFERENCE.md)** | 55+ tools documented |
-| **[FRAMEWORK-OVERVIEW.md](docs/FRAMEWORK-OVERVIEW.md)** | Architecture & design |
-| **[VALIDATION-SYSTEM.md](docs/VALIDATION-SYSTEM.md)** | 4-layer validation gates |
-| **[CREDENTIALS-MANAGEMENT.md](docs/CREDENTIALS-MANAGEMENT.md)** | Secure credential handling |
+| **[Getting-Started.html](docs/Getting-Started.html)** | 📘 Beautiful interactive guide (open in browser) |
+| **[Interactive-Agent-Directory.html](docs/Interactive-Agent-Directory.html)** | 🔍 Searchable 31-agent directory with filtering |
+| **[Beautiful-Installation-Guide.html](docs/Beautiful-Installation-Guide.html)** | 🚀 Step-by-step animated installation guide |
+| **[Validation-Workflow-Visualization.html](docs/Validation-Workflow-Visualization.html)** | ✅ Visual 4-layer validation pipeline |
+| **[Framework-Architecture-Overview.html](docs/Framework-Architecture-Overview.html)** | 🏗️ Complete architecture visualization |
+| **[Agent-Workflow-Diagram.html](docs/Agent-Workflow-Diagram.html)** | 📊 31 agents across 13 phases flow diagram |
+
+### Documentation Guides
+| Document | Purpose |
+|----------|---------|
+| **[Installation.md](docs/Installation.md)** | Step-by-step setup |
+| **[Usage.md](docs/Usage.md)** | How to run tests |
+| **[Reporting.md](docs/Reporting.md)** | Understanding reports |
+| **[Agent-Specifications.md](docs/Agent-Specifications.md)** | All 31 agents detailed |
+| **[Tool-Reference.md](docs/Tool-Reference.md)** | 55+ tools documented |
+| **[Framework-Overview.md](docs/Framework-Overview.md)** | Architecture & design |
+| **[Validation-System.md](docs/Validation-System.md)** | 4-layer validation gates |
+| **[Credentials-Management.md](docs/Credentials-Management.md)** | Secure credential handling |
 
 ---
 
@@ -166,15 +176,20 @@ SecurityTestingMultiAgentWithKali/
 │   └── check-status.sh
 │
 ├── docs/                             # Comprehensive documentation
-│   ├── GETTING-STARTED.html          # Interactive guide
-│   ├── INSTALLATION.md
-│   ├── USAGE.md
-│   ├── REPORTING.md
-│   ├── AGENT-SPECIFICATIONS.md
-│   ├── TOOL-REFERENCE.md
-│   ├── FRAMEWORK-OVERVIEW.md
-│   ├── VALIDATION-SYSTEM.md
-│   └── ... (10+ more guides)
+│   ├── Getting-Started.html          # Interactive guide
+│   ├── Interactive-Agent-Directory.html
+│   ├── Beautiful-Installation-Guide.html
+│   ├── Validation-Workflow-Visualization.html
+│   ├── Framework-Architecture-Overview.html
+│   ├── Agent-Workflow-Diagram.html
+│   ├── Installation.md
+│   ├── Usage.md
+│   ├── Reporting.md
+│   ├── Agent-Specifications.md
+│   ├── Tool-Reference.md
+│   ├── Framework-Overview.md
+│   ├── Validation-System.md
+│   └── ... (20+ more guides)
 │
 ├── engagements/                      # Test engagements
 │   └── template/
@@ -334,20 +349,26 @@ Report includes:
 
 **New to the framework?**
 
-1. **Read:** [GETTING-STARTED.html](docs/GETTING-STARTED.html) (interactive guide)
-2. **Install:** [INSTALLATION.md](docs/INSTALLATION.md)
-3. **Run:** [USAGE.md](docs/USAGE.md)
-4. **Review:** [REPORTING.md](docs/REPORTING.md)
-5. **Deep dive:** [FRAMEWORK-OVERVIEW.md](docs/FRAMEWORK-OVERVIEW.md)
+1. **Read:** [Getting-Started.html](docs/Getting-Started.html) (interactive guide)
+2. **Explore:** [Interactive-Agent-Directory.html](docs/Interactive-Agent-Directory.html) (explore all agents)
+3. **Install:** [Beautiful-Installation-Guide.html](docs/Beautiful-Installation-Guide.html) (animated guide)
+4. **Run:** [Usage.md](docs/Usage.md)
+5. **Review:** [Reporting.md](docs/Reporting.md)
+6. **Deep dive:** [Framework-Architecture-Overview.html](docs/Framework-Architecture-Overview.html)
 
 **Want to understand the agents?**
-- See [AGENT-SPECIFICATIONS.md](docs/AGENT-SPECIFICATIONS.md) (all 31 agents)
+- See [Agent-Specifications.md](docs/Agent-Specifications.md) (all 31 agents)
+- Or explore [Interactive-Agent-Directory.html](docs/Interactive-Agent-Directory.html) (searchable)
 
 **Want to understand the tools?**
-- See [TOOL-REFERENCE.md](docs/TOOL-REFERENCE.md) (all 55+ tools)
+- See [Tool-Reference.md](docs/Tool-Reference.md) (all 55+ tools)
 
 **Interested in validation?**
-- See [VALIDATION-SYSTEM.md](docs/VALIDATION-SYSTEM.md)
+- See [Validation-System.md](docs/Validation-System.md)
+- Or visualize [Validation-Workflow-Visualization.html](docs/Validation-Workflow-Visualization.html)
+
+**Want to see agent workflows?**
+- See [Agent-Workflow-Diagram.html](docs/Agent-Workflow-Diagram.html) (complete flow visualization)
 
 ---
 
@@ -377,15 +398,16 @@ Apache License 2.0 - See [LICENSE](LICENSE) file for details
 
 ## 🤝 Contributing
 
-Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Contributions are welcome! See [Contributing.md](Contributing.md) for guidelines.
 
 ---
 
 ## 📞 Support
 
-- **Documentation:** See `/docs` directory
+- **Documentation:** See `/docs` directory (35+ beautiful guides)
+- **Interactive Guides:** Explore [Interactive-Agent-Directory.html](docs/Interactive-Agent-Directory.html) or [Framework-Architecture-Overview.html](docs/Framework-Architecture-Overview.html)
 - **Issues:** Check GitHub issues for known problems
-- **Troubleshooting:** See [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
+- **Troubleshooting:** See [Troubleshooting.md](docs/Troubleshooting.md)
 - **FAQ:** Common questions answered in docs
 
 ---
@@ -407,14 +429,15 @@ Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines
 
 1. Clone the repository
 2. Run `bash kali-setup/kali-init.sh && bash kali-setup/install-tools.sh`
-3. Read [GETTING-STARTED.html](docs/GETTING-STARTED.html) (open in browser)
-4. Create engagement: `bash scripts/setup-engagement.sh my-target`
-5. Add credentials to `.secrets` file
-6. In Claude Code: "Run full penetration test for my-target"
-7. Review report in `engagements/my-target/report/report.html`
+3. Read [Getting-Started.html](docs/Getting-Started.html) (open in browser)
+4. Follow [Beautiful-Installation-Guide.html](docs/Beautiful-Installation-Guide.html) for step-by-step setup
+5. Create engagement: `bash scripts/setup-engagement.sh my-target`
+6. Add credentials to `.secrets` file
+7. In Claude Code: "Run full penetration test for my-target"
+8. Review report in `engagements/my-target/report/report.html`
 
 ---
 
 **Ready to test your security?** 🎯
 
-Start with the [Getting Started Guide](docs/GETTING-STARTED.html)
+Start with the [Beautiful Getting Started Guide](docs/Getting-Started.html) or explore [Interactive Documentation](docs/Interactive-Agent-Directory.html)
