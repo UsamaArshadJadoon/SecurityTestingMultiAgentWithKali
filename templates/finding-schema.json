@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Security Finding Schema",
+  "description": "Schema for validated security findings",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "description",
+    "severity",
+    "cvss_score",
+    "cvss_vector",
+    "evidence",
+    "remediation"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique finding identifier",
+      "pattern": "^FINDING-[0-9]{4}$"
+    },
+    "title": {
+      "type": "string",
+      "description": "Short vulnerability title",
+      "minLength": 5,
+      "maxLength": 100
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed vulnerability description",
+      "minLength": 20,
+      "maxLength": 1000
+    },
+    "severity": {
+      "type": "string",
+      "description": "Severity level",
+      "enum": ["Critical", "High", "Medium", "Low", "Info"]
+    },
+    "cvss_score": {
+      "type": "number",
+      "description": "CVSS 3.1 score (0-10)",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "cvss_vector": {
+      "type": "string",
+      "description": "CVSS 3.1 vector string",
+      "pattern": "^CVSS:3\\.1/.*"
+    },
+    "affected_component": {
+      "type": "string",
+      "description": "Component or endpoint affected"
+    },
+    "evidence": {
+      "type": "object",
+      "description": "Proof of vulnerability",
+      "required": ["proof_of_concept", "request", "response"],
+      "properties": {
+        "proof_of_concept": {
+          "type": "string",
+          "description": "PoC explaining the vulnerability"
+        },
+        "request": {
+          "type": "string",
+          "description": "HTTP request or command that triggers the vulnerability"
+        },
+        "response": {
+          "type": "string",
+          "description": "Response showing the vulnerability"
+        },
+        "screenshots": {
+          "type": "array",
+          "description": "Evidence screenshots",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "remediation": {
+      "type": "object",
+      "description": "How to fix the vulnerability",
+      "required": ["description", "effort"],
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Remediation steps"
+        },
+        "vulnerable_code": {
+          "type": "string",
+          "description": "Example vulnerable code"
+        },
+        "fixed_code": {
+          "type": "string",
+          "description": "Example fixed code"
+        },
+        "effort": {
+          "type": "string",
+          "description": "Effort to fix",
+          "enum": ["1-2 hours", "2-4 hours", "4-8 hours", "1-3 days", "3+ days"]
+        }
+      }
+    },
+    "owasp_category": {
+      "type": "string",
+      "description": "OWASP Top 10 category"
+    },
+    "cwe_id": {
+      "type": "string",
+      "description": "CWE identifier",
+      "pattern": "^CWE-[0-9]+$"
+    },
+    "validation_status": {
+      "type": "string",
+      "description": "Validation status",
+      "enum": ["pending", "validated", "rejected"]
+    },
+    "validation_date": {
+      "type": "string",
+      "description": "Date of validation",
+      "format": "date-time"
+    }
+  }
+}

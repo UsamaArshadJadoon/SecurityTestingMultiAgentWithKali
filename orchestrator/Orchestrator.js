@@ -3,10 +3,10 @@
 /**
  * PENETRATION TESTING ORCHESTRATOR - PRODUCTION READY
  *
- * Version: 2.0.0 - 101 Agents Framework
+ * Version: 2.0.0 - 86 Agents Framework
  *
  * Features:
- * - 101 specialized agents across 30 sequential phases
+ * - 86 specialized agents across 30 sequential phases
  * - Claude Code Agent dispatch (no external API)
  * - Complete data flow between phases
  * - 4-layer validation (Format → Evidence → Technical → Remediation)
