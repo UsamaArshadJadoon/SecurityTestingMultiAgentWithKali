@@ -114,17 +114,10 @@ start engagements/my-client/report/report.html
 
 **Everything you need in one beautiful, professional, fully interactive page!**
 
-### Documentation Guides
-| Document | Purpose |
-|----------|---------|
-| **[Installation.md](docs/Installation.md)** | Step-by-step setup |
-| **[Usage.md](docs/Usage.md)** | How to run tests |
-| **[Reporting.md](docs/Reporting.md)** | Understanding reports |
-| **[Agent-Specifications.md](docs/Agent-Specifications.md)** | All 31 agents detailed |
-| **[Tool-Reference.md](docs/Tool-Reference.md)** | 55+ tools documented |
-| **[Framework-Overview.md](docs/Framework-Overview.md)** | Architecture & design |
-| **[Validation-System.md](docs/Validation-System.md)** | 4-layer validation gates |
-| **[Credentials-Management.md](docs/Credentials-Management.md)** | Secure credential handling |
+### Comprehensive Documentation
+| Document | Contains |
+|----------|----------|
+| **[DOCUMENTATION.md](docs/DOCUMENTATION.md)** | Everything: Installation, Usage, Reports, All 31 Agents, 55+ Tools, Framework Overview, Validation System, Security Management |
 
 ---
 
@@ -397,7 +390,7 @@ Report includes:
 | **Phases** | 13 sequential |
 | **Tools** | 55+ integrated |
 | **Code** | 2,000+ lines |
-| **Documentation** | 5,000+ lines, 15+ guides |
+| **Documentation** | 10,000+ lines in 2 files (Portal + Guide) |
 | **Test Duration** | ~2 hours full test |
 | **False Positive Rate** | 0% |
 | **OWASP Coverage** | 100% (10/10) |

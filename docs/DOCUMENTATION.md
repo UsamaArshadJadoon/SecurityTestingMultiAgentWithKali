@@ -1,0 +1,1634 @@
+# Security Testing Multi-Agent Framework - Complete Documentation
+
+## Table of Contents
+1. [Installation & Setup](#installation--setup)
+2. [Usage & Running Tests](#usage--running-tests)
+3. [Understanding Reports](#understanding-reports)
+4. [All 31 Agents](#all-31-agents)
+5. [55+ Tools Reference](#55-tools-reference)
+6. [Framework Overview](#framework-overview)
+7. [Validation System](#validation-system)
+8. [Credentials & Security Management](#credentials--security-management)
+
+---
+
+## Installation & Setup
+
+### System Requirements
+
+#### Infrastructure
+- **Kali Linux VM:** 4GB RAM, 20GB disk space, SSH port 22 accessible
+- **Host System:** Windows, macOS, or Linux with SSH client
+- **Network:** Dedicated testing subnet, ability to reach target environment
+
+#### Software
+- **Claude Code:** Latest version (https://claude.com/code)
+- **Python:** 3.8+
+- **Node.js:** 14+
+- **Git:** 2.25+
+- **SSH Client:** OpenSSH or compatible
+
+### Step-by-Step Installation
+
+#### Step 1: Clone Repository
+```bash
+git clone https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali.git
+cd SecurityTestingMultiAgentWithKali
+```
+
+#### Step 2: Setup Kali Tools (One-Time, ~30 minutes)
+```bash
+bash kali-setup/kali-init.sh
+bash kali-setup/install-tools.sh
+bash kali-setup/verify-tools.sh
+```
+
+This installs and configures 55+ security tools including nmap, sqlmap, ffuf, nuclei, metasploit, hashcat, and more.
+
+#### Step 3: Create Engagement
+```bash
+bash scripts/setup-engagement.sh my-client
+```
+
+This creates a new testing engagement with template configuration.
+
+#### Step 4: Configure Credentials
+```bash
+nano engagements/my-client/.secrets
+```
+
+Add the following to .secrets file:
+```
+TARGET_URL=https://target.example.com
+TARGET_USERNAME=testuser
+TARGET_PASSWORD=password123
+DATABASE_URL=postgresql://user:pass@db.internal:5432/testdb
+AWS_KEY_ID=AKIA...
+AWS_SECRET_KEY=...
+API_KEY=sk-...
+SCOPE=Full application including APIs
+AUTHORIZATION=Authorized by John Doe, Security Lead
+TESTING_START=2024-07-29
+TESTING_END=2024-07-31
+```
+
+#### Step 5: Validate Configuration
+```bash
+bash scripts/validate-config.sh my-client
+```
+
+Verifies all required fields are present and accessible.
+
+#### Step 6: Run Penetration Test
+In Claude Code, run:
+```
+Run full penetration test for my-client
+```
+
+The orchestrator will execute 13 phases with 31 agents, taking ~1.5-2.5 hours.
+
+#### Step 7: Review Report
+```bash
+open engagements/my-client/report/report.html
+```
+
+Beautiful HTML report with all findings, evidence, CVSS scores, and remediation guidance.
+
+---
+
+## Usage & Running Tests
+
+### Basic Workflow
+
+1. **Prepare Target:** Identify target application and get authorization
+2. **Setup Engagement:** Run `bash scripts/setup-engagement.sh <name>`
+3. **Configure Credentials:** Edit `.secrets` file with target details
+4. **Validate:** Run `bash scripts/validate-config.sh <name>`
+5. **Execute:** In Claude Code: "Run full penetration test for <name>"
+6. **Review:** Open generated HTML report
+
+### Running Specific Phases
+
+Instead of full test, run specific phases:
+
+```
+Run phases 1-3 for reconnaissance and surface testing only
+```
+
+```
+Run phase 2 (surface testing) with updated scope
+```
+
+```
+Run phases 3-5 (exploitation through source code analysis)
+```
+
+### Engagement Configuration
+
+Each engagement has this structure:
+```
+engagements/my-client/
+├── config.yaml              # Configuration
+├── scope.md                 # Scope & authorization
+├── .secrets                 # Credentials (git-ignored)
+├── .env                     # Environment variables
+├── findings/                # Raw findings (JSON)
+└── report/                  # Generated reports
+    └── report.html          # Final HTML report
+```
+
+### Running Tests on Different Targets
+
+```bash
+# Create multiple engagements
+bash scripts/setup-engagement.sh client-a
+bash scripts/setup-engagement.sh client-b
+bash scripts/setup-engagement.sh client-c
+
+# Test each in sequence
+# In Claude Code:
+Run full penetration test for client-a
+Run full penetration test for client-b
+Run full penetration test for client-c
+```
+
+### Interpreting Test Output
+
+During execution, you'll see:
+- **Phase progress:** "Executing Phase 1: Reconnaissance..."
+- **Agent updates:** "Agent-003: Web Application testing 45% complete"
+- **Finding summaries:** "Found 12 vulnerabilities in API endpoints"
+- **Validation status:** "Validating 45 findings through 4-layer gates..."
+- **Report generation:** "Generating HTML report..."
+
+Final output includes path to report: `engagements/my-client/report/report.html`
+
+---
+
+## Understanding Reports
+
+### Report Structure
+
+Each HTML report contains:
+
+#### Executive Summary
+- High-level overview of findings
+- Risk matrix showing severity distribution
+- Key statistics (total findings, critical count, etc.)
+- Testing duration and methodology
+
+#### Risk Matrix
+Visual representation of vulnerabilities by:
+- Severity (Critical, High, Medium, Low)
+- Type (Injection, Broken Auth, Sensitive Data, etc.)
+- Impact area (Web App, API, Infrastructure, etc.)
+
+#### Detailed Findings
+For each vulnerability:
+
+1. **Title:** Clear, descriptive vulnerability name
+2. **Severity:** Critical / High / Medium / Low with CVSS 3.1 score
+3. **Description:** What the vulnerability is and why it matters
+4. **Evidence:** 
+   - HTTP request/response pairs
+   - Screenshots
+   - Tool output
+   - Reproduction steps
+5. **Technical Details:**
+   - CWE mapping
+   - OWASP Top 10 category
+   - MITRE ATT&CK tactic/technique
+   - Attack vector (Network, Adjacent, Local, Physical)
+   - Complexity, privileges, user interaction
+6. **Impact:** Specific business and technical impact
+7. **Remediation:**
+   - Vulnerable code example
+   - Fixed code example
+   - Step-by-step remediation
+   - Effort estimate
+8. **References:** Security standards, CVEs, best practices
+
+### CVSS Scoring
+
+Each finding includes CVSS 3.1 score with justification:
+
+- **Critical (9.0-10.0):** Immediate exploit, wide impact
+- **High (7.0-8.9):** Serious vulnerability, significant impact
+- **Medium (4.0-6.9):** Moderate risk, some mitigation possible
+- **Low (0.1-3.9):** Minor issue, difficult to exploit
+
+Example CVSS Justification:
+```
+CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H
+
+Vector Explanation:
+- Attack Vector (AV:N): Attackable from network
+- Attack Complexity (AC:L): Low complexity
+- Privileges Required (PR:N): No privileges needed
+- User Interaction (UI:N): No user interaction
+- Scope (S:C): Changed (can affect other systems)
+- Confidentiality (C:H): High impact
+- Integrity (I:H): High impact
+- Availability (A:H): High impact
+
+Score: 10.0 (Critical)
+Justification: Network-accessible RCE with no auth required
+```
+
+### Report Statistics
+
+At a glance:
+- **Total Findings:** Count by severity
+- **Testing Duration:** Actual time spent
+- **Phases Executed:** Which phases ran
+- **Coverage:** OWASP %, CWE %, MITRE %
+- **False Positive Rate:** 0%
+- **Validation Gates:** All findings passed 4-layer validation
+
+### Using Findings in Development
+
+1. **Prioritize by CVSS:** Fix Critical/High first
+2. **Follow Remediation:** Step-by-step guidance provided
+3. **Use Code Examples:** Vulnerable code + fixed code provided
+4. **Verify Fixes:** Ensure fix matches guidance exactly
+5. **Re-test:** Request follow-up assessment after fixes
+6. **Track Compliance:** Reference findings in compliance documentation
+
+---
+
+## All 31 Agents
+
+### Phase 1: Reconnaissance (1 Agent)
+
+#### Agent-001: Reconnaissance
+**Purpose:** Build complete attack surface map
+
+**Tools Used:** nmap, dig, whois, subfinder, assetfinder, whatweb, nuclei
+
+**What It Tests:**
+- Domain enumeration and DNS resolution
+- Subdomain discovery
+- Technology fingerprinting
+- Service enumeration and version detection
+- Open ports and exposed services
+- SSL/TLS certificate analysis
+- Web server headers and technologies
+- Email servers and SPF/DKIM configuration
+
+**Output:** Attack surface map with all discovered assets
+
+**Duration:** 15-30 minutes
+
+---
+
+### Phase 2: Surface Testing (6 Agents)
+
+#### Agent-002: Web Application Security
+**Purpose:** Full OWASP WSTG coverage
+
+**Tools Used:** Burp Suite, OWASP ZAP, sqlmap, ffuf, nikto
+
+**What It Tests:**
+- SQL Injection (time-based, boolean-based, union-based)
+- Cross-Site Scripting (Stored, Reflected, DOM)
+- Cross-Site Request Forgery (CSRF)
+- Clickjacking (X-Frame-Options)
+- Security Headers (CSP, HSTS, X-Content-Type, etc.)
+- Cookie security (HttpOnly, Secure, SameSite)
+- HTTP methods and OPTIONS exposure
+- Authentication bypasses
+- Session management flaws
+- Local File Inclusion (LFI)
+- Sensitive data exposure in responses
+
+**Output:** Web application vulnerabilities with reproducible evidence
+
+**Duration:** 15-20 minutes
+
+---
+
+#### Agent-003: API Security
+**Purpose:** REST, GraphQL, SOAP endpoint testing
+
+**Tools Used:** Postman, graphql-bin, API testing tools, nuclei
+
+**What It Tests:**
+- BOLA (Broken Object Level Authorization)
+- BFLA (Broken Function Level Authorization)
+- Mass assignment / Over-posting
+- Excessive data exposure
+- Injection attacks via API (SQLi, NoSQLi, Command)
+- GraphQL introspection and batch queries
+- GraphQL DoS (Circular queries, deep recursion)
+- SOAP XXE injection
+- API rate limiting bypass
+- API versioning issues
+- Default API credentials
+- Unencrypted API endpoints
+
+**Output:** API-specific vulnerabilities with cURL examples
+
+**Duration:** 15-20 minutes
+
+---
+
+#### Agent-004: Authentication & Authorization
+**Purpose:** Login flows, MFA, sessions, privilege escalation
+
+**Tools Used:** Burp Suite, custom auth testing scripts
+
+**What It Tests:**
+- Password policy weaknesses
+- Account lockout bypass
+- Multi-Factor Authentication (MFA) bypass
+- Session fixation and prediction
+- Session timeout issues
+- JWT token validation and tampering
+- OAuth/OIDC flow vulnerabilities
+- SSO bypass
+- Privilege escalation (vertical and horizontal)
+- IDOR (Insecure Direct Object References)
+- Forced browsing
+- Account enumeration
+- Password reset flaws
+
+**Output:** Auth/authz vulnerabilities with impact analysis
+
+**Duration:** 15-20 minutes
+
+---
+
+#### Agent-005: Infrastructure Security
+**Purpose:** Network, services, TLS configuration
+
+**Tools Used:** nmap, testssl.sh, sslscan, OpenVAS
+
+**What It Tests:**
+- Open ports and unnecessary services
+- Service version vulnerabilities
+- Default credentials on services
+- TLS/SSL configuration weaknesses
+- Weak cipher suites
+- Certificate validation issues
+- DNS security (DNS spoofing, zone transfer)
+- Firewall misconfigurations
+- Exposed management interfaces
+- Network service exploitation (SMB, LDAP, RDP)
+- Banner grabbing
+- Service downgrade attacks
+
+**Output:** Infrastructure vulnerabilities with remediation
+
+**Duration:** 15-20 minutes
+
+---
+
+#### Agent-006: Cloud & Container Security
+**Purpose:** Docker, Kubernetes, cloud storage, IAM
+
+**Tools Used:** docker-bench, kubesec, aws-cli, gcloud, az-cli
+
+**What It Tests:**
+- Docker image vulnerabilities and misconfigurations
+- Container privilege escalation
+- Kubernetes RBAC bypass
+- Pod escape techniques
+- Cloud storage exposure (S3, GCS, Blob)
+- IAM misconfiguration
+- Cloud function security
+- Secrets exposed in container images
+- Insecure container registries
+- Cloud metadata endpoint access
+- Serverless function vulnerabilities
+
+**Output:** Cloud/container vulnerabilities with fixing steps
+
+**Duration:** 15-20 minutes
+
+---
+
+#### Agent-007: AI/LLM Security
+**Purpose:** Chatbots, RAG, LLM endpoints
+
+**Tools Used:** Custom LLM testing scripts, prompt injection tools
+
+**What It Tests:**
+- Prompt injection (direct and indirect)
+- Jailbreak attempts
+- System prompt leakage
+- Training data extraction
+- Token limit bypass
+- Function calling abuse
+- Excessive agency (unauthorized actions)
+- RAG data poisoning
+- Insecure output handling
+- Token theft
+- Model manipulation
+
+**Output:** LLM-specific vulnerabilities with examples
+
+**Duration:** 10-15 minutes
+
+---
+
+### Phase 3: Deep Exploitation (7 Agents)
+
+#### Agent-008: SSRF Exploitation
+**Purpose:** Server-side request forgery attacks
+
+**Tools Used:** Custom SSRF payloads, curl, nc
+
+**What It Tests:**
+- SSRF to internal services
+- Cloud metadata endpoint access (AWS, GCP, Azure)
+- Local file read via SSRF
+- Port scanning via SSRF
+- Time-based SSRF
+- Redirect-based SSRF
+- DNS rebinding attacks
+- SSRF filter bypass techniques
+- Exfiltration via SSRF
+
+**Output:** SSRF vulnerabilities with payload examples
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-009: Request Smuggling
+**Purpose:** HTTP desynchronization attacks
+
+**Tools Used:** request-smuggler, custom scripts
+
+**What It Tests:**
+- CL.TE (Content-Length / Transfer-Encoding)
+- TE.CL (Transfer-Encoding / Content-Length)
+- TE.TE (Transfer-Encoding bypass)
+- Request smuggling to cache poisoning
+- Request smuggling to XSS
+- Timing-based smuggling
+- HTTP/2 smuggling variations
+
+**Output:** Smuggling vulnerabilities with detailed payloads
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-010: File Upload RCE
+**Purpose:** Malicious file upload execution
+
+**Tools Used:** Burp Suite, custom upload scripts
+
+**What It Tests:**
+- Unrestricted file upload
+- MIME type bypass
+- Double extension bypass (shell.php.jpg)
+- Null byte injection
+- Polyglot file uploads
+- Race conditions in upload processing
+- Zip slip vulnerabilities
+- Image metadata code injection
+- SVG/XML file uploads
+- Execution in upload directory
+- Symlink uploads
+
+**Output:** File upload vulnerabilities with working payloads
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-011: Path Traversal & LFI
+**Purpose:** Directory traversal and local file inclusion
+
+**Tools Used:** burp, ffuf, custom payloads
+
+**What It Tests:**
+- Directory traversal (../, ..\\, etc.)
+- Path traversal bypass (unicode, encoding)
+- Local file inclusion (LFI)
+- Log file inclusion
+- Null byte injection
+- Double encoding
+- UTF-8 encoding bypass
+- Symlink following
+- /etc/passwd, /etc/shadow access
+- Windows file access (C:\Windows\win.ini)
+- Sensitive file exposure
+
+**Output:** Path traversal vulnerabilities with file dumps
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-012: XXE Injection
+**Purpose:** XML external entity attacks
+
+**Tools Used:** burp, XXE payloads
+
+**What It Tests:**
+- XXE document type definition
+- External entity file read
+- Blind XXE with out-of-band exfiltration
+- XXE via image metadata
+- SVG XXE
+- XXE billion laughs DoS
+- XXE entity expansion
+- Windows UNC path XXE
+- Jar file XXE
+
+**Output:** XXE vulnerabilities with exploitation steps
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-013: Deserialization RCE
+**Purpose:** Unsafe object deserialization
+
+**Tools Used:** ysoserial, custom gadget chains
+
+**What It Tests:**
+- Java deserialization (commons-collections, spring, etc.)
+- PHP object injection
+- Python pickle deserialization
+- .NET deserialization
+- Gadget chain exploitation
+- Magic method exploitation
+- Type confusion
+
+**Output:** Deserialization vulnerabilities with RCE proof
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-014: SSTI Exploitation
+**Purpose:** Server-side template injection
+
+**Tools Used:** burp, custom payloads, tplmap
+
+**What It Tests:**
+- Jinja2 template injection
+- Mako template injection
+- Twig template injection
+- FreeMarker template injection
+- Velocity template injection
+- Expression Language (EL) injection
+- Template filter bypass
+- Sandbox escape
+- Code execution via templates
+
+**Output:** SSTI vulnerabilities with RCE examples
+
+**Duration:** 10-15 minutes
+
+---
+
+### Phase 4: Post-Exploitation (4 Agents)
+
+#### Agent-015: Post-Exploitation
+**Purpose:** System abuse and persistence
+
+**Tools Used:** Metasploit, custom scripts, SSH
+
+**What It Tests:**
+- System command execution
+- Process enumeration
+- File system exploration
+- Service manipulation
+- Persistence mechanisms
+- Cron/scheduled task abuse
+- Startup folder manipulation
+- Registry modification (Windows)
+- Rootkit installation
+- Backdoor creation
+
+**Output:** Post-exploitation capabilities with evidence
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-016: Privilege Escalation
+**Purpose:** Elevation of privileges
+
+**Tools Used:** Metasploit, linpeas, winpeas, exploit-db
+
+**What It Tests:**
+- Kernel vulnerabilities
+- Misconfigured sudo (NOPASSWD, wildcards)
+- SUID binary vulnerabilities
+- Capabilities exploitation
+- DLL injection (Windows)
+- Service privilege escalation
+- Registry writable checks
+- File permission vulnerabilities
+- Cron job privilege escalation
+- Docker privilege escalation
+
+**Output:** Privilege escalation paths with proof
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-017: Secrets Harvesting
+**Purpose:** Extract credentials and secrets
+
+**Tools Used:** grep, find, custom extraction scripts
+
+**What It Tests:**
+- Environment variable secrets
+- Configuration file credentials
+- Database connection strings
+- API keys in files
+- SSH private keys
+- AWS credentials
+- Kubernetes secrets
+- Secrets in process memory
+- Git history secrets
+- Browser password storage
+
+**Output:** Extracted credentials and their locations
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-018: Lateral Movement
+**Purpose:** Move between systems
+
+**Tools Used:** Metasploit, custom scripts, SSH
+
+**What It Tests:**
+- Network reconnaissance
+- Trust relationship exploitation
+- Pass-the-hash attacks
+- Pass-the-ticket attacks
+- Kerberos attacks
+- Network share access
+- RDP connection attempt
+- SSH key reuse
+- Service account abuse
+- Domain trust exploitation
+
+**Output:** Lateral movement paths and access acquired
+
+**Duration:** 10-15 minutes
+
+---
+
+### Phase 5: Source Code Analysis (2 Agents)
+
+#### Agent-019: Source Code Disclosure
+**Purpose:** Hunt exposed source code
+
+**Tools Used:** custom scanning scripts, git-dumper
+
+**What It Tests:**
+- Exposed .git directory
+- Exposed .env files
+- Backup files (.bak, .swp, .tmp)
+- Configuration file exposure
+- Debug info in error pages
+- Source maps (.map files)
+- Development comment exposure
+- API documentation exposure
+- Build artifact exposure
+- Container image source exposure
+
+**Output:** Exposed files with contents
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-020: Git Forensics
+**Purpose:** Extract secrets from repository history
+
+**Tools Used:** git commands, GitTools, custom scripts
+
+**What It Tests:**
+- Repository history analysis
+- Commit message secrets
+- Deleted file recovery
+- Branch enumeration
+- Tag enumeration
+- Large file analysis
+- Author information
+- Commit timestamps
+- Stashed changes
+- Reflog analysis
+
+**Output:** Secrets found in git history with commit info
+
+**Duration:** 10-15 minutes
+
+---
+
+### Phase 6: Cloud Testing (3 Agents)
+
+#### Agent-021: AWS Security
+**Purpose:** AWS-specific misconfigurations
+
+**Tools Used:** aws-cli, s3-scanner, pacu, prowler
+
+**What It Tests:**
+- S3 bucket public access
+- S3 bucket policy weaknesses
+- CloudFront exposure
+- IAM policy overpermission
+- EC2 security groups too open
+- Lambda function exposure
+- RDS security groups
+- API Gateway auth bypass
+- Secrets Manager exposure
+- CloudTrail bypass
+- VPC endpoint misconfig
+
+**Output:** AWS misconfigurations with remediation
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-022: GCP Security
+**Purpose:** Google Cloud Platform misconfigurations
+
+**Tools Used:** gcloud, Google Cloud SDK
+
+**What It Tests:**
+- Cloud Storage bucket public access
+- IAM role overpermission
+- Compute Engine public IP exposure
+- Firewall rule misconfiguration
+- Cloud SQL auth bypass
+- Cloud Functions exposure
+- Cloud Run endpoint auth
+- Service account key exposure
+- Cloud KMS permission issues
+- Kubernetes cluster RBAC
+
+**Output:** GCP misconfigurations with fixes
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-023: Azure Security
+**Purpose:** Microsoft Azure misconfigurations
+
+**Tools Used:** az-cli, Azure CLI, custom scripts
+
+**What It Tests:**
+- Blob Storage public access
+- RBAC overpermission
+- Virtual Machine exposure
+- SQL Database auth
+- Key Vault permission issues
+- App Service configuration
+- Azure AD misconfiguration
+- Managed Identity issues
+- Azure Storage Account exposure
+- Function App authentication
+
+**Output:** Azure misconfigurations with remediation
+
+**Duration:** 10-15 minutes
+
+---
+
+### Phase 7: Advanced Authentication (5 Agents)
+
+#### Agent-024: OAuth/SAML/JWT
+**Purpose:** Advanced authentication protocol testing
+
+**Tools Used:** Burp Suite, JWT tools, SAML analyzers
+
+**What It Tests:**
+- OAuth 2.0 flow vulnerabilities
+- OpenID Connect (OIDC) bypass
+- SAML assertion tampering
+- JWT signature validation
+- JWT algorithm confusion
+- JWT token prediction
+- Refresh token abuse
+- Scope escalation
+- Implicit flow vulnerabilities
+- PKCE bypass
+
+**Output:** Auth protocol vulnerabilities with examples
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-025: Cryptography
+**Purpose:** Weak cryptographic implementations
+
+**Tools Used:** hashcat, john, SSL Labs, custom tools
+
+**What It Tests:**
+- Weak encryption algorithms (DES, RC4)
+- Predictable random number generation
+- Hardcoded cryptographic keys
+- ECB mode usage
+- Insufficient key length
+- Hash collision vulnerabilities
+- Weak key derivation (MD5, unsalted)
+- Padding oracle attacks
+- Side-channel vulnerabilities
+- Custom encryption implementation
+
+**Output:** Crypto weaknesses with severity assessment
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-026: Dependency Analysis
+**Purpose:** Known vulnerabilities in libraries
+
+**Tools Used:** OWASP Dependency-Check, npm audit, pip-audit
+
+**What It Tests:**
+- Known CVEs in dependencies
+- Outdated package versions
+- Transitive dependency vulnerabilities
+- License compliance issues
+- Vulnerable package versions
+- Supply chain vulnerabilities
+- Typosquatting packages
+- Abandoned dependencies
+- Unmaintained libraries
+
+**Output:** Vulnerable dependencies with fix recommendations
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-027: CI/CD Pipeline
+**Purpose:** Build pipeline and deployment security
+
+**Tools Used:** custom scanning scripts, git analysis
+
+**What It Tests:**
+- Secrets in CI/CD logs
+- Build artifact tampering
+- Deployment authorization bypass
+- Supply chain injection
+- Build environment compromise
+- Container image tampering
+- Build artifact exposure
+- CI/CD credentials exposure
+- Webhook security
+- Rollback mechanism bypass
+
+**Output:** CI/CD vulnerabilities with impact
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-028: Compliance
+**Purpose:** Regulatory compliance validation
+
+**Tools Used:** custom compliance checkers
+
+**What It Tests:**
+- GDPR compliance (data processing, consent)
+- HIPAA compliance (health data protection)
+- PCI-DSS compliance (payment card security)
+- SOC2 compliance (security controls)
+- Data retention policies
+- Encryption at rest and in transit
+- Access logging and audit trails
+- Data subject rights implementation
+- Breach notification procedures
+- Privacy policy alignment with practice
+
+**Output:** Compliance gaps with remediation
+
+**Duration:** 10-15 minutes
+
+---
+
+### Phase 8-12: Advanced Testing (6 Agents)
+
+#### Agent-029: Business Logic
+**Purpose:** Workflow abuse and state machine bypass
+
+**Tools Used:** Burp Suite, custom scripts
+
+**What It Tests:**
+- Multi-step workflow manipulation
+- Race conditions (TOCTOU)
+- State machine bypass
+- Transaction manipulation
+- Approval flow circumvention
+- Price/quantity tampering
+- Coupon/discount abuse
+- Negative amounts
+- Inventory manipulation
+- Refund abuse
+- Double charging
+
+**Output:** Business logic vulnerabilities with examples
+
+**Duration:** 15-20 minutes
+
+---
+
+#### Agent-030: Rate Limiting & Brute Force
+**Purpose:** Rate limit bypass and credential testing
+
+**Tools Used:** ffuf, hydra, custom scripts
+
+**What It Tests:**
+- Rate limit bypass techniques
+- Credential stuffing
+- Brute force on login
+- API quota evasion
+- OTP brute forcing
+- Password reset flooding
+- Account enumeration
+- Distributed attack capability
+- IP blocking bypass
+- Rate limiting by user vs IP
+
+**Output:** Rate limiting weaknesses with bypass techniques
+
+**Duration:** 15-20 minutes
+
+---
+
+#### Agent-031: Advanced Protocols
+**Purpose:** WebSocket, gRPC, and binary protocol testing
+
+**Tools Used:** Burp Suite, gRPC tools, custom scripts
+
+**What It Tests:**
+- WebSocket authentication
+- WebSocket message manipulation
+- WebSocket injection attacks
+- gRPC method enumeration
+- gRPC parameter fuzzing
+- gRPC authentication bypass
+- Binary protocol reverse engineering
+- Message queue security
+- Protocol buffer vulnerabilities
+- Streaming API abuse
+
+**Output:** Protocol vulnerabilities with exploitation
+
+**Duration:** 10-15 minutes
+
+---
+
+#### Agent-032: Exploitation Chaining
+**Purpose:** Combine vulnerabilities for greater impact
+
+**Tools Used:** Custom orchestration scripts
+
+**What It Tests:**
+- Multi-bug chains
+- Escalation paths (low to high)
+- SSRF to RCE chains
+- Auth bypass + privilege escalation
+- Information disclosure to exploitation
+- Multiple vulnerabilities to data breach
+- Business logic + technical vulnerability chains
+- Time-based attack chains
+- Dependency chains
+
+**Output:** Complete attack paths with impact
+
+**Duration:** 15-30 minutes
+
+---
+
+## 55+ Tools Reference
+
+### Reconnaissance Tools
+- **nmap:** Network port scanning and service enumeration
+- **dig:** DNS record lookup and analysis
+- **whois:** Domain ownership and registration info
+- **subfinder:** Subdomain discovery
+- **assetfinder:** Domain asset discovery
+- **whatweb:** Website technology fingerprinting
+- **theHarvester:** Email and subdomain harvesting
+
+### Web Application Testing
+- **sqlmap:** SQL injection detection and exploitation
+- **ffuf:** Web fuzzing and enumeration
+- **nikto:** Web server scanner
+- **Burp Suite Community:** Web application testing platform
+- **OWASP ZAP:** Open source web app scanner
+- **dirbuster:** Directory and file enumeration
+
+### API Testing
+- **Postman:** API testing and development
+- **graphql-bin:** GraphQL introspection and testing
+- **SoapUI:** SOAP API testing
+- **REST Client:** HTTP testing tools
+
+### Network & Infrastructure
+- **Metasploit:** Exploitation framework
+- **nessus:** Vulnerability scanner
+- **OpenVAS:** Open source vulnerability scanner
+- **testssl.sh:** TLS/SSL configuration tester
+- **sslscan:** SSL/TLS capability scanner
+
+### Credential & Hash Testing
+- **hashcat:** GPU-accelerated password cracking
+- **john:** Password cracking tool
+- **hydra:** Network login cracker
+
+### Cloud & Container
+- **docker-bench:** Docker security benchmarking
+- **kubesec:** Kubernetes security scanner
+- **aws-cli:** AWS command-line interface
+- **gcloud:** Google Cloud SDK
+- **az-cli:** Azure command-line interface
+- **prowler:** AWS security assessment
+- **pacu:** AWS exploitation framework
+
+### Code Analysis & Secrets
+- **OWASP Dependency-Check:** Dependency vulnerability scanner
+- **npm audit:** Node.js dependency checker
+- **pip-audit:** Python package vulnerability checker
+- **GitTools:** Git repository analysis
+- **git-dumper:** Git directory dumper
+- **truffleHog:** Secrets in git history
+
+### Post-Exploitation
+- **linpeas:** Linux privilege escalation scout
+- **winpeas:** Windows privilege escalation scout
+- **mimikatz:** Windows credential dumper
+- **bloodhound:** Active Directory visualizer
+
+### Advanced Tools
+- **ysoserial:** Java deserialization payload generator
+- **tplmap:** Template injection mapper
+- **jwt_tool:** JWT token testing
+- **XmlRpcBot:** XML-RPC exploitation
+- **xxe-payloads:** XXE payload repository
+- **SSRF-King:** SSRF testing tool
+
+---
+
+## Framework Overview
+
+### Architecture
+
+```
+User Request (Claude Code)
+        ↓
+   Orchestrator.js (Main Engine)
+        ↓
+Phase Manager (Sequential Execution)
+        ↓
+    Phase 1-13 (13 Phases)
+        ↓
+Agent Dispatch (31 Agents)
+        ↓
+Tool Execution (55+ Tools via SSH)
+        ↓
+Finding Generation (Raw Findings)
+        ↓
+4-Layer Validation Gates
+        ↓
+Report Generation (HTML Report)
+```
+
+### Core Components
+
+#### 1. Orchestrator.js
+- Main orchestration engine
+- Manages 13 sequential phases
+- Dispatches 31 agents
+- Handles data flow between phases
+- Implements retry logic and error handling
+- Tracks execution metrics
+
+#### 2. Phase Manager
+- Executes phases sequentially
+- Passes context from prior phases
+- Manages agent parallelization
+- Collects findings from agents
+- Validates findings before next phase
+
+#### 3. Agent Specifications (35 files)
+- Located in `orchestrator/agents/`
+- Each agent has detailed specification
+- Tools used by agent
+- Testing approach
+- Validation requirements
+- Expected outputs
+
+#### 4. Tool Wrapper (kali-wrapper.sh)
+- SSH wrapper for remote tool execution
+- Manages tool execution on Kali VM
+- Captures output and results
+- Handles errors and timeouts
+- Secures credential passing
+
+#### 5. Validation System
+- 4 independent validation layers
+- Format, Evidence, Technical, Remediation gates
+- Rejection criteria for each gate
+- Human approval for CVSS ≥ 7.0
+
+#### 6. Report Generator
+- Aggregates validated findings
+- Calculates risk matrix
+- Assigns CVSS scores
+- Maps to OWASP/CWE/MITRE
+- Generates professional HTML report
+
+### Data Flow
+
+```
+Step 1: Configuration Loading
+  └─ Load .secrets file
+  └─ Validate credentials
+  └─ Setup execution context
+
+Step 2: Phase 1 Execution
+  └─ Reconnaissance Agent runs
+  └─ Generates attack surface map
+
+Step 3: Phases 2-12 Execution
+  └─ Pass Phase 1 output as context
+  └─ Execute agents with prior findings
+  └─ Collect raw findings
+
+Step 4: 4-Layer Validation
+  └─ Format Validation Gate
+  └─ Evidence Validation Gate
+  └─ Technical Accuracy Validation Gate
+  └─ Remediation Validation Gate
+  └─ Human Approval (CVSS ≥ 7.0)
+
+Step 5: Sanitization
+  └─ Mask PII
+  └─ Remove credentials
+  └─ Scrub sensitive data
+
+Step 6: Report Generation
+  └─ Aggregate findings
+  └─ Calculate CVSS scores
+  └─ Map vulnerabilities
+  └─ Generate HTML report
+
+Step 7: Delivery
+  └─ Save to engagements/[name]/report/report.html
+```
+
+### Key Features
+
+1. **Sequential Phase Architecture**
+   - Each phase builds on prior findings
+   - Context flows from phase to phase
+   - Agents aware of prior testing
+
+2. **Parallel Agent Execution**
+   - Within each phase, agents run concurrently
+   - Maximizes testing speed
+   - No dependencies between agents in same phase
+
+3. **Real Evidence Requirement**
+   - Every finding backed by actual evidence
+   - HTTP requests/responses authentic
+   - Tool output matches known formats
+   - Screenshots genuine and reproducible
+
+4. **4-Layer Validation**
+   - Format validation (structure)
+   - Evidence validation (proof)
+   - Technical accuracy (correctness)
+   - Remediation validation (actionability)
+
+5. **Zero False Positive Policy**
+   - All findings real and verified
+   - 4-layer validation ensures accuracy
+   - Failed validations rejected
+   - Evidence must be authentic
+
+---
+
+## Validation System
+
+### 4-Layer Validation Gates
+
+Every finding passes through 4 independent validation layers:
+
+#### Gate 1: Format Validation
+**Purpose:** Ensure structural integrity
+
+**Checks:**
+- Valid JSON schema compliance
+- All required fields present
+- Correct data types
+- No empty/malformed fields
+- CVSS format compliance
+
+**Rejection Criteria:**
+- Missing required fields (title, description, severity, evidence, remediation)
+- Invalid data types
+- Malformed JSON
+- Incomplete information
+- Missing CVSS score
+
+**Example - FAIL:**
+```json
+{
+  "title": "SQL Injection",
+  "description": "Found SQL injection",
+  // Missing: severity, evidence, remediation
+}
+```
+
+#### Gate 2: Evidence Validation
+**Purpose:** Verify findings backed by actual evidence
+
+**Checks:**
+- Real HTTP request/response pairs
+- Authentic tool output
+- Genuine screenshots
+- Reproducible steps
+- Consistent metadata
+
+**Rejection Criteria:**
+- Fake/template requests
+- Fabricated tool output
+- Suspicious screenshots
+- Non-reproducible steps
+- Inconsistent metadata
+
+**Example - FAIL:**
+```
+Request: [generic template request]
+Response: [simulated response]
+Evidence: "Assuming SQL injection is possible"
+```
+
+**Example - PASS:**
+```
+Request: POST /api/users HTTP/1.1
+Host: target.com
+Content-Type: application/json
+
+{"username": "admin' OR '1'='1"}
+
+Response: HTTP/1.1 200 OK
+{"users": [{"id": 1, "name": "admin"}]}
+
+Reproduction Steps:
+1. Navigate to target.com/api/users
+2. Send POST request with payload
+3. Observe full user list returned
+```
+
+#### Gate 3: Technical Accuracy Validation
+**Purpose:** Verify technical correctness
+
+**Checks:**
+- CVSS score mathematically justified
+- Impact specific and concrete
+- No vague language
+- Vulnerability type correct
+- Attack vector realistic
+
+**Rejection Criteria:**
+- Unjustified CVSS scores
+- Vague impact statements ("might", "could", "possibly")
+- Fabrication language ("assumes", "would likely")
+- Incorrect vulnerability classification
+- Impossible attack paths
+
+**Example - FAIL:**
+```
+Vulnerability: SQL Injection
+CVSS: 9.8
+Impact: "Could potentially allow attackers to access user data"
+Reasoning: "This appears to be injectable based on error message"
+```
+
+**Example - PASS:**
+```
+Vulnerability: SQL Injection (CWE-89)
+CVSS: 9.8 (CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H)
+Impact: Unauthenticated attacker can read/modify all database records
+Evidence: Injection confirmed via UNION-based query
+OWASP: A03:2021 Injection
+Attack: POST /api/users {"username":"admin' UNION SELECT 1,2,3--"}
+Result: Returns all users with email addresses (confirmed data access)
+```
+
+#### Gate 4: Remediation Validation
+**Purpose:** Ensure actionable remediation guidance
+
+**Checks:**
+- Vulnerable code example provided
+- Fixed code example provided
+- Clear remediation steps
+- Realistic effort estimate
+- Relevant security standards referenced
+
+**Rejection Criteria:**
+- No code examples
+- Generic guidance ("use HTTPS")
+- Unrealistic effort estimates
+- Developer cannot understand fix
+
+**Example - FAIL:**
+```
+Remediation: "Fix the SQL injection vulnerability by using prepared statements"
+Code: N/A
+Effort: "30 minutes"
+```
+
+**Example - PASS:**
+```
+Vulnerable Code:
+const query = `SELECT * FROM users WHERE id = ${req.query.id}`;
+db.execute(query);
+
+Fixed Code:
+const query = `SELECT * FROM users WHERE id = ?`;
+db.execute(query, [req.query.id]);
+
+Remediation Steps:
+1. Identify all database queries accepting user input
+2. Replace string concatenation with parameterized queries
+3. Use prepared statements for all queries
+4. Test with malicious payloads: ' OR '1'='1
+5. Deploy and monitor for injection attempts
+
+Testing:
+Test vulnerable: ?id=1' OR '1'='1
+Expected (fixed): No injection, returns only user 1
+Effort: 4-6 hours for application-wide fix
+Standards: OWASP A03:2021, CWE-89, SANS Top 25
+```
+
+### Validation Results
+
+```
+All 4 Gates Passed ✓
+        ↓
+Finding Added to Report (CVSS < 7.0)
+        ↓
+Human Approval (CVSS ≥ 7.0)
+        ↓
+Delivered in Final Report
+```
+
+### Rejection Scenarios
+
+**Gate 1 Rejection Example:**
+```
+Finding: API endpoint returns 401 Unauthorized
+Issue: "Unauthorized response" is not a vulnerability
+Action: Rejected - Normal security behavior
+```
+
+**Gate 2 Rejection Example:**
+```
+Finding: "SQL Injection possible in login form"
+Evidence: "Based on error message analysis"
+Issue: No actual injection payload demonstrated
+Action: Rejected - No authentic evidence of exploitation
+```
+
+**Gate 3 Rejection Example:**
+```
+Finding: "Cross-Site Scripting (XSS) vulnerability"
+Description: "Could possibly allow attackers to steal cookies"
+Issue: Vague impact, no specific data confirmed compromised
+Action: Rejected - Impact statement too vague
+```
+
+**Gate 4 Rejection Example:**
+```
+Finding: "Weak password policy"
+Remediation: "Implement strong password requirements"
+Code: None provided
+Issue: Developer cannot understand what to fix
+Action: Rejected - No actionable remediation provided
+```
+
+---
+
+## Credentials & Security Management
+
+### .secrets File Format
+
+All credentials stored in git-ignored .secrets file:
+
+```
+# Target Information
+TARGET_URL=https://target.example.com
+TARGET_DOMAIN=example.com
+
+# Authentication Credentials
+TARGET_USERNAME=testuser@example.com
+TARGET_PASSWORD=TestPassword123!
+TARGET_2FA_SECRET=JBSWY3DPEBLW64TMMQ======
+
+# Database Credentials
+DATABASE_HOST=db.internal
+DATABASE_PORT=5432
+DATABASE_NAME=production_db
+DATABASE_USER=db_user
+DATABASE_PASSWORD=DatabasePassword123!
+
+# Cloud Credentials
+AWS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+AWS_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+AWS_REGION=us-east-1
+
+GCP_PROJECT_ID=my-project-id
+GCP_SERVICE_ACCOUNT_KEY=/path/to/service-account.json
+
+AZURE_SUBSCRIPTION_ID=00000000-0000-0000-0000-000000000000
+AZURE_CLIENT_ID=00000000-0000-0000-0000-000000000000
+AZURE_CLIENT_SECRET=ClientSecret123!
+
+# API Keys and Tokens
+API_KEY=sk-1234567890abcdefghijklmnop
+API_SECRET=secret_1234567890abcdefghijklmnop
+JWT_SECRET=JwtSecretKey123!
+
+# SSH Keys
+SSH_PRIVATE_KEY_PATH=/path/to/ssh/private/key
+SSH_PASSPHRASE=SshPassphrase123!
+
+# Scope & Authorization
+SCOPE=Full application including APIs and admin panel
+AUTHORIZATION_NAME=John Doe
+AUTHORIZATION_TITLE=Security Lead
+AUTHORIZATION_EMAIL=john@example.com
+AUTHORIZATION_DATE=2024-07-29
+
+TESTING_WINDOW_START=2024-07-29T00:00:00Z
+TESTING_WINDOW_END=2024-07-31T23:59:59Z
+
+OUT_OF_SCOPE=
+- Third-party payment processors
+- Third-party analytics
+- Customer email systems
+- External consultants' systems
+
+RESTRICTIONS=
+- No DoS testing
+- No resource-heavy scanning
+- Test during business hours only
+- Do not modify production data
+```
+
+### Credential Protection
+
+#### Loading at Runtime
+Agents load credentials only when needed:
+```javascript
+const creds = {
+  targetUrl: process.env.TARGET_URL,
+  username: process.env.TARGET_USERNAME,
+  password: process.env.TARGET_PASSWORD
+};
+// Use for this test execution only
+// Never store in global scope
+```
+
+#### Never Logged
+Credentials never appear in logs:
+```javascript
+// ❌ WRONG - Logs credentials
+console.log(`Connecting to ${url} with user ${username}`);
+
+// ✓ CORRECT - Redacts credentials
+console.log(`Connecting to target database`);
+```
+
+#### Automatic PII Masking
+
+Before findings are delivered, all PII is masked:
+
+- **Names:** John Doe → John D***
+- **Emails:** john@example.com → j***@example.com
+- **Phone:** +1-555-123-4567 → +1-555-***-****
+- **Credit Cards:** 4111-1111-1111-1111 → 4111-****-****-1111
+- **SSN/Tax ID:** 123-45-6789 → ***-**-6789
+- **API Keys:** sk-1234567890abcdef → sk-****...****ef
+- **Tokens:** eyJhbGciOiJIUzI1NiIs... → eyJh...is...
+- **Passwords:** SuperSecret123! → ***********
+
+### Human Approval Workflow
+
+#### For Critical Findings (CVSS ≥ 7.0)
+
+```
+Agent Finds Critical Vulnerability
+        ↓
+Finding Passes 4-Layer Validation
+        ↓
+Security Lead Notified
+        ↓
+Security Lead Reviews Finding:
+- Evidence is authentic?
+- Impact is real?
+- Remediation is clear?
+- No false positive?
+        ↓
+Security Lead Approves / Rejects
+        ↓
+If Approved: Added to Report
+If Rejected: Documented with reason
+```
+
+#### For Non-Critical Findings (CVSS < 7.0)
+
+Auto-included in report if they pass all 4 validation gates.
+
+### Audit Logging
+
+Complete audit trail of all testing:
+
+```
+2024-07-29 10:15:23 [INFO] Engagement started: acme-corp
+2024-07-29 10:15:45 [INFO] Phase 1 started: Reconnaissance
+2024-07-29 10:18:30 [INFO] Agent-001 completed: 42 assets discovered
+2024-07-29 10:20:00 [INFO] Phase 2 started: Surface Testing
+2024-07-29 10:22:15 [INFO] Agent-002 found: SQLi in /api/users (CVSS 9.8)
+2024-07-29 10:23:00 [INFO] Finding validation: PASSED all 4 gates
+2024-07-29 10:23:15 [INFO] Waiting for human approval (CVSS ≥ 7.0)
+2024-07-29 10:24:30 [INFO] Security lead approved finding
+2024-07-29 15:45:00 [INFO] All phases completed
+2024-07-29 15:45:30 [INFO] Report generated
+2024-07-29 15:46:00 [INFO] Engagement completed: 87 findings
+```
+
+### Secure Cleanup
+
+After testing, all temporary data is securely deleted:
+
+```bash
+# Clean sensitive temporary files
+rm -f /tmp/test_*.txt
+rm -f /tmp/response_*.json
+rm -f /tmp/findings_*.cache
+
+# Clear command history
+history -c
+export HISTFILE=/dev/null
+
+# Remove cached credentials from memory
+unset TARGET_PASSWORD
+unset API_KEY
+unset SSH_PASSPHRASE
+
+# Secure overwrite of sensitive files
+shred -vfz -n 10 /tmp/sensitive_*
+```
+
+---
+
+## Support & Troubleshooting
+
+### Common Issues
+
+**Q: Agent fails with "Connection refused"**
+A: Ensure Kali VM is running and SSH port 22 is accessible.
+
+**Q: Finding rejected in validation**
+A: Review validation error. Most likely: evidence not authentic or impact statement too vague.
+
+**Q: Report is empty (no findings)**
+A: Normal for some targets. Some may have good security. Re-run with different phases to verify.
+
+**Q: Test takes too long**
+A: Complex targets take longer. Estimate 2-2.5 hours for comprehensive testing.
+
+**Q: Credentials not working**
+A: Verify .secrets file format. Ensure credentials have necessary permissions to test the target.
+
+### Getting Help
+
+- Check Framework-Overview.md for architecture details
+- Review Agent-Specifications.md for specific agent behavior
+- See Tool-Reference.md for tool-specific options
+- Consult Validation-System.md for validation details
+
+---
+
+**Framework Version:** 1.0.0  
+**Last Updated:** July 29, 2024  
+**License:** Apache 2.0  
+
+For more information, visit: https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali
