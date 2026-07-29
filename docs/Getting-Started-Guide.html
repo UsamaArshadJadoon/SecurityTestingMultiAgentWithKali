@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Getting Started — Step-by-Step Guide</title>
+<style>
+  :root{
+    --bg0:#070b14;--bg1:#0b1120;--ink:#eaf1fb;--muted:#93a1b8;--faint:#5b6784;--line:#1c2740;
+    --teal:#22c7bb;--teal2:#12a6a0;--purple:#8b7bf0;--amber:#e2a13c;--blue:#4f8bf0;--green:#3ecf7a;--red:#ef6b7e;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Cascadia Code",monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  html,body{margin:0}
+  body{background:
+      radial-gradient(60% 50% at 80% -5%, rgba(139,123,240,.16), transparent 60%),
+      radial-gradient(55% 45% at 0% 0%, rgba(34,199,187,.14), transparent 55%),
+      var(--bg0);
+    color:var(--ink);font-family:var(--sans);line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:var(--bg1)}
+  ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--teal),var(--purple));border-radius:5px}
+  a{color:var(--teal);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  header{position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);background:rgba(7,11,20,.72);border-bottom:1px solid var(--line)}
+  .head{max-width:1180px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px;margin-right:auto}
+  .mark{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:1.3rem;
+    background:linear-gradient(135deg,var(--teal2),var(--purple));box-shadow:0 10px 30px rgba(34,199,187,.35)}
+  .brand b{display:block;font-size:1rem;letter-spacing:-.01em}
+  .brand span{display:block;font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal)}
+  .toplink{font-family:var(--mono);font-size:.76rem;font-weight:600;border:1px solid var(--line);background:rgba(255,255,255,.03);
+    color:var(--muted);padding:8px 13px;border-radius:10px;transition:.15s}
+  .toplink:hover{border-color:var(--teal);color:var(--ink);text-decoration:none}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:34px 20px 80px}
+  .kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--teal);font-weight:700}
+  h1{font-size:clamp(1.9rem,4.5vw,2.9rem);margin:.2em 0 .15em;letter-spacing:-.02em;font-weight:800;text-wrap:balance;
+    background:linear-gradient(90deg,#fff,#b9c6de);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);margin:0;font-size:1.05rem;max-width:74ch}
+  .sub b{color:var(--ink)}
+
+  /* flow pills */
+  .flow{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 4px}
+  .flow .p{font-family:var(--mono);font-size:.72rem;color:var(--muted);background:rgba(255,255,255,.03);
+    border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+  .flow .arw{color:var(--faint);align-self:center}
+
+  /* layout */
+  .layout{display:grid;grid-template-columns:230px 1fr;gap:30px;margin-top:34px}
+  @media (max-width:900px){.layout{grid-template-columns:1fr}}
+  .toc{position:sticky;top:86px;align-self:start;border:1px solid var(--line);border-radius:16px;
+    background:rgba(255,255,255,.02);padding:12px}
+  @media (max-width:900px){.toc{position:static}}
+  .toc a{display:flex;gap:10px;align-items:center;font-size:.82rem;color:var(--muted);padding:8px 10px;border-radius:10px}
+  .toc a:hover{background:rgba(255,255,255,.04);text-decoration:none;color:var(--ink)}
+  .toc a.on{background:rgba(34,199,187,.1);color:var(--teal)}
+  .toc a .num{font-family:var(--mono);font-size:.7rem;width:22px;height:22px;border-radius:7px;flex:0 0 auto;
+    display:grid;place-items:center;border:1px solid var(--line);color:var(--faint)}
+  .toc a.on .num{border-color:var(--teal);color:var(--teal)}
+
+  /* prereq panel */
+  .panel{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(20,28,46,.7),rgba(11,17,32,.7));padding:20px 22px;margin-bottom:26px}
+  .panel h3{margin:0 0 12px;font-size:1rem}
+  .prq{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+  .prq div{font-size:.88rem;color:var(--muted);background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:11px;padding:11px 13px}
+  .prq b{color:var(--ink);display:block;font-size:.82rem;margin-bottom:2px}
+
+  /* step */
+  .step{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);padding:24px 26px;margin-bottom:22px;scroll-margin-top:86px}
+  .step .st-h{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+  .step .st-n{flex:0 0 auto;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-family:var(--mono);
+    font-weight:800;font-size:1.05rem;background:var(--bg1);border:2px solid var(--teal);color:var(--teal)}
+  .step h2{font-size:1.3rem;margin:0;letter-spacing:-.01em;font-weight:750}
+  .step .does{color:var(--muted);margin:2px 0 16px;font-size:.95rem}
+  .step .does b{color:var(--ink)}
+  .step p{color:var(--muted);font-size:.94rem}
+  .step ul{color:var(--muted);font-size:.92rem;padding-left:20px}
+  .step ul li{margin:5px 0}
+  .lbl{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:16px 0 6px}
+
+  /* command block with copy */
+  .cmd{position:relative;background:#05080f;border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:10px;margin:8px 0}
+  .cmd pre{margin:0;padding:14px 70px 14px 16px;overflow-x:auto;font-family:var(--mono);font-size:.82rem;color:#cfe;white-space:pre}
+  .cmd .copy{position:absolute;top:8px;right:8px;font-family:var(--mono);font-size:.66rem;font-weight:600;
+    background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--muted);border-radius:7px;padding:4px 9px;cursor:pointer;transition:.15s}
+  .cmd .copy:hover{border-color:var(--teal);color:var(--teal)}
+  .cmd .copy.done{border-color:var(--green);color:var(--green)}
+  .cmt{color:var(--faint)}
+
+  /* callouts */
+  .out{background:rgba(62,207,122,.07);border:1px solid rgba(62,207,122,.25);border-radius:12px;padding:12px 15px;margin:10px 0;font-family:var(--mono);font-size:.78rem;color:#bfe9cf;white-space:pre-wrap}
+  .out .h{color:var(--green);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:6px;font-weight:700}
+  .tip{background:rgba(226,161,60,.08);border:1px solid rgba(226,161,60,.3);border-radius:12px;padding:12px 15px;margin:10px 0;font-size:.9rem;color:#f0d9ac}
+  .tip b{color:var(--amber);font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:4px}
+  .warn{background:rgba(239,107,126,.08);border:1px solid rgba(239,107,126,.32);border-radius:12px;padding:12px 15px;margin:10px 0;font-size:.9rem;color:#f6c6ce}
+  .warn b{color:var(--red);font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:4px}
+  .os{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:6px;padding:2px 7px;margin-right:6px}
+  code.k{font-family:var(--mono);color:var(--teal);background:rgba(34,199,187,.08);padding:1px 6px;border-radius:5px;font-size:.86em}
+
+  .section-title{font-size:clamp(1.3rem,3vw,1.7rem);letter-spacing:-.01em;font-weight:800;margin:44px 0 6px;
+    background:linear-gradient(90deg,#fff,#c4d0e6);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .section-desc{color:var(--muted);margin:0 0 18px}
+
+  /* cheat table */
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px}
+  table{width:100%;border-collapse:collapse;min-width:620px}
+  th,td{padding:11px 16px;text-align:left;border-bottom:1px solid var(--line);font-size:.86rem;vertical-align:top}
+  th{background:var(--bg1);color:var(--teal);font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
+  td.c{font-family:var(--mono);color:#cfe;white-space:nowrap}
+  tbody tr:hover{background:rgba(255,255,255,.03)}
+
+  /* accordion */
+  .acc-item{border:1px solid var(--line);border-radius:13px;margin-bottom:10px;overflow:hidden;background:rgba(255,255,255,.02)}
+  .acc-head{width:100%;text-align:left;font:inherit;color:var(--ink);background:none;border:0;cursor:pointer;
+    padding:15px 18px;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:.94rem}
+  .acc-head .tg{color:var(--teal);transition:.2s}
+  .acc-item.open .acc-head .tg{transform:rotate(180deg)}
+  .acc-body{max-height:0;overflow:hidden;transition:max-height .25s ease;color:var(--muted);font-size:.9rem}
+  .acc-item.open .acc-body{max-height:340px}
+  .acc-body div{padding:0 18px 15px}
+
+  footer{max-width:1180px;margin:0 auto;padding:24px 20px 40px;color:var(--faint);font-size:.82rem;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  footer .mk{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:.9rem;background:linear-gradient(135deg,var(--teal2),var(--purple))}
+  footer b{color:var(--ink)}
+</style>
+</head>
+<body>
+<header>
+  <div class="head">
+    <div class="brand">
+      <div class="mark">🛡️</div>
+      <div><b>Getting Started Guide</b><span>Security Testing Framework</span></div>
+    </div>
+    <a class="toplink" href="Master-Documentation-Portal.html">← Documentation Portal</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="kicker">For complete beginners</div>
+  <h1>Run your first penetration test — step by step</h1>
+  <p class="sub">Never used this framework (or a terminal) before? Follow these <b>12 steps in order</b>. Every step tells you <b>what it does</b>, gives you the <b>exact command</b> to copy, shows a <b>sample with real values</b>, and what you should <b>see when it works</b>. Replace <code class="k">acme-corp</code> with your own project name and the sample IP with your Kali machine's IP.</p>
+
+  <div class="flow">
+    <span class="p">1 · Install</span><span class="arw">→</span>
+    <span class="p">2 · Get code</span><span class="arw">→</span>
+    <span class="p">3 · Set up Kali</span><span class="arw">→</span>
+    <span class="p">4 · Connect SSH</span><span class="arw">→</span>
+    <span class="p">5 · Health check</span><span class="arw">→</span>
+    <span class="p">6–9 · Configure</span><span class="arw">→</span>
+    <span class="p">10 · Run</span><span class="arw">→</span>
+    <span class="p">11–12 · Report</span>
+  </div>
+
+  <div class="layout">
+    <nav class="toc" id="toc"></nav>
+
+    <main id="steps">
+      <!-- Prerequisites -->
+      <div class="panel">
+        <h3>📋 Before you start — what you need</h3>
+        <div class="prq">
+          <div><b>A computer</b> Windows, macOS, or Linux (your "control" machine)</div>
+          <div><b>Kali Linux</b> A VM or machine with the security tools (the "toolbox")</div>
+          <div><b>Claude Code</b> Installed and signed in (easiest way to run)</div>
+          <div><b>Node.js 14+</b> Runs the orchestrator engine</div>
+          <div><b>Python 3.8+</b> Used by some tools</div>
+          <div><b>Authorization</b> Written permission to test the target — <b>required</b></div>
+        </div>
+        <div class="warn" style="margin-top:14px"><b>Only test what you own or are authorized to test</b>Running these tools against systems without explicit written permission is illegal. The framework enforces a scope/authorization gate (Step 8) and will refuse to run without it.</div>
+      </div>
+
+      <!-- STEP 1 -->
+      <section class="step" id="s1">
+        <div class="st-h"><div class="st-n">1</div><h2>Check your computer has the basics</h2></div>
+        <p class="does"><b>What this does:</b> confirms Node, Python, and Git are installed before anything else.</p>
+        <div class="lbl">Command</div>
+        <div class="cmd"><pre><code>node --version
+python3 --version
+git --version</code></pre></div>
+        <div class="out"><span class="h">Expected output (versions may differ)</span>v18.19.0
+Python 3.11.6
+git version 2.43.0</div>
+        <div class="tip"><b>If a command says "not found"</b>Install the missing tool: <a href="https://nodejs.org">nodejs.org</a> (Node), <a href="https://python.org">python.org</a> (Python), <a href="https://git-scm.com">git-scm.com</a> (Git). On Windows, the <span class="os">win</span> Git Bash terminal that ships with Git is a good place to run these commands.</div>
+      </section>
+
+      <!-- STEP 2 -->
+      <section class="step" id="s2">
+        <div class="st-h"><div class="st-n">2</div><h2>Download the framework</h2></div>
+        <p class="does"><b>What this does:</b> copies the project to your computer and moves you into its folder.</p>
+        <div class="lbl">Command</div>
+        <div class="cmd"><pre><code>git clone https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali.git
+cd SecurityTestingMultiAgentWithKali</code></pre></div>
+        <div class="out"><span class="h">Expected output</span>Cloning into 'SecurityTestingMultiAgentWithKali'...
+done.</div>
+        <div class="tip"><b>Stay in this folder</b>Run every command from Step 3 onward inside the <code class="k">SecurityTestingMultiAgentWithKali</code> folder.</div>
+      </section>
+
+      <!-- STEP 3 -->
+      <section class="step" id="s3">
+        <div class="st-h"><div class="st-n">3</div><h2>Set up your Kali toolbox</h2></div>
+        <p class="does"><b>What this does:</b> installs the 150+ security tools on your Kali machine. <b>Run these on the Kali machine</b> (or via SSH). The install step takes ~20–30 minutes.</p>
+        <div class="lbl">Commands (run on Kali)</div>
+        <div class="cmd"><pre><code>bash kali-setup/kali-init.sh        <span class="cmt"># one-time base setup</span>
+bash kali-setup/install-tools.sh    <span class="cmt"># installs 150+ tools (~20-30 min)</span>
+bash kali-setup/verify-tools.sh     <span class="cmt"># confirms tools are installed</span></code></pre></div>
+        <div class="out"><span class="h">Expected output (end of verify)</span>✅ nmap - installed
+✅ sqlmap - installed
+📊 Results: 7 found, 0 missing
+✅ All required tools are installed!</div>
+      </section>
+
+      <!-- STEP 4 -->
+      <section class="step" id="s4">
+        <div class="st-h"><div class="st-n">4</div><h2>Connect your computer to Kali over SSH</h2></div>
+        <p class="does"><b>What this does:</b> lets the framework send tool commands to Kali securely. You set it up once.</p>
+        <div class="lbl">4a · On the Kali machine — turn on SSH</div>
+        <div class="cmd"><pre><code>sudo systemctl enable --now ssh
+ip addr | grep inet          <span class="cmt"># find Kali's IP, e.g. 192.168.56.101</span></code></pre></div>
+        <div class="lbl">4b · On your computer — create a key and copy it to Kali</div>
+        <div class="cmd"><pre><code>ssh-keygen -t ed25519 -f ~/.ssh/kali_key -N ""
+ssh-copy-id -i ~/.ssh/kali_key.pub kali@192.168.56.101
+ssh -i ~/.ssh/kali_key kali@192.168.56.101 "echo connected"</code></pre></div>
+        <div class="out"><span class="h">Expected output</span>connected</div>
+        <div class="lbl">4c · Tell the framework how to reach Kali</div>
+        <div class="cmd"><pre><code>export KALI_HOST=192.168.56.101   <span class="cmt"># your Kali IP</span>
+export KALI_USER=kali
+export KALI_KEY=~/.ssh/kali_key</code></pre></div>
+        <div class="tip"><b>Sample values</b><code class="k">192.168.56.101</code> is an example Kali IP and <code class="k">kali</code> is the default username — replace them with yours from step 4a. On <span class="os">win</span> Windows PowerShell use <code class="k">$env:KALI_HOST="192.168.56.101"</code> instead of <code class="k">export</code>.</div>
+      </section>
+
+      <!-- STEP 5 -->
+      <section class="step" id="s5">
+        <div class="st-h"><div class="st-n">5</div><h2>Health-check Kali</h2></div>
+        <p class="does"><b>What this does:</b> confirms your computer can reach Kali and that the essential tools respond — before you run a real test.</p>
+        <div class="lbl">Command</div>
+        <div class="cmd"><pre><code>bash orchestrator/kali-health-check.sh</code></pre></div>
+        <div class="out"><span class="h">Expected output</span>🔍 Kali health check
+  SSH connectivity... ✅
+  nmap... ✅
+  sqlmap... ✅
+  nuclei... ✅
+✅ Kali is ready.</div>
+        <div class="tip"><b>If SSH fails here</b>Recheck Step 4 — the IP in <code class="k">KALI_HOST</code>, the username, and that <code class="k">ssh ... "echo connected"</code> worked.</div>
+      </section>
+
+      <!-- STEP 6 -->
+      <section class="step" id="s6">
+        <div class="st-h"><div class="st-n">6</div><h2>Create an engagement (your project)</h2></div>
+        <p class="does"><b>What this does:</b> makes a folder for one target with starter config, scope, and a credentials template.</p>
+        <div class="lbl">Command · sample name "acme-corp"</div>
+        <div class="cmd"><pre><code>bash scripts/setup-engagement.sh acme-corp</code></pre></div>
+        <div class="out"><span class="h">Expected output</span>🔧 Setting up engagement: acme-corp
+✅ Engagement setup complete!
+   Creates: engagements/acme-corp/config.yaml, scope.md, .secrets.template</div>
+        <div class="tip"><b>Pick any name</b>Use something short with no spaces, e.g. <code class="k">acme-corp</code>, <code class="k">my-app</code>, <code class="k">client01</code>. Use the same name in every step after this.</div>
+      </section>
+
+      <!-- STEP 7 -->
+      <section class="step" id="s7">
+        <div class="st-h"><div class="st-n">7</div><h2>Add your target &amp; credentials</h2></div>
+        <p class="does"><b>What this does:</b> tells the framework the target URL and any test logins. This file is <b>git-ignored</b> — it never gets committed.</p>
+        <div class="lbl">Commands</div>
+        <div class="cmd"><pre><code>cp engagements/acme-corp/.secrets.template engagements/acme-corp/.secrets
+nano engagements/acme-corp/.secrets</code></pre></div>
+        <div class="lbl">Fill it in (sample values)</div>
+        <div class="cmd"><pre><code>TARGET_URL=https://staging.acme-corp.com
+TARGET_DOMAIN=acme-corp.com
+TARGET_USERNAME=testuser@acme-corp.com
+TARGET_PASSWORD=Sup3rSecret!
+AUTHORIZATION_NAME=Jane Doe (Security Lead)
+AUTHORIZATION_EMAIL=jane@acme-corp.com</code></pre></div>
+        <div class="tip"><b>nano basics</b>After editing, press <code class="k">Ctrl+O</code> then <code class="k">Enter</code> to save, and <code class="k">Ctrl+X</code> to exit. Prefer another editor? Any text editor works.</div>
+      </section>
+
+      <!-- STEP 8 -->
+      <section class="step" id="s8">
+        <div class="st-h"><div class="st-n">8</div><h2>Confirm scope &amp; authorization (safety gate)</h2></div>
+        <p class="does"><b>What this does:</b> defines exactly what is in-scope and records that testing is authorized. <b>The orchestrator will not start without this.</b></p>
+        <div class="lbl">Command</div>
+        <div class="cmd"><pre><code>nano engagements/acme-corp/scope.md</code></pre></div>
+        <div class="warn"><b>Required — add this exact line to scope.md</b>The engine checks <code class="k">scope.md</code> for the literal line below and refuses to run if it is missing:
+<div style="margin-top:8px;font-family:var(--mono);color:#f6c6ce">authorization.confirmed: true</div></div>
+        <div class="lbl">Sample scope.md content</div>
+        <div class="cmd"><pre><code># Engagement Scope
+
+authorization.confirmed: true
+
+## Target
+- URL: https://staging.acme-corp.com
+
+## In Scope
+- Web application and its APIs
+
+## Out of Scope
+- Production database, third-party payment services
+
+## Restrictions
+- No DoS attacks; testing during business hours only</code></pre></div>
+      </section>
+
+      <!-- STEP 9 -->
+      <section class="step" id="s9">
+        <div class="st-h"><div class="st-n">9</div><h2>Validate everything is ready</h2></div>
+        <p class="does"><b>What this does:</b> checks that <code class="k">config.yaml</code>, <code class="k">scope.md</code>, and <code class="k">.secrets</code> all exist and look valid — catches mistakes before the run.</p>
+        <div class="lbl">Command</div>
+        <div class="cmd"><pre><code>bash scripts/validate-config.sh acme-corp</code></pre></div>
+        <div class="out"><span class="h">Expected output</span>🔍 Validating engagement configuration: acme-corp
+✅ Found: config.yaml
+✅ Found: scope.md
+✅ Found: .secrets
+✅ Configuration validation complete!
+📋 Ready to run: node orchestrator/Orchestrator.js acme-corp</div>
+        <div class="tip"><b>If it reports something missing</b>Go back to the step for that file (7 for <code class="k">.secrets</code>, 8 for <code class="k">scope.md</code>) and re-run this command until it is all ✅.</div>
+      </section>
+
+      <!-- STEP 10 -->
+      <section class="step" id="s10">
+        <div class="st-h"><div class="st-n">10</div><h2>Run the penetration test</h2></div>
+        <p class="does"><b>What this does:</b> starts the orchestrator — it runs the phases, dispatches the agents, validates every finding, and builds the report. Pick whichever way is easier for you.</p>
+        <div class="lbl">Option A · Easiest — in Claude Code</div>
+        <p>Open the project folder in Claude Code and simply type:</p>
+        <div class="cmd"><pre><code>Run full penetration test for acme-corp</code></pre></div>
+        <div class="lbl">Option B · Terminal</div>
+        <div class="cmd"><pre><code>bash scripts/run-pentest.sh acme-corp
+<span class="cmt"># or run the engine directly:</span>
+node orchestrator/Orchestrator.js acme-corp</code></pre></div>
+        <div class="out"><span class="h">Expected output (start)</span>🚀 Starting penetration test for: acme-corp
+✅ Scope gate passed
+✅ Evidence directories ready
+║  86 Agents | 30 Phases | Claude Code Agent Dispatch  ║</div>
+        <div class="tip"><b>Critical findings pause for you</b>Anything high-severity (CVSS ≥ 7.0) waits for a human sign-off before it is finalized — that is expected behavior.</div>
+      </section>
+
+      <!-- STEP 11 -->
+      <section class="step" id="s11">
+        <div class="st-h"><div class="st-n">11</div><h2>Check progress</h2></div>
+        <p class="does"><b>What this does:</b> shows how far the run has got — completed phases, agents, findings so far. Safe to run any time in another terminal.</p>
+        <div class="lbl">Command</div>
+        <div class="cmd"><pre><code>bash scripts/check-status.sh acme-corp</code></pre></div>
+        <div class="out"><span class="h">Expected output</span>📊 Status for engagement: acme-corp
+  Completed phases: 8
+  Completed agents: 22/86
+  Findings so far : 31
+  Last update     : 2026-07-30T12:14:00Z</div>
+      </section>
+
+      <!-- STEP 12 -->
+      <section class="step" id="s12">
+        <div class="st-h"><div class="st-n">12</div><h2>Open your report</h2></div>
+        <p class="does"><b>What this does:</b> opens the finished HTML report — findings, severity, evidence, CVSS scores, and code fixes.</p>
+        <div class="lbl">Command (pick your OS)</div>
+        <div class="cmd"><pre><code><span class="cmt"># macOS</span>
+open engagements/acme-corp/report/report.html
+<span class="cmt"># Windows</span>
+start engagements/acme-corp/report/report.html
+<span class="cmt"># Linux</span>
+xdg-open engagements/acme-corp/report/report.html</code></pre></div>
+        <div class="out"><span class="h">You get</span>A professional report: executive summary, risk matrix, each finding with
+evidence + reproducible steps, CVSS 3.1 score, OWASP/CWE/MITRE mapping,
+and vulnerable-vs-fixed code. PII is masked automatically.</div>
+        <div class="tip"><b>That's it! 🎉</b>You've run a full test. To test another target, repeat from Step 6 with a new engagement name.</div>
+      </section>
+
+      <!-- CHEAT SHEET -->
+      <h2 class="section-title">Command cheat sheet</h2>
+      <p class="section-desc">Every command in order — copy the whole flow (replace <code class="k">acme-corp</code> and the Kali IP).</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Step</th><th>Command</th><th>Purpose</th></tr></thead>
+          <tbody id="cheatRows"></tbody>
+        </table>
+      </div>
+
+      <!-- TROUBLESHOOTING -->
+      <h2 class="section-title">Troubleshooting</h2>
+      <p class="section-desc">The most common beginner snags and how to fix them.</p>
+      <div id="tsList"></div>
+    </main>
+  </div>
+</div>
+
+<footer>
+  <div class="mk">🛡️</div>
+  <span><b>Security Testing Multi-Agent Framework</b> · Getting Started Guide · 86 agents · 30 phases · 150+ tools · Developed by Usama Arshad Jadoon.</span>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s,el){return (el||document).querySelector(s);};
+
+  // TOC
+  var STEPS=[
+    ["s1","Check basics"],["s2","Download framework"],["s3","Set up Kali"],["s4","Connect SSH"],
+    ["s5","Health-check Kali"],["s6","Create engagement"],["s7","Target & credentials"],
+    ["s8","Scope & authorization"],["s9","Validate config"],["s10","Run the test"],
+    ["s11","Check progress"],["s12","Open report"]
+  ];
+  $("#toc").innerHTML=STEPS.map(function(s,i){
+    return '<a href="#'+s[0]+'" data-t="'+s[0]+'"><span class="num">'+(i+1)+'</span>'+s[1]+'</a>';
+  }).join("");
+
+  // Cheat sheet
+  var CHEAT=[
+    ["1","node --version && python3 --version && git --version","Confirm prerequisites"],
+    ["2","git clone https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali.git","Download framework"],
+    ["3","bash kali-setup/install-tools.sh","Install 150+ Kali tools"],
+    ["4","ssh-copy-id -i ~/.ssh/kali_key.pub kali@192.168.56.101","Connect to Kali over SSH"],
+    ["4","export KALI_HOST=192.168.56.101 KALI_USER=kali KALI_KEY=~/.ssh/kali_key","Point framework at Kali"],
+    ["5","bash orchestrator/kali-health-check.sh","Verify Kali is reachable & ready"],
+    ["6","bash scripts/setup-engagement.sh acme-corp","Create an engagement"],
+    ["7","nano engagements/acme-corp/.secrets","Add target URL + credentials"],
+    ["8","nano engagements/acme-corp/scope.md","Add: authorization.confirmed: true"],
+    ["9","bash scripts/validate-config.sh acme-corp","Validate configuration"],
+    ["10","bash scripts/run-pentest.sh acme-corp","Run the penetration test"],
+    ["11","bash scripts/check-status.sh acme-corp","Check progress"],
+    ["12","start engagements/acme-corp/report/report.html","Open the report (Windows)"]
+  ];
+  $("#cheatRows").innerHTML=CHEAT.map(function(r){
+    return '<tr><td class="c">'+r[0]+'</td><td class="c">'+r[1]+'</td><td style="color:var(--muted)">'+r[2]+'</td></tr>';
+  }).join("");
+
+  // Troubleshooting
+  var TS=[
+    ["\"command not found: node / python3 / git\"","Install the missing tool (Step 1 links). On Windows, run commands in Git Bash. After installing, close and reopen the terminal."],
+    ["\"Authorization not confirmed in scope.md\"","Open engagements/&lt;name&gt;/scope.md and add the exact line: authorization.confirmed: true — then re-run. This is the safety gate from Step 8."],
+    ["\"Config not found\" when running","You are either in the wrong folder or used a different engagement name. cd into SecurityTestingMultiAgentWithKali and use the same name from Step 6."],
+    ["SSH: \"Permission denied\" or timeout","Recheck KALI_HOST (Kali's real IP), KALI_USER, and KALI_KEY. Confirm SSH is on (Step 4a) and that ssh -i ~/.ssh/kali_key kali@&lt;ip&gt; \"echo connected\" works."],
+    ["A tool is \"not found\" in the health check","Re-run bash kali-setup/install-tools.sh on Kali, then bash orchestrator/kali-health-check.sh again."],
+    ["The run seems stuck / paused","Critical findings (CVSS ≥ 7.0) wait for human sign-off — that's normal. Approve them to continue. Use check-status.sh in another terminal to see progress."]
+  ];
+  $("#tsList").innerHTML=TS.map(function(q,i){
+    return '<div class="acc-item'+(i===0?" open":"")+'"><button class="acc-head" type="button"><span>'+q[0]+'</span><span class="tg">▼</span></button><div class="acc-body"><div>'+q[1]+'</div></div></div>';
+  }).join("");
+  document.querySelectorAll(".acc-head").forEach(function(h){h.addEventListener("click",function(){h.parentElement.classList.toggle("open");});});
+
+  // Copy buttons on every command block
+  document.querySelectorAll(".cmd").forEach(function(block){
+    var btn=document.createElement("button");
+    btn.className="copy";btn.type="button";btn.textContent="Copy";
+    btn.addEventListener("click",function(){
+      var code=block.querySelector("code")||block.querySelector("pre");
+      var text=code.textContent.replace(/\n#[^\n]*/g,function(m){return m;}); // keep as-is
+      navigator.clipboard.writeText(code.textContent).then(function(){
+        btn.textContent="Copied";btn.classList.add("done");
+        setTimeout(function(){btn.textContent="Copy";btn.classList.remove("done");},1400);
+      }).catch(function(){ btn.textContent="Ctrl+C"; });
+    });
+    block.appendChild(btn);
+  });
+
+  // Active step highlight in TOC
+  var links={};
+  document.querySelectorAll("#toc a").forEach(function(a){links[a.getAttribute("data-t")]=a;});
+  if("IntersectionObserver" in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          Object.keys(links).forEach(function(k){links[k].classList.remove("on");});
+          if(links[e.target.id])links[e.target.id].classList.add("on");
+        }
+      });
+    },{rootMargin:"-40% 0px -55% 0px"});
+    STEPS.forEach(function(s){var el=document.getElementById(s[0]);if(el)obs.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>
