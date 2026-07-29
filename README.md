@@ -186,20 +186,9 @@ SecurityTestingMultiAgentWithKali/
 │   └── check-status.sh
 │
 ├── docs/                             # Comprehensive documentation
-│   ├── Getting-Started.html          # Interactive guide
-│   ├── Interactive-Agent-Directory.html
-│   ├── Beautiful-Installation-Guide.html
-│   ├── Validation-Workflow-Visualization.html
-│   ├── Framework-Architecture-Overview.html
-│   ├── Agent-Workflow-Diagram.html
-│   ├── Installation.md
-│   ├── Usage.md
-│   ├── Reporting.md
-│   ├── Agent-Specifications.md
-│   ├── Tool-Reference.md
-│   ├── Framework-Overview.md
-│   ├── Validation-System.md
-│   └── ... (20+ more guides)
+│   ├── Master-Documentation-Portal.html  # Interactive documentation hub
+│   ├── DOCUMENTATION.md                 # Complete 20,000+ line guide
+│   └── Claude-Code-Integration.md       # Claude Code integration guide
 │
 ├── engagements/                      # Test engagements
 │   └── template/
@@ -676,18 +665,20 @@ Report includes:
 10. **FAQ** - Common questions answered
 
 **Want to understand the agents?**
-- See [Agent-Specifications.md](docs/Agent-Specifications.md) (all 86 agents)
-- Or explore [Interactive-Agent-Directory.html](docs/Interactive-Agent-Directory.html) (searchable)
+- See [DOCUMENTATION.md](docs/DOCUMENTATION.md) (all 86 agents with detailed specs)
+- All 86 agent files in [orchestrator/agents/](orchestrator/agents/) directory
 
 **Want to understand the tools?**
-- See [Tool-Reference.md](docs/Tool-Reference.md) (all 150+ tools)
+- See [DOCUMENTATION.md](docs/DOCUMENTATION.md) (all 150+ tools documented)
+- Tools integrated in each agent specification file
 
 **Interested in validation?**
-- See [Validation-System.md](docs/Validation-System.md)
-- Or visualize [Validation-Workflow-Visualization.html](docs/Validation-Workflow-Visualization.html)
+- See [DOCUMENTATION.md](docs/DOCUMENTATION.md) (complete 4-layer validation system)
+- Interactive visualization in [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)
 
 **Want to see agent workflows?**
-- See [Agent-Workflow-Diagram.html](docs/Agent-Workflow-Diagram.html) (complete flow visualization)
+- See [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html) (complete interactive documentation)
+- See data flow diagram above in this README (agent-to-agent data flow)
 
 ---
 
@@ -728,8 +719,8 @@ Contributions are welcome! See [Contributing.md](Contributing.md) for guidelines
 
 ## 📞 Support
 
-- **Documentation:** See `/docs` directory (35+ beautiful guides)
-- **Interactive Guides:** Explore [Interactive-Agent-Directory.html](docs/Interactive-Agent-Directory.html) or [Framework-Architecture-Overview.html](docs/Framework-Architecture-Overview.html)
+- **Documentation:** See `/docs` directory (3 comprehensive guides)
+- **Interactive Guides:** Explore [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html) (complete interactive documentation)
 - **Issues:** Check GitHub issues for known problems
 - **Troubleshooting:** See [Troubleshooting.md](docs/Troubleshooting.md)
 - **FAQ:** Common questions answered in docs
