@@ -550,7 +550,7 @@ class PenetrationTestOrchestrator {
   async executeAll() {
     console.log('\n╔════════════════════════════════════════════════════════════════════════════╗');
     console.log('║     PENETRATION TESTING ORCHESTRATOR - FULL EXECUTION                      ║');
-    console.log('║     31 Agents | 13 Phases | Claude API Integration                        ║');
+    console.log('║     86 Agents | 30 Phases | Claude Code Agent Dispatch                     ║');
     console.log('╚════════════════════════════════════════════════════════════════════════════╝\n');
 
     this.validatePrerequisites();

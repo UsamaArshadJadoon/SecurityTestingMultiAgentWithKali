@@ -85,7 +85,7 @@ In Claude Code, run:
 Run full penetration test for my-client
 ```
 
-The orchestrator will execute 30 phases with 87 agents, taking ~2 hours for a complete penetration test.
+The orchestrator will execute 30 phases with 86 agents, taking ~2 hours for a complete penetration test.
 
 #### Step 7: Review Report
 ```bash
@@ -1011,7 +1011,9 @@ At a glance:
 
 ---
 
-## 55+ Tools Reference
+## Tools Reference (150+ Integrated)
+
+> The framework integrates 150+ Kali Linux tools. The list below highlights key tools by category.
 
 ### Reconnaissance Tools
 - **nmap:** Network port scanning and service enumeration
@@ -1092,11 +1094,11 @@ User Request (Claude Code)
         ↓
 Phase Manager (Sequential Execution)
         ↓
-    Phase 1-13 (13 Phases)
+    Phase 1-30 (30 Phases)
         ↓
 Agent Dispatch (86 Agents)
         ↓
-Tool Execution (55+ Tools via SSH)
+Tool Execution (150+ Tools via SSH)
         ↓
 Finding Generation (Raw Findings)
         ↓
@@ -1110,7 +1112,7 @@ Report Generation (HTML Report)
 #### 1. Orchestrator.js
 - Main orchestration engine (500+ lines)
 - Manages 30 sequential phases
-- Dispatches 87 agents
+- Dispatches 86 agents
 - Handles data flow between phases
 - Implements retry logic and error handling
 - Tracks execution metrics
