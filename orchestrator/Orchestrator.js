@@ -197,7 +197,7 @@ class PenetrationTestOrchestrator {
   }
 
   /**
-   * Define all 31 agents with dependencies and specifications
+   * Define all 101 agents with dependencies and specifications
    */
   defineAgents() {
     return [

@@ -65,7 +65,7 @@ Phase 2: Surface-Level Testing
 - Run infra-agent
 - Run cloud-container-agent
 
-[etc. for all 13 phases]
+[etc. for all 30 phases]
 ```
 
 **Option B: Use Shell Script to Coordinate Agents**
@@ -184,7 +184,7 @@ SecurityTestingMultiAgentWithKali/
 │
 ├─ kali-setup/
 │  ├─ kali-init.sh                 # Setup Kali VM
-│  ├─ install-tools.sh             # Install 55+ tools
+│  ├─ install-tools.sh             # Install 150+ tools
 │  └─ kali-config.yaml
 │
 ├─ engagements/
@@ -344,7 +344,7 @@ All findings saved as JSON following `templates/finding-schema.json`:
 
 ## 📈 EXPECTED OUTCOMES
 
-After running all 31 agents across 13 phases:
+After running all 101 agents across 30 phases:
 
 **Deliverables:**
 - `engagements/acme-corp/evidence/findings/` — All findings (JSON)
@@ -415,7 +415,7 @@ bash scripts/run-pentest.sh acme-corp
 - **Sequential execution** - Each agent waits for prior phase
 - **Data flow** - Context passes between agents
 - **Auto-validation** - Exploitation agent validates all findings
-- **Full automation** - 31 agents, minimal manual work
+- **Full automation** - 101 agents, minimal manual work
 - **Enterprise-ready** - CVSS scoring, OWASP mapping, remediation
 
 ---
