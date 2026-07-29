@@ -2,7 +2,7 @@
 
 **Security Testing Multi-Agent Framework for Claude Code**
 
-Since you're using **Claude Code locally**, all 31 agents dispatch through Claude Code's **Agent tool**.
+Since you're using **Claude Code locally**, all 101 agents dispatch through Claude Code's **Agent tool** across 30 sequential phases.
 
 ---
 
@@ -18,7 +18,7 @@ orchestrator/ (instructions)
        ↓
 Agent Tool (Claude Code built-in)
        ↓
-31 Agents (each is a specialized agent call)
+101 Agents (30 phases, each is a specialized agent call)
        ↓
 findings/ (JSON output)
        ↓
