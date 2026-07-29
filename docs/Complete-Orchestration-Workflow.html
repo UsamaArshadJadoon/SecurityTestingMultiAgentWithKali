@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Agent Orchestration Workflow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 50%, #0d1929 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            background: linear-gradient(135deg, #00ff88 0%, #00d4ff 50%, #0099ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat {
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat:hover {
+            border-color: #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00ff88;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #94a3b8;
+        }
+
+        /* Orchestration Flow */
+        .orchestration {
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        .orchestration h2 {
+            color: #00ff88;
+            margin-bottom: 40px;
+            font-size: 2em;
+        }
+
+        /* Phase Container */
+        .phases {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .phase-block {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.05), rgba(0, 212, 255, 0.05));
+            border: 2px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            animation: slideUp 0.6s ease-out both;
+        }
+
+        .phase-block:hover {
+            border-color: #00ff88;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .phase-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5em;
+            color: #0a0e27;
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.4);
+            flex-shrink: 0;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 25px rgba(0, 255, 136, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(0, 255, 136, 0.6); }
+        }
+
+        .phase-info h3 {
+            font-size: 1.3em;
+            color: #f1f5f9;
+            margin-bottom: 5px;
+        }
+
+        .phase-info p {
+            color: #cbd5e1;
+            font-size: 0.95em;
+        }
+
+        /* Agents in Phase */
+        .agents-in-phase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .agent-badge {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            color: #cbd5e1;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .agent-badge:hover {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: #00ff88;
+            color: #f1f5f9;
+            transform: translateY(-2px);
+        }
+
+        .agent-badge::before {
+            content: '▶ ';
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        /* Data Flow */
+        .data-flow {
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .data-flow h2 {
+            color: #00d4ff;
+            margin-bottom: 40px;
+            font-size: 2em;
+        }
+
+        .data-flow-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .flow-step {
+            display: flex;
+            gap: 20px;
+            align-items: start;
+            padding: 20px;
+            background: rgba(0, 212, 255, 0.05);
+            border-left: 4px solid #00d4ff;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            animation: slideRight 0.6s ease-out both;
+        }
+
+        .flow-step:hover {
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateX(10px);
+        }
+
+        .flow-step:nth-child(1) { animation-delay: 0s; }
+        .flow-step:nth-child(2) { animation-delay: 0.1s; }
+        .flow-step:nth-child(3) { animation-delay: 0.2s; }
+        .flow-step:nth-child(4) { animation-delay: 0.3s; }
+        .flow-step:nth-child(5) { animation-delay: 0.4s; }
+        .flow-step:nth-child(6) { animation-delay: 0.5s; }
+
+        .step-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #00d4ff, #0099ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            flex-shrink: 0;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .step-content h4 {
+            color: #f1f5f9;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .step-content p {
+            color: #cbd5e1;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        /* Connection Arrows */
+        .arrow {
+            text-align: center;
+            color: #00ff88;
+            font-size: 2em;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        /* Legend */
+        .legend {
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid rgba(100, 200, 255, 0.3);
+            border-radius: 15px;
+            padding: 40px;
+            animation: fadeInUp 0.8s ease-out 0.5s both;
+        }
+
+        .legend h2 {
+            color: #64c8ff;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .legend-item {
+            background: rgba(100, 200, 255, 0.1);
+            border: 1px solid rgba(100, 200, 255, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .legend-item:hover {
+            border-color: #64c8ff;
+            background: rgba(100, 200, 255, 0.15);
+        }
+
+        .legend-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .legend-title {
+            font-weight: bold;
+            color: #f1f5f9;
+            margin-bottom: 8px;
+        }
+
+        .legend-desc {
+            color: #cbd5e1;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideRight {
+            from {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .orchestration, .data-flow, .legend {
+                padding: 20px;
+            }
+
+            .agents-in-phase {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🎯 Complete Agent Orchestration Workflow</h1>
+            <p class="subtitle">31 Specialized Agents Across 13 Sequential Phases</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">31</div>
+                    <div class="stat-label">Agents</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">13</div>
+                    <div class="stat-label">Phases</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">55+</div>
+                    <div class="stat-label">Tools</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Validation Gates</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Orchestration Flow -->
+        <div class="orchestration">
+            <h2>📊 13-Phase Agent Orchestration</h2>
+            <div class="phases">
+                <!-- Phase 1 -->
+                <div class="phase-block">
+                    <div class="phase-header">
+                        <div class="phase-number">1</div>
+                        <div class="phase-info">
+                            <h3>🔍 Reconnaissance</h3>
+                            <p>Passive & active reconnaissance, asset discovery</p>
+                        </div>
+                    </div>
+                    <div class="agents-in-phase">
+                        <div class="agent-badge">Reconnaissance Agent</div>
+                    </div>
+                </div>
+
+                <div class="arrow">⬇</div>
+
+                <!-- Phase 2 -->
+                <div class="phase-block">
+                    <div class="phase-header">
+                        <div class="phase-number">2</div>
+                        <div class="phase-info">
+                            <h3>🌐 Surface Testing (6 Agents)</h3>
+                            <p>Web, API, Auth, Infrastructure, Cloud, AI/LLM</p>
+                        </div>
+                    </div>
+                    <div class="agents-in-phase">
+                        <div class="agent-badge">Web Pentest</div>
+                        <div class="agent-badge">API Security</div>
+                        <div class="agent-badge">Auth/AuthZ</div>
+                        <div class="agent-badge">Infrastructure</div>
+                        <div class="agent-badge">Cloud Container</div>
+                        <div class="agent-badge">AI/LLM</div>
+                    </div>
+                </div>
+
+                <div class="arrow">⬇</div>
+
+                <!-- Phase 3 -->
+                <div class="phase-block">
+                    <div class="phase-header">
+                        <div class="phase-number">3</div>
+                        <div class="phase-info">
+                            <h3>⚔️ Deep Exploitation (7 Agents)</h3>
+                            <p>SSRF, Smuggling, File Upload, LFI, XXE, Deserialization, SSTI</p>
+                        </div>
+                    </div>
+                    <div class="agents-in-phase">
+                        <div class="agent-badge">SSRF</div>
+                        <div class="agent-badge">Request Smuggling</div>
+                        <div class="agent-badge">File Upload RCE</div>
+                        <div class="agent-badge">Path Traversal</div>
+                        <div class="agent-badge">XXE Injection</div>
+                        <div class="agent-badge">Deserialization</div>
+                        <div class="agent-badge">SSTI</div>
+                    </div>
+                </div>
+
+                <div class="arrow">⬇</div>
+
+                <!-- Phase 4 -->
+                <div class="phase-block">
+                    <div class="phase-header">
+                        <div class="phase-number">4</div>
+                        <div class="phase-info">
+                            <h3>📈 Post-Exploitation (4 Agents)</h3>
+                            <p>System abuse, privilege escalation, lateral movement</p>
+                        </div>
+                    </div>
+                    <div class="agents-in-phase">
+                        <div class="agent-badge">Post-Exploitation</div>
+                        <div class="agent-badge">Privilege Escalation</div>
+                        <div class="agent-badge">Secrets Harvesting</div>
+                        <div class="agent-badge">Lateral Movement</div>
+                    </div>
+                </div>
+
+                <div class="arrow">⬇</div>
+
+                <!-- Phases 5-6 -->
+                <div class="phase-block">
+                    <div class="phase-header">
+                        <div class="phase-number">5-6</div>
+                        <div class="phase-info">
+                            <h3>🔗 Source Code & Cloud (5 Agents)</h3>
+                            <p>Code disclosure, Git forensics, AWS, GCP, Azure</p>
+                        </div>
+                    </div>
+                    <div class="agents-in-phase">
+                        <div class="agent-badge">Source Code</div>
+                        <div class="agent-badge">Git Forensics</div>
+                        <div class="agent-badge">AWS Testing</div>
+                        <div class="agent-badge">GCP Testing</div>
+                        <div class="agent-badge">Azure Testing</div>
+                    </div>
+                </div>
+
+                <div class="arrow">⬇</div>
+
+                <!-- Phases 7-8 -->
+                <div class="phase-block">
+                    <div class="phase-header">
+                        <div class="phase-number">7-8</div>
+                        <div class="phase-info">
+                            <h3>🔐 Advanced Auth & Supply Chain (5 Agents)</h3>
+                            <p>OAuth, SAML, JWT, Crypto, Dependencies, CI/CD, Compliance</p>
+                        </div>
+                    </div>
+                    <div class="agents-in-phase">
+                        <div class="agent-badge">OAuth SAML JWT</div>
+                        <div class="agent-badge">Cryptography</div>
+                        <div class="agent-badge">Dependencies</div>
+                        <div class="agent-badge">CI/CD Pipeline</div>
+                        <div class="agent-badge">Compliance</div>
+                    </div>
+                </div>
+
+                <div class="arrow">⬇</div>
+
+                <!-- Phases 9-12 -->
+                <div class="phase-block">
+                    <div class="phase-header">
+                        <div class="phase-number">9-12</div>
+                        <div class="phase-info">
+                            <h3>🎯 Advanced Testing (6 Agents)</h3>
+                            <p>Business Logic, Rate Limiting, WebSocket, gRPC, Chaining</p>
+                        </div>
+                    </div>
+                    <div class="agents-in-phase">
+                        <div class="agent-badge">Business Logic</div>
+                        <div class="agent-badge">Rate Limiting</div>
+                        <div class="agent-badge">Mass Assignment</div>
+                        <div class="agent-badge">WebSocket</div>
+                        <div class="agent-badge">gRPC</div>
+                        <div class="agent-badge">Exploitation Chaining</div>
+                    </div>
+                </div>
+
+                <div class="arrow">⬇</div>
+
+                <!-- Phase 13 -->
+                <div class="phase-block">
+                    <div class="phase-header">
+                        <div class="phase-number">13</div>
+                        <div class="phase-info">
+                            <h3>📊 Reporting & Delivery</h3>
+                            <p>Final report generation with CVSS, OWASP, CWE mapping</p>
+                        </div>
+                    </div>
+                    <div class="agents-in-phase">
+                        <div class="agent-badge">Reporting Agent</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Flow -->
+        <div class="data-flow">
+            <h2>📤 Complete Data Flow</h2>
+            <div class="data-flow-diagram">
+                <div class="flow-step">
+                    <div class="step-icon">📥</div>
+                    <div class="step-content">
+                        <h4>1. Engagement Configuration</h4>
+                        <p>User provides target URL, credentials, scope via .secrets file</p>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-icon">🔄</div>
+                    <div class="step-content">
+                        <h4>2. Phase Orchestration</h4>
+                        <p>Orchestrator.js executes 13 phases sequentially with data handoff</p>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-icon">🤖</div>
+                    <div class="step-content">
+                        <h4>3. Agent Execution</h4>
+                        <p>31 agents run in parallel within each phase using 55+ integrated tools</p>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-icon">📋</div>
+                    <div class="step-content">
+                        <h4>4. Candidate Generation</h4>
+                        <p>Agents generate raw findings with evidence from actual testing</p>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-icon">✅</div>
+                    <div class="step-content">
+                        <h4>5. 4-Layer Validation</h4>
+                        <p>Format → Evidence → Technical Accuracy → Remediation validation</p>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-icon">🛡️</div>
+                    <div class="step-content">
+                        <h4>6. Security & Sanitization</h4>
+                        <p>Credentials masked, PII protected, evidence scrubbed before delivery</p>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-icon">📊</div>
+                    <div class="step-content">
+                        <h4>7. Report Generation</h4>
+                        <p>Professional HTML report with CVSS, OWASP, CWE, MITRE mapping</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <h2>📖 How It Works</h2>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <div class="legend-icon">🔍</div>
+                    <div class="legend-title">Phase 1: Recon</div>
+                    <div class="legend-desc">Asset discovery and fingerprinting to build attack surface map</div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-icon">🌐</div>
+                    <div class="legend-title">Phase 2: Surface</div>
+                    <div class="legend-desc">6 agents test web, API, auth, infra, cloud, AI endpoints</div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-icon">⚔️</div>
+                    <div class="legend-title">Phase 3: Exploitation</div>
+                    <div class="legend-desc">7 agents perform deep exploitation on discovered vulnerabilities</div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-icon">📈</div>
+                    <div class="legend-title">Phase 4: Post-Exploit</div>
+                    <div class="legend-desc">4 agents abuse compromised systems for lateral movement</div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-icon">🔗</div>
+                    <div class="legend-title">Phases 5-6: Sources</div>
+                    <div class="legend-desc">5 agents hunt source code and cloud misconfigurations</div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-icon">🔐</div>
+                    <div class="legend-title">Phases 7-8: Advanced</div>
+                    <div class="legend-desc">5 agents test crypto, auth, and supply chain security</div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-icon">🎯</div>
+                    <div class="legend-title">Phases 9-12: Specialized</div>
+                    <div class="legend-desc">6 agents test logic, rate limits, protocols, and chains attacks</div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-icon">✅</div>
+                    <div class="legend-title">Validation Gates</div>
+                    <div class="legend-desc">4 layers ensure 0% false positives: Format, Evidence, Technical, Remediation</div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-icon">📊</div>
+                    <div class="legend-title">Final Report</div>
+                    <div class="legend-desc">Professional HTML report with all findings, evidence, and fix guidance</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

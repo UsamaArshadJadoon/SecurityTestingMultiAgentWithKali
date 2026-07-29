@@ -101,14 +101,19 @@ start engagements/my-client/report/report.html
 ## 📚 Documentation
 
 ### Beautiful Interactive Pages
+
+**🌟 START HERE:** [**Master-Documentation-Portal.html**](docs/Master-Documentation-Portal.html) - Complete interactive documentation hub with all guides, agents, phases, and workflows in one stunning page!
+
 | Document | Purpose |
 |----------|---------|
-| **[Getting-Started.html](docs/Getting-Started.html)** | 📘 Beautiful interactive guide (open in browser) |
+| **[Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)** | 🎯 ALL documentation in one beautiful interactive hub (tabs, search, animations) |
+| **[Complete-Orchestration-Workflow.html](docs/Complete-Orchestration-Workflow.html)** | 🎯 Complete agent orchestration with full data flow visualization |
+| **[Getting-Started.html](docs/Getting-Started.html)** | 📘 Beautiful interactive setup guide |
 | **[Interactive-Agent-Directory.html](docs/Interactive-Agent-Directory.html)** | 🔍 Searchable 31-agent directory with filtering |
-| **[Beautiful-Installation-Guide.html](docs/Beautiful-Installation-Guide.html)** | 🚀 Step-by-step animated installation guide |
+| **[Beautiful-Installation-Guide.html](docs/Beautiful-Installation-Guide.html)** | 🚀 Step-by-step animated installation |
 | **[Validation-Workflow-Visualization.html](docs/Validation-Workflow-Visualization.html)** | ✅ Visual 4-layer validation pipeline |
 | **[Framework-Architecture-Overview.html](docs/Framework-Architecture-Overview.html)** | 🏗️ Complete architecture visualization |
-| **[Agent-Workflow-Diagram.html](docs/Agent-Workflow-Diagram.html)** | 📊 31 agents across 13 phases flow diagram |
+| **[Agent-Workflow-Diagram.html](docs/Agent-Workflow-Diagram.html)** | 📊 31 agents across 13 phases flow |
 
 ### Documentation Guides
 | Document | Purpose |
@@ -358,12 +363,20 @@ Report includes:
 
 **New to the framework?**
 
-1. **Read:** [Getting-Started.html](docs/Getting-Started.html) (interactive guide)
-2. **Explore:** [Interactive-Agent-Directory.html](docs/Interactive-Agent-Directory.html) (explore all agents)
-3. **Install:** [Beautiful-Installation-Guide.html](docs/Beautiful-Installation-Guide.html) (animated guide)
-4. **Run:** [Usage.md](docs/Usage.md)
-5. **Review:** [Reporting.md](docs/Reporting.md)
-6. **Deep dive:** [Framework-Architecture-Overview.html](docs/Framework-Architecture-Overview.html)
+1. **Start Here:** [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html) (all-in-one interactive hub with tabs for every topic)
+2. **Quick Overview:** Home tab covers everything at a glance
+3. **Explore Agents:** Agents tab with searchable 31-agent directory
+4. **Learn Phases:** Phases tab shows 13 sequential testing phases
+5. **Understand Validation:** Validation tab explains 4-layer quality gates
+6. **See Workflow:** Workflow tab visualizes complete data flow
+7. **Install:** Installation tab with step-by-step setup
+8. **FAQ:** Common questions answered
+
+**Or access individual guides:**
+- [Getting-Started.html](docs/Getting-Started.html) (interactive guide)
+- [Interactive-Agent-Directory.html](docs/Interactive-Agent-Directory.html) (explore all agents)
+- [Beautiful-Installation-Guide.html](docs/Beautiful-Installation-Guide.html) (animated guide)
+- [Framework-Architecture-Overview.html](docs/Framework-Architecture-Overview.html) (architecture)
 
 **Want to understand the agents?**
 - See [Agent-Specifications.md](docs/Agent-Specifications.md) (all 31 agents)
@@ -438,15 +451,14 @@ Contributions are welcome! See [Contributing.md](Contributing.md) for guidelines
 
 1. Clone the repository
 2. Run `bash kali-setup/kali-init.sh && bash kali-setup/install-tools.sh`
-3. Read [Getting-Started.html](docs/Getting-Started.html) (open in browser)
-4. Follow [Beautiful-Installation-Guide.html](docs/Beautiful-Installation-Guide.html) for step-by-step setup
-5. Create engagement: `bash scripts/setup-engagement.sh my-target`
-6. Add credentials to `.secrets` file
-7. In Claude Code: "Run full penetration test for my-target"
-8. Review report in `engagements/my-target/report/report.html`
+3. **Open [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)** ← Start here! (All documentation in one beautiful page)
+4. Create engagement: `bash scripts/setup-engagement.sh my-target`
+5. Add credentials to `.secrets` file
+6. In Claude Code: "Run full penetration test for my-target"
+7. Review report in `engagements/my-target/report/report.html`
 
 ---
 
 **Ready to test your security?** 🎯
 
-Start with the [Beautiful Getting Started Guide](docs/Getting-Started.html) or explore [Interactive Documentation](docs/Interactive-Agent-Directory.html)
+**Start with:** [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html) - Complete interactive hub covering Quick Start, Features, All 31 Agents, Installation, Validation, Workflow, and FAQ — all in one beautiful page!
