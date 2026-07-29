@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautiful Installation Guide - Step by Step</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 50%, #0d1929 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #00ff88 0%, #00d4ff 50%, #0099ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #94a3b8;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .estimate {
+            color: #00d4ff;
+            font-weight: 600;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            margin-bottom: 50px;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(30, 41, 59, 0.9);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88, #00d4ff, #0099ff);
+            width: 0%;
+            animation: none;
+            border-radius: 10px;
+        }
+
+        .progress-fill.active {
+            animation: fillProgress 0.6s ease-out forwards;
+        }
+
+        @keyframes fillProgress {
+            from {
+                width: 0%;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        /* Steps */
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .step {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(30, 41, 59, 0.7) 100%);
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out both;
+        }
+
+        .step:nth-child(1) { animation-delay: 0.1s; }
+        .step:nth-child(2) { animation-delay: 0.2s; }
+        .step:nth-child(3) { animation-delay: 0.3s; }
+        .step:nth-child(4) { animation-delay: 0.4s; }
+        .step:nth-child(5) { animation-delay: 0.5s; }
+        .step:nth-child(6) { animation-delay: 0.6s; }
+
+        .step::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00ff88, #00d4ff, #0099ff);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease-out;
+        }
+
+        .step:hover::before {
+            transform: scaleX(1);
+        }
+
+        .step:hover {
+            border-color: #00d4ff;
+            transform: translateX(10px);
+            box-shadow: 0 20px 50px rgba(0, 212, 255, 0.2);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%);
+            border-radius: 12px;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #0a0e27;
+            flex-shrink: 0;
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(0, 212, 255, 0.6);
+                transform: scale(1.05);
+            }
+        }
+
+        .step-info h3 {
+            font-size: 1.4em;
+            color: #f1f5f9;
+            margin-bottom: 5px;
+        }
+
+        .step-info p {
+            color: #cbd5e1;
+            font-size: 0.95em;
+        }
+
+        /* Step Content */
+        .step-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+
+        .step.expanded .step-content {
+            max-height: 800px;
+        }
+
+        .step-description {
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(0, 212, 255, 0.05);
+            border-left: 4px solid #00d4ff;
+            border-radius: 8px;
+        }
+
+        .code-block {
+            background: rgba(10, 14, 39, 0.9);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            color: #00ff88;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 15px;
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid rgba(0, 212, 255, 0.5);
+            color: #00d4ff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(0, 212, 255, 0.4);
+            border-color: #00d4ff;
+        }
+
+        .requirements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .requirement {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .requirement::before {
+            content: '✓';
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Tips */
+        .tip-box {
+            background: rgba(100, 200, 255, 0.1);
+            border-left: 4px solid #0099ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            color: #cbd5e1;
+        }
+
+        .tip-box strong {
+            color: #0099ff;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .step {
+                padding: 20px;
+            }
+
+            .requirements {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Success Message */
+        .success-box {
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid #00ff88;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 40px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .success-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            animation: bounce 1s ease-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🚀 Installation Guide</h1>
+            <p class="subtitle">Step-by-step setup for Security Testing Multi-Agent Framework</p>
+            <p class="estimate">⏱️ Estimated time: 15-20 minutes</p>
+        </header>
+
+        <!-- Progress -->
+        <div class="progress-section">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <!-- Steps -->
+        <div class="steps-container" id="stepsContainer">
+            <!-- Step 1 -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-info">
+                        <h3>Clone Repository</h3>
+                        <p>Download the framework from GitHub</p>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="step-description">
+                        Clone the Security Testing Multi-Agent Framework repository to your local machine using Git.
+                    </div>
+                    <div class="code-block">
+                        <button class="copy-btn">Copy</button>
+                        <code>git clone https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali.git
+cd SecurityTestingMultiAgentWithKali</code>
+                    </div>
+                    <div class="tip-box">
+                        <strong>💡 Tip:</strong> Make sure you have Git installed. Download from git-scm.com if needed.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-info">
+                        <h3>Verify Prerequisites</h3>
+                        <p>Check your system requirements</p>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="step-description">
+                        Ensure your system has all required software and meets the minimum requirements.
+                    </div>
+                    <div class="requirements">
+                        <div class="requirement">Node.js 16+</div>
+                        <div class="requirement">Python 3.8+</div>
+                        <div class="requirement">Git 2.20+</div>
+                        <div class="requirement">4GB RAM minimum</div>
+                        <div class="requirement">20GB Disk Space</div>
+                        <div class="requirement">Docker (optional)</div>
+                    </div>
+                    <div class="code-block">
+                        <button class="copy-btn">Copy</button>
+                        <code>node --version
+python3 --version
+git --version
+docker --version</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-info">
+                        <h3>Install Dependencies</h3>
+                        <p>Install Node.js and Python packages</p>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="step-description">
+                        Install all required Node.js packages and Python dependencies for the framework.
+                    </div>
+                    <div class="code-block">
+                        <button class="copy-btn">Copy</button>
+                        <code>npm install
+pip install -r requirements.txt</code>
+                    </div>
+                    <div class="tip-box">
+                        <strong>⚠️ Note:</strong> This may take a few minutes depending on your internet connection.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-info">
+                        <h3>Setup Kali VM (Optional)</h3>
+                        <p>Configure Hyper-V Kali Linux for SSH access</p>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="step-description">
+                        If you plan to use the integrated Kali Linux tools, set up a Kali VM with SSH access. This is optional - the framework works with local tools too.
+                    </div>
+                    <div class="code-block">
+                        <button class="copy-btn">Copy</button>
+                        <code>bash kali-setup/kali-setup-complete.sh</code>
+                    </div>
+                    <div class="tip-box">
+                        <strong>📝 Instructions:</strong> Follow the prompts to configure your Kali VM SSH connection details.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <div class="step-info">
+                        <h3>Create Engagement</h3>
+                        <p>Setup your first security testing engagement</p>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="step-description">
+                        Create a new engagement directory with configuration templates for your target application.
+                    </div>
+                    <div class="code-block">
+                        <button class="copy-btn">Copy</button>
+                        <code>bash scripts/setup-engagement.sh my-client-app</code>
+                    </div>
+                    <div class="tip-box">
+                        <strong>ℹ️ Info:</strong> Replace 'my-client-app' with your actual target application name.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <div class="step-info">
+                        <h3>Configure & Run</h3>
+                        <p>Configure credentials and start testing</p>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="step-description">
+                        Configure your target credentials in the .secrets file and validate your configuration before running the framework.
+                    </div>
+                    <div class="code-block">
+                        <button class="copy-btn">Copy</button>
+                        <code>nano engagements/my-client-app/.secrets
+bash scripts/validate-config.sh my-client-app</code>
+                    </div>
+                    <div class="tip-box">
+                        <strong>🔒 Security:</strong> The .secrets file is git-ignored and never committed to the repository.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-box">
+            <div class="success-icon">✨</div>
+            <h2>Installation Complete!</h2>
+            <p>You're now ready to run security tests. Start with the Interactive Agent Directory to explore all 31 agents.</p>
+        </div>
+    </div>
+
+    <script>
+        const steps = document.querySelectorAll('.step');
+        const progressFill = document.getElementById('progressFill');
+
+        // Make steps expandable
+        steps.forEach((step, index) => {
+            step.addEventListener('click', () => {
+                step.classList.toggle('expanded');
+                updateProgress();
+            });
+
+            // Expand first step by default
+            if (index === 0) {
+                step.classList.add('expanded');
+            }
+        });
+
+        // Update progress bar
+        function updateProgress() {
+            const expandedCount = document.querySelectorAll('.step.expanded').length;
+            const percentage = (expandedCount / steps.length) * 100;
+            progressFill.style.width = percentage + '%';
+        }
+
+        // Copy code to clipboard
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const code = btn.nextElementSibling.textContent;
+                navigator.clipboard.writeText(code);
+                const originalText = btn.textContent;
+                btn.textContent = '✓ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        });
+
+        // Initial progress
+        updateProgress();
+    </script>
+</body>
+</html>

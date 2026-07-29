@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Framework Architecture - Visual Overview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 50%, #0d1929 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #06ffa5 0%, #00d4ff 50%, #0099ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #94a3b8;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        /* Architecture Grid */
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        .arch-section {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(30, 41, 59, 0.7) 100%);
+            border: 2px solid rgba(6, 255, 165, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .arch-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(6, 255, 165, 0.1), transparent);
+            animation: moveGradient 20s linear infinite;
+        }
+
+        @keyframes moveGradient {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(100%, 100%);
+            }
+        }
+
+        .arch-section:hover {
+            border-color: #06ffa5;
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(6, 255, 165, 0.25);
+        }
+
+        .arch-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .arch-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .arch-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #f1f5f9;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .arch-title::before {
+            content: '';
+            width: 4px;
+            height: 25px;
+            background: linear-gradient(180deg, #06ffa5, transparent);
+            border-radius: 2px;
+            animation: slideDown 1s ease-out infinite;
+        }
+
+        @keyframes slideDown {
+            0%, 100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(10px);
+                opacity: 0.5;
+            }
+        }
+
+        .arch-description {
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+
+        .arch-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .arch-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(6, 255, 165, 0.05);
+            border-left: 3px solid #06ffa5;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .arch-item:hover {
+            background: rgba(6, 255, 165, 0.1);
+            transform: translateX(5px);
+        }
+
+        .arch-item::before {
+            content: '▶';
+            color: #06ffa5;
+            font-weight: bold;
+            font-size: 0.8em;
+            min-width: 15px;
+        }
+
+        .arch-item-text {
+            color: #cbd5e1;
+            font-size: 0.9em;
+        }
+
+        /* Component Diagram */
+        .component-diagram {
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid rgba(6, 255, 165, 0.3);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .component-diagram h2 {
+            color: #06ffa5;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .component {
+            background: linear-gradient(135deg, rgba(6, 255, 165, 0.1), rgba(0, 212, 255, 0.1));
+            border: 2px solid rgba(6, 255, 165, 0.3);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .component::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(6, 255, 165, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 12px;
+        }
+
+        .component:hover {
+            border-color: #06ffa5;
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(6, 255, 165, 0.2);
+        }
+
+        .component:hover::after {
+            opacity: 1;
+        }
+
+        .component-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .component:nth-child(1) .component-icon { animation-delay: 0s; }
+        .component:nth-child(2) .component-icon { animation-delay: 0.1s; }
+        .component:nth-child(3) .component-icon { animation-delay: 0.2s; }
+        .component:nth-child(4) .component-icon { animation-delay: 0.3s; }
+        .component:nth-child(5) .component-icon { animation-delay: 0.4s; }
+        .component:nth-child(6) .component-icon { animation-delay: 0.5s; }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .component-name {
+            font-weight: bold;
+            color: #f1f5f9;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .component-desc {
+            color: #cbd5e1;
+            font-size: 0.85em;
+            line-height: 1.4;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Data Flow */
+        .data-flow-section {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(30, 41, 59, 0.7) 100%);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease-out 0.5s both;
+        }
+
+        .data-flow-section h2 {
+            color: #00d4ff;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .flow-step {
+            display: flex;
+            gap: 20px;
+            align-items: start;
+            padding: 20px;
+            background: rgba(0, 212, 255, 0.05);
+            border-left: 4px solid #00d4ff;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .flow-step:hover {
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .step-num {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #00d4ff, #0099ff);
+            color: #0a0e27;
+            border-radius: 50%;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            color: #f1f5f9;
+            margin-bottom: 5px;
+        }
+
+        .step-content p {
+            color: #cbd5e1;
+            font-size: 0.9em;
+        }
+
+        /* Key Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(30, 41, 59, 0.7) 100%);
+            border: 2px solid rgba(51, 86, 255, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .feature-card:hover {
+            border-color: #3356ff;
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(51, 86, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2em;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .feature-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #f1f5f9;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            color: #cbd5e1;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .architecture-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .component-diagram,
+            .data-flow-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🏗️ Framework Architecture Overview</h1>
+            <p class="subtitle">Complete system design and component breakdown</p>
+        </header>
+
+        <!-- Architecture Grid -->
+        <div class="architecture-grid">
+            <!-- Left: Core Systems -->
+            <div class="arch-section">
+                <div class="arch-content">
+                    <div class="arch-icon">⚙️</div>
+                    <div class="arch-title">Core Systems</div>
+                    <div class="arch-description">
+                        Central orchestration and execution engines that manage the entire testing workflow.
+                    </div>
+                    <div class="arch-items">
+                        <div class="arch-item">
+                            <span class="arch-item-text">Orchestrator Engine (500+ lines)</span>
+                        </div>
+                        <div class="arch-item">
+                            <span class="arch-item-text">Agent Dispatcher</span>
+                        </div>
+                        <div class="arch-item">
+                            <span class="arch-item-text">Execution Context Manager</span>
+                        </div>
+                        <div class="arch-item">
+                            <span class="arch-item-text">State Persistence Layer</span>
+                        </div>
+                        <div class="arch-item">
+                            <span class="arch-item-text">Error Recovery System</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Data Management -->
+            <div class="arch-section">
+                <div class="arch-content">
+                    <div class="arch-icon">💾</div>
+                    <div class="arch-title">Data Management</div>
+                    <div class="arch-description">
+                        Robust systems for handling credentials, evidence, and findings securely.
+                    </div>
+                    <div class="arch-items">
+                        <div class="arch-item">
+                            <span class="arch-item-text">Credentials Manager (.secrets)</span>
+                        </div>
+                        <div class="arch-item">
+                            <span class="arch-item-text">Evidence Storage System</span>
+                        </div>
+                        <div class="arch-item">
+                            <span class="arch-item-text">PII Masking Engine</span>
+                        </div>
+                        <div class="arch-item">
+                            <span class="arch-item-text">Audit Logging</span>
+                        </div>
+                        <div class="arch-item">
+                            <span class="arch-item-text">Git-Ignored Protection</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Left: Quality Assurance -->
+            <div class="arch-section">
+                <div class="arch-content">
+                    <div class="arch-icon">✅</div>
+                    <div class="arch-title">Quality Assurance</div>
+                    <div class="arch-description">
+                        4-layer validation system ensuring 0% false positive rate.
+                    </div>
+                    <div class="arch-items">
+                        <div class="arch-item">
+                            <span class="arch-item-text">Gate 1: Format Validation</span>
+                        </div>
+                        <div class="arch-item">
+                            <span class="arch-item-text">Gate 2: Evidence Validation</span>
+                        </div>
+                        <div class="arch-item">
+                            <span class="arch-item-text">Gate 3: Technical Accuracy</span>
+                        </div>
+                        <div class="arch-item">
+                            <span class="arch-item-text">Gate 4: Remediation Validation</span>
+                        </div>
+                        <div class="arch-item">
+                            <span class="arch-item-text">Human Approval Gate (CVSS 7.0+)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Integration Layer -->
+            <div class="arch-section">
+                <div class="arch-content">
+                    <div class="arch-icon">🔗</div>
+                    <div class="arch-title">Integration Layer</div>
+                    <div class="arch-description">
+                        Seamless integration with 55+ security tools and external systems.
+                    </div>
+                    <div class="arch-items">
+                        <div class="arch-item">
+                            <span class="arch-item-text">Kali Linux SSH Bridge</span>
+                        </div>
+                        <div class="arch-item">
+                            <span class="arch-item-text">Tool Wrapper Layer</span>
+                        </div>
+                        <div class="arch-item">
+                            <span class="arch-item-text">Output Parser</span>
+                        </div>
+                        <div class="arch-item">
+                            <span class="arch-item-text">Error Handling & Fallbacks</span>
+                        </div>
+                        <div class="arch-item">
+                            <span class="arch-item-text">Cloud API Integration</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Component Diagram -->
+        <div class="component-diagram">
+            <h2>🧩 System Components</h2>
+            <div class="component-grid">
+                <div class="component">
+                    <div class="component-icon">🎯</div>
+                    <div class="component-name">31 Agents</div>
+                    <div class="component-desc">Specialized testing agents across 13 phases</div>
+                </div>
+                <div class="component">
+                    <div class="component-icon">🔄</div>
+                    <div class="component-name">Phase Manager</div>
+                    <div class="component-desc">Sequential phase execution with dependencies</div>
+                </div>
+                <div class="component">
+                    <div class="component-icon">🛡️</div>
+                    <div class="component-name">Validation Engine</div>
+                    <div class="component-desc">4-layer quality assurance pipeline</div>
+                </div>
+                <div class="component">
+                    <div class="component-icon">🔐</div>
+                    <div class="component-name">Security Module</div>
+                    <div class="component-desc">Credentials and PII protection</div>
+                </div>
+                <div class="component">
+                    <div class="component-icon">📊</div>
+                    <div class="component-name">Reporting Engine</div>
+                    <div class="component-desc">HTML reports with CVSS/OWASP/CWE mapping</div>
+                </div>
+                <div class="component">
+                    <div class="component-icon">🔌</div>
+                    <div class="component-name">Tool Integration</div>
+                    <div class="component-desc">55+ Kali Linux tools via SSH</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Flow -->
+        <div class="data-flow-section">
+            <h2>📊 Data Flow Architecture</h2>
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <h4>Engagement Setup</h4>
+                        <p>User provides target URL, credentials, scope, and roles via .secrets file</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <h4>Phase Orchestration</h4>
+                        <p>Orchestrator executes 13 sequential phases with proper data flow between them</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <h4>Agent Execution</h4>
+                        <p>31 specialized agents run in parallel within each phase using integrated tools</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                        <h4>Candidate Generation</h4>
+                        <p>Agents generate raw findings with evidence from actual testing</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">5</div>
+                    <div class="step-content">
+                        <h4>Validation Pipeline</h4>
+                        <p>4-layer validation gates process findings for quality and accuracy</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">6</div>
+                    <div class="step-content">
+                        <h4>Sanitization</h4>
+                        <p>Credentials and PII are automatically masked before reporting</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">7</div>
+                    <div class="step-content">
+                        <h4>Human Review</h4>
+                        <p>Critical findings (CVSS 7.0+) require security lead approval</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">8</div>
+                    <div class="step-content">
+                        <h4>Report Generation</h4>
+                        <p>Final HTML report with CVSS/OWASP/CWE mapping ready for client delivery</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Features -->
+        <div style="margin-bottom: 40px;">
+            <h2 style="color: #06ffa5; margin-bottom: 30px; font-size: 1.8em;">🌟 Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <div class="feature-title">Security First</div>
+                    <div class="feature-desc">Credentials protected in git-ignored .secrets files with automatic PII masking</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-title">High Performance</div>
+                    <div class="feature-desc">Parallel agent execution with intelligent retry logic and fallback tools</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✅</div>
+                    <div class="feature-title">Quality Assured</div>
+                    <div class="feature-desc">4-layer validation ensuring 0% false positive rate</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-title">Professional Reports</div>
+                    <div class="feature-desc">Beautiful HTML reports with CVSS/OWASP/CWE/MITRE mapping</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <div class="feature-title">55+ Tools</div>
+                    <div class="feature-desc">Integrated Kali Linux tools for comprehensive testing coverage</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-title">100% Coverage</div>
+                    <div class="feature-desc">OWASP 100% | CWE 100% | MITRE ATT&CK 7+ tactics</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
