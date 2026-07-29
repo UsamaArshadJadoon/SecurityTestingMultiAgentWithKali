@@ -1,8 +1,8 @@
 # 🔐 Security Testing Multi-Agent Framework
 
-**Complete Penetration Testing Framework with 31 Specialized Agents & 55+ Kali Tools**
+**Complete Penetration Testing Framework with 101 Specialized Agents & 150+ Kali Tools**
 
-![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen)
+![Version](https://img.shields.io/badge/Version-2.0.0-brightgreen)
 ![Python](https://img.shields.io/badge/Python-3.8+-blue)
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-green)
@@ -11,7 +11,7 @@
 
 ## 📋 What is This?
 
-A production-ready penetration testing framework that orchestrates **31 specialized security agents** across **13 sequential testing phases**, integrating **55+ Kali Linux tools** via SSH. 
+A production-ready penetration testing framework that orchestrates **101 specialized security agents** across **30 sequential testing phases**, integrating **150+ Kali Linux tools** via SSH. 
 
 Each finding is validated through **4 security layers** ensuring **100% accuracy with zero false positives**, backed by **real evidence**, **reproducible steps**, and **working code fixes**.
 
@@ -87,8 +87,8 @@ nano engagements/my-client/scope.md
 Me: "Run full penetration test for my-client"
 
 Result:
-  ✅ Phase 1-13: All testing phases complete
-  ✅ 31 agents executed sequentially
+  ✅ Phase 1-30: All testing phases complete
+  ✅ 101 agents executed sequentially
   ✅ All findings validated (4-layer validation)
   ✅ Report generated: engagements/my-client/report/report.html
 ```
@@ -166,7 +166,7 @@ SecurityTestingMultiAgentWithKali/
 │
 ├── orchestrator/                     # Core orchestration engine
 │   ├── Orchestrator.js               # Main engine (500+ lines)
-│   ├── 📁 agents/                    # Agent specifications (35 files)
+│   ├── 📁 agents/                    # Agent specifications (101 files)
 │   │   ├── README.md                 # Agents overview
 │   │   ├── Agent-001-Reconnaissance.md
 │   │   ├── Agent-002-Web-Pentest.md
@@ -298,7 +298,7 @@ bash scripts/validate-config.sh acme-corp
 ```
 Me: "Run full penetration test for acme-corp"
 
-Claude: Orchestrating 31 agents across 13 phases...
+Claude: Orchestrating 101 agents across 30 phases...
 
 [Progress updates as each agent completes]
 ✅ recon-agent (5 findings)
@@ -362,8 +362,8 @@ Report includes:
 1. **Home** - Framework overview with statistics
 2. **Overview** - Why use this framework, unique features, FAQ
 3. **Features** - Vulnerability coverage, advanced capabilities
-4. **Agents** - All 31 agents explained (searchable)
-5. **Phases** - 13 sequential testing phases with timing
+4. **Agents** - All 101 agents explained (searchable)
+5. **Phases** - 30 sequential testing phases with timing
 6. **Validation** - 4-layer validation system and accuracy
 7. **Security** - Credential protection, PII masking, audit logging
 8. **Workflow** - Complete data flow architecture
@@ -371,11 +371,11 @@ Report includes:
 10. **FAQ** - Common questions answered
 
 **Want to understand the agents?**
-- See [Agent-Specifications.md](docs/Agent-Specifications.md) (all 31 agents)
+- See [Agent-Specifications.md](docs/Agent-Specifications.md) (all 101 agents)
 - Or explore [Interactive-Agent-Directory.html](docs/Interactive-Agent-Directory.html) (searchable)
 
 **Want to understand the tools?**
-- See [Tool-Reference.md](docs/Tool-Reference.md) (all 55+ tools)
+- See [Tool-Reference.md](docs/Tool-Reference.md) (all 150+ tools)
 
 **Interested in validation?**
 - See [Validation-System.md](docs/Validation-System.md)
@@ -433,7 +433,7 @@ Contributions are welcome! See [Contributing.md](Contributing.md) for guidelines
 
 ## 🌟 Why Use This Framework?
 
-✅ **Complete:** 31 agents × 13 phases = comprehensive coverage  
+✅ **Complete:** 101 agents × 30 phases = comprehensive coverage  
 ✅ **Accurate:** 4-layer validation = 0% false positives  
 ✅ **Fast:** ~2 hours for full penetration test  
 ✅ **Secure:** Credentials protected, PII masked automatically  
