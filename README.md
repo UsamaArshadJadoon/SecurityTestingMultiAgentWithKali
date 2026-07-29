@@ -221,35 +221,212 @@ SecurityTestingMultiAgentWithKali/
 
 ---
 
-## 💡 How It Works
+## 💡 How It Works - Complete Agent Workflow
 
-### **Sequential Agent Execution**
+### **Complete 30-Phase Agent Execution Flow**
 
 ```
-Phase 1: Reconnaissance
-  └─ recon-agent discovers attack surface
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    SECURITY TESTING ORCHESTRATOR WORKFLOW                    │
+│                          86 Agents Across 30 Phases                          │
+└─────────────────────────────────────────────────────────────────────────────┘
 
-Phase 2: Surface Testing
-  ├─ web-pentest-agent (tests web application)
-  ├─ api-security-agent (tests API endpoints)
-  ├─ authn-authz-agent (tests authentication)
-  ├─ infra-agent (tests infrastructure)
-  ├─ cloud-container-agent (tests cloud)
-  └─ ai-llm-agent (tests AI/LLM features)
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ STAGE 1: INITIALIZATION & SETUP                                              │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                               │
+│  User Input → Config Loading → Credentials Loading → Scope Validation       │
+│       ↓            ↓                   ↓                    ↓                 │
+│   Engagement   .secrets file    Target Details      Authorization           │
+│   Template     loaded at         Parsed              Verified                │
+│                runtime                                                        │
+│                                                                               │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                        ↓
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ STAGE 2: RECONNAISSANCE PHASE (Phase 1 - Agents 001A, 001B)                  │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                               │
+│    Agent-001A (Passive Recon)        Agent-001B (Active Discovery)          │
+│    ├─ OSINT gathering                ├─ Port scanning (nmap)                │
+│    ├─ DNS enumeration                ├─ Service enumeration                 │
+│    ├─ Shodan queries                 ├─ OS fingerprinting                   │
+│    └─ Tech stack detection           └─ Network mapping                     │
+│                                                                               │
+│              ↓                                    ↓                          │
+│         Surface Map (json)              Asset Inventory (json)              │
+│                       ↘         ↙                                            │
+│                  Combined Context Fed to Phase 2                             │
+│                                                                               │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                        ↓
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ STAGE 3: SURFACE TESTING PHASE (Phase 2 - Agents 002A-G, 003A-G, etc)       │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                               │
+│  Web Testing │ API Testing │ Auth Testing │ Infra │ Cloud │ AI/LLM        │
+│              │             │              │       │       │                 │
+│  Agent-002A  │ Agent-003A  │ Agent-004A   │       │       │                │
+│  SQLi        │ REST API    │ OAuth2/OIDC  │       │       │                │
+│              │             │              │       │       │                 │
+│  Agent-002B  │ Agent-003B  │ Agent-004B   │       │       │                │
+│  XSS         │ GraphQL     │ JWT Testing  │       │       │                │
+│              │             │              │       │       │                 │
+│  ... (more)  │ ... (more)  │ ... (more)   │       │       │                │
+│                                                                               │
+│   Parallel Execution - All agents run concurrently within phase             │
+│   Each agent uses prior phase findings as context                           │
+│                                                                               │
+│   Findings Pool → Format Validation (GATE 1) → Evidence Validation (GATE 2) │
+│                                                                               │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                        ↓
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ STAGE 4: DEEP EXPLOITATION PHASES (Phases 3-9)                               │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                               │
+│  Phase 3: Core RCE        → SSRF, Request Smuggling, File Upload RCE       │
+│  Phase 4: Post-Exploitation → Privilege Escalation, Lateral Movement        │
+│  Phase 5: Source Code    → Git Forensics, Source Disclosure                │
+│  Phase 6: Cloud Exploit  → AWS, GCP, Azure specific attacks                │
+│  Phase 7: Advanced Auth  → OAuth Bypass, JWT Attacks, SAML Issues          │
+│  Phase 8: Supply Chain   → Dependency Analysis, CI/CD Security             │
+│  Phase 9: Business Logic → Transaction Manipulation, State Machine Bypass   │
+│                                                                               │
+│  Data Flow: Each phase input = prior phase validated findings               │
+│  Evidence enrichment: Deeper exploitation requires proof from earlier       │
+│                                                                               │
+│   Findings Pool → Technical Accuracy Validation (GATE 3)                    │
+│                                                                               │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                        ↓
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ STAGE 5: SPECIALIZED TESTING PHASES (Phases 10-20)                           │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                               │
+│  Phase 10: Rate Limiting & DoS    → Bypass attempts, resource abuse        │
+│  Phase 11: Advanced Protocols     → SMTP, LDAP, RDP, Database              │
+│  Phase 12: Mobile & Wireless      → iOS/Android, WiFi, Bluetooth           │
+│  Phase 13-20: Extended Testing    → Windows AD, Linux Kernel, IoT, etc     │
+│                                                                               │
+│  Each phase: Input = findings from prior phases + new vectors              │
+│                                                                               │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                        ↓
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ STAGE 6: 4-LAYER VALIDATION (All findings from all phases)                   │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                               │
+│  Finding Created by Agent                                                    │
+│            ↓                                                                  │
+│  ┌─────────────────────────────────────┐                                    │
+│  │ GATE 1: FORMAT VALIDATION           │                                    │
+│  │ - Valid JSON schema                 │                                    │
+│  │ - All required fields               │ ❌ Reject if invalid               │
+│  │ - Correct data types                │                                    │
+│  │ - CVSS format compliance            │                                    │
+│  └─────────────────────────────────────┘                                    │
+│            ✅ PASS ↓                                                        │
+│  ┌─────────────────────────────────────┐                                    │
+│  │ GATE 2: EVIDENCE VALIDATION         │                                    │
+│  │ - Real HTTP request/response        │                                    │
+│  │ - Authentic tool output             │ ❌ Reject if no proof              │
+│  │ - Genuine screenshots               │                                    │
+│  │ - Reproducible steps                │                                    │
+│  └─────────────────────────────────────┘                                    │
+│            ✅ PASS ↓                                                        │
+│  ┌─────────────────────────────────────┐                                    │
+│  │ GATE 3: TECHNICAL ACCURACY          │                                    │
+│  │ - CVSS mathematically justified     │                                    │
+│  │ - Impact specific (no vague text)   │ ❌ Reject if inaccurate            │
+│  │ - Correct vulnerability type        │                                    │
+│  │ - No fabrication indicators         │                                    │
+│  └─────────────────────────────────────┘                                    │
+│            ✅ PASS ↓                                                        │
+│  ┌─────────────────────────────────────┐                                    │
+│  │ GATE 4: REMEDIATION VALIDATION      │                                    │
+│  │ - Code examples (vulnerable+fixed)  │                                    │
+│  │ - Clear remediation steps           │ ❌ Reject if not actionable        │
+│  │ - Realistic effort estimate         │                                    │
+│  │ - Developer understanding           │                                    │
+│  └─────────────────────────────────────┘                                    │
+│            ✅ PASS ↓                                                        │
+│  HUMAN APPROVAL (for CVSS ≥ 7.0)                                            │
+│            ✅ APPROVED ↓                                                    │
+│            ✅ VALIDATED                                                      │
+│                                                                               │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                        ↓
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ STAGE 7: SANITIZATION & PII MASKING                                          │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                               │
+│  Validated Findings → PII Masking → Credential Removal → Data Scrubbing    │
+│                                                                               │
+│  Names:  John Doe → John D***                                               │
+│  Emails: john@example.com → j***@example.com                                │
+│  Tokens: eyJhbGc... → eyJh...is...                                          │
+│  Cards:  4111-1111-1111-1111 → 4111-****-****-1111                          │
+│                                                                               │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                        ↓
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ STAGE 8: FINAL REPORT GENERATION                                             │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                               │
+│  Aggregated Findings                                                         │
+│         ↓                                                                     │
+│  Generate Risk Matrix (Critical/High/Medium/Low)                            │
+│         ↓                                                                     │
+│  Calculate Severity Distribution                                            │
+│         ↓                                                                     │
+│  Map to OWASP Top 10 / CWE / MITRE ATT&CK                                  │
+│         ↓                                                                     │
+│  Create HTML Report with:                                                   │
+│  ├─ Executive Summary                                                       │
+│  ├─ Risk Metrics & Statistics                                              │
+│  ├─ 30-80 Detailed Findings                                                │
+│  ├─ CVSS 3.1 Scores                                                         │
+│  ├─ Proof of Concepts                                                       │
+│  ├─ Code Examples (Vulnerable + Fixed)                                     │
+│  ├─ Remediation Steps                                                       │
+│  ├─ Effort Estimates                                                        │
+│  └─ Supporting Evidence                                                     │
+│         ↓                                                                     │
+│  ✅ engagements/[name]/report/report.html                                  │
+│                                                                               │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                        ↓
+                            ✅ TEST COMPLETE
+                    (~2 hours for comprehensive coverage)
+```
 
-Phase 3: Deep Exploitation
-  ├─ ssrf-exploitation-agent
-  ├─ request-smuggling-agent
-  ├─ file-upload-rce-agent
-  ├─ path-traversal-agent
-  ├─ xxe-injection-agent
-  ├─ deserialization-rce-agent
-  └─ ssti-exploitation-agent
+### **Phase-by-Phase Breakdown**
 
-[Phases 4-12: Specialized testing]
+| Phase | Name | Agents | Focus Area |
+|-------|------|--------|-----------|
+| 1 | Reconnaissance | 2 | Discovery & mapping |
+| 2 | Surface Testing | 7+ | Web, API, Auth, Cloud |
+| 3 | Deep Exploitation | 7 | RCE, injection, bypass |
+| 4-9 | Advanced Testing | 20+ | Specific vulnerabilities |
+| 10-20 | Specialized | 30+ | Protocols, platforms, logic |
+| 21-30 | Extended | 15+ | Edge cases, hardening |
 
-Phase 13: Reporting
-  └─ reporting-agent (generates HTML report)
+### **Data Flow Between Phases**
+
+```
+Phase 1 Output (Surface Map) 
+    ↓
+├─→ Phase 2 (targets discovered)
+    ├─→ Phase 3 (endpoints identified)
+    ├─→ Phase 4 (vulnerabilities found)
+    └─→ ... Phases 5-30 (refined attacks using prior context)
+                    ↓
+            4-Layer Validation
+                    ↓
+            Sanitization & PII Masking
+                    ↓
+            Final Report Generation
 ```
 
 ### **4-Layer Validation**
