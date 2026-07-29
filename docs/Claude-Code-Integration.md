@@ -2,7 +2,7 @@
 
 **Security Testing Multi-Agent Framework for Claude Code**
 
-Since you're using **Claude Code locally**, all 101 agents dispatch through Claude Code's **Agent tool** across 30 sequential phases.
+Since you're using **Claude Code locally**, all 86 agents dispatch through Claude Code's **Agent tool** across 30 sequential phases.
 
 ---
 
@@ -18,7 +18,7 @@ orchestrator/ (instructions)
        ↓
 Agent Tool (Claude Code built-in)
        ↓
-101 Agents (30 phases, each is a specialized agent call)
+86 Agents (30 phases, each is a specialized agent call)
        ↓
 findings/ (JSON output)
        ↓
@@ -344,7 +344,7 @@ All findings saved as JSON following `templates/finding-schema.json`:
 
 ## 📈 EXPECTED OUTCOMES
 
-After running all 101 agents across 30 phases:
+After running all 86 agents across 30 phases:
 
 **Deliverables:**
 - `engagements/acme-corp/evidence/findings/` — All findings (JSON)
@@ -415,7 +415,7 @@ bash scripts/run-pentest.sh acme-corp
 - **Sequential execution** - Each agent waits for prior phase
 - **Data flow** - Context passes between agents
 - **Auto-validation** - Exploitation agent validates all findings
-- **Full automation** - 101 agents, minimal manual work
+- **Full automation** - 86 agents, minimal manual work
 - **Enterprise-ready** - CVSS scoring, OWASP mapping, remediation
 
 ---

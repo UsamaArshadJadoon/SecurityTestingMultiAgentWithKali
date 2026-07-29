@@ -1,9 +1,9 @@
-# 📋 101 Specialized Penetration Testing Agents
+# 📋 86 Specialized Penetration Testing Agents
 
-Complete specifications for all 101 agents organized across 30 sequential testing phases.
+Complete specifications for all 86 agents organized across 30 sequential testing phases.
 
 **Framework Statistics:**
-- **101 Agent Specification Files** (Agent-001 through Agent-044 with variants)
+- **86 Agent Specification Files** (Agent-001 through Agent-044 with variants)
 - **30 Sequential Phases** from reconnaissance through reporting
 - **150+ Integrated Kali Linux Tools** via SSH
 - **4-Layer Validation System** ensuring 0% false positives

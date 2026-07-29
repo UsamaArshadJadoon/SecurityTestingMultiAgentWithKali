@@ -23,7 +23,7 @@ Each finding is validated through **4 security layers** ensuring **100% accuracy
 
 | Feature | Details |
 |---------|---------|
-| **101 Agents** | Web, API, auth, mobile, cloud, IoT, wireless, Windows, Linux, database, and more |
+| **86 Agents** | Web, API, auth, mobile, cloud, IoT, wireless, Windows, Linux, database, and more |
 | **150+ Tools** | nmap, sqlmap, ffuf, nuclei, hashcat, metasploit, frida, ghidra, and 140+ more |
 | **30 Phases** | Recon → Web → API → Auth → Exploitation → Mobile → Wireless → Cloud → Reporting |
 | **4-Layer Validation** | Format → Evidence → Technical → Remediation (0% false positives) |
@@ -166,7 +166,7 @@ SecurityTestingMultiAgentWithKali/
 │
 ├── orchestrator/                     # Core orchestration engine
 │   ├── Orchestrator.js               # Main engine (500+ lines)
-│   ├── 📁 agents/                    # Agent specifications (101 files)
+│   ├── 📁 agents/                    # Agent specifications (86 files)
 │   │   ├── README.md                 # Agents overview
 │   │   ├── Agent-001-Reconnaissance.md
 │   │   ├── Agent-002-Web-Pentest.md
@@ -298,7 +298,7 @@ bash scripts/validate-config.sh acme-corp
 ```
 Me: "Run full penetration test for acme-corp"
 
-Claude: Orchestrating 101 agents across 30 phases...
+Claude: Orchestrating 86 agents across 30 phases...
 
 [Progress updates as each agent completes]
 ✅ recon-agent (5 findings)
@@ -362,7 +362,7 @@ Report includes:
 1. **Home** - Framework overview with statistics
 2. **Overview** - Why use this framework, unique features, FAQ
 3. **Features** - Vulnerability coverage, advanced capabilities
-4. **Agents** - All 101 agents explained (searchable)
+4. **Agents** - All 86 agents explained (searchable)
 5. **Phases** - 30 sequential testing phases with timing
 6. **Validation** - 4-layer validation system and accuracy
 7. **Security** - Credential protection, PII masking, audit logging
@@ -371,7 +371,7 @@ Report includes:
 10. **FAQ** - Common questions answered
 
 **Want to understand the agents?**
-- See [Agent-Specifications.md](docs/Agent-Specifications.md) (all 101 agents)
+- See [Agent-Specifications.md](docs/Agent-Specifications.md) (all 86 agents)
 - Or explore [Interactive-Agent-Directory.html](docs/Interactive-Agent-Directory.html) (searchable)
 
 **Want to understand the tools?**
@@ -390,12 +390,12 @@ Report includes:
 
 | Metric | Value |
 |--------|-------|
-| **Agents** | 101 specialized |
+| **Agents** | 86 specialized |
 | **Phases** | 30 sequential |
 | **Tools** | 150+ integrated |
 | **Code** | 5,000+ lines |
 | **Documentation** | 20,000+ lines across all guides |
-| **Agent Specs** | 101 detailed agent files |
+| **Agent Specs** | 86 detailed agent files |
 | **Test Duration** | ~2 hours full test |
 | **False Positive Rate** | 0% (4-layer validation) |
 | **OWASP Coverage** | 100% (10/10) |
@@ -433,7 +433,7 @@ Contributions are welcome! See [Contributing.md](Contributing.md) for guidelines
 
 ## 🌟 Why Use This Framework?
 
-✅ **Complete:** 101 agents × 30 phases = comprehensive coverage  
+✅ **Complete:** 86 agents × 30 phases = comprehensive coverage  
 ✅ **Accurate:** 4-layer validation = 0% false positives  
 ✅ **Fast:** ~2 hours for full penetration test  
 ✅ **Secure:** Credentials protected, PII masked automatically  
