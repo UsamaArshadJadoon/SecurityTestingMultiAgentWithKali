@@ -1,0 +1,496 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Security Finding Schema - Enterprise Penetration Testing",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "severity",
+    "status",
+    "agent",
+    "phase",
+    "evidence",
+    "impact",
+    "remediation"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^(WEB|API|AUTHZ|INFRA|CLOUD|AI|LOGIC|SSRF|SMUGGLING|FILEUPLOAD|TRAVERSAL|XXE|DESER|SSTI|POSTEX|PRIVESC|SECRETS|LATERAL|SRCDISC|GITFOREN|AWS|GCP|AZURE|OAUTH|CRYPTO|DEPS|CICD|COMPLIANCE|RATELIMIT|MASSASSIGN|WS|GRPC|CHAIN)-[0-9]{3}$",
+      "description": "Unique finding ID with agent prefix (e.g., WEB-001, API-005, CHAIN-010)"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 200,
+      "description": "Concise finding title (10-200 chars)"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 50,
+      "description": "Detailed description of vulnerability and its implications"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low", "info"],
+      "description": "CVSS-based severity (critical=9.0+, high=7.0-8.9, medium=4.0-6.9, low=0.1-3.9, info=informational)"
+    },
+    "cvss_v3_1": {
+      "type": "object",
+      "required": ["score", "vector"],
+      "properties": {
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "CVSS 3.1 numerical score (0.0-10.0)"
+        },
+        "vector": {
+          "type": "string",
+          "pattern": "^CVSS:3\\.1/AV:[NALP]/AC:[LH]/PR:[NLH]/UI:[NR]/S:[UC]/C:[NLH]/I:[NLH]/A:[NLH]$",
+          "description": "Full CVSS 3.1 vector string"
+        },
+        "reasoning": {
+          "type": "string",
+          "description": "Explanation of CVSS score calculation"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["candidate", "validated", "rejected"],
+      "description": "candidate=needs validation, validated=proven/confirmed, rejected=invalid/false-positive"
+    },
+    "validation": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["pending", "in_progress", "confirmed", "rejected"],
+          "description": "Validation state"
+        },
+        "validated_by": {
+          "type": "string",
+          "description": "Agent that validated (e.g., exploitation-agent)"
+        },
+        "rejected_reason": {
+          "type": "string",
+          "description": "If rejected: reason why finding is invalid"
+        },
+        "validation_attempts": {
+          "type": "integer",
+          "description": "Number of validation attempts made"
+        }
+      }
+    },
+    "agent": {
+      "type": "string",
+      "description": "Agent that discovered this finding (e.g., api-security-agent, web-pentest-agent)"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 13,
+      "description": "Which phase discovered this finding (1=Recon, 2=Surface, 3=Deep, etc.)"
+    },
+    "vulnerability_type": {
+      "type": "string",
+      "enum": [
+        "sql_injection",
+        "nosql_injection",
+        "xss",
+        "csrf",
+        "idor",
+        "bola",
+        "broken_auth",
+        "session_management",
+        "privilege_escalation",
+        "insecure_direct_object_references",
+        "injection",
+        "command_injection",
+        "ldap_injection",
+        "xpath_injection",
+        "path_traversal",
+        "file_upload",
+        "xxe",
+        "deserialization",
+        "ssti",
+        "ssrf",
+        "http_request_smuggling",
+        "cache_poisoning",
+        "dos",
+        "race_condition",
+        "toctou",
+        "weak_encryption",
+        "weak_hashing",
+        "jwt_attack",
+        "oauth_bypass",
+        "saml_attack",
+        "mfa_bypass",
+        "mass_assignment",
+        "rate_limit_bypass",
+        "api_enumeration",
+        "information_disclosure",
+        "security_misconfiguration",
+        "insecure_dependencies",
+        "cloud_misconfiguration",
+        "container_misconfiguration",
+        "kubernetes_misconfiguration",
+        "ci_cd_attack",
+        "supply_chain_attack",
+        "business_logic_flaw",
+        "cryptographic_failure",
+        "hardcoded_secret",
+        "git_exposure",
+        "source_code_disclosure"
+      ]
+    },
+    "affected_component": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["web_app", "api", "infrastructure", "cloud", "container", "ci_cd", "source_code"],
+          "description": "Type of affected component"
+        },
+        "name": {
+          "type": "string",
+          "description": "Component name (e.g., 'login endpoint', 'S3 bucket', 'GitHub Actions')"
+        },
+        "url": {
+          "type": "string",
+          "description": "URL or endpoint where issue found"
+        },
+        "hostname": {
+          "type": "string",
+          "description": "Hostname or IP affected"
+        },
+        "port": {
+          "type": "integer",
+          "description": "Port number (if applicable)"
+        },
+        "service": {
+          "type": "string",
+          "description": "Service name (e.g., 'nginx', 'Apache', 'Node.js')"
+        },
+        "version": {
+          "type": "string",
+          "description": "Service/component version"
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["proof_of_concept"],
+      "properties": {
+        "proof_of_concept": {
+          "type": "string",
+          "description": "Summary of PoC (what demonstrates the issue)"
+        },
+        "request": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string",
+              "enum": ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS", "TRACE"]
+            },
+            "url": {
+              "type": "string"
+            },
+            "headers": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "body": {
+              "type": "string"
+            },
+            "raw_file": {
+              "type": "string",
+              "description": "Path to evidence/raw/REQUEST-FILENAME.txt"
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "status_code": {
+              "type": "integer"
+            },
+            "headers": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "body": {
+              "type": "string"
+            },
+            "raw_file": {
+              "type": "string",
+              "description": "Path to evidence/raw/RESPONSE-FILENAME.txt"
+            }
+          }
+        },
+        "tool_used": {
+          "type": "string",
+          "description": "Tool that discovered this (e.g., 'sqlmap', 'burp-repeater', 'ffuf', 'curl')"
+        },
+        "tool_output": {
+          "type": "string",
+          "description": "Path to evidence/raw/TOOL-OUTPUT.txt"
+        },
+        "screenshots": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "Paths to PNG screenshots (evidence/screenshots/FINDING-ID-description.png)"
+          }
+        },
+        "command_executed": {
+          "type": "string",
+          "description": "Exact command that reproduced the issue (for Kali tools)"
+        }
+      }
+    },
+    "impact": {
+      "type": "object",
+      "required": ["description"],
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "What an attacker can do with this vulnerability"
+        },
+        "confidentiality": {
+          "type": "string",
+          "enum": ["none", "low", "high"],
+          "description": "Data exposure risk"
+        },
+        "integrity": {
+          "type": "string",
+          "enum": ["none", "low", "high"],
+          "description": "Data modification risk"
+        },
+        "availability": {
+          "type": "string",
+          "enum": ["none", "low", "high"],
+          "description": "System availability risk"
+        },
+        "scope_changed": {
+          "type": "boolean",
+          "description": "Whether impact extends beyond immediate component"
+        }
+      }
+    },
+    "remediation": {
+      "type": "object",
+      "required": ["recommendation"],
+      "properties": {
+        "recommendation": {
+          "type": "string",
+          "minLength": 50,
+          "description": "Detailed fix recommendation"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["immediate", "high", "medium", "low"],
+          "description": "Fix priority"
+        },
+        "effort_hours": {
+          "type": "number",
+          "description": "Estimated hours to fix"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Step-by-step fix instructions"
+        },
+        "code_example": {
+          "type": "string",
+          "description": "Code example showing the fix"
+        },
+        "external_references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "Links to guides, documentation"
+        }
+      }
+    },
+    "owasp": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "A01:2021 – Broken Access Control",
+          "A02:2021 – Cryptographic Failures",
+          "A03:2021 – Injection",
+          "A04:2021 – Insecure Design",
+          "A05:2021 – Security Misconfiguration",
+          "A06:2021 – Vulnerable and Outdated Components",
+          "A07:2021 – Authentication Failures",
+          "A08:2021 – Software and Data Integrity Failures",
+          "A09:2021 – Logging and Monitoring Failures",
+          "A10:2021 – Server-Side Request Forgery"
+        ]
+      },
+      "description": "OWASP Top 10 2021 categories"
+    },
+    "cwe": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^CWE-[0-9]+$"
+          },
+          "title": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "CWE identifiers"
+    },
+    "mitre_attack": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tactic": {
+            "type": "string",
+            "enum": ["reconnaissance", "resource_development", "initial_access", "execution", "persistence", "privilege_escalation", "defense_evasion", "credential_access", "discovery", "lateral_movement", "collection", "command_control", "exfiltration", "impact"]
+          },
+          "technique": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "MITRE ATT&CK mapping"
+    },
+    "chained_with": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]+-[0-9]{3}$"
+      },
+      "description": "Other finding IDs needed to fully exploit this (e.g., [WEB-001, API-003])"
+    },
+    "exploitation_chain": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether this finding can be chained with others"
+        },
+        "chain_steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "step": {
+                "type": "integer"
+              },
+              "description": {
+                "type": "string"
+              },
+              "requires_finding": {
+                "type": "string",
+                "pattern": "^[A-Z]+-[0-9]{3}$"
+              }
+            }
+          }
+        },
+        "final_impact": {
+          "type": "string",
+          "description": "Impact after full chain exploitation"
+        }
+      }
+    },
+    "false_positive_risk": {
+      "type": "object",
+      "properties": {
+        "risk_level": {
+          "type": "string",
+          "enum": ["confirmed", "high_confidence", "medium_confidence", "low_confidence"],
+          "description": "How confident we are this is a real issue"
+        },
+        "mitigating_factors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Reasons this might NOT be exploitable"
+        }
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when finding was created"
+    },
+    "discovered_at": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "time_utc": {
+          "type": "string"
+        },
+        "agent": {
+          "type": "string"
+        }
+      }
+    },
+    "pii_present": {
+      "type": "object",
+      "properties": {
+        "contains_pii": {
+          "type": "boolean",
+          "description": "Whether evidence contains PII"
+        },
+        "pii_types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["email", "phone", "ssn", "credit_card", "passport", "ip_address", "api_key", "password", "other"]
+          }
+        },
+        "masked": {
+          "type": "boolean",
+          "description": "Whether PII is masked in this record"
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Custom tags for categorization (e.g., ['authentication', 'api', 'critical'])"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes, context, or observations"
+    }
+  }
+}

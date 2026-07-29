@@ -1,0 +1,122 @@
+# ===== CREDENTIALS - NEVER COMMIT =====
+.secrets
+.env
+.env.local
+*.key
+*.pem
+credentials.*
+secrets.*
+
+# ===== ENGAGEMENT CREDENTIALS =====
+engagements/*/.secrets
+engagements/*/.env
+engagements/*/.env.local
+
+# ===== SENSITIVE EVIDENCE =====
+evidence/*/raw/*-credentials.txt
+evidence/*/raw/*-password*.txt
+evidence/*/raw/*-token*.txt
+evidence/*/raw/*-api-key*.txt
+engagements/*/evidence/**/passwords.json
+engagements/*/evidence/**/tokens.json
+engagements/*/evidence/**/api-keys.json
+
+# ===== PERSONALLY IDENTIFIABLE INFORMATION =====
+**/unmasked-pii.json
+**/raw-user-data.json
+**/unencrypted-*.json
+
+# ===== TEMPORARY FILES =====
+*.tmp
+*.bak
+*.temp
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# ===== LOGS (May contain secrets) =====
+*.log
+logs/
+.claude/logs/
+engagements/*/logs/
+
+# ===== IDE FILES =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# ===== NODE/DEPENDENCIES =====
+node_modules/
+package-lock.json
+npm-debug.log
+yarn.lock
+
+# ===== PYTHON =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ===== KALI VM CACHE =====
+.kali-cache/
+kali-tools-cache/
+wordlists/
+
+# ===== EVIDENCE FILES (Keep evidence in repo structure) =====
+# But ignore raw evidence that may contain credentials
+engagements/*/evidence/raw/*
+!engagements/*/evidence/raw/.gitkeep
+
+# ===== OS FILES =====
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===== LARGE FILES =====
+*.iso
+*.zip
+*.rar
+*.7z
+*.tar.gz
+
+# ===== SYSTEM FILES =====
+.system/
+.config/
+*.dmp
+*.dump
+core.*
+
+# ===== SSH KEYS =====
+*.pub
+id_rsa
+id_rsa.pub
+known_hosts
+authorized_keys
+
+# ===== REPORT SENSITIVE DATA =====
+engagements/*/report/*-unmasked.html
+engagements/*/report/*-raw.json
