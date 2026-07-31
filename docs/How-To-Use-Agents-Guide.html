@@ -323,8 +323,8 @@
       <div class="mark">🤖</div>
       <div><b>How to Use the Agents</b><span>Security Testing Framework</span></div>
     </div>
-    <a class="toplink" href="Getting-Started-Guide.html">Getting Started Guide</a>
     <a class="toplink" href="Master-Documentation-Portal.html">← Documentation Portal</a>
+    <a class="toplink" href="DOCUMENTATION.md">Full Reference</a>
   </div>
 </header>
 
@@ -532,7 +532,7 @@ bash orchestrator/kali-health-check.sh</code></pre></div>
   nmap... ✅  sqlmap... ✅  nuclei... ✅
 ✅ Kali is ready.</div>
         <div class="why"><b>Why this matters</b><p>SSH keys instead of a password mean the connection can be scripted without an interactive password prompt breaking automation partway through an 86-agent run — and it's auditable (each key can be traced to whoever generated it). The health check is a deliberately separate step from Step 10's full run: it fails fast on a bad IP, a closed SSH port, or a missing tool in under a minute, instead of you discovering the same problem 20 minutes into what's meant to be an approximately 12-hour test. Under the hood, every agent that needs a real tool calls <code class="k">orchestrator/kali-wrapper.sh</code>, which is just a thin wrapper that SSHes to Kali, runs one command, and returns stdout/stderr back to the agent.</p></div>
-        <div class="tip"><b>Windows note</b>Use <code class="k">$env:KALI_HOST="&lt;ip&gt;"</code> in PowerShell instead of <code class="k">export</code>. Full detail (with sample IPs) is in the <a href="Getting-Started-Guide.html">Getting Started Guide</a>. If the health check fails, recheck the IP/username/key before moving on — every agent depends on this connection.</div>
+        <div class="tip"><b>Windows note</b>Use <code class="k">$env:KALI_HOST="&lt;ip&gt;"</code> in PowerShell instead of <code class="k">export</code>. If the health check fails, recheck the IP/username/key before moving on — every agent depends on this connection.</div>
       </section>
 
       <!-- STEP 5 -->
@@ -844,7 +844,6 @@ Run full penetration test for acme-corp</code></pre></div>
       <div class="phasegrid reveal">
         <div class="phasecard"><div class="pn">Full reference</div><div class="pt"><a href="DOCUMENTATION.md">DOCUMENTATION.md</a></div><div class="pd">All 86 agents, 150+ tools, validation system, security management</div></div>
         <div class="phasecard"><div class="pn">Interactive</div><div class="pt"><a href="Master-Documentation-Portal.html">Master-Documentation-Portal.html</a></div><div class="pd">Searchable agent directory, phases, FAQ</div></div>
-        <div class="phasecard"><div class="pn">Beginner path</div><div class="pt"><a href="Getting-Started-Guide.html">Getting-Started-Guide.html</a></div><div class="pd">Slower-paced walkthrough with a live terminal simulation</div></div>
         <div class="phasecard"><div class="pn">Integration detail</div><div class="pt"><a href="Claude-Code-Integration.md">Claude-Code-Integration.md</a></div><div class="pd">Exactly how Claude Code's Agent tool is called per phase</div></div>
       </div>
     </main>
