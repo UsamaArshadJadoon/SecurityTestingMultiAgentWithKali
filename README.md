@@ -189,7 +189,7 @@ SecurityTestingMultiAgentWithKali/
 │
 ├── docs/                             # Documentation
 │   ├── Master-Documentation-Portal.html  # Interactive documentation hub
-│   ├── Getting-Started-Guide.html        # Step-by-step guide + live simulation
+│   ├── How-To-Use-Agents-Guide.html      # Step-by-step guide, live simulation, agent explorer
 │   ├── DOCUMENTATION.md                  # Complete reference (1,600+ lines)
 │   └── Claude-Code-Integration.md        # Claude Code integration guide
 │
