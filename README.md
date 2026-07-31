@@ -122,6 +122,7 @@ start engagements/my-client/report/report.html
 | Document | Contains |
 |----------|----------|
 | **[DOCUMENTATION.md](docs/DOCUMENTATION.md)** | Everything: Installation, Usage, Reports, All 86 Agents, 150+ Tools, Framework Overview, Validation System, Security Management |
+| **[How-To-Use-Agents-Guide.html](docs/How-To-Use-Agents-Guide.html)** | Animated, interactive walkthrough: git clone → target URL/credentials → initiating a test → a searchable explorer of all 86 real agents |
 
 ---
 
