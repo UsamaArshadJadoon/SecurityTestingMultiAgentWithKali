@@ -11,9 +11,11 @@
 
 ## 📋 What is This?
 
-A production-ready penetration testing framework that orchestrates **106 specialized security agents** across **33 sequential testing phases**, integrating **150+ Kali Linux tools** via SSH. 
+A production-ready penetration testing framework that orchestrates **106 specialized security agents** across **23 capability categories** (recon, web, API, auth, infrastructure, exploitation, mobile, wireless, cloud, and more), integrating **150+ Kali Linux tools** via SSH.
 
-Each finding is validated through **4 security layers** ensuring **100% accuracy with zero false positives**, backed by **real evidence**, **reproducible steps**, and **working code fixes**.
+Each finding is validated through **4 security layers** enforced by real, deterministic code (`orchestrator/validation-gate.js`) — Format → Evidence → Technical Accuracy → Remediation — so a finding that doesn't hold up is rejected, not silently passed through.
+
+**How dispatch actually works:** `Orchestrator.js` does not call any AI or run agents unattended in the background. Real agent dispatch happens through a **live Claude Code session**: you ask Claude Code to run the test, and it reads each `orchestrator/agents/Agent-XXX.md` spec file and dispatches it using its own Agent tool, one (or several, in parallel) at a time, in the same conversation. `Orchestrator.js`'s own `executeAgent()` is an intentional stub — it exists so the engine's state-tracking, dependency ordering, and report generation can be exercised standalone (e.g. in CI), not to run a real test without you.
 
 **Perfect for:** Enterprise security teams, consultants, DevSecOps, compliance validation, and security researchers.
 
@@ -25,14 +27,14 @@ Each finding is validated through **4 security layers** ensuring **100% accuracy
 |---------|---------|
 | **106 Agents** | Web, API, auth, mobile, cloud, IoT, wireless, Windows, Linux, database, and more |
 | **150+ Tools** | nmap, sqlmap, ffuf, nuclei, hashcat, metasploit, frida, ghidra, and 140+ more |
-| **33 Phases** | Recon → Web → API → Auth → Exploitation → Mobile → Wireless → Cloud → Reporting |
-| **4-Layer Validation** | Format → Evidence → Technical → Remediation (0% false positives) |
+| **23 Categories** | Recon → Web → API → Auth → Infrastructure → Exploitation → Mobile → Wireless → Cloud → Reporting |
+| **4-Layer Validation** | Format → Evidence → Technical → Remediation, enforced by real code (`validation-gate.js`) |
 | **Enterprise Reporting** | CVSS 3.1, OWASP Top 10, CWE Top 25, MITRE ATT&CK mapping |
 | **Secure Credentials** | .env file (git-ignored), automatic PII masking |
-| **Human Approval** | Critical findings require security lead sign-off |
-| **100% Real Evidence** | Actual HTTP requests, tool output, screenshots, reproducible steps |
+| **Human Approval** | Findings scoring CVSS ≥ 7.0 pause for explicit sign-off before being finalized |
+| **Real Evidence Required** | Actual HTTP requests, tool output, screenshots, reproducible steps — findings without them are rejected |
 | **Code Examples** | Vulnerable code + fixed code for every finding |
-| **~15 Hour Tests** | Full comprehensive penetration test in ~15 hours (unattended) |
+| **Claude-Code-Driven** | No unattended background mode — a live Claude Code session dispatches each agent via its Agent tool; duration scales with how many agents you run in that session |
 
 ---
 
@@ -82,10 +84,11 @@ bash scripts/setup-engagement.sh my-client
 ```
 Me: "Run full penetration test for my-client"
 
-Result:
-  ✅ Phase 1-33: All testing phases complete
-  ✅ 106 agents executed sequentially
-  ✅ All findings validated (4-layer validation)
+Claude Code reads each orchestrator/agents/Agent-XXX.md spec in dependency
+order (23 categories) and dispatches it live via its own Agent tool:
+
+  ✅ Category 1-23: All testing categories complete
+  ✅ Findings validated as they're produced (4-layer validation gate)
   ✅ Report generated: engagements/my-client/report/report.html
 ```
 
@@ -105,7 +108,7 @@ start engagements/my-client/report/report.html
 **🌟 [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)** - Complete interactive documentation with:
 - Overview & Framework Summary
 - All 106 Agents (searchable)
-- 33 Sequential Phases
+- 23 Capability Categories
 - 4-Layer Validation System
 - Security & Credentials Management
 - Complete Data Flow Architecture
@@ -125,10 +128,10 @@ start engagements/my-client/report/report.html
 ## 🎯 What You Get
 
 ### **Framework Core**
-- ✅ Orchestrator.js (750+ lines) - Agent orchestration
-- ✅ 106 agent specifications - Detailed requirements
+- ✅ Orchestrator.js (588 lines) - Agent orchestration engine, state tracking, dependency ordering
+- ✅ 106 agent specifications - Detailed requirements (~12,200 lines across `orchestrator/agents/*.md`)
 - ✅ 150+ tool integrations - Kali tools via SSH
-- ✅ 33 sequential phases - Data flow between phases
+- ✅ 23 capability categories - Data flow between categories, dependency-ordered
 
 ### **Quality Assurance**
 - ✅ 4-layer validation gates - Format → Evidence → Technical → Remediation
@@ -162,7 +165,7 @@ start engagements/my-client/report/report.html
 SecurityTestingMultiAgentWithKali/
 │
 ├── orchestrator/                     # Core orchestration engine
-│   ├── Orchestrator.js               # Main engine (750+ lines)
+│   ├── Orchestrator.js               # Main engine (588 lines)
 │   ├── validation-gate.js            # Real 4-layer finding validation
 │   ├── report-generator.js           # Renders report.html from validated findings
 │   ├── agents/                       # Agent specifications (106 files)
@@ -212,341 +215,74 @@ SecurityTestingMultiAgentWithKali/
 
 ## 💡 How It Works - Complete Agent Data Flow
 
-### **Detailed Agent-to-Agent Data Flow (All 30 Phases)**
+### **The Real Structure: 23 Categories, Not 33 "Phases"**
+
+`Orchestrator.js`'s own `defineAgents()`/`getPhaseName()` groups all 106 agents into
+**23 sequential capability categories**, each depending on the ones before it so later
+agents receive earlier agents' real findings as context. (A separate, older 33-"phase"
+file-directory grouping still exists in `orchestrator/agents/README.md` for browsing
+the spec files on disk — that's a different, purely organizational numbering and does
+not reflect what actually executes. To avoid the two colliding, the runtime's own
+console output says "CATEGORY", never "PHASE".)
+
+| # | Category | Agents |
+|---|----------|--------|
+| 1 | Reconnaissance & Discovery | 3 |
+| 2 | Web Application Testing | 8 |
+| 3 | API Security | 8 |
+| 4 | Authentication & Authorization | 3 |
+| 5 | Infrastructure, Cloud & AI Surface | 3 |
+| 6 | Deep Exploitation & RCE | 7 |
+| 7 | Post-Exploitation | 9 |
+| 8 | Rate-Limiting, Protocol Abuse & Business Logic | 10 |
+| 9 | Network Protocols | 4 |
+| 10 | Mobile Security | 6 |
+| 11 | Wireless Security | 5 |
+| 12 | Windows & Linux Exploitation | 2 |
+| 13 | Reverse Engineering & Forensics | 3 |
+| 14 | Cloud Platforms — AWS / GCP / Azure | 4 |
+| 15 | Defense Evasion | 1 |
+| 16 | CI/CD, Dependencies & IaC | 3 |
+| 17 | Cryptography | 1 |
+| 18 | IoT & Firmware | 1 |
+| 19 | Database Security | 1 |
+| 20 | Compliance, Chaining & Reporting | 4 |
+| 21 | Advanced Infrastructure Security | 8 |
+| 22 | Advanced Database Security | 6 |
+| 23 | Web, Mobile & API Coverage Extension | 6 |
+
+**106 agents total.** Each category's agents declare the prior categories' agent names
+as their `dependencies`, so — for example — every Category 2-23 agent can see Category 1's
+real recon output before it starts, and Category 8 (Business Logic) can see everything
+Categories 1-7 already found.
+
+### **Execution Flow**
 
 ```
-╔═════════════════════════════════════════════════════════════════════════════╗
-║                  SECURITY TESTING ORCHESTRATOR - DATA FLOW                  ║
-║                    106 Agents with Full Dependency Chain                    ║
-╚═════════════════════════════════════════════════════════════════════════════╝
-
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ INITIALIZATION: Load config, credentials, scope, authorization             │
-└─────────────────────────────────────────────────────────────────────────────┘
-                              ↓↓↓
-              ExecutionContext { config, creds, scope }
-                              ↓↓↓
-╔═════════════════════════════════════════════════════════════════════════════╗
-║ PHASE 1: RECONNAISSANCE (Agents 001A, 001B)                                ║
-╠═════════════════════════════════════════════════════════════════════════════╣
-║                                                                             ║
-║ INPUT:  { config, credentials, target_url, scope }                         ║
-║                                                                             ║
-║ Agent-001A (Passive OSINT)                  Agent-001B (Active Discovery)  ║
-║ ├─ Input: target_url, scope                 ├─ Input: target_url           ║
-║ ├─ Tools: whois, dig, theHarvester, Shodan  ├─ Tools: nmap, zmap, masscan  ║
-║ ├─ Process: DNS/OSINT queries               ├─ Process: Network scanning   ║
-║ └─ Output: {                                └─ Output: {                   ║
-║      domains: [],                              hosts: [],                  ║
-║      dns_records: [],                          open_ports: [],             ║
-║      technologies: [],                         services: [],               ║
-║      emails: [],                               os_info: [],                ║
-║      ip_ranges: []                             network_map: []             ║
-║    }                                         }                             ║
-║                                                                             ║
-║ COMBINE: Agent-001A Output + Agent-001B Output                             ║
-║ ─────────────────────────────────────────────                              ║
-║ ↓↓↓                                          ↓↓↓                            ║
-║ execution_context.surface_map = {                                          ║
-║   discovered_hosts: [],         ← Agent-001B                               ║
-║   open_ports: [],              ← Agent-001B                                ║
-║   technologies: [],             ← Agent-001A                               ║
-║   dns_records: [],              ← Agent-001A                               ║
-║   potential_endpoints: []       ← Combined analysis                        ║
-║ }                                                                           ║
-║                                                                             ║
-║ VALIDATION: Format → Evidence → Technical Accuracy                         ║
-║                                                                             ║
-╚═════════════════════════════════════════════════════════════════════════════╝
-                        ↓↓↓ execution_context.surface_map ↓↓↓
-╔═════════════════════════════════════════════════════════════════════════════╗
-║ PHASE 2: SURFACE TESTING (Agents 002A-G, 003A-G, 004A, 005, 006, 007)     ║
-╠═════════════════════════════════════════════════════════════════════════════╣
-║                                                                             ║
-║ INPUT: execution_context.surface_map (discovered endpoints + hosts)        ║
-║                                                                             ║
-║ ┌─────────────────────────────────────────────────────────────────────┐   ║
-║ │ Agent-002A (SQL Injection)    ← Input: surface_map.endpoints       │   ║
-║ │ ├─ Tools: sqlmap, sqlninja                                          │   ║
-║ │ ├─ Test: POST endpoints for SQLi                                    │   ║
-║ │ └─ Output: [ { endpoint, payload, response, cvss } ]               │   ║
-║ │                                                                     │   ║
-║ │ Agent-002B (XSS Testing)      ← Input: surface_map.endpoints       │   ║
-║ │ ├─ Tools: DOM-XSS, stored XSS testing                              │   ║
-║ │ ├─ Test: Form inputs for XSS                                       │   ║
-║ │ └─ Output: [ { endpoint, payload, response, cvss } ]               │   ║
-║ │                                                                     │   ║
-║ │ Agent-002C-G: CSRF, Template Injection, Session, XXE, Path Trav   │   ║
-║ │ (Same pattern: Input surface_map → Tools → Output findings)        │   ║
-║ │                                                                     │   ║
-║ │ Agent-003A (REST API Security) ← Input: surface_map.api_endpoints  │   ║
-║ │ ├─ Tools: Postman, ffuf, burp                                      │   ║
-║ │ ├─ Test: API endpoints for auth bypass, BOLA                       │   ║
-║ │ └─ Output: [ { api_endpoint, vulnerability, cvss } ]               │   ║
-║ │                                                                     │   ║
-║ │ Agent-003B-G: GraphQL, gRPC, SOAP, WebSocket, Mass Assignment      │   ║
-║ │ (Same pattern: Input surface_map → Tools → Output findings)        │   ║
-║ │                                                                     │   ║
-║ │ Agent-004A (Auth Testing)     ← Input: surface_map.auth_endpoints  │   ║
-║ │ ├─ Tools: oauth2-utils, jwt_tool                                   │   ║
-║ │ ├─ Test: OAuth2, JWT, SAML flows                                   │   ║
-║ │ └─ Output: [ { auth_type, bypass, cvss } ]                         │   ║
-║ │                                                                     │   ║
-║ │ Agent-005 (Infrastructure)    ← Input: surface_map.hosts           │   ║
-║ │ Agent-006 (Cloud/Container)   ← Input: surface_map.cloud_endpoints │   ║
-║ │ Agent-007 (AI/LLM)            ← Input: surface_map.ai_endpoints    │   ║
-║ │                                                                     │   ║
-║ └─────────────────────────────────────────────────────────────────────┘   ║
-║                                                                             ║
-║ COMBINE ALL FINDINGS:                                                      ║
-║ execution_context.phase2_findings = [                                      ║
-║   ...Agent-002A_findings,    ← SQLi results                                ║
-║   ...Agent-002B_findings,    ← XSS results                                 ║
-║   ...Agent-002C_findings,    ← CSRF results                                ║
-║   ...Agent-002D_findings,    ← Template Injection                          ║
-║   ...Agent-002E_findings,    ← Session testing                             ║
-║   ...Agent-002F_findings,    ← XXE results                                 ║
-║   ...Agent-002G_findings,    ← Path Traversal                              ║
-║   ...Agent-003A_findings,    ← REST API results                            ║
-║   ...Agent-003B_findings,    ← GraphQL results                             ║
-║   ...Agent-003C_findings,    ← gRPC results                                ║
-║   ...Agent-003D_findings,    ← SOAP results                                ║
-║   ...Agent-003E_findings,    ← WebSocket results                           ║
-║   ...Agent-003F_findings,    ← BOLA results                                ║
-║   ...Agent-003G_findings,    ← Mass Assignment                             ║
-║   ...Agent-004A_findings,    ← Auth bypass results                         ║
-║   ...Agent-005_findings,     ← Infrastructure results                      ║
-║   ...Agent-006_findings,     ← Cloud/Container results                     ║
-║   ...Agent-007_findings      ← AI/LLM results                              ║
-║ ]                                                                           ║
-║                                                                             ║
-║ VALIDATION: All findings pass 4-layer validation gates                     ║
-║                                                                             ║
-╚═════════════════════════════════════════════════════════════════════════════╝
-            ↓↓↓ execution_context.validated_phase2_findings ↓↓↓
-╔═════════════════════════════════════════════════════════════════════════════╗
-║ PHASE 3: DEEP EXPLOITATION (Agents 008, 009, 010, 011, 012, 013, 014)     ║
-╠═════════════════════════════════════════════════════════════════════════════╣
-║                                                                             ║
-║ INPUT: execution_context.validated_phase2_findings + surface_map           ║
-║        (Uses confirmed vulnerabilities to attempt deeper exploitation)     ║
-║                                                                             ║
-║ Agent-008 (SSRF Exploitation)                                              ║
-║ ├─ Input: phase2_findings (found open endpoints)                           ║
-║ ├─ Tools: SSRF Proxy, cloud-metadata test                                  ║
-║ ├─ Process: Try to access internal resources using found endpoints         ║
-║ └─ Output: [ { internal_resource, accessed, cvss } ]                       ║
-║                                                                             ║
-║ Agent-009 (Request Smuggling)                                              ║
-║ ├─ Input: phase2_findings + surface_map.web_servers                        ║
-║ ├─ Tools: turbo-intruder, request smuggling tools                          ║
-║ ├─ Process: CL.TE, TE.CL attacks on confirmed endpoints                    ║
-║ └─ Output: [ { smuggling_method, accessed, cvss } ]                        ║
-║                                                                             ║
-║ Agent-010 (File Upload RCE)                                                ║
-║ ├─ Input: phase2_findings (found upload endpoints)                         ║
-║ ├─ Tools: polyglot file creation, magic byte bypass                        ║
-║ ├─ Process: Execute code via confirmed upload vulnerability                ║
-║ └─ Output: [ { rce_method, command_executed, cvss } ]                      ║
-║                                                                             ║
-║ Agent-011 (Path Traversal LFI)                                             ║
-║ Agent-012 (XXE Injection)                                                  ║
-║ Agent-013 (Deserialization RCE)                                            ║
-║ Agent-014 (SSTI Exploitation)                                              ║
-║ (Same pattern: Input findings → Deeper exploitation → RCE/Data Access)     ║
-║                                                                             ║
-║ COMBINE DEEP FINDINGS:                                                     ║
-║ execution_context.phase3_findings = [                                      ║
-║   ...phase2_findings (carried forward),                                    ║
-║   ...Agent-008_findings,   ← SSRF results                                  ║
-║   ...Agent-009_findings,   ← Request smuggling                             ║
-║   ...Agent-010_findings,   ← File upload RCE                               ║
-║   ...Agent-011_findings,   ← Path traversal                                ║
-║   ...Agent-012_findings,   ← XXE injection                                 ║
-║   ...Agent-013_findings,   ← Deserialization                               ║
-║   ...Agent-014_findings    ← SSTI                                          ║
-║ ]                                                                           ║
-║                                                                             ║
-╚═════════════════════════════════════════════════════════════════════════════╝
-       ↓↓↓ execution_context.validated_phase3_findings ↓↓↓
-╔═════════════════════════════════════════════════════════════════════════════╗
-║ PHASE 4-9: ADVANCED EXPLOITATION (Post-Exploitation, Cloud, etc)           ║
-╠═════════════════════════════════════════════════════════════════════════════╣
-║                                                                             ║
-║ INPUT: execution_context.validated_phase3_findings                         ║
-║        (Uses RCE/data access to attempt privilege escalation)              ║
-║                                                                             ║
-║ Agent-015 (Post-Exploitation)                                              ║
-║ ├─ Input: phase3_findings (confirmed RCE/access)                           ║
-║ ├─ Tools: linpeas, winpeas, system enumeration                             ║
-║ ├─ Process: Enumerate system after gaining access                          ║
-║ └─ Output: [ { system_info, user_permissions, cvss } ]                     ║
-║                                                                             ║
-║ Agent-016 (Privilege Escalation)                                           ║
-║ ├─ Input: phase4_findings (system info)                                    ║
-║ ├─ Tools: gtfobins, kernel exploit DB                                      ║
-║ ├─ Process: Escalate from low to high privilege                            ║
-║ └─ Output: [ { escalation_method, root_access, cvss } ]                    ║
-║                                                                             ║
-║ Agent-017 (Secrets Harvesting)                                             ║
-║ Agent-018 (Lateral Movement)                                               ║
-║ Agent-019 (Cloud AWS)                                                      ║
-║ Agent-020 (Defense Evasion)                                                ║
-║ (Same pattern: Input prior findings → Deeper attack chains)                ║
-║                                                                             ║
-║ execution_context.phases4_9_findings = [                                   ║
-║   ...previous_phase_findings,                                              ║
-║   ...Agent-015_findings,   ← Post-exploitation                             ║
-║   ...Agent-016_findings,   ← Privilege escalation                          ║
-║   ...Agent-017_findings,   ← Secrets harvested                             ║
-║   ...Agent-018_findings,   ← Lateral movement                              ║
-║   ...Agent-019_findings,   ← Cloud exploitation                            ║
-║   ...Agent-020_findings    ← Defense evasion                               ║
-║ ]                                                                           ║
-║                                                                             ║
-╚═════════════════════════════════════════════════════════════════════════════╝
-    ↓↓↓ execution_context.validated_phases4_9_findings ↓↓↓
-╔═════════════════════════════════════════════════════════════════════════════╗
-║ PHASE 10-20: SPECIALIZED TESTING (Protocols, Mobile, Extended)             ║
-╠═════════════════════════════════════════════════════════════════════════════╣
-║                                                                             ║
-║ INPUT: execution_context.validated_previous_phase_findings                 ║
-║                                                                             ║
-║ Agent-021 (Rate Limiting)                                                  ║
-║ ├─ Input: surface_map.endpoints + phase1-9 findings                        ║
-║ ├─ Process: Test rate limiting on discovered endpoints                     ║
-║ └─ Output: [ { endpoint, rate_limit_bypass, cvss } ]                       ║
-║                                                                             ║
-║ Agent-022 (Protocols SMTP/LDAP/RDP/DB)                                     ║
-║ Agent-023 (Mobile iOS/Android)                                             ║
-║ Agent-024-029 (Extended: Windows AD, Linux Kernel, IoT, etc)               ║
-║ (Same pattern: Input phase findings → Specialized testing)                 ║
-║                                                                             ║
-║ execution_context.all_phase_findings = [                                   ║
-║   ...all_validated_findings_from_phases_1_20                               ║
-║ ]                                                                           ║
-║                                                                             ║
-╚═════════════════════════════════════════════════════════════════════════════╝
-        ↓↓↓ execution_context.all_validated_findings ↓↓↓
-╔═════════════════════════════════════════════════════════════════════════════╗
-║ VALIDATION LAYER: 4-Layer Validation Gates for ALL Findings                ║
-╠═════════════════════════════════════════════════════════════════════════════╣
-║                                                                             ║
-║ ALL Findings ──→ GATE 1 ──→ GATE 2 ──→ GATE 3 ──→ GATE 4 ──→ APPROVED    ║
-║ (from all 106  Format     Evidence   Technical   Remediation  (if CVSS     ║
-║  agents)      Validation Validation  Accuracy    Validation   ≥7.0)        ║
-║                                                                             ║
-║ execution_context.validated_findings_only = [                              ║
-║   ...only_findings_that_passed_all_4_gates                                 ║
-║ ]                                                                           ║
-║                                                                             ║
-╚═════════════════════════════════════════════════════════════════════════════╝
-            ↓↓↓ execution_context.validated_findings_only ↓↓↓
-╔═════════════════════════════════════════════════════════════════════════════╗
-║ PHASE 30: REPORT GENERATION (Agent-035)                                    ║
-╠═════════════════════════════════════════════════════════════════════════════╣
-║                                                                             ║
-║ INPUT: execution_context.validated_findings_only (ONLY validated)          ║
-║                                                                             ║
-║ Agent-030 (Reporting)                                                      ║
-║ ├─ Input: validated_findings_only                                          ║
-║ ├─ Process:                                                                ║
-║ │  1. PII Masking (names, emails, SSNs)                                    ║
-║ │  2. Credential removal                                                   ║
-║ │  3. Risk matrix generation                                               ║
-║ │  4. OWASP/CWE/MITRE mapping                                              ║
-║ │  5. Severity distribution                                                ║
-║ │  6. HTML report generation                                               ║
-║ └─ Output: {                                                               ║
-║      html_report: "...",                                                   ║
-║      summary: { ... },                                                     ║
-║      findings: [ ... ],                                                    ║
-║      metrics: { ... }                                                      ║
-║    }                                                                        ║
-║                                                                             ║
-╚═════════════════════════════════════════════════════════════════════════════╝
-                                  ↓↓↓
-                    ✅ engagements/[name]/report/report.html
-                    ✅ 30-80 Detailed Findings
-                    ✅ All Evidence Backed
-                    ✅ 0% False Positives
-                    ✅ Ready for Developers
+1. Claude Code reads scope.md + config.yaml for this engagement
+   (scope gate: refuses to proceed unless authorization.confirmed: true)
+        ↓
+2. For each of the 23 categories, in order:
+     for each agent in that category:
+       - Claude Code reads orchestrator/agents/Agent-XXX.md
+       - Dispatches it live via the Agent tool, with prior categories'
+         real findings passed in as context
+       - The agent drives real tools over SSH (kali-wrapper.sh) and
+         writes a real finding JSON
+       - validation-gate.js runs all 4 gates against it immediately;
+         a finding that fails any gate is rejected, not silently dropped
+       - A finding scoring CVSS ≥ 7.0 pauses for human sign-off before
+         being accepted
+        ↓
+3. report-generator.js reads every finding file, RE-validates each one
+   (even if already marked "validated" — a finding written outside this
+   flow doesn't get a free pass), computes severity stats, and renders
+   report.html + report.json from templates/report/styles.css
 ```
 
-### **Data Flow Summary Table**
-
-| Phase | Agents | Input Data | Output Data | Dependencies |
-|-------|--------|-----------|-------------|-------------|
-| 1 | 001A, 001B | config, target_url | surface_map, asset_inventory | None |
-| 2 | 002A-G, 003A-G, 004A, 005, 006, 007 | surface_map | web_api_auth_findings | Phase 1 |
-| 3 | 008-014 | surface_map + phase2_findings | exploitation_findings | Phase 1-2 |
-| 4-9 | 015-020 | phase3_findings | advanced_findings | Phase 3 |
-| 10-20 | 021-029 | all_prior_findings | specialized_findings | All prior |
-| 30 | 030 | validated_findings | html_report | All phases |
-| 31-33 | 045-064 (20 agents) | validated_findings + prior context | extension_findings | Infrastructure, Database, Web/Mobile/API depth |
-
-### **Execution Context Object Evolution**
-
-```
-ExecutionContext = {
-  config: {...},
-  credentials: {...},
-  
-  // Phase 1 Output
-  surface_map: {...},           ← Populated by Agent-001A, 001B
-  
-  // Phase 2 Output
-  phase2_findings: [...],       ← Populated by Agents 002-007
-  
-  // Phase 3 Output
-  phase3_findings: [...],       ← Populated by Agents 008-014 (+ phase2)
-  
-  // Phase 4-9 Output
-  phase4_9_findings: [...],     ← Populated by Agents 015-020 (+ phase3)
-  
-  // Phase 10-20 Output
-  all_findings: [...],          ← All findings combined
-  
-  // Validation Output
-  validated_findings: [...],    ← After 4-layer validation gates
-  
-  // Final Output
-  final_report: {
-    html: "...",
-    summary: {...},
-    metrics: {...}
-  }
-}
-```
-
-### **Phase-by-Phase Breakdown**
-
-| Phase | Name | Agents | Focus Area |
-|-------|------|--------|-----------|
-| 1 | Reconnaissance | 2 | Discovery & mapping |
-| 2 | Surface Testing | 7+ | Web, API, Auth, Cloud |
-| 3 | Deep Exploitation | 7 | RCE, injection, bypass |
-| 4-9 | Advanced Testing | 20+ | Specific vulnerabilities |
-| 10-20 | Specialized | 30+ | Protocols, platforms, logic |
-| 21-30 | Extended | 15+ | Edge cases, hardening |
-| 31-33 | Extension | 20 | Infrastructure, Database, Web/Mobile/API depth |
-
-### **Data Flow Between Phases**
-
-```
-Phase 1 Output (Surface Map) 
-    ↓
-├─→ Phase 2 (targets discovered)
-    ├─→ Phase 3 (endpoints identified)
-    ├─→ Phase 4 (vulnerabilities found)
-    └─→ ... Phases 5-30 (refined attacks using prior context)
-                    ↓
-            4-Layer Validation
-                    ↓
-            Sanitization & PII Masking
-                    ↓
-            Final Report Generation
-```
+There's no separate "phase 30 reporting agent" step distinct from this — report
+generation is a plain function (`generateReport()`) called once all categories are
+done, or on demand at any point to see current progress.
 
 ### **4-Layer Validation**
 
@@ -593,7 +329,7 @@ bash scripts/validate-config.sh acme-corp
 ```
 Me: "Run full penetration test for acme-corp"
 
-Claude: Orchestrating 106 agents across 33 phases...
+Claude: Reading each agent spec and dispatching it live, category by category (23 categories)...
 
 [Progress updates as each agent completes]
 ✅ recon-agent (5 findings)
@@ -658,7 +394,7 @@ Report includes:
 2. **Overview** - Why use this framework, unique features, FAQ
 3. **Features** - Vulnerability coverage, advanced capabilities
 4. **Agents** - All 106 agents explained (searchable)
-5. **Phases** - 33 sequential testing phases with timing
+5. **Categories** - 23 capability categories with agent breakdown
 6. **Validation** - 4-layer validation system and accuracy
 7. **Security** - Credential protection, PII masking, audit logging
 8. **Workflow** - Complete data flow architecture
@@ -682,12 +418,12 @@ Report includes:
 | Metric | Value |
 |--------|-------|
 | **Agents** | 106 specialized |
-| **Phases** | 33 sequential |
+| **Categories** | 23, dependency-ordered |
 | **Tools** | 150+ integrated |
-| **Code** | 5,000+ lines |
+| **Engine Code** | 588 lines (`Orchestrator.js`) + ~1,900 total across the JS engine and shell scripts |
+| **Agent Specifications** | ~12,200 lines across 106 markdown files |
 | **Documentation** | Comprehensive guides + interactive portal |
-| **Agent Specs** | 106 detailed agent files |
-| **Test Duration** | ~15 hours full test (unattended) |
+| **Test Duration** | Scales with agents dispatched in a session — no unattended/background mode; Claude Code drives each agent live |
 | **False Positive Rate** | 0% (4-layer validation) |
 | **OWASP Coverage** | 100% (10/10) |
 | **CWE Coverage** | 100% (25/25) |
@@ -717,9 +453,9 @@ Apache License 2.0 - See [LICENSE](LICENSE) file for details
 
 ## 🌟 Why Use This Framework?
 
-✅ **Complete:** 106 agents × 33 phases = comprehensive coverage  
-✅ **Accurate:** 4-layer validation = 0% false positives  
-✅ **Thorough:** ~15 hours for a full, unattended penetration test  
+✅ **Complete:** 106 agents across 23 dependency-ordered categories = comprehensive coverage  
+✅ **Accurate:** 4-layer validation gate enforced by real code, not a self-assessment  
+✅ **Thorough:** Claude Code drives each agent live via its Agent tool — no unattended background mode, but no API key or extra billing setup either  
 ✅ **Secure:** Credentials protected, PII masked automatically  
 ✅ **Actionable:** Code examples & clear remediation steps  
 ✅ **Professional:** Enterprise-grade HTML reports  
