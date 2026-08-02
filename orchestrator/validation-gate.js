@@ -31,7 +31,10 @@ const CVSS_SEVERITY_RANGES = {
   Info: [0.0, 0.0],
 };
 
-const VALID_EFFORTS = ['1-2 hours', '2-4 hours', '4-8 hours', '1-3 days', '3+ days'];
+// Matches if the effort string STARTS WITH one of these — agents are allowed to
+// append context after the estimate (e.g. "2-4 hours (plus a firewall rule change)"),
+// matching the same tolerance as templates/finding-schema.json's effort pattern.
+const VALID_EFFORT_PREFIXES = ['1-2 hours', '2-4 hours', '4-8 hours', '1-3 days', '3+ days'];
 
 function isPlaceholder(str) {
   if (str === undefined || str === null) return true;
@@ -86,8 +89,8 @@ function gate4Remediation(finding) {
   if (isPlaceholder(rem.description)) {
     errors.push('remediation.description is missing, too short, or placeholder text');
   }
-  if (!VALID_EFFORTS.includes(rem.effort)) {
-    errors.push(`remediation.effort must be one of: ${VALID_EFFORTS.join(', ')}`);
+  if (!VALID_EFFORT_PREFIXES.some(prefix => String(rem.effort || '').startsWith(prefix))) {
+    errors.push(`remediation.effort must start with one of: ${VALID_EFFORT_PREFIXES.join(', ')}`);
   }
   return { gate: 'Remediation', passed: errors.length === 0, errors };
 }

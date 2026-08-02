@@ -127,7 +127,7 @@ class ExecutionContext {
    */
   writeFindingFile(dir, finding) {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    const id = finding.id || `FINDING-${Date.now()}`;
+    const id = finding.finding_id || `FINDING-${Date.now()}`;
     fs.writeFileSync(path.join(dir, `${id}.json`), JSON.stringify(finding, null, 2));
   }
 

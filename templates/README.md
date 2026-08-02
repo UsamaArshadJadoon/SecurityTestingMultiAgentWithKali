@@ -37,7 +37,7 @@ if (!isValid) {
 ### Creating a Finding
 ```json
 {
-  "id": "FINDING-0001",
+  "finding_id": "FINDING-0001",
   "title": "SQL Injection in Login Form",
   "description": "The login endpoint is vulnerable to SQL injection...",
   "severity": "Critical",
