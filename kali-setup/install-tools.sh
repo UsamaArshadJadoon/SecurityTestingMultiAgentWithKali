@@ -37,6 +37,10 @@ apt_install_each nmap zmap masscan
 echo "📦 Installing web app testing tools..."
 apt_install_each burpsuite sqlmap ffuf wfuzz nuclei zaproxy
 
+# OSINT
+echo "📦 Installing OSINT tools..."
+apt_install_each python3-shodan
+
 # Exploitation tools
 echo "📦 Installing exploitation tools..."
 apt_install_each metasploit-framework hashcat john
@@ -52,16 +56,6 @@ apt_install_each aircrack-ng wifite pixiewps
 # Others
 echo "📦 Installing miscellaneous tools..."
 apt_install_each git curl wget openssl ssh netcat-traditional
-
-# Tools NOT distributed via apt — installed through their own package
-# managers/direct download instead of a (guaranteed to fail) apt name.
-echo "📦 Installing tools not available via apt..."
-if command -v pip3 > /dev/null 2>&1; then
-    pip3 install --break-system-packages -q shodan 2>/dev/null || pip3 install -q shodan || { echo "⚠️  pip install shodan failed"; FAILED_TOOLS+=("shodan (pip)"); }
-else
-    echo "⚠️  pip3 not found — skipping shodan CLI"
-    FAILED_TOOLS+=("shodan (pip3 missing)")
-fi
 
 echo "ℹ️  Postman has no apt package on Kali/Debian — install manually from"
 echo "   https://www.postman.com/downloads/ (AppImage or snap) if API-agent"
