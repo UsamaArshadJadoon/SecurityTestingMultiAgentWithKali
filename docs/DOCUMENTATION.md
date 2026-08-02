@@ -4,7 +4,7 @@
 1. [Installation & Setup](#installation--setup)
 2. [Usage & Running Tests](#usage--running-tests)
 3. [Understanding Reports](#understanding-reports)
-4. [All 86 Agents](#all-86-agents)
+4. [All 106 Agents](#all-106-agents)
 5. [Tools Reference (150+ Integrated)](#tools-reference-150-integrated)
 6. [Framework Overview](#framework-overview)
 7. [Validation System](#validation-system)
@@ -85,7 +85,7 @@ In Claude Code, run:
 Run full penetration test for my-client
 ```
 
-The orchestrator will execute 30 phases with 86 agents, taking ~2 hours for a complete penetration test.
+The orchestrator will execute 33 phases with 106 agents, taking ~2 hours for a complete penetration test.
 
 #### Step 7: Review Report
 ```bash
@@ -256,7 +256,7 @@ At a glance:
 
 ---
 
-## All 86 Agents
+## All 106 Agents
 
 ### Phase 1: Reconnaissance (1 Agent)
 
@@ -1011,6 +1011,352 @@ At a glance:
 
 ---
 
+### Phase 31: Advanced Infrastructure Security (8 Agents)
+
+#### Agent-045: Network Segmentation
+**Purpose:** Network segmentation & zero-trust validation
+
+**Tools Used:** yersinia, Scapy, nmap, hping3, custom segmentation-mapping scripts
+
+**What It Tests:**
+- VLAN hopping via switch-spoofing and 802.1Q double-tagging
+- Cross-segment reachability vs. the intended segmentation model
+- Firewall/ACL rule hygiene (overly broad or shadowed rules)
+- Zero-trust/micro-segmentation policy enforcement (identity vs. network position)
+
+**Output:** Empirical-vs-intended segmentation reachability matrix with findings
+
+**Duration:** 15-30 minutes
+
+---
+
+#### Agent-046: LoadBalancer & Reverse Proxy
+**Purpose:** Load balancer & reverse proxy security
+
+**Tools Used:** Burp Suite (HTTP Request Smuggler), smuggler.py/h2csmuggler, nmap, testssl.sh
+
+**What It Tests:**
+- HTTP request smuggling (CL.TE/TE.CL/TE.TE desync, HTTP/2 downgrade)
+- Trust of `X-Forwarded-*`/`Forwarded` headers
+- Exposed management interfaces (F5 iControl, Traefik/HAProxy dashboards)
+- TLS-termination configuration at the edge
+
+**Output:** Proxy/LB-layer vulnerabilities with reproducible smuggling PoCs
+
+**Duration:** 15-20 minutes
+
+---
+
+#### Agent-047: VPN & Remote Access
+**Purpose:** VPN & remote access security
+
+**Tools Used:** nmap, ike-scan, hydra/medusa, Hashcat/John the Ripper, Scapy
+
+**What It Tests:**
+- IKE/IPsec version and transform enumeration, aggressive-mode PSK capture
+- VPN portal/RDP Gateway/Citrix/SSL-VPN credential brute-forcing
+- OpenVPN/WireGuard configuration weaknesses (ciphers, missing tls-auth)
+- Offline cracking of captured handshake/credential hashes
+
+**Output:** Remote-access vulnerabilities with exploitation evidence
+
+**Duration:** 15-30 minutes
+
+---
+
+#### Agent-048: Container Orchestration (Deep)
+**Purpose:** Deep container orchestration & service mesh security
+
+**Tools Used:** kubectl/rbac-tool, kube-bench, kube-hunter, OPA/Gatekeeper review, istioctl/linkerd
+
+**What It Tests:**
+- RBAC policy enumeration and effective-permission analysis
+- CIS Kubernetes Benchmark compliance
+- Admission-control policy bypass (privileged containers, hostPath mounts)
+- Service mesh mTLS/authorization-policy gaps
+
+**Output:** Orchestration/service-mesh findings with remediation guidance
+
+**Duration:** 20-30 minutes
+
+---
+
+#### Agent-049: Email Infrastructure Hardening
+**Purpose:** Mail server & MTA infrastructure hardening
+
+**Tools Used:** swaks, nmap SMTP NSE scripts, dig/dnsrecon, testssl.sh, custom SPF/DKIM/DMARC scripts
+
+**What It Tests:**
+- Open-relay testing across authenticated/unauthenticated states
+- SPF/DKIM/DMARC policy strictness and spoofability
+- STARTTLS/TLS enforcement on SMTP transport
+- MX/reverse-DNS consistency
+
+**Output:** Mail-infrastructure hardening findings with policy gaps
+
+**Duration:** 15-20 minutes
+
+---
+
+#### Agent-050: Backup & DR Security
+**Purpose:** Backup & disaster recovery security
+
+**Tools Used:** AWS/Azure/gcloud CLI, ScoutSuite/Prowler, s3scanner, smbclient/rsync/NFS tooling
+
+**What It Tests:**
+- Public/anonymous access to backup buckets, snapshots, and vaults
+- Cross-account snapshot sharing and missing encryption-at-rest
+- On-premises backup share (SMB/NFS) access controls
+- Backup-job configuration (encryption, retention, credential storage)
+
+**Output:** Consolidated backup/DR exposure inventory
+
+**Duration:** 15-30 minutes
+
+---
+
+#### Agent-051: Physical/Virtual Infra Config
+**Purpose:** Virtual infrastructure & hypervisor hardening
+
+**Tools Used:** nmap, CIS-CAT/CIS benchmarks, PowerCLI/Hyper-V PowerShell/virsh, testssl.sh
+
+**What It Tests:**
+- Hypervisor management-interface exposure (vCenter, ESXi, Hyper-V, Proxmox)
+- CIS hardening-benchmark compliance (lockdown mode, logging, NTP)
+- Known hypervisor CVEs (validated only, never speculative)
+- VM/template/snapshot sprawl and patch-currency drift
+
+**Output:** Hypervisor hardening findings and sprawl/orphan report
+
+**Duration:** 15-30 minutes
+
+---
+
+#### Agent-052: Network Device Hardening
+**Purpose:** Network device hardening (routers, switches, firewalls)
+
+**Tools Used:** onesixtyone/snmpwalk/snmp-check, nmap, hydra/medusa, yersinia, Nipper
+
+**What It Tests:**
+- SNMP community-string brute-forcing and MIB-tree disclosure
+- Telnet/unencrypted-HTTP management-plane exposure
+- Layer 2 protocol abuse (STP root-bridge takeover, CDP/DTP)
+- Exported configuration hygiene (weak SNMP strings, missing VTY ACLs)
+
+**Output:** Device-hardening findings with configuration-audit evidence
+
+**Duration:** 15-20 minutes
+
+---
+
+### Phase 32: Advanced Database Security (6 Agents)
+
+#### Agent-053: NoSQL Deep Dive
+**Purpose:** NoSQL engine-specific injection & misconfiguration testing
+
+**Tools Used:** NoSQLMap, nmap NSE (mongodb/redis/cassandra), redis-cli, elasticsearch-py, cqlsh
+
+**What It Tests:**
+- Unauthenticated MongoDB/Redis/Cassandra/Elasticsearch enumeration
+- Redis `CONFIG`/`SLAVEOF`/Lua `EVAL` abuse
+- Elasticsearch stored-script and index-enumeration abuse
+- Credential brute-forcing against exposed NoSQL engines
+
+**Output:** Engine-specific NoSQL injection and misconfiguration findings
+
+**Duration:** 15-30 minutes
+
+---
+
+#### Agent-054: DB Privilege & Replication Audit
+**Purpose:** Database privilege, replication & audit-log security review
+
+**Tools Used:** native `mysql`/`psql`/`sqlcmd`/`mongosh` introspection, CrackMapExec/NetExec, custom SQLAlchemy/psycopg2/pymongo scripts, Wireshark/tcpdump
+
+**What It Tests:**
+- Grant/role enumeration against a least-privilege baseline
+- Shared/service and orphaned database accounts
+- Domain-account-to-database-role mapping (AD-integrated MSSQL)
+- Cleartext replication traffic (binlog/WAL/oplog)
+
+**Output:** Privilege and replication security findings with remediation
+
+**Duration:** 15-30 minutes
+
+---
+
+#### Agent-055: ORM & Query-Builder Injection
+**Purpose:** ORM & query-builder abstraction-layer injection testing
+
+**Tools Used:** sqlmap, Burp Suite (Repeater/Intruder), custom SQLAlchemy scripts, Node.js/Python fuzzing harnesses
+
+**What It Tests:**
+- Raw-query/`.raw()`/`createNativeQuery()` escape-hatch injection
+- Operator injection in JS ORMs (Sequelize `$ne`/`$or`, TypeORM `where` objects)
+- HQL/JPQL injection via Hibernate `createQuery()`
+- Differential (boolean/time-based) confirmation tailored to ORM error fingerprints
+
+**Output:** ORM/query-builder injection findings with PoC payloads
+
+**Duration:** 15-20 minutes
+
+---
+
+#### Agent-056: DBaaS Managed Database Security
+**Purpose:** Managed database service (DBaaS) configuration security review
+
+**Tools Used:** AWS/Azure/GCP CLI, custom boto3/azure-mgmt/google-cloud-sql scripts
+
+**What It Tests:**
+- Public accessibility and unencrypted storage on RDS/Aurora/Cosmos DB/Cloud SQL
+- Overly permissive firewall/authorized-network rules
+- IAM database authentication and key-rotation status
+- Firestore/Cosmos DB security-rule permissiveness
+
+**Output:** DBaaS configuration findings across AWS/Azure/GCP
+
+**Duration:** 15-30 minutes
+
+---
+
+#### Agent-057: Database Encryption & Key Management
+**Purpose:** Database encryption & key management review
+
+**Tools Used:** custom boto3 KMS/azure-keyvault/google-cloud-kms scripts, sslyze/testssl.sh, Wireshark/tcpdump
+
+**What It Tests:**
+- Key-policy, grant, and rotation-status review (KMS/Key Vault/Cloud KMS)
+- Whether "encrypted" columns are genuine ciphertext vs. weak obfuscation
+- In-transit TLS configuration on the database wire protocol
+- Cleartext transmission despite "TLS enabled" configuration flags
+
+**Output:** Encryption and key-management findings with evidence
+
+**Duration:** 15-20 minutes
+
+---
+
+#### Agent-058: Data Warehouse & Big Data Security
+**Purpose:** Data warehouse & big data platform security testing
+
+**Tools Used:** Snowflake connector, google-cloud-bigquery, boto3 (Redshift), Databricks REST API, nmap NSE
+
+**What It Tests:**
+- Role/grant and datashare enumeration for exfiltration-pattern detection
+- Cross-project/authorized-view exposure (BigQuery)
+- Unauthenticated Hadoop NameNode/ResourceManager/Spark UI exposure
+- Unauthenticated YARN job-submission RCE on exposed ResourceManager
+
+**Output:** Data warehouse/big-data platform findings with impact evidence
+
+**Duration:** 15-30 minutes
+
+---
+
+### Phase 33: Web, Mobile & API Coverage Extension (6 Agents)
+
+#### Agent-059: WebAuthn / Passkey Security
+**Purpose:** WebAuthn / FIDO2 passkey security
+
+**Tools Used:** python-fido2, Burp Suite, Chromium virtual authenticator (CDP/Playwright), mitmproxy, jwt_tool
+
+**What It Tests:**
+- Registration/authentication ceremony verification rigor
+- Tampered `clientDataJSON`/`attestationObject`/`authenticatorData` fields
+- Origin/RP ID/challenge validation
+- Downstream session-JWT issuance after assertion exchange
+
+**Output:** WebAuthn/passkey ceremony vulnerabilities with replay evidence
+
+**Duration:** 15-20 minutes
+
+---
+
+#### Agent-060: PWA / Service Worker Security
+**Purpose:** PWA / service worker security
+
+**Tools Used:** Chrome DevTools/CDP via Playwright, Burp Suite/mitmproxy, Lighthouse, pywebpush, Workbox source inspection
+
+**What It Tests:**
+- Service worker/manifest tampering and cache poisoning
+- MITM-hijack persistence after service worker installation
+- Web Push VAPID/subscription validation
+- Caching of routes that should never be cached (auth, personalized responses)
+
+**Output:** PWA/service-worker vulnerabilities with cache-poisoning PoCs
+
+**Duration:** 15-20 minutes
+
+---
+
+#### Agent-061: Cross-Platform Framework Security
+**Purpose:** Cross-platform framework bridge security (React Native, Flutter, hybrid apps)
+
+**Tools Used:** Frida/objection, jadx/apktool/class-dump, Hermes bytecode disassembler, Blutter/reFlutter, MobSF
+
+**What It Tests:**
+- Bridge entry-point tampering (RCTBridge, MethodChannel, JavascriptInterface)
+- Recovered JS/Dart bundle review for hardcoded secrets
+- Unvalidated cross-boundary argument handling
+- Bridge-adjacent network call correlation with backend requests
+
+**Output:** Cross-platform bridge vulnerabilities with runtime-hook evidence
+
+**Duration:** 15-30 minutes
+
+---
+
+#### Agent-062: Mobile Supply Chain Security
+**Purpose:** Mobile app supply chain security
+
+**Tools Used:** apktool/jadx, class-dump/otool, openssl, MobSF, OWASP Dependency-Check/Dependency-Track
+
+**What It Tests:**
+- Code-signing/entitlement/provisioning-profile validity
+- Third-party SDK inventory (SBOM) vs. known CVE databases
+- Manifest/plist permission and debuggable-flag exposure
+- CI/CD pipeline signing-credential and artifact-publishing hygiene
+
+**Output:** Mobile supply-chain findings with SBOM and CVE cross-reference
+
+**Duration:** 15-20 minutes
+
+---
+
+#### Agent-063: API Gateway Deep Dive
+**Purpose:** API gateway platform deep dive (Kong, Apigee, AWS/Azure API gateways)
+
+**Tools Used:** Kong Admin API, AWS CLI/boto3, Azure CLI/azure-mgmt-apimanagement, Apigee Management API, Burp Suite/Postman
+
+**What It Tests:**
+- Route/service/plugin configuration and precedence issues
+- Authorizer (Lambda/Cognito/IAM) and JWT/JWKS policy validation
+- Rate-limit bypass via rotating keys/client IDs/`X-Forwarded-For`
+- Direct-to-backend requests bypassing the gateway
+
+**Output:** API gateway platform findings with bypass evidence
+
+**Duration:** 15-30 minutes
+
+---
+
+#### Agent-064: Webhook Security
+**Purpose:** Webhook security
+
+**Tools Used:** Burp Suite, custom HMAC scripts, mitmproxy, interactsh/Burp Collaborator, ffuf
+
+**What It Tests:**
+- HMAC signature verification rigor (valid vs. tampered signatures)
+- Timestamp/nonce replay handling
+- Blind SSRF via webhook URL registration (out-of-band callback)
+- Predictable/cross-tenant webhook receiver endpoint enumeration
+
+**Output:** Webhook security findings with replay/SSRF evidence
+
+**Duration:** 15-20 minutes
+
+---
+
 ## Tools Reference (150+ Integrated)
 
 > The framework integrates 150+ Kali Linux tools. The list below highlights key tools by category.
@@ -1094,9 +1440,9 @@ User Request (Claude Code)
         ↓
 Phase Manager (Sequential Execution)
         ↓
-    Phase 1-30 (30 Phases)
+    Phase 1-33 (33 Phases)
         ↓
-Agent Dispatch (86 Agents)
+Agent Dispatch (106 Agents)
         ↓
 Tool Execution (150+ Tools via SSH)
         ↓
@@ -1111,8 +1457,8 @@ Report Generation (HTML Report)
 
 #### 1. Orchestrator.js
 - Main orchestration engine (500+ lines)
-- Manages 30 sequential phases
-- Dispatches 86 agents
+- Manages 33 sequential phases
+- Dispatches 106 agents
 - Handles data flow between phases
 - Implements retry logic and error handling
 - Tracks execution metrics
@@ -1164,7 +1510,7 @@ Step 2: Phase 1 Execution
   └─ Reconnaissance Agent runs
   └─ Generates attack surface map
 
-Step 3: Phases 2-30 Execution
+Step 3: Phases 2-33 Execution
   └─ Pass prior phase output as context
   └─ Execute agents with prior findings
   └─ Collect raw findings
@@ -1623,13 +1969,13 @@ A: Verify .secrets file format. Ensure credentials have necessary permissions to
 ### Getting Help
 
 - Check the [Framework Overview](#framework-overview) section above for architecture details
-- Review [All 86 Agents](#all-86-agents) for specific agent behavior
+- Review [All 106 Agents](#all-106-agents) for specific agent behavior
 - See [Tools Reference (150+ Integrated)](#tools-reference-150-integrated) for tool-specific options
 - Consult [Validation System](#validation-system) for validation details
 
 ---
 
-**Framework Version:** 2.0.0 (86 Agents, 30 Phases, 150+ Tools)  
+**Framework Version:** 2.0.0 (106 Agents, 33 Phases, 150+ Tools)  
 **Last Updated:** July 30, 2024  
 **Status:** Production Ready | False Positive Rate: 0%  
 **License:** Apache 2.0  

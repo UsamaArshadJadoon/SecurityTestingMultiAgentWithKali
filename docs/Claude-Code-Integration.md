@@ -2,7 +2,7 @@
 
 **Security Testing Multi-Agent Framework for Claude Code**
 
-Since you're using **Claude Code locally**, all 86 agents dispatch through Claude Code's **Agent tool** across 30 sequential phases.
+Since you're using **Claude Code locally**, all 106 agents dispatch through Claude Code's **Agent tool** across 33 sequential phases.
 
 ---
 
@@ -18,7 +18,7 @@ orchestrator/ (instructions)
        ↓
 Agent Tool (Claude Code built-in)
        ↓
-86 Agents (30 phases, each is a specialized agent call)
+106 Agents (33 phases, each is a specialized agent call)
        ↓
 findings/ (JSON output)
        ↓
@@ -65,7 +65,7 @@ Phase 2: Surface-Level Testing
 - Run infra-agent
 - Run cloud-container-agent
 
-[etc. for all 30 phases]
+[etc. for all 33 phases]
 ```
 
 **Option B: Use Shell Script to Coordinate Agents**
@@ -97,7 +97,7 @@ I will:
 
 ---
 
-## 📋 AGENT SPECIFICATIONS (86 Agents)
+## 📋 AGENT SPECIFICATIONS (106 Agents)
 
 ### PHASE 1: Reconnaissance (1 agent)
 **recon-agent**
@@ -178,7 +178,7 @@ SecurityTestingMultiAgentWithKali/
 │  │  ├─ Agent-001-Reconnaissance.md   # Agent specs (prompts)
 │  │  ├─ Agent-002-Web-Pentest.md
 │  │  ├─ Agent-003-API-Security.md
-│  │  └─ ... (86 total)
+│  │  └─ ... (106 total)
 │  ├─ kali-wrapper.sh              # SSH to Kali
 │  └─ README.md
 │
@@ -344,7 +344,7 @@ All findings saved as JSON following `templates/finding-schema.json`:
 
 ## 📈 EXPECTED OUTCOMES
 
-After running all 86 agents across 30 phases:
+After running all 106 agents across 33 phases:
 
 **Deliverables:**
 - `engagements/acme-corp/evidence/findings/` — All findings (JSON)
@@ -415,7 +415,7 @@ bash scripts/run-pentest.sh acme-corp
 - **Sequential execution** - Each agent waits for prior phase
 - **Data flow** - Context passes between agents
 - **Auto-validation** - Exploitation agent validates all findings
-- **Full automation** - 86 agents, minimal manual work
+- **Full automation** - 106 agents, minimal manual work
 - **Enterprise-ready** - CVSS scoring, OWASP mapping, remediation
 
 ---

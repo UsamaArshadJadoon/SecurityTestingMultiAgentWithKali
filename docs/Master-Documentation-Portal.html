@@ -273,8 +273,8 @@
   <!-- HOME -->
   <section id="home" class="section active">
     <div class="kicker">Production-ready penetration testing</div>
-    <h1>86 agents. 30 phases. One command.</h1>
-    <p class="sub">A multi-agent penetration testing framework that orchestrates <b>86 specialized security agents</b> across <b>30 sequential phases</b>, integrating <b>150+ Kali Linux tools</b> via SSH. Every finding is proven through a <b>4-layer validation</b> pipeline — real evidence, reproducible steps, working code fixes.</p>
+    <h1>106 agents. 33 phases. One command.</h1>
+    <p class="sub">A multi-agent penetration testing framework that orchestrates <b>106 specialized security agents</b> across <b>33 sequential phases</b>, integrating <b>150+ Kali Linux tools</b> via SSH. Every finding is proven through a <b>4-layer validation</b> pipeline — real evidence, reproducible steps, working code fixes.</p>
     <div class="stats" id="stats"></div>
     <div style="margin-top:60px">
       <h2 class="section-title">Why choose this?</h2>
@@ -285,15 +285,15 @@
 
   <!-- AGENTS -->
   <section id="agents" class="section">
-    <h2 class="section-title">Capabilities across 30 phases</h2>
-    <p class="section-desc">The 86 specialized agents execute these testing capabilities — grouped by phase — backed by 150+ integrated Kali tools.</p>
+    <h2 class="section-title">Capabilities across 33 phases</h2>
+    <p class="section-desc">The 106 specialized agents execute these testing capabilities — grouped by phase — backed by 150+ integrated Kali tools.</p>
     <input type="text" class="search" id="agentSearch" placeholder="🔍  Search capabilities, tools…">
     <div id="agentGroups"></div>
   </section>
 
   <!-- PHASES -->
   <section id="phases" class="section">
-    <h2 class="section-title">30 sequential phases</h2>
+    <h2 class="section-title">33 sequential phases</h2>
     <p class="section-desc">Each phase consumes prior findings and feeds the next — from reconnaissance through reporting.</p>
     <div class="tablewrap">
       <table>
@@ -314,7 +314,7 @@
   <section id="workflow" class="section">
     <div class="kicker">Interactive pipeline</div>
     <h2 class="section-title" style="margin-top:.2em">Every phase, every agent — live</h2>
-    <p class="section-desc">Press <b>▶ Play run</b> to watch one engagement flow through all <b>13 orchestrated phases</b>, or <b>click any phase to expand its agents</b>. The rail shows the wired runtime; the full <b>86-spec catalog</b> is at the bottom. Every finding clears the 4-layer validation before it reaches the report.</p>
+    <p class="section-desc">Press <b>▶ Play run</b> to watch one engagement flow through all <b>13 orchestrated phases</b>, or <b>click any phase to expand its agents</b>. The rail shows the wired runtime; the full <b>106-spec catalog</b> is at the bottom. Every finding clears the 4-layer validation before it reaches the report.</p>
 
     <div class="stats" id="wfStats"></div>
 
@@ -345,8 +345,8 @@
     </div>
 
     <details class="catalog" id="catalog">
-      <summary><span class="tw">▶</span> Full agent specification library <small>86 spec files</small></summary>
-      <p class="catnote">Every agent spec that ships in <code>orchestrator/agents/</code>, grouped by theme. The orchestrator currently dispatches 35 of these across the 13 phases above; the remainder are extended specifications (mobile, wireless, Windows AD, IoT, reverse engineering, and more) not yet wired into the runtime.</p>
+      <summary><span class="tw">▶</span> Full agent specification library <small>106 spec files</small></summary>
+      <p class="catnote">Every agent spec that ships in <code>orchestrator/agents/</code>, grouped by theme. The orchestrator currently dispatches 35 of these across the 13 phases above; the remainder are extended specifications (mobile, wireless, Windows AD, IoT, reverse engineering, infrastructure/database/API depth, and more) not yet wired into the runtime.</p>
       <div class="catgrid" id="catgrid"></div>
     </details>
   </section>
@@ -398,8 +398,8 @@
   var $=function(id){return document.getElementById(id);};
 
   /* ---------- STATIC DATA ---------- */
-  var STATS=[["86","Agents"],["30","Phases"],["150+","Tools"],["0%","False positives"],["100%","Accuracy"],["~2h","Test time"]];
-  var WFSTATS=[["13","","orchestrated phases"],["35","","agents in runtime"],["86","","agent specs (catalog)"],["150","+","Kali tools via SSH"],["0","%","false-positive rate"]];
+  var STATS=[["106","Agents"],["33","Phases"],["150+","Tools"],["0%","False positives"],["100%","Accuracy"],["~2h","Test time"]];
+  var WFSTATS=[["13","","orchestrated phases"],["35","","agents in runtime"],["106","","agent specs (catalog)"],["150","+","Kali tools via SSH"],["0","%","false-positive rate"]];
 
   var FEATURES=[
     ["✓","Zero false positives","Every finding backed by real evidence through 4-layer validation."],
@@ -459,7 +459,10 @@
     {n:27,title:"Serverless & Functions",a:[["⚡","Lambda Exploit","lambda-testing, iam-privesc"],["🌐","API Gateway","WAF bypass, authorization bypass"],["💾","Storage Testing","s3-misconfig, bucket-access"],["🔐","Secrets & Env","env variable leakage, secret access"]]},
     {n:28,title:"Social Engineering",a:[["📧","Phishing Campaign","gophish, custom phishing"],["📱","SMS/Voice Phishing","twilio, smishing, vishing"],["🎭","Pretexting","social engineering, social media"]]},
     {n:29,title:"Hardware & Physical",a:[["🔌","BIOS/Firmware","bios-hacking, uefi-exploit"],["💾","Side-Channel","power-analysis, timing-attacks"],["🔓","Physical Bypass","hardware hacking, lock picking"]]},
-    {n:30,title:"Reporting & Analysis",a:[["📊","Finding Aggregation","compilation, deduplication, scoring"],["📝","Report Generation","HTML/PDF reports, CVSS, OWASP mapping"]]}
+    {n:30,title:"Reporting & Analysis",a:[["📊","Finding Aggregation","compilation, deduplication, scoring"],["📝","Report Generation","HTML/PDF reports, CVSS, OWASP mapping"]]},
+    {n:31,title:"Advanced Infrastructure Security",a:[["🧩","Network Segmentation","yersinia, scapy, nmap, hping3"],["🔀","LoadBalancer/Proxy","burp (smuggler), smuggler.py, testssl.sh"],["🔒","VPN/Remote Access","ike-scan, hydra, medusa, hashcat"],["🕸️","Container Orchestration (Deep)","kube-bench, kube-hunter, istioctl"],["📧","Email Infra Hardening","swaks, dnsrecon, testssl.sh"],["💾","Backup & DR Security","scoutsuite, prowler, s3scanner"],["🖥️","Hypervisor Hardening","cis-cat, powercli, virsh"],["📡","Network Device Hardening","snmpwalk, onesixtyone, nipper"]]},
+    {n:32,title:"Advanced Database Security",a:[["🍃","NoSQL Deep Dive","nosqlmap, redis-cli, cqlsh"],["🗝️","Privilege & Replication Audit","crackmapexec, sqlalchemy scripts"],["🧮","ORM/Query-Builder Injection","sqlmap, burp, custom fuzzers"],["☁️","DBaaS Security Review","boto3, azure-mgmt, google-cloud-sql"],["🔐","Encryption & Key Management","kms/key-vault scripts, sslyze"],["🏢","Data Warehouse & Big Data","snowflake connector, bigquery, databricks api"]]},
+    {n:33,title:"Web, Mobile & API Extension",a:[["🔑","WebAuthn/Passkey","python-fido2, burp, mitmproxy"],["📲","PWA/Service Worker","chrome devtools, lighthouse, workbox"],["🌉","Cross-Platform Bridge","frida, jadx, blutter/reflutter"],["📦","Mobile Supply Chain","apktool, mobsf, dependency-track"],["🚪","API Gateway Deep Dive","kong admin api, apigee api, burp"],["🪝","Webhook Security","burp, custom hmac scripts, interactsh"]]}
   ];
 
   /* ---------- PIPELINE (13 orchestrated phases, from Orchestrator.js) ---------- */
@@ -580,7 +583,10 @@
     ["Supply chain & compliance",["022 CI/CD Pipeline Security","026 Dependency Scanning","027 CI/CD Pipeline","028 Compliance"]],
     ["Business logic",["029 Business Logic"]],
     ["Source, forensics & hardware",["040 Source Code Disclosure","041 Git Forensics","039 Reverse Engineering (Binary)","042 IoT Firmware Analysis"]],
-    ["Reporting",["030B Report Analysis","035 Reporting"]]
+    ["Reporting",["030B Report Analysis","035 Reporting"]],
+    ["Advanced infrastructure",["045 Network Segmentation","046 LoadBalancer-ReverseProxy","047 VPN-RemoteAccess","048 Container Orchestration Deep","049 Email Infrastructure Hardening","050 Backup-DR Security","051 Physical-Virtual Infra Config","052 Network Device Hardening"]],
+    ["Advanced database",["053 NoSQL Deep Dive","054 DB Privilege-Replication Audit","055 ORM-QueryBuilder Injection","056 DBaaS Managed Database Security","057 Database Encryption-KeyManagement","058 DataWarehouse-BigData Security"]],
+    ["Web, mobile & API extension",["059 WebAuthn-Passkey Security","060 PWA-ServiceWorker Security","061 CrossPlatform Framework Security","062 Mobile Supply Chain Security","063 API Gateway Deep Dive","064 Webhook Security"]]
   ];
 
   /* ---------- NAV ---------- */
