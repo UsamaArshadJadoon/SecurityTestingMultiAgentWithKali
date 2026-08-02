@@ -31,15 +31,11 @@ apt_install_each() {
 
 # Core network tools
 echo "📦 Installing network tools..."
-apt_install_each nmap zmap masscan rustscan
+apt_install_each nmap zmap masscan
 
 # Web application testing
 echo "📦 Installing web app testing tools..."
 apt_install_each burpsuite sqlmap ffuf wfuzz nuclei zaproxy
-
-# API testing
-echo "📦 Installing API testing tools..."
-apt_install_each grpcurl
 
 # Exploitation tools
 echo "📦 Installing exploitation tools..."
@@ -55,7 +51,7 @@ apt_install_each aircrack-ng wifite pixiewps
 
 # Others
 echo "📦 Installing miscellaneous tools..."
-apt_install_each git curl wget openssl ssh nc
+apt_install_each git curl wget openssl ssh netcat-traditional
 
 # Tools NOT distributed via apt — installed through their own package
 # managers/direct download instead of a (guaranteed to fail) apt name.
