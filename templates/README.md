@@ -6,7 +6,7 @@ This directory contains templates and schemas for the Security Testing Framework
 
 ### finding-schema.json
 JSON schema for validated security findings. All findings must conform to this schema:
-- Required fields: id, title, description, severity, cvss_score, evidence, remediation
+- Required fields: finding_id, title, description, severity, cvss_score, cvss_vector, evidence, remediation
 - Validates CVSS 3.1 vector format
 - Ensures evidence includes proof of concept with request/response
 - Requires code examples for remediation

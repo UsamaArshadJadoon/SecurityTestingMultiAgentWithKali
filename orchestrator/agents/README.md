@@ -1,266 +1,170 @@
 # 📋 106 Specialized Penetration Testing Agents
 
-Complete specifications for all 106 agents organized across 33 sequential testing phases.
+Complete specifications for all 106 agents, organized here by the same 23 execution categories `Orchestrator.js` actually runs them in (its own `defineAgents()`/`getPhaseName()` grouping).
 
 **Framework Statistics:**
-- **106 Agent Specification Files** (Agent-001 through Agent-064 with variants)
-- **33 Sequential Phases** from reconnaissance through reporting
+- **106 Agent Specification Files** (Agent-001 through Agent-064, several with lettered sub-agent variants)
+- **23 Execution Categories**, dependency-ordered — each category's agents receive prior categories' real findings as context
 - **150+ Integrated Kali Linux Tools** via SSH
-- **4-Layer Validation System** ensuring 0% false positives
+- **4-Layer Validation System** (`orchestrator/validation-gate.js`) ensuring findings are format-valid, evidenced, technically accurate, and remediation-complete before they reach a report
 - **CVSS 3.1 Scoring** with OWASP/CWE/MITRE mapping
 - **Production Ready** - v2.0.0
 
+> **Note:** every filename below was verified against the real files in this directory — none are placeholders. If you're looking for a specific agent, `Ctrl+F` the exact filename shown in **bold**.
+
 ## Agent Directory
 
-### Phase 1: Reconnaissance & Discovery (3 Agents)
-- **Agent-001-Reconnaissance.md** - Passive/active recon, asset discovery
-- Agent-001A-Passive-Recon - whois, nslookup, theHarvester
-- Agent-001B-Active-Discovery - nmap, zmap, masscan, shodan
+### Category 1: Reconnaissance & Discovery (3 Agents)
+- **Agent-001-Reconnaissance.md** - Reconnaissance & Asset Discovery
+- **Agent-001A-Passive-Recon.md** - Passive Reconnaissance
+- **Agent-001B-Active-Discovery.md** - Active Network Discovery
 
-### Phase 2: Web Application Testing (8 Agents)
-- **Agent-002-Web-Pentest.md** - OWASP Top 10 web testing
-- Agent-002A-SQL-Injection - sqlmap, sqlninja, msfconsole
-- Agent-002B-XSS-Testing - DOM-XSS, stored XSS, reflected XSS
-- Agent-002C-CSRF-CORS - CSRF tokens, CORS policies
-- Agent-002D-Template-Injection - tplmap, Jinja2, ERB
-- Agent-002E-Session-Testing - Session hijacking, fixation
-- Agent-002F-XXE-Injection - XML bombs, external entities
-- Agent-002G-Path-Traversal - Directory traversal, LFI, RFI
+### Category 2: Web Application Testing (8 Agents)
+- **Agent-002-Web-Pentest.md** - Web Pentest
+- **Agent-002A-SQL-Injection.md** - SQL Injection Testing
+- **Agent-002B-XSS-Testing.md** - Cross-Site Scripting
+- **Agent-002C-CSRF-CORS.md** - CSRF and CORS Testing
+- **Agent-002D-Template-Injection.md** - Server-Side Template Injection
+- **Agent-002E-Session-Testing.md** - Session Management
+- **Agent-002F-XXE-Injection.md** - XML External Entity Injection
+- **Agent-002G-Path-Traversal.md** - Path Traversal and LFI
 
-### Phase 3: API & Service Testing (7 Agents)
-- **Agent-003-API-Security.md** - REST/GraphQL/SOAP API testing
-- Agent-003A-REST-API - Burp, Postman, ffuf, wfuzz
-- Agent-003B-GraphQL - GraphQL introspection, query DoS
-- Agent-003C-gRPC - Protocol buffers, grpcurl testing
-- Agent-003D-SOAP - SOAP injection, WS-Security
-- Agent-003E-WebSocket - WebSocket hijacking, bypass
-- Agent-003F-BOLA-Testing - Broken object-level authorization
-- Agent-003G-Mass-Assignment - Parameter pollution
+### Category 3: API Security (8 Agents)
+- **Agent-003-API-Security.md** - API Security
+- **Agent-003A-REST-API.md** - REST API Security Testing
+- **Agent-003B-GraphQL.md** - GraphQL Testing
+- **Agent-003C-gRPC.md** - gRPC Protocol Testing
+- **Agent-003D-SOAP.md** - SOAP Web Services
+- **Agent-003E-WebSocket.md** - WebSocket Security
+- **Agent-003F-BOLA-Testing.md** - Broken Object-Level Auth
+- **Agent-003G-Mass-Assignment.md** - Mass Assignment Vulnerability
 
-### Phase 4: Authentication & Authorization (6 Agents)
-- **Agent-004-Authentication-Authorization.md** - Auth/AuthZ testing
-- Agent-004A-Auth-Flow - OAuth2, OIDC, SAML, basic auth
-- Agent-004B-JWT-Analysis - jwt_tool, jwtcrack, token manipulation
-- Agent-004C-Session-Management - Session fixation, hijacking
-- Agent-004D-Privilege-Escalation - Horizontal/vertical escalation
-- Agent-004E-IDOR-Testing - Broken access control, authorization bypass
-- Agent-004F-MFA-Testing - MFA bypass, weak implementation
+### Category 4: Authentication & Authorization (3 Agents)
+- **Agent-004-Authentication-Authorization.md** - Authentication Authorization
+- **Agent-004A-Auth-Flow.md** - Authentication Flow Testing
+- **Agent-024-OAuth-SAML-JWT.md** - OAuth SAML JWT
 
-### Phase 5: Exploitation & RCE (9 Agents)
-- **Agent-008-SSRF-Exploitation.md** - Server-side request forgery
-- **Agent-009-Request-Smuggling.md** - HTTP request smuggling
-- **Agent-0010-File-Upload-RCE.md** - File upload & RCE
-- **Agent-0011-Path-Traversal-LFI.md** - Path traversal & LFI
-- **Agent-0012-XXE-Injection.md** - XML external entity injection
-- Agent-005A-Deserialization - ysoserial, gadget chains
-- Agent-005B-Command-Injection - OS command injection, commix
-- Agent-005C-Crypto-Weakness - Weak algorithms, hashcat
-- Agent-005D-SSRF - Internal server access, cloud metadata
+### Category 5: Infrastructure, Cloud & AI Surface (3 Agents)
+- **Agent-005-Infrastructure.md** - Network & Infrastructure Security Assessment
+- **Agent-006-Cloud-Container.md** - Cloud Container
+- **Agent-007-AI-LLM.md** - AI LLM
 
-### Phase 6: Infrastructure & Network (7 Agents)
-- **Agent-005-Infrastructure.md** - Network/infrastructure testing
-- Agent-006A-Port-Scanning - nmap, masscan, zmap, rustscan
-- Agent-006B-Service-Enumeration - enum4linux, smbclient, banner grabbing
-- Agent-006C-TLS-SSL - testssl.sh, sslscan, SSL/TLS weaknesses
-- Agent-006D-DNS-Enumeration - DNS zone transfer, subdomain enumeration
-- Agent-006E-Network-Scanning - Network mapping, VLAN hopping
-- Agent-006F-Vuln-Scanning - nessus, openvas, vulscan
-- Agent-006G-Default-Credentials - hydra, medusa, ncrack, default accounts
+### Category 6: Deep Exploitation & RCE (7 Agents)
+- **Agent-008-SSRF-Exploitation.md** - SSRF Exploitation
+- **Agent-009-Request-Smuggling.md** - Request Smuggling
+- **Agent-0010-File-Upload-RCE.md** - File Upload RCE
+- **Agent-0011-Path-Traversal-LFI.md** - Path Traversal LFI
+- **Agent-0012-XXE-Injection.md** - XXE Injection
+- **Agent-0013-Deserialization-RCE.md** - Deserialization RCE
+- **Agent-0014-SSTI-Exploitation.md** - SSTI Exploitation
 
-### Phase 7: Cloud & Container (6 Agents)
-- **Agent-006-Cloud-Container.md** - AWS/GCP/Azure/Docker testing
-- Agent-019-Cloud-AWS-Security - AWS IAM, S3, EC2, RDS
-- Agent-019A-GCP-Testing - GCP IAM, Cloud Storage, Compute
-- Agent-019B-Azure-Security - Azure AD, storage accounts, VMs
-- Agent-019C-Docker-Security - Container escape, image analysis
-- Agent-019D-Kubernetes - RBAC, network policies, secrets
-- Agent-019E-Storage-Buckets - S3, GCS, Azure Blob misconfigurations
+### Category 7: Post-Exploitation (9 Agents)
+- **Agent-010A-Privilege-Escalation.md** - Privilege Escalation
+- **Agent-010B-Lateral-Movement.md** - Lateral Movement Risk Assessment
+- **Agent-010C-Persistence.md** - Persistence Mechanism Risk Assessment
+- **Agent-010D-Data-Exfiltration.md** - Data Exposure & Exfiltration-Path Risk Assessment
+- **Agent-010E-Cleanup.md** - Post-Engagement Cleanup & Revert Verification
+- **Agent-015-Post-Exploitation.md** - Post-Exploitation Impact Synthesis
+- **Agent-017-Secrets-Harvesting.md** - Exposed Secrets Discovery
+- **Agent-018-Lateral-Movement.md** - Network Segmentation & Detection-Gap Assessment
+- **Agent-037-Privilege-Escalation.md** - Privilege Escalation
 
-### Phase 8: Source Code & Dependencies (4 Agents)
-- Agent-008A-SAST - semgrep, sonarqube, checkmarx
-- Agent-008B-Dependency-Check - OWASP-DC, snyk, retire.js
-- Agent-008C-Secret-Scanning - truffleHog, gitleaks, detect-secrets
-- Agent-008D-Code-Analysis - bandit, pylint, shellcheck
+### Category 8: Rate-Limiting, Protocol Abuse & Business Logic (10 Agents)
+- **Agent-011A-Rate-Limit.md** - Rate Limit
+- **Agent-011B-DoS-Attacks.md** - DoS Attacks
+- **Agent-011C-Resource-Abuse.md** - Resource Abuse
+- **Agent-029-Business-Logic.md** - Business Logic
+- **Agent-030-Rate-Limiting.md** - Rate Limiting
+- **Agent-031-Mass-Assignment.md** - Mass Assignment
+- **Agent-031A-Extras.md** - Extras
+- **Agent-032-WebSocket.md** - WebSocket
+- **Agent-032A-Advanced.md** - Advanced
+- **Agent-033-gRPC.md** - gRPC
 
-### Phase 9: Advanced Testing (6 Agents)
-- **Agent-007-AI-LLM.md** - AI/LLM endpoint testing
-- Agent-009A-LLM-Injection - Prompt injection, jailbreaks
-- Agent-009B-Business-Logic - Flow bypasses, state manipulation
-- Agent-009C-Race-Conditions - turbo-intruder, timing attacks
-- Agent-009D-Cache-Poisoning - Cache invalidation, HTTP cache
-- Agent-009E-Redirect-Testing - Open redirect, DOM manipulation
-- Agent-009F-Supply-Chain - npm-audit, dependency chains
+### Category 9: Network Protocols (4 Agents)
+- **Agent-012A-SMTP-Email.md** - SMTP Email
+- **Agent-012B-LDAP-Directory.md** - LDAP Directory
+- **Agent-012C-Database.md** - Database
+- **Agent-012D-RDP-Remote.md** - RDP Remote
 
-### Phase 10: Post-Exploitation (5 Agents)
-- Agent-010A-Privilege-Escalation - linpeas, winpeas, gtfobins
-- Agent-010B-Lateral-Movement - mimikatz, psexec, dcomexec
-- Agent-010C-Persistence - Registry, cron, systemd, scheduled tasks
-- Agent-010D-Data-Exfiltration - Data extraction, covert channels
-- Agent-010E-Cleanup - Log deletion, artifact removal
+### Category 10: Mobile Security (6 Agents)
+- **Agent-013-Mobile-iOS.md** - iOS Security Testing
+- **Agent-014-Mobile-Android.md** - Android Security Testing
+- **Agent-014A-Mobile-Auth.md** - Mobile Auth
+- **Agent-014B-Mobile-Storage.md** - Mobile Storage
+- **Agent-014C-Mobile-Comms.md** - Mobile Comms
+- **Agent-014D-Mobile-Injection.md** - Mobile Injection
 
-### Phase 11: Rate Limiting & DoS (3 Agents)
-- Agent-011A-Rate-Limit - Rate limit bypass, distributed requests
-- Agent-011B-DoS-Attacks - slowhttptest, xerxes, resource exhaustion
-- Agent-011C-Resource-Abuse - API resource limits, quota bypass
+### Category 11: Wireless Security (5 Agents)
+- **Agent-014E-WPA-Cracking.md** - WPA Cracking
+- **Agent-014F-Bluetooth.md** - Bluetooth
+- **Agent-014G-RFID-NFC.md** - RFID NFC
+- **Agent-014H-Cellular.md** - Cellular
+- **Agent-038-Wireless-WiFi-Hacking.md** - Wireless WiFi Security Testing
 
-### Phase 12: Advanced Protocols (4 Agents)
-- Agent-012A-SMTP-Email - swaks, smtp-user-enum, email spoofing
-- Agent-012B-LDAP-Directory - ldapdump, ldapnomnom, FreeIPA
-- Agent-012C-Database - sqlmap, nosqlmap, direct DB access
-- Agent-012D-RDP-Remote - hydra, ncrack, RDP exploitation
+### Category 12: Windows & Linux Exploitation (2 Agents)
+- **Agent-016-Linux-Kernel-Exploit.md** - Linux Kernel Exploitation
+- **Agent-036-Windows-AD-Kerberos.md** - Active Directory & Kerberos Configuration Assessment
 
-### Phase 13: Mobile Security (6 Agents)
-- **Agent-013-Mobile-iOS.md** - iOS app security testing
-- **Agent-014-Mobile-Android.md** - Android app security testing
-- Agent-014A-Mobile-Auth - MFA bypass, session manipulation
-- Agent-014B-Mobile-Storage - Keychain, SharedPreferences, SQLite
-- Agent-014C-Mobile-Comms - Certificate pinning bypass, MITM
-- Agent-014D-Mobile-Injection - Frida hooking, code injection
+### Category 13: Reverse Engineering & Forensics (3 Agents)
+- **Agent-039-Reverse-Engineering-Binary.md** - Binary Reverse Engineering & Analysis
+- **Agent-040-Source-Code-Disclosure.md** - Source Code Disclosure
+- **Agent-041-Git-Forensics.md** - Git Forensics
 
-### Phase 14: Wireless Security (5 Agents)
-- **Agent-038-Wireless-WiFi-Hacking.md** - WiFi penetration testing
-- Agent-014E-WPA-Cracking - WPA2/WPA3 handshake, hashcat
-- Agent-014F-Bluetooth - Bluetooth hacking, bluesnarfer
-- Agent-014G-RFID-NFC - libnfc, proxmark, card cloning
-- Agent-014H-Cellular - IMSI catchers, 4G/5G attacks
+### Category 14: Cloud Platforms — AWS / GCP / Azure (4 Agents)
+- **Agent-019-Cloud-AWS-Security.md** - AWS Cloud Security Testing
+- **Agent-021-AWS-Exploitation.md** - AWS Exploitation
+- **Agent-023-Azure-Exploitation.md** - Azure Exploitation
+- **Agent-043-GCP-Exploitation.md** - GCP Exploitation
 
-### Phase 15: Windows Exploitation (7 Agents)
-- Agent-015A-Windows-Enum - bloodhound, adexplorer, powersploit
-- **Agent-036-Windows-AD-Kerberos.md** - Windows AD & Kerberos testing
-- Agent-015B-Credential-Theft - mimikatz, procdump, memory dumps
-- Agent-015C-Privilege-Esc - winpeas, UACME, token impersonation
-- Agent-015D-Lateral-Movement - psexec, wmiexec, dcomexec
-- Agent-015E-UAC-Bypass - UAC bypass exploits
-- Agent-015F-Persistence - Registry, scheduled tasks, WMI
+### Category 15: Defense Evasion (1 Agent)
+- **Agent-020-Defense-Evasion-AV-EDR.md** - Detection-Coverage Assessment (Purple Team)
 
-### Phase 16: Linux Exploitation (6 Agents)
-- Agent-016A-Linux-Enum - linpeas, linenum, unix-privesc-check
-- **Agent-016-Linux-Kernel-Exploit.md** - Linux kernel exploitation
-- Agent-016B-Sudo-Abuse - Sudo CVEs, gtfobins
-- Agent-016C-Package-Exploit - Package manager vulnerabilities
-- Agent-016D-Container-Escape - cgroup escape, namespace escape
-- Agent-016E-Persistence - Cron, systemd, .bashrc persistence
+### Category 16: CI/CD, Dependencies & IaC (3 Agents)
+- **Agent-022-CI-CD-Pipeline-Security.md** - CI/CD Pipeline Security Testing
+- **Agent-026-Dependency-Scanning.md** - Dependency Scanning
+- **Agent-027-CI-CD-Pipeline.md** - CI CD Pipeline
 
-### Phase 17: Reverse Engineering (5 Agents)
-- **Agent-039-Reverse-Engineering-Binary.md** - Binary reverse engineering
-- Agent-017A-Disassembly - Objdump, readelf, binwalk
-- Agent-017B-Code-Patching - Pwntools, keystone, radare2
-- Agent-017C-Exploit-Dev - ROP gadgets, shellcode, payload dev
-- Agent-017D-Library-Hijacking - LD_PRELOAD, DLL injection
+### Category 17: Cryptography (1 Agent)
+- **Agent-025-Cryptography.md** - Cryptography
 
-### Phase 18: Malware Analysis (5 Agents)
-- Agent-018A-Static-Analysis - strings, file, yara, clamav
-- Agent-018B-Dynamic-Analysis - cuckoo, behavioral analysis
-- Agent-018C-Network-Analysis - wireshark, tcpdump, zeek
-- Agent-018D-Deobfuscation - de4js, decompiler, string analysis
-- Agent-018E-IOC-Extraction - Indicator extraction, threat intel
+### Category 18: IoT & Firmware (1 Agent)
+- **Agent-042-IoT-Firmware-Analysis.md** - IoT & Firmware Security Testing
 
-### Phase 19: OSINT & Reconnaissance (6 Agents)
-- Agent-019F-Web-OSINT - shodan, censys, viewdns, builtwith
-- Agent-019G-Social-OSINT - linkedin2username, socialscan, people-search
-- Agent-019H-Email-OSINT - hunter.io, clearbit, emailfinder
-- Agent-019I-Company-OSINT - crunchbase, glassdoor, linkedin
-- Agent-019J-Geo-OSINT - Satellite imagery, maps, geolocation
-- Agent-019K-DNS-IP-OSINT - whois, asn lookup, BGP analysis
+### Category 19: Database Security (1 Agent)
+- **Agent-044-Database-Security-Testing.md** - Database Security Testing
 
-### Phase 20: Defense Evasion (7 Agents)
-- **Agent-020-Defense-Evasion-AV-EDR.md** - AV/EDR bypass testing
-- Agent-020A-AV-Evasion - veil, shellter, ebowla
-- Agent-020B-EDR-Bypass - outflank-tools, EDR evasion
-- Agent-020C-IDS-IPS-Evasion - Fragroute, nmap-decoys
-- Agent-020D-Firewall-Bypass - Tunneling, domain-fronting
-- Agent-020E-WAF-Bypass - WAF bypass techniques, payloads
-- Agent-020F-Log-Evasion - Log tampering, event deletion
-- Agent-020G-Anti-Analysis - Obfuscation, anti-debug, anti-VM
+### Category 20: Compliance, Chaining & Reporting (4 Agents)
+- **Agent-028-Compliance.md** - Compliance
+- **Agent-030B-Report-Analysis.md** - Report Analysis
+- **Agent-034-Exploitation-Chaining.md** - Exploitation Chaining
+- **Agent-035-Reporting.md** - Reporting
 
-### Phase 21: IoT & Embedded (5 Agents)
-- **Agent-042-IoT-Firmware-Analysis.md** - IoT firmware testing
-- Agent-021A-IoT-Scanning - shodan, zmap, IoT scanner
-- Agent-021B-Firmware-Analysis - binwalk, firmwalker, extraction
-- Agent-021C-UART-Serial - Serial access, minicom, picocom
-- Agent-021D-JTAG-SWD - OpenOCD, JTAG debugging
-- Agent-021E-Protocol-Hacking - MQTT, CoAP, Zigbee, Z-Wave
+### Category 21: Advanced Infrastructure Security (8 Agents)
+- **Agent-045-Network-Segmentation.md** - Network Segmentation & Zero-Trust Validation
+- **Agent-046-LoadBalancer-ReverseProxy.md** - Load Balancer & Reverse Proxy Security
+- **Agent-047-VPN-RemoteAccess.md** - VPN & Remote Access Security
+- **Agent-048-Container-Orchestration-Deep.md** - Deep Container Orchestration & Service Mesh Security
+- **Agent-049-Email-Infrastructure-Hardening.md** - Mail Server & MTA Infrastructure Hardening
+- **Agent-050-Backup-DR-Security.md** - Backup & Disaster Recovery Security
+- **Agent-051-Physical-Virtual-Infra-Config.md** - Virtual Infrastructure & Hypervisor Hardening
+- **Agent-052-Network-Device-Hardening.md** - Network Device Hardening (Routers, Switches, Firewalls)
 
-### Phase 22: Thick Client Apps (4 Agents)
-- Agent-022A-Desktop-Testing - Burp, procmon, wireshark
-- Agent-022B-Binary-Reversing - ghidra, ida, radare2
-- Agent-022C-Local-Storage - Registry, filesystem, database
-- Agent-022D-IPC-Analysis - Named pipes, sockets, RPC
+### Category 22: Advanced Database Security (6 Agents)
+- **Agent-053-NoSQL-Deep-Dive.md** - NoSQL Engine-Specific Injection & Misconfiguration Testing
+- **Agent-054-DB-Privilege-Replication-Audit.md** - Database Privilege, Replication & Audit-Log Security Review
+- **Agent-055-ORM-QueryBuilder-Injection.md** - ORM & Query-Builder Abstraction-Layer Injection Testing
+- **Agent-056-DBaaS-Managed-Database-Security.md** - Managed Database Service (DBaaS) Configuration Security Review
+- **Agent-057-Database-Encryption-KeyManagement.md** - Database Encryption & Key Management Review
+- **Agent-058-DataWarehouse-BigData-Security.md** - Data Warehouse & Big Data Platform Security Testing
 
-### Phase 23: Database Security (5 Agents)
-- **Agent-044-Database-Security-Testing.md** - Database security testing
-- Agent-023A-SQL-Injection - SQLmap, manual injection
-- Agent-023B-NoSQL-Injection - MongoDB, NoSQL injection
-- Agent-023C-DB-Enumeration - Database structure mapping
-- Agent-023D-DB-Privilege-Esc - Database privilege escalation
-- Agent-023E-Data-Extraction - Blind SQL, exfiltration
-
-### Phase 24: Compliance & Audit (5 Agents)
-- Agent-024A-PCI-DSS - Payment card compliance
-- Agent-024B-HIPAA - Healthcare security audit
-- Agent-024C-GDPR-Privacy - Data protection assessment
-- Agent-024D-SOC2-ISO - Security framework compliance
-- Agent-024E-Config-Review - Hardening, misconfiguration audit
-
-### Phase 25: Cryptography (4 Agents)
-- Agent-025A-Weak-Crypto - hashcat, john, online-cracker
-- Agent-025B-Cipher-Analysis - openssl, cryptanalysis
-- Agent-025C-Certificate-Issues - testssl, sslscan, cert-analysis
-- Agent-025D-Key-Extraction - Memory analysis, side-channel
-
-### Phase 26: CI/CD & DevOps (5 Agents)
-- **Agent-022-CI-CD-Pipeline-Security.md** - CI/CD testing
-- Agent-026A-Pipeline-Exploit - Jenkins, GitLab, GitHub Actions
-- Agent-026B-Container-Registry - Registry access, image scanning
-- Agent-026C-Artifact-Poison - npm, pip, maven poisoning
-- Agent-026D-Secrets-Leak - gitleaks, truffleHog, secret-scanner
-- Agent-026E-IaC-Security - Terraform, Ansible, CloudFormation
-
-### Phase 27: Serverless & Functions (4 Agents)
-- Agent-027A-Lambda-Exploit - Lambda testing, IAM escalation
-- Agent-027B-API-Gateway - WAF bypass, authorization bypass
-- Agent-027C-Storage-Testing - S3 misconfiguration, bucket access
-- Agent-027D-Secrets-Env - Environment variable leakage
-
-### Phase 28: Social Engineering (3 Agents)
-- Agent-028A-Phishing - gophish, custom phishing campaigns
-- Agent-028B-SMS-Voice - Smishing, vishing, phone spoofing
-- Agent-028C-Pretexting - Social engineering, manipulation
-
-### Phase 29: Hardware & Physical (3 Agents)
-- Agent-029A-BIOS-Firmware - BIOS hacking, UEFI exploitation
-- Agent-029B-Side-Channel - Power analysis, timing attacks
-- Agent-029C-Physical-Bypass - Hardware hacking, lock picking
-
-### Phase 30: Reporting & Analysis (2 Agents)
-- Agent-030A-Finding-Aggregation - Data compilation, deduplication
-- **Agent-035-Reporting.md** - Report generation with CVSS, OWASP mapping
-
-### Phase 31: Advanced Infrastructure Security (8 Agents)
-- **Agent-045-Network-Segmentation.md** - Network segmentation & zero-trust validation
-- **Agent-046-LoadBalancer-ReverseProxy.md** - Load balancer & reverse proxy security
-- **Agent-047-VPN-RemoteAccess.md** - VPN & remote access security
-- **Agent-048-Container-Orchestration-Deep.md** - Deep container orchestration & service mesh security
-- **Agent-049-Email-Infrastructure-Hardening.md** - Mail server & MTA infrastructure hardening
-- **Agent-050-Backup-DR-Security.md** - Backup & disaster recovery security
-- **Agent-051-Physical-Virtual-Infra-Config.md** - Virtual infrastructure & hypervisor hardening
-- **Agent-052-Network-Device-Hardening.md** - Network device hardening (routers, switches, firewalls)
-
-### Phase 32: Advanced Database Security (6 Agents)
-- **Agent-053-NoSQL-Deep-Dive.md** - NoSQL engine-specific injection & misconfiguration testing
-- **Agent-054-DB-Privilege-Replication-Audit.md** - Database privilege, replication & audit-log security review
-- **Agent-055-ORM-QueryBuilder-Injection.md** - ORM & query-builder abstraction-layer injection testing
-- **Agent-056-DBaaS-Managed-Database-Security.md** - Managed database service (DBaaS) configuration security review
-- **Agent-057-Database-Encryption-KeyManagement.md** - Database encryption & key management review
-- **Agent-058-DataWarehouse-BigData-Security.md** - Data warehouse & big data platform security testing
-
-### Phase 33: Web, Mobile & API Coverage Extension (6 Agents)
-- **Agent-059-WebAuthn-Passkey-Security.md** - WebAuthn / FIDO2 passkey security
-- **Agent-060-PWA-ServiceWorker-Security.md** - PWA / service worker security
-- **Agent-061-CrossPlatform-Framework-Security.md** - Cross-platform framework bridge security (React Native, Flutter, hybrid apps)
-- **Agent-062-Mobile-Supply-Chain-Security.md** - Mobile app supply chain security
-- **Agent-063-API-Gateway-Deep-Dive.md** - API gateway platform deep dive (Kong, Apigee, AWS/Azure API gateways)
-- **Agent-064-Webhook-Security.md** - Webhook security
+### Category 23: Web, Mobile & API Coverage Extension (6 Agents)
+- **Agent-059-WebAuthn-Passkey-Security.md** - WebAuthn / FIDO2 Passkey Security
+- **Agent-060-PWA-ServiceWorker-Security.md** - PWA / Service Worker Security
+- **Agent-061-CrossPlatform-Framework-Security.md** - Cross-Platform Framework Bridge Security
+- **Agent-062-Mobile-Supply-Chain-Security.md** - Mobile App Supply Chain Security
+- **Agent-063-API-Gateway-Deep-Dive.md** - API Gateway Platform Deep Dive
+- **Agent-064-Webhook-Security.md** - Webhook Security
 
 ## Agent Specification Format
 
