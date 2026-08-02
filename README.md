@@ -68,17 +68,13 @@ bash kali-setup/kali-init.sh
 bash kali-setup/install-tools.sh
 ```
 
-### **2. Configure Engagement (5 minutes)**
+### **2. Configure Engagement (2 minutes, interactive)**
 
 ```bash
-# Create new engagement
+# Creates the engagement, asks for the target URL and each authorized
+# test-user role's username/password, confirms authorization, and saves
+# everything to engagements/my-client/.env — no manual file editing needed
 bash scripts/setup-engagement.sh my-client
-
-# Add test credentials
-nano engagements/my-client/.secrets
-
-# Update scope
-nano engagements/my-client/scope.md
 ```
 
 ### **3. Run Test (In Claude Code)**
@@ -586,8 +582,7 @@ Finding Created by Agent
 
 ### **Step 1: Setup**
 ```bash
-bash scripts/setup-engagement.sh acme-corp
-nano engagements/acme-corp/.secrets  # Add credentials
+bash scripts/setup-engagement.sh acme-corp   # interactive: asks for URL, roles, authorization
 bash scripts/validate-config.sh acme-corp
 ```
 
@@ -735,10 +730,9 @@ Apache License 2.0 - See [LICENSE](LICENSE) file for details
 1. **Clone:** `git clone https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali.git`
 2. **Setup Tools:** `bash kali-setup/kali-init.sh && bash kali-setup/install-tools.sh`
 3. **Read Docs:** Open [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)
-4. **Create Test:** `bash scripts/setup-engagement.sh my-target`
-5. **Configure:** Add credentials to `engagements/my-target/.secrets`
-6. **Run Test:** In Claude Code: "Run full penetration test for my-target"
-7. **Review:** Open `engagements/my-target/report/report.html`
+4. **Create & Configure Test:** `bash scripts/setup-engagement.sh my-target` (interactive — asks for target URL, roles, authorization)
+5. **Run Test:** In Claude Code: "Run full penetration test for my-target"
+6. **Review:** Open `engagements/my-target/report/report.html`
 
 ---
 

@@ -30,7 +30,7 @@ fi
 FILES_TO_CHECK=(
     "config.yaml"
     "scope.md"
-    ".secrets"
+    ".env"
 )
 
 MISSING_FILES=0
@@ -44,15 +44,37 @@ for file in "${FILES_TO_CHECK[@]}"; do
 done
 
 if [ $MISSING_FILES -gt 0 ]; then
-    echo "⚠️  Configuration incomplete. Create missing files before proceeding."
+    echo "⚠️  Configuration incomplete. Create missing files with: bash scripts/setup-engagement.sh $ENGAGEMENT_NAME"
     exit 1
 fi
 
-# Validate .secrets file has content
-if ! grep -q "TARGET_URL" "$ENGAGEMENT_DIR/.secrets"; then
-    echo "❌ .secrets file appears incomplete (missing TARGET_URL)"
+# Validate .env file has content
+if ! grep -q "^TARGET_URL=" "$ENGAGEMENT_DIR/.env"; then
+    echo "❌ .env file appears incomplete (missing TARGET_URL)"
     exit 1
 fi
+
+if ! grep -q "^TARGET_URL=https\?://.\+" "$ENGAGEMENT_DIR/.env"; then
+    echo "❌ TARGET_URL in .env is empty or not a valid URL"
+    exit 1
+fi
+
+if ! grep -q "^ROLE_.*_USERNAME=" "$ENGAGEMENT_DIR/.env"; then
+    echo "❌ .env has no authorized test-user roles (no ROLE_*_USERNAME entries)"
+    echo "   Re-run: bash scripts/setup-engagement.sh $ENGAGEMENT_NAME"
+    exit 1
+fi
+
+ROLE_COUNT=$(grep -c "^ROLE_.*_USERNAME=" "$ENGAGEMENT_DIR/.env")
+echo "✅ Found $ROLE_COUNT authorized test-user role(s) in .env"
+
+# Validate scope.md has authorization confirmed
+if ! grep -q "authorization.confirmed: true" "$ENGAGEMENT_DIR/scope.md"; then
+    echo "❌ scope.md does not confirm authorization (missing 'authorization.confirmed: true')"
+    echo "   This engagement cannot be run until authorization is explicitly confirmed."
+    exit 1
+fi
+echo "✅ Authorization confirmed in scope.md"
 
 echo "✅ Configuration validation complete!"
-echo "📋 Ready to run: node orchestrator/Orchestrator.js $ENGAGEMENT_NAME"
+echo "📋 Ready to run: bash scripts/run-pentest.sh $ENGAGEMENT_NAME"

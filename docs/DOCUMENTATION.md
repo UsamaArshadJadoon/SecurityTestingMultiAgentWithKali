@@ -45,41 +45,47 @@ bash kali-setup/verify-tools.sh
 
 This installs and configures 150+ security tools including nmap, sqlmap, ffuf, nuclei, metasploit, hashcat, burp, metasploit, and many more.
 
-#### Step 3: Create Engagement
+#### Step 3: Create & Configure Engagement (interactive)
 ```bash
 bash scripts/setup-engagement.sh my-client
 ```
 
-This creates a new testing engagement with template configuration.
+This is a one-time interactive intake — the script asks for:
+- The target URL
+- One or more authorized test-user roles (name + username + password each — add at least two, e.g. `admin` and `standard-user`, to enable privilege-escalation/BOLA/IDOR testing)
+- Explicit authorization confirmation (`yes`), plus the authorizing name/email
 
-#### Step 4: Configure Credentials
-```bash
-nano engagements/my-client/.secrets
-```
-
-Add the following to .secrets file:
+It then writes `config.yaml`, `scope.md` (with `authorization.confirmed: true` recorded), and `.env` (git-ignored) automatically — no manual file editing needed. The `.env` file follows this shape:
 ```
 TARGET_URL=https://target.example.com
 TARGET_USERNAME=testuser
 TARGET_PASSWORD=password123
-DATABASE_URL=postgresql://user:pass@db.internal:5432/testdb
-AWS_KEY_ID=AKIA...
-AWS_SECRET_KEY=...
-API_KEY=sk-...
-SCOPE=Full application including APIs
-AUTHORIZATION=Authorized by John Doe, Security Lead
-TESTING_START=2024-07-29
-TESTING_END=2024-07-31
+ROLE_ADMIN_LABEL=admin
+ROLE_ADMIN_USERNAME=admin_user
+ROLE_ADMIN_PASSWORD=AdminP@ss1
+ROLE_STANDARD_USER_LABEL=standard-user
+ROLE_STANDARD_USER_USERNAME=std_user
+ROLE_STANDARD_USER_PASSWORD=StdP@ss1
+DATABASE_HOST=
+DATABASE_USER=
+DATABASE_PASSWORD=
+API_KEY=
+AUTHORIZATION_NAME=John Doe
+AUTHORIZATION_EMAIL=john@company.com
+AUTHORIZATION_DATE=2024-07-29
+TESTING_WINDOW_START=2024-07-29T00:00:00Z
+TESTING_WINDOW_END=2024-08-05T23:59:59Z
 ```
+(Optional fields like `DATABASE_HOST` and `API_KEY` are left blank — edit `.env` by hand afterward if those are in scope.)
 
-#### Step 5: Validate Configuration
+#### Step 4: Validate Configuration
 ```bash
 bash scripts/validate-config.sh my-client
 ```
 
-Verifies all required fields are present and accessible.
+Verifies `config.yaml`, `scope.md`, and `.env` all exist, that `TARGET_URL` is a valid URL, that at least one authorized role is present, and that `scope.md` explicitly confirms authorization.
 
-#### Step 6: Run Penetration Test
+#### Step 5: Run Penetration Test
 In Claude Code, run:
 ```
 Run full penetration test for my-client
@@ -87,7 +93,7 @@ Run full penetration test for my-client
 
 The orchestrator will execute 33 phases with 106 agents, taking ~15 hours (unattended) for a complete penetration test.
 
-#### Step 7: Review Report
+#### Step 6: Review Report
 ```bash
 open engagements/my-client/report/report.html
 ```
@@ -101,11 +107,10 @@ Beautiful HTML report with all findings, evidence, CVSS scores, and remediation 
 ### Basic Workflow
 
 1. **Prepare Target:** Identify target application and get authorization
-2. **Setup Engagement:** Run `bash scripts/setup-engagement.sh <name>`
-3. **Configure Credentials:** Edit `.secrets` file with target details
-4. **Validate:** Run `bash scripts/validate-config.sh <name>`
-5. **Execute:** In Claude Code: "Run full penetration test for <name>"
-6. **Review:** Open generated HTML report
+2. **Setup & Configure Engagement:** Run `bash scripts/setup-engagement.sh <name>` — interactively asks for the target URL, authorized test-user roles, and authorization confirmation, then writes `.env` automatically
+3. **Validate:** Run `bash scripts/validate-config.sh <name>`
+4. **Execute:** In Claude Code: "Run full penetration test for <name>"
+5. **Review:** Open generated HTML report
 
 ### Running Specific Phases
 
@@ -130,9 +135,8 @@ Each engagement has this structure:
 engagements/my-client/
 ├── config.yaml              # Configuration
 ├── scope.md                 # Scope & authorization
-├── .secrets                 # Credentials (git-ignored)
-├── .env                     # Environment variables
-├── findings/                # Raw findings (JSON)
+├── .env                     # Target URL, role credentials (git-ignored)
+├── evidence/findings/       # Raw findings (JSON)
 └── report/                  # Generated reports
     └── report.html          # Final HTML report
 ```
@@ -257,6 +261,8 @@ At a glance:
 ---
 
 ## All 106 Agents
+
+> **Note on organization:** the entries below are grouped by testing *capability/theme* — most entries consolidate several related spec files from `orchestrator/agents/` under one representative write-up (e.g. "Agent-002: Web Application Security" below summarizes the combined coverage of `Agent-002-Web-Pentest.md` and its `Agent-002A`-`Agent-002G` variants). The three most recently added phases (31-33) map one-to-one with individual spec files. For the authoritative, file-by-file directory of all 106 agents organized into 33 sequential phases, see [orchestrator/agents/README.md](../orchestrator/agents/README.md) — that file is the ground truth for exact filenames, phase numbers, and per-file counts.
 
 ### Phase 1: Reconnaissance (1 Agent)
 
@@ -917,7 +923,7 @@ At a glance:
 
 ---
 
-### Phase 8-12: Advanced Testing (4 Agents)
+### Additional Capability Coverage (4 Agents)
 
 #### Agent-029: Business Logic
 **Purpose:** Workflow abuse and state machine bypass
@@ -1502,7 +1508,7 @@ Report Generation (HTML Report)
 
 ```
 Step 1: Configuration Loading
-  └─ Load .secrets file
+  └─ Load .env file
   └─ Validate credentials
   └─ Setup execution context
 
@@ -1775,70 +1781,48 @@ Action: Rejected - No actionable remediation provided
 
 ## Credentials & Security Management
 
-### .secrets File Format
+### .env File Format
 
-All credentials stored in git-ignored .secrets file:
+`bash scripts/setup-engagement.sh <name>` generates this file interactively — you never hand-write it. It is git-ignored and loaded only at runtime:
 
 ```
-# Target Information
+# Target
 TARGET_URL=https://target.example.com
-TARGET_DOMAIN=example.com
+TARGET_DOMAIN=target.example.com
 
-# Authentication Credentials
-TARGET_USERNAME=testuser@example.com
-TARGET_PASSWORD=TestPassword123!
-TARGET_2FA_SECRET=JBSWY3DPEBLW64TMMQ======
+# Default/primary credentials (first role entered)
+TARGET_USERNAME=admin_user
+TARGET_PASSWORD=AdminP@ss1
 
-# Database Credentials
-DATABASE_HOST=db.internal
-DATABASE_PORT=5432
-DATABASE_NAME=production_db
-DATABASE_USER=db_user
-DATABASE_PASSWORD=DatabasePassword123!
+# Per-role credentials (ROLE_<NAME>_USERNAME / ROLE_<NAME>_PASSWORD / ROLE_<NAME>_LABEL)
+ROLE_ADMIN_LABEL=admin
+ROLE_ADMIN_USERNAME=admin_user
+ROLE_ADMIN_PASSWORD=AdminP@ss1
+ROLE_STANDARD_USER_LABEL=standard-user
+ROLE_STANDARD_USER_USERNAME=std_user
+ROLE_STANDARD_USER_PASSWORD=StdP@ss1
 
-# Cloud Credentials
-AWS_KEY_ID=AKIAIOSFODNN7EXAMPLE
-AWS_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-AWS_REGION=us-east-1
+# Database credentials (optional — edit in manually if in scope)
+DATABASE_HOST=
+DATABASE_USER=
+DATABASE_PASSWORD=
 
-GCP_PROJECT_ID=my-project-id
-GCP_SERVICE_ACCOUNT_KEY=/path/to/service-account.json
+# API keys (optional — edit in manually if in scope)
+API_KEY=
 
-AZURE_SUBSCRIPTION_ID=00000000-0000-0000-0000-000000000000
-AZURE_CLIENT_ID=00000000-0000-0000-0000-000000000000
-AZURE_CLIENT_SECRET=ClientSecret123!
-
-# API Keys and Tokens
-API_KEY=sk-1234567890abcdefghijklmnop
-API_SECRET=secret_1234567890abcdefghijklmnop
-JWT_SECRET=JwtSecretKey123!
-
-# SSH Keys
-SSH_PRIVATE_KEY_PATH=/path/to/ssh/private/key
-SSH_PASSPHRASE=SshPassphrase123!
-
-# Scope & Authorization
-SCOPE=Full application including APIs and admin panel
+# Authorization
 AUTHORIZATION_NAME=John Doe
-AUTHORIZATION_TITLE=Security Lead
 AUTHORIZATION_EMAIL=john@example.com
 AUTHORIZATION_DATE=2024-07-29
 
+# Testing window
 TESTING_WINDOW_START=2024-07-29T00:00:00Z
-TESTING_WINDOW_END=2024-07-31T23:59:59Z
-
-OUT_OF_SCOPE=
-- Third-party payment processors
-- Third-party analytics
-- Customer email systems
-- External consultants' systems
-
-RESTRICTIONS=
-- No DoS testing
-- No resource-heavy scanning
-- Test during business hours only
-- Do not modify production data
+TESTING_WINDOW_END=2024-08-05T23:59:59Z
 ```
+
+At least two roles (e.g. `admin` and `standard-user`) are recommended so agents can test horizontal/vertical privilege escalation, BOLA, and IDOR against real, distinct identities rather than a single account.
+
+**Optional additional variables** — not generated automatically, but safe to add by hand to `.env` if the engagement's scope covers them: cloud credentials (`AWS_KEY_ID`/`AWS_SECRET_KEY`, `GCP_SERVICE_ACCOUNT_KEY`, `AZURE_CLIENT_ID`/`AZURE_CLIENT_SECRET`), `SSH_PRIVATE_KEY_PATH`, `JWT_SECRET`, or a 2FA seed (`TARGET_2FA_SECRET`).
 
 ### Credential Protection
 
@@ -1964,7 +1948,7 @@ A: Normal for some targets. Some may have good security. Re-run with different p
 A: A full 106-agent run is expected to take approximately 13-17 hours unattended; complex targets can take longer. This is normal — most agents run unattended, so plan it as an overnight/background run rather than watching it continuously.
 
 **Q: Credentials not working**
-A: Verify .secrets file format. Ensure credentials have necessary permissions to test the target.
+A: Verify .env file format (run `bash scripts/validate-config.sh <name>`). Ensure credentials have necessary permissions to test the target.
 
 ### Getting Help
 
