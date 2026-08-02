@@ -170,52 +170,51 @@ I will:
 ```
 SecurityTestingMultiAgentWithKali/
 │
-├─ .claude/
-│  └─ CLAUDE.md                    # This file
-│
 ├─ orchestrator/
 │  ├─ agents/
 │  │  ├─ Agent-001-Reconnaissance.md   # Agent specs (prompts)
 │  │  ├─ Agent-002-Web-Pentest.md
 │  │  ├─ Agent-003-API-Security.md
+│  │  ├─ README.md                 # Agent directory overview
 │  │  └─ ... (106 total)
+│  ├─ Orchestrator.js              # State tracking + validation gate
 │  ├─ kali-wrapper.sh              # SSH to Kali
+│  ├─ kali-health-check.sh         # Verify Kali connectivity & tools
 │  └─ README.md
 │
 ├─ kali-setup/
 │  ├─ kali-init.sh                 # Setup Kali VM
 │  ├─ install-tools.sh             # Install 150+ tools
-│  └─ kali-config.yaml
+│  ├─ verify-tools.sh              # Confirm tool installation
+│  └─ README.md
 │
-├─ engagements/
-│  ├─ template/
-│  │  ├─ config.yaml               # Copy & fill in
-│  │  ├─ scope.md                  # Copy & fill in
-│  │  └─ .secrets                  # Copy & fill in
-│  │
+├─ engagements/                    # Created per engagement at runtime (git-ignored)
 │  └─ my-client-name/              # Your engagement
 │     ├─ config.yaml
 │     ├─ scope.md
-│     ├─ .secrets
+│     ├─ .env                      # Credentials (git-ignored)
 │     ├─ evidence/
 │     │  ├─ findings/              # JSON findings
-│     │  ├─ raw/                   # Request/response
+│     │  ├─ raw/                  # Request/response
 │     │  └─ screenshots/
 │     └─ report/
 │        └─ report.html
 │
 ├─ templates/
-│  ├─ finding-schema.json          # Canonical format
-│  └─ report-template.html
+│  ├─ finding-schema.json          # Canonical finding format
+│  └─ README.md
 │
 ├─ docs/
-│  ├─ AGENT-SPECS.md               # Detailed agent specs
-│  ├─ TESTING-METHODOLOGY.md       # How to test
-│  └─ ...
+│  ├─ DOCUMENTATION.md             # Complete reference — agents, tools, validation
+│  ├─ Claude-Code-Integration.md   # This file
+│  ├─ Master-Documentation-Portal.html
+│  └─ How-To-Use-Agents-Guide.html
 │
 └─ scripts/
-   ├─ setup-engagement.sh          # Create new engagement
-   └─ run-pentest.sh               # Run orchestration
+   ├─ setup-engagement.sh          # Interactive intake — target URL, roles, credentials
+   ├─ validate-config.sh           # Validate engagement config before running
+   ├─ run-pentest.sh               # Run orchestration
+   └─ check-status.sh              # Show run progress
 ```
 
 ---
@@ -238,13 +237,10 @@ bash orchestrator/kali-health-check.sh
 
 ### 2. Create Engagement
 ```bash
-# Create new client
+# Interactive — asks for the target URL, each authorized test-user role's
+# username/password, and authorization confirmation; saves config.yaml,
+# scope.md, and .env automatically. No manual file editing needed.
 bash scripts/setup-engagement.sh acme-corp
-
-# Edit config
-nano engagements/acme-corp/config.yaml
-nano engagements/acme-corp/scope.md
-nano engagements/acme-corp/.secrets
 ```
 
 ### 3. Run in Claude Code
@@ -372,7 +368,7 @@ After running all 106 agents across 33 phases:
 ### Kali VM Not Reachable
 ```bash
 bash orchestrator/kali-health-check.sh
-# Check SSH keys in .claude/ssh-keys/
+# Check SSH keys in ~/.ssh/ (e.g. ~/.ssh/kali_key), and KALI_HOST/KALI_USER/KALI_KEY env vars
 # Verify Kali VM is running (Hyper-V)
 ```
 

@@ -373,7 +373,6 @@
     <div class="code">git clone https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali.git</div>
     <div class="code">cd SecurityTestingMultiAgentWithKali &amp;&amp; bash kali-setup/kali-init.sh</div>
     <div class="code">bash scripts/setup-engagement.sh my-target</div>
-    <div class="code">nano engagements/my-target/.secrets</div>
     <div class="code">bash scripts/validate-config.sh my-target</div>
     <div class="callout"><b>In Claude Code</b><p>"Run full penetration test for my-target"</p></div>
   </section>
@@ -410,7 +409,7 @@
     ["🚀","Easy integration","Runs in Claude Code — no external APIs, simple setup."]
   ];
   var SECURITY=[
-    ["🔑","Credential protection",".secrets files are git-ignored and loaded only at runtime."],
+    ["🔑","Credential protection",".env files are git-ignored and loaded only at runtime."],
     ["🕵️","PII masking","Sensitive data is masked automatically before it reaches reports."],
     ["✋","Human approval","Critical findings require a security-lead sign-off before filing."],
     ["📝","Audit logging","A complete, tamper-evident trail of every action is recorded."]
@@ -426,7 +425,7 @@
     ["How long does a test take?","Typically ~13-17 hours for a full unattended run, depending on target complexity and size — most of it runs unattended, with well under 2 hours of hands-on setup and review time."],
     ["Can I run specific phases?","Yes — run any phase range for focused retesting or quick assessments, ideal for validating fixes."],
     ["Is this production-ready?","Yes. Enterprise-grade with security hardening, error handling, validation gates, and professional reporting."],
-    ["How are credentials protected?",".secrets files are git-ignored and loaded at runtime only, with automatic PII masking, audit logging, and secure cleanup."]
+    ["How are credentials protected?",".env files are git-ignored and loaded at runtime only, with automatic PII masking, audit logging, and secure cleanup."]
   ];
 
   var PHASES=[
@@ -469,8 +468,8 @@
   var STAGES=[
     {t:"you",ic:"▶",label:"Security lead",sub:"run <code>Run full pentest for acme-corp</code>",title:"You start the engagement",
       role:"One instruction with an engagement name kicks off every phase. You only step back in at the human sign-off gate.",
-      reads:["scope.md + authorization",".secrets (credentials)"],writes:["ExecutionContext"],badge:"input",
-      proc:"The orchestrator loads config.yaml, the git-ignored .secrets, and scope.md, verifies written authorization, and runs the scope guard before anything touches the target.",
+      reads:["scope.md + authorization",".env (credentials)"],writes:["ExecutionContext"],badge:"input",
+      proc:"The orchestrator loads config.yaml, the git-ignored .env, and scope.md, verifies written authorization, and runs the scope guard before anything touches the target.",
       eg:"Loaded acme-corp scope and confirmed every target is in-scope and authorized."},
     {t:"orch",ic:"◆",label:"Orchestrator",sub:"sequences 35 agents · 13 phases",title:"Orchestrator",
       role:"Sequences every phase, threads one ExecutionContext through each agent, runs the 4-layer validation after each finding, and holds critical findings at the human gate. It coordinates — the agents do the testing.",

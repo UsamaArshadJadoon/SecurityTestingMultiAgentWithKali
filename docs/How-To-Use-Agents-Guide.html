@@ -383,23 +383,20 @@
       <div class="termbar"><i class="r"></i><i class="y"></i><i class="g"></i><span>bash / Claude Code — SecurityTestingMultiAgentWithKali</span></div>
       <div class="term" id="term"></div>
     </div>
-    <div class="sim-note">Illustrative replay of Steps 1–15 for the sample engagement "acme-corp" — nothing real runs. Scroll down for the actual, copyable commands.</div>
+    <div class="sim-note">Illustrative replay of Steps 1–13 for the sample engagement "acme-corp" — nothing real runs. Scroll down for the actual, copyable commands.</div>
   </div>
 
   <!-- QUICK COMMANDS -->
   <div class="quick reveal">
     <h3>⚡ Minimum commands to go from zero → a running test</h3>
-    <p class="qd">The exact sequence — copy each block in order. Replace <code class="k">acme-corp</code> with your engagement name and the URL/creds with your real target.</p>
+    <p class="qd">The exact sequence — copy each block in order. Replace <code class="k">acme-corp</code> with your engagement name; step 2 is interactive and asks for your real target URL/credentials.</p>
     <div class="qsteps">
       <div class="qstep"><div class="qn">1</div><div class="cmd"><pre><code>git clone https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali.git
 cd SecurityTestingMultiAgentWithKali</code></pre></div></div>
-      <div class="qstep"><div class="qn">2</div><div class="cmd"><pre><code>bash scripts/setup-engagement.sh acme-corp</code></pre></div></div>
-      <div class="qstep"><div class="qn">3</div><div class="cmd"><pre><code>cp engagements/acme-corp/.secrets.template engagements/acme-corp/.secrets
-nano engagements/acme-corp/.secrets   <span class="cmt"># ← set TARGET_URL + credentials here (Step 6 below)</span></code></pre></div></div>
-      <div class="qstep"><div class="qn">4</div><div class="cmd"><pre><code>nano engagements/acme-corp/scope.md   <span class="cmt"># ← add: authorization.confirmed: true</span></code></pre></div></div>
-      <div class="qstep"><div class="qn">5</div><div class="cmd"><pre><code>bash scripts/validate-config.sh acme-corp</code></pre></div></div>
-      <div class="qstep"><div class="qn">6</div><div class="cmd"><pre><code>Run full penetration test for acme-corp   <span class="cmt"># ← type this in Claude Code to initiate testing</span></code></pre></div></div>
-      <div class="qstep"><div class="qn">7</div><div class="cmd"><pre><code>start engagements/acme-corp/report/report.html   <span class="cmt"># Windows — open the final report</span></code></pre></div></div>
+      <div class="qstep"><div class="qn">2</div><div class="cmd"><pre><code>bash scripts/setup-engagement.sh acme-corp   <span class="cmt"># ← interactive: asks for URL, roles, authorization (Step 5 below)</span></code></pre></div></div>
+      <div class="qstep"><div class="qn">3</div><div class="cmd"><pre><code>bash scripts/validate-config.sh acme-corp</code></pre></div></div>
+      <div class="qstep"><div class="qn">4</div><div class="cmd"><pre><code>Run full penetration test for acme-corp   <span class="cmt"># ← type this in Claude Code to initiate testing</span></code></pre></div></div>
+      <div class="qstep"><div class="qn">5</div><div class="cmd"><pre><code>start engagements/acme-corp/report/report.html   <span class="cmt"># Windows — open the final report</span></code></pre></div></div>
     </div>
   </div>
 
@@ -445,10 +442,10 @@ nano engagements/acme-corp/.secrets   <span class="cmt"># ← set TARGET_URL + c
             <div class="tseg" style="flex:7.5;background:var(--teal)" title="Steps 1-2: Prerequisites + clone (~5-10 min)"></div>
             <div class="tseg" style="flex:25;background:var(--teal2)" title="Step 3: Install & verify Kali tools (~20-30 min)"></div>
             <div class="tseg" style="flex:12.5;background:var(--blue)" title="Step 4: SSH connect + health check (~10-15 min)"></div>
-            <div class="tseg" style="flex:20;background:var(--purple)" title="Steps 5-8: Engagement, credentials, scope, validate (~15-25 min)"></div>
-            <div class="tseg" style="flex:12.5;background:#6a5bc4" title="Step 9: Orient with the 106 agents, first time (~10-15 min)"></div>
-            <div class="tseg" style="flex:900;background:var(--amber);color:#231a04" title="Step 10: Full 106-agent test run (approximately 15 hours)"><b>Step 10 — Full 106-agent run (~15h)</b></div>
-            <div class="tseg" style="flex:37.5;background:var(--green)" title="Steps 13-14: Monitor, approve criticals, review report (~30-45 min)"></div>
+            <div class="tseg" style="flex:20;background:var(--purple)" title="Steps 5-6: Engagement (interactive: URL/roles/authorization), validate (~15-25 min)"></div>
+            <div class="tseg" style="flex:12.5;background:#6a5bc4" title="Step 7: Orient with the 106 agents, first time (~10-15 min)"></div>
+            <div class="tseg" style="flex:900;background:var(--amber);color:#231a04" title="Step 8: Full 106-agent test run (approximately 15 hours)"><b>Step 8 — Full 106-agent run (~15h)</b></div>
+            <div class="tseg" style="flex:37.5;background:var(--green)" title="Steps 11-12: Monitor, approve criticals, review report (~30-45 min)"></div>
           </div>
           <div class="timenote"># bar is proportional to time — hover any segment for its estimate. Setup (left) and wrap-up (right) are real minutes; they just look thin next to a ~15 hour run.</div>
         </div>
@@ -459,15 +456,15 @@ nano engagements/acme-corp/.secrets   <span class="cmt"># ← set TARGET_URL + c
               <tr><td class="c">1–2</td><td>Check prerequisites, clone the repo</td><td class="c">~5–10 min</td></tr>
               <tr><td class="c">3</td><td>Install &amp; verify 150+ Kali tools (one-time per Kali box)</td><td class="c">~20–30 min</td></tr>
               <tr><td class="c">4</td><td>Connect over SSH, run the health check</td><td class="c">~10–15 min</td></tr>
-              <tr><td class="c">5–8</td><td>Create engagement, set URL/credentials, scope, validate</td><td class="c">~15–25 min</td></tr>
-              <tr><td class="c">9</td><td>Orient yourself with the 106 agents (first time only)</td><td class="c">~10–15 min</td></tr>
-              <tr><td class="c">10–12</td><td><b style="color:var(--amber)">Full 106-agent test run</b> (recon → surface testing → deep exploitation → specialized/platform testing → reporting)</td><td class="c" style="color:var(--amber)"><b>~15 hours</b></td></tr>
-              <tr><td class="c">13–14</td><td>Monitor progress, approve critical findings, review the report</td><td class="c">~30–45 min</td></tr>
+              <tr><td class="c">5–6</td><td>Create &amp; configure engagement (interactive: URL, roles, authorization), validate</td><td class="c">~15–25 min</td></tr>
+              <tr><td class="c">7</td><td>Orient yourself with the 106 agents (first time only)</td><td class="c">~10–15 min</td></tr>
+              <tr><td class="c">8–10</td><td><b style="color:var(--amber)">Full 106-agent test run</b> (recon → surface testing → deep exploitation → specialized/platform testing → reporting)</td><td class="c" style="color:var(--amber)"><b>~15 hours</b></td></tr>
+              <tr><td class="c">11–12</td><td>Monitor progress, approve critical findings, review the report</td><td class="c">~30–45 min</td></tr>
             </tbody>
           </table>
         </div>
-        <div class="total-banner"><span class="tb-ic">⏱️</span><b>Grand total end-to-end: approximately 15 hours</b><span>— almost all of it is Step 10 running unattended; your hands-on time across setup and review is under 2 hours.</span></div>
-        <div class="tip"><b>Why this is much longer than "a couple hours"</b>106 agents run sequentially because later ones depend on earlier findings (Step 10's <code class="k">execution_context</code>), and many individual agents genuinely take real wall-clock time against a live target — password/hash cracking (hashcat, john), WiFi handshake capture, full port/vuln scans, firmware extraction, and thorough manual-style exploitation attempts don't finish in seconds. Plan a full engagement as an overnight or unattended background run, with Step 13 used to check in periodically rather than watching it continuously.</div>
+        <div class="total-banner"><span class="tb-ic">⏱️</span><b>Grand total end-to-end: approximately 15 hours</b><span>— almost all of it is Step 8 running unattended; your hands-on time across setup and review is under 2 hours.</span></div>
+        <div class="tip"><b>Why this is much longer than "a couple hours"</b>106 agents run sequentially because later ones depend on earlier findings (Step 8's <code class="k">execution_context</code>), and many individual agents genuinely take real wall-clock time against a live target — password/hash cracking (hashcat, john), WiFi handshake capture, full port/vuln scans, firmware extraction, and thorough manual-style exploitation attempts don't finish in seconds. Plan a full engagement as an overnight or unattended background run, with Step 11 used to check in periodically rather than watching it continuously.</div>
       </div>
 
       <!-- STEP 1 -->
@@ -481,7 +478,7 @@ git --version</code></pre></div>
         <div class="out"><span class="h">Expected output (versions may differ)</span>v18.19.0
 Python 3.11.6
 git version 2.43.0</div>
-        <div class="why"><b>Why this matters</b><p>Node 14+ is what runs <code class="k">orchestrator/Orchestrator.js</code> — the small engine that tracks which agents have finished and writes <code class="k">.orchestrator-state.json</code> so a run can resume (Step 15). Python 3.8+ is what several of the 150+ Kali tools the agents drive are written in or depend on (sqlmap, many OSINT scripts). Git is needed both to clone the repo and, later, for the git-forensics-style agent that inspects repository history. Skipping this check doesn't fail loudly — an old Node version tends to surface later as a confusing YAML/JSON parsing error deep into a run that can last most of a day, which is why it's worth 10 seconds now.</p></div>
+        <div class="why"><b>Why this matters</b><p>Node 14+ is what runs <code class="k">orchestrator/Orchestrator.js</code> — the small engine that tracks which agents have finished and writes <code class="k">.orchestrator-state.json</code> so a run can resume (Step 13). Python 3.8+ is what several of the 150+ Kali tools the agents drive are written in or depend on (sqlmap, many OSINT scripts). Git is needed both to clone the repo and, later, for the git-forensics-style agent that inspects repository history. Skipping this check doesn't fail loudly — an old Node version tends to surface later as a confusing YAML/JSON parsing error deep into a run that can last most of a day, which is why it's worth 10 seconds now.</p></div>
         <div class="tip"><b>If a command says "not found"</b>Install the missing tool: <a href="https://nodejs.org">nodejs.org</a> (Node 14+), <a href="https://python.org">python.org</a> (Python 3.8+), <a href="https://git-scm.com">git-scm.com</a> (Git). On Windows, run these in Git Bash. Make sure Claude Code itself is also installed and signed in — that's the piece that actually dispatches the 106 agents.</div>
       </section>
 
@@ -494,8 +491,8 @@ git version 2.43.0</div>
 cd SecurityTestingMultiAgentWithKali</code></pre></div>
         <div class="out"><span class="h">Expected output</span>Cloning into 'SecurityTestingMultiAgentWithKali'...
 done.</div>
-        <div class="why"><b>Why this matters</b><p>Knowing the folder layout up front makes every later command make sense instead of feeling like magic paths. <code class="k">orchestrator/</code> holds the engine and all 106 agent specs; <code class="k">kali-setup/</code> holds one-time tool installers; <code class="k">scripts/</code> holds the small helpers you'll run in Steps 5–8 and 13/15; <code class="k">engagements/</code> is where <em>your</em> data lives (git-ignored, created fresh in Step 5); <code class="k">templates/</code> defines the JSON shape every finding must match (see Step 11); <code class="k">docs/</code> is this guide plus the others linked at the bottom of the page.</p></div>
-        <div class="tip"><b>Open this folder in Claude Code</b>Everything from Step 10 onward happens by talking to Claude Code inside this project folder — that's how agents get invoked. Stay in this folder for every command below.</div>
+        <div class="why"><b>Why this matters</b><p>Knowing the folder layout up front makes every later command make sense instead of feeling like magic paths. <code class="k">orchestrator/</code> holds the engine and all 106 agent specs; <code class="k">kali-setup/</code> holds one-time tool installers; <code class="k">scripts/</code> holds the small helpers you'll run in Steps 5–6 and 11/13; <code class="k">engagements/</code> is where <em>your</em> data lives (git-ignored, created fresh in Step 5); <code class="k">templates/</code> defines the JSON shape every finding must match (see Step 9); <code class="k">docs/</code> is this guide plus the others linked at the bottom of the page.</p></div>
+        <div class="tip"><b>Open this folder in Claude Code</b>Everything from Step 8 onward happens by talking to Claude Code inside this project folder — that's how agents get invoked. Stay in this folder for every command below.</div>
       </section>
 
       <!-- STEP 3 -->
@@ -511,7 +508,7 @@ bash kali-setup/verify-tools.sh     <span class="cmt"># confirms tools are insta
 ✅ nuclei - installed
 📊 Results: 7 found, 0 missing
 ✅ All required tools are installed!</div>
-        <div class="why"><b>Why this matters</b><p>The framework doesn't reimplement nmap, sqlmap, or hashcat — each agent is effectively a detailed prompt that knows <em>how</em> to drive a real tool and interpret its output. If a tool is missing, the agent that depends on it either fails outright or has to report a degraded, evidence-light finding that will likely get rejected at the Evidence gate (Step 11). Installing everything up front means no agent hits a missing-tool surprise 40 agents into a run.</p></div>
+        <div class="why"><b>Why this matters</b><p>The framework doesn't reimplement nmap, sqlmap, or hashcat — each agent is effectively a detailed prompt that knows <em>how</em> to drive a real tool and interpret its output. If a tool is missing, the agent that depends on it either fails outright or has to report a degraded, evidence-light finding that will likely get rejected at the Evidence gate (Step 9). Installing everything up front means no agent hits a missing-tool surprise 40 agents into a run.</p></div>
         <div class="tip"><b>Don't have a Kali box yet?</b>Any Kali Linux 2024.x+ VM with 4GB+ RAM works — see <code class="k">kali-setup/README.md</code> for VM setup notes.</div>
       </section>
 
@@ -531,111 +528,83 @@ bash orchestrator/kali-health-check.sh</code></pre></div>
   SSH connectivity... ✅
   nmap... ✅  sqlmap... ✅  nuclei... ✅
 ✅ Kali is ready.</div>
-        <div class="why"><b>Why this matters</b><p>SSH keys instead of a password mean the connection can be scripted without an interactive password prompt breaking automation partway through a 106-agent run — and it's auditable (each key can be traced to whoever generated it). The health check is a deliberately separate step from Step 10's full run: it fails fast on a bad IP, a closed SSH port, or a missing tool in under a minute, instead of you discovering the same problem 20 minutes into what's meant to be an approximately 15-hour test. Under the hood, every agent that needs a real tool calls <code class="k">orchestrator/kali-wrapper.sh</code>, which is just a thin wrapper that SSHes to Kali, runs one command, and returns stdout/stderr back to the agent.</p></div>
+        <div class="why"><b>Why this matters</b><p>SSH keys instead of a password mean the connection can be scripted without an interactive password prompt breaking automation partway through a 106-agent run — and it's auditable (each key can be traced to whoever generated it). The health check is a deliberately separate step from Step 8's full run: it fails fast on a bad IP, a closed SSH port, or a missing tool in under a minute, instead of you discovering the same problem 20 minutes into what's meant to be an approximately 15-hour test. Under the hood, every agent that needs a real tool calls <code class="k">orchestrator/kali-wrapper.sh</code>, which is just a thin wrapper that SSHes to Kali, runs one command, and returns stdout/stderr back to the agent.</p></div>
         <div class="tip"><b>Windows note</b>Use <code class="k">$env:KALI_HOST="&lt;ip&gt;"</code> in PowerShell instead of <code class="k">export</code>. If the health check fails, recheck the IP/username/key before moving on — every agent depends on this connection.</div>
       </section>
 
       <!-- STEP 5 -->
       <section class="step reveal" id="s5">
-        <div class="st-h"><div class="st-n">5</div><h2>Create an engagement (a folder per target)</h2></div>
-        <p class="does"><b>What this does:</b> every agent reads its input from one engagement folder. This scaffolds it with a config, a scope template, a credentials template, and empty evidence/report folders.</p>
+        <div class="st-h"><div class="st-n">5</div><h2>Create &amp; configure an engagement (interactive)</h2></div>
+        <p class="does"><b>What this does:</b> every agent reads its input from one engagement folder. One interactive command scaffolds it <em>and</em> asks you for the target URL, every authorized test-user role, and explicit authorization confirmation — no template-copying or hand-editing required.</p>
         <div class="lbl">Command · sample name "acme-corp"</div>
         <div class="cmd"><pre><code>bash scripts/setup-engagement.sh acme-corp</code></pre></div>
+        <div class="out"><span class="h">What it asks you, in order</span>Target URL (e.g. https://staging.acme-corp.com)
+Role #1 name (e.g. admin) → username → password (hidden)
+Role #2 name (e.g. standard-user) → username → password (hidden)
+[blank name to stop adding roles]
+Type 'yes' to confirm authorization
+Authorized by (name) → Authorized by (email)</div>
         <div class="out"><span class="h">Creates</span>engagements/acme-corp/config.yaml
-engagements/acme-corp/scope.md
-engagements/acme-corp/.secrets.template
+engagements/acme-corp/scope.md           <span class="cmt"># authorization.confirmed: true already recorded</span>
+engagements/acme-corp/.env               <span class="cmt"># target URL + every role's credentials</span>
 engagements/acme-corp/evidence/findings/
 engagements/acme-corp/report/</div>
-        <div class="why"><b>Why this matters</b><p>One folder per target is an isolation boundary, not just tidiness: it keeps one client's credentials, evidence, and report completely separate from another's, so you can have several engagements set up at once without any risk of cross-contamination (an agent testing <code class="k">acme-corp</code> never sees <code class="k">another-client</code>'s <code class="k">.secrets</code>). The whole <code class="k">engagements/</code> directory is git-ignored for the same reason — a client's target URL, test credentials, and findings should never end up in your commit history.</p></div>
-        <div class="tip"><b>Pick any name</b>Something short with no spaces, e.g. <code class="k">acme-corp</code>, <code class="k">my-app</code>, <code class="k">client01</code>. Use the exact same name in every command from here on.</div>
+        <p style="margin-top:18px"><b style="color:var(--ink)">Resulting <code class="k">.env</code></b> (git-ignored — every agent that needs auth reads it from here at runtime, and the reporting agent automatically masks it, and any PII, before the HTML report is written):</p>
+        <div class="credswrap">
+          <div class="credcode">
+<div class="ln"><span class="tag">1</span><span># Target</span></div>
+<div class="ln"><span class="tag">2</span><span>TARGET_URL=https://staging.acme-corp.com</span></div>
+<div class="ln"><span class="tag">3</span><span>TARGET_DOMAIN=staging.acme-corp.com</span></div>
+<div class="ln"><span class="tag">4</span><span></span></div>
+<div class="ln"><span class="tag">5</span><span># Default/primary credentials (first role entered)</span></div>
+<div class="ln"><span class="tag">6</span><span>TARGET_USERNAME=admin_user</span></div>
+<div class="ln"><span class="tag">7</span><span>TARGET_PASSWORD=Sup3rSecret!</span></div>
+<div class="ln"><span class="tag">8</span><span></span></div>
+<div class="ln"><span class="tag">9</span><span># Per-role credentials</span></div>
+<div class="ln"><span class="tag">10</span><span>ROLE_ADMIN_LABEL=admin</span></div>
+<div class="ln"><span class="tag">11</span><span>ROLE_ADMIN_USERNAME=admin_user</span></div>
+<div class="ln"><span class="tag">12</span><span>ROLE_ADMIN_PASSWORD=Sup3rSecret!</span></div>
+<div class="ln"><span class="tag">13</span><span>ROLE_STANDARD_USER_LABEL=standard-user</span></div>
+<div class="ln"><span class="tag">14</span><span>ROLE_STANDARD_USER_USERNAME=std_user</span></div>
+<div class="ln"><span class="tag">15</span><span>ROLE_STANDARD_USER_PASSWORD=StdP@ss1</span></div>
+<div class="ln"><span class="tag">16</span><span></span></div>
+<div class="ln"><span class="tag">17</span><span># Authorization</span></div>
+<div class="ln"><span class="tag">18</span><span>AUTHORIZATION_NAME=Jane Doe</span></div>
+<div class="ln"><span class="tag">19</span><span>AUTHORIZATION_EMAIL=jane@acme-corp.com</span></div>
+          </div>
+          <div class="credlegend">
+            <div class="lg"><span class="tag">2</span><div><b>TARGET_URL</b><span>The base URL every agent tests — recon starts here and every later agent inherits it from the surface map.</span></div></div>
+            <div class="lg"><span class="tag">6-7</span><div><b>TARGET_USERNAME / PASSWORD</b><span>Alias for the first role entered — some agents read this generic pair rather than a specific role.</span></div></div>
+            <div class="lg"><span class="tag">10-15</span><div><b>ROLE_&lt;NAME&gt;_*</b><span>One triplet per role you entered. Two or more distinct roles let agents test horizontal/vertical privilege escalation, BOLA, and IDOR against real, separate identities.</span></div></div>
+            <div class="lg"><span class="tag">18-19</span><div><b>AUTHORIZATION_NAME / EMAIL</b><span>Recorded here <em>and</em> in <code class="k">scope.md</code> as proof of sign-off — the reporting agent (Step 12) prints both.</span></div></div>
+          </div>
+        </div>
+        <div class="warn"><b>Authorization is a hard gate, not a formality</b>The script refuses to create the engagement at all unless you type <code class="k">yes</code> to the authorization prompt — that answer is what gets written as <span style="font-family:var(--mono);color:#f6c6ce">authorization.confirmed: true</span> in <code class="k">scope.md</code>, the exact line the orchestrator checks for before dispatching Agent-001 or any other agent. In most jurisdictions, actively probing a system without the owner's explicit consent is unauthorized access regardless of intent, so this consent has to exist in writing before anything touches the target.</div>
+        <div class="why"><b>Why this matters</b><p>One folder per target is an isolation boundary, not just tidiness — it keeps one client's credentials, evidence, and report completely separate from another's, so you can have several engagements set up at once with no risk of cross-contamination (an agent testing <code class="k">acme-corp</code> never sees <code class="k">another-client</code>'s <code class="k">.env</code>). Use <em>dedicated test accounts</em> for every role, not real users' or an admin's production login — several agents (auth-flow, session-management, IDOR, rate-limit) deliberately try to break authentication and authorization logic, and pointed at a shared or production account that same behavior can trigger account lockouts, fraud-detection flags, or password resets affecting a real person.</p></div>
+        <div class="tip"><b>Pick any engagement name</b>Something short with no spaces, e.g. <code class="k">acme-corp</code>, <code class="k">my-app</code>, <code class="k">client01</code>. Use the exact same name in every command from here on.</div>
       </section>
 
       <!-- STEP 6 -->
       <section class="step reveal" id="s6">
-        <div class="st-h"><div class="st-n">6</div><h2>Set the target URL &amp; credentials</h2></div>
-        <p class="does"><b>What this does:</b> tells the framework <b>what to test</b> and <b>which login to test with</b>. This is the exact file every agent reads its target/credentials from.</p>
-        <div class="lbl">Copy the credentials template, then edit it</div>
-        <div class="cmd"><pre><code>cp engagements/acme-corp/.secrets.template engagements/acme-corp/.secrets
-nano engagements/acme-corp/.secrets</code></pre></div>
-
-        <p style="margin-top:18px"><b style="color:var(--ink)">This is exactly where the URL and credentials go</b> — every field explained:</p>
-        <div class="credswrap">
-          <div class="credcode">
-<div class="ln"><span class="tag">1</span><span># Target Information</span></div>
-<div class="ln"><span class="tag">2</span><span>TARGET_URL=https://staging.acme-corp.com</span></div>
-<div class="ln"><span class="tag">3</span><span>TARGET_DOMAIN=acme-corp.com</span></div>
-<div class="ln"><span class="tag">4</span><span></span></div>
-<div class="ln"><span class="tag">5</span><span># Authentication Credentials</span></div>
-<div class="ln"><span class="tag">6</span><span>TARGET_USERNAME=testuser@acme-corp.com</span></div>
-<div class="ln"><span class="tag">7</span><span>TARGET_PASSWORD=Sup3rSecret!</span></div>
-<div class="ln"><span class="tag">8</span><span></span></div>
-<div class="ln"><span class="tag">9</span><span># Optional: database / API keys</span></div>
-<div class="ln"><span class="tag">10</span><span>DATABASE_HOST=db.internal</span></div>
-<div class="ln"><span class="tag">11</span><span>API_KEY=sk-xxxxx</span></div>
-<div class="ln"><span class="tag">12</span><span></span></div>
-<div class="ln"><span class="tag">13</span><span># Authorization (must match scope.md)</span></div>
-<div class="ln"><span class="tag">14</span><span>AUTHORIZATION_NAME=Jane Doe (Security Lead)</span></div>
-<div class="ln"><span class="tag">15</span><span>AUTHORIZATION_EMAIL=jane@acme-corp.com</span></div>
-          </div>
-          <div class="credlegend">
-            <div class="lg"><span class="tag">2</span><div><b>TARGET_URL</b><span>The base URL every agent tests — recon starts here and every later agent inherits it from the surface map.</span></div></div>
-            <div class="lg"><span class="tag">3</span><div><b>TARGET_DOMAIN</b><span>Used for DNS/subdomain enumeration and OSINT-style agents.</span></div></div>
-            <div class="lg"><span class="tag">6-7</span><div><b>TARGET_USERNAME / PASSWORD</b><span>A test account the auth &amp; auth-flow agents log in with to test authenticated areas — never production admin credentials.</span></div></div>
-            <div class="lg"><span class="tag">10-11</span><div><b>DATABASE_HOST / API_KEY</b><span>Optional — only needed if the database or specific API agents are in scope.</span></div></div>
-            <div class="lg"><span class="tag">14-15</span><div><b>AUTHORIZATION_NAME / EMAIL</b><span>Recorded in the final report as proof of sign-off — pair this with <code class="k">authorization.confirmed: true</code> in scope.md (Step 7).</span></div></div>
-          </div>
-        </div>
-        <div class="why"><b>Why this matters</b><p>Use a <em>dedicated test account</em>, not a real user's or an admin's production login. Several agents (auth-flow, session-management, IDOR, rate-limit) deliberately try to break authentication and authorization logic — log in repeatedly, tamper with tokens, probe access boundaries. Pointed at a shared or production account, that same behavior can trigger account lockouts, fraud-detection flags, or password resets that affect a real person. Scoping the blast radius to a disposable test account is what makes aggressive testing safe.</p></div>
-        <div class="tip"><b>.secrets is git-ignored</b>Credentials never get committed. Every agent that needs auth reads them from here at runtime, and the reporting agent automatically masks them (and any PII) before the HTML report is written.</div>
-      </section>
-
-      <!-- STEP 7 -->
-      <section class="step reveal" id="s7">
-        <div class="st-h"><div class="st-n">7</div><h2>Define scope &amp; authorization — the safety gate</h2></div>
-        <p class="does"><b>What this does:</b> agents will not run against a target unless <code class="k">scope.md</code> explicitly says testing is authorized. This is enforced before the first agent dispatches.</p>
-        <div class="lbl">Command</div>
-        <div class="cmd"><pre><code>nano engagements/acme-corp/scope.md</code></pre></div>
-        <div class="warn"><b>Required — exact line the engine looks for</b>
-<div style="margin-top:8px;font-family:var(--mono);color:#f6c6ce">authorization.confirmed: true</div></div>
-        <div class="lbl">Sample scope.md content</div>
-        <div class="cmd"><pre><code># Engagement Scope
-
-authorization.confirmed: true
-
-## Target
-- URL: https://staging.acme-corp.com
-
-## In Scope
-- Web application and its APIs
-
-## Out of Scope
-- Production database, third-party payment services
-
-## Restrictions
-- No DoS attacks; testing during business hours only</code></pre></div>
-        <div class="why"><b>Why this matters</b><p>In most jurisdictions, actively probing a system for vulnerabilities without the owner's explicit consent is unauthorized access, regardless of intent — the same techniques that make a good pentest can constitute a crime without permission. <code class="k">scope.md</code> is the technical control that forces that consent to exist, in writing, before any agent touches the target: it's not just documentation, the orchestrator refuses to dispatch Agent-001 (or any agent) if this line is missing. "In Scope" / "Out of Scope" also matters practically — it's what stops an agent from, say, wandering from a web app into a shared production database that wasn't meant to be tested.</p></div>
-        <div class="tip"><b>Also fill in</b><code class="k">AUTHORIZATION_NAME</code> / <code class="k">AUTHORIZATION_EMAIL</code> from Step 6 should match the person named here — the reporting agent (Step 14) prints both as proof of sign-off.</div>
-      </section>
-
-      <!-- STEP 8 -->
-      <section class="step reveal" id="s8">
-        <div class="st-h"><div class="st-n">8</div><h2>Validate the configuration</h2></div>
-        <p class="does"><b>What this does:</b> checks that <code class="k">config.yaml</code>, <code class="k">scope.md</code>, and <code class="k">.secrets</code> all exist and look complete — catches mistakes before a run that takes approximately 15 hours, instead of during it.</p>
+        <div class="st-h"><div class="st-n">6</div><h2>Validate the configuration</h2></div>
+        <p class="does"><b>What this does:</b> checks that <code class="k">config.yaml</code>, <code class="k">scope.md</code>, and <code class="k">.env</code> all exist and look complete — catches mistakes before a run that takes approximately 15 hours, instead of during it.</p>
         <div class="lbl">Command</div>
         <div class="cmd"><pre><code>bash scripts/validate-config.sh acme-corp</code></pre></div>
         <div class="out"><span class="h">Expected output</span>🔍 Validating engagement configuration: acme-corp
 ✅ Found: config.yaml
 ✅ Found: scope.md
-✅ Found: .secrets
+✅ Found: .env
+✅ Found 2 authorized test-user role(s) in .env
+✅ Authorization confirmed in scope.md
 ✅ Configuration validation complete!
-📋 Ready to run: node orchestrator/Orchestrator.js acme-corp</div>
+📋 Ready to run: bash scripts/run-pentest.sh acme-corp</div>
         <div class="why"><b>Why this matters</b><p>This check exists so a typo costs you 5 seconds instead of most of a ~15 hour run. Without it, a missing <code class="k">TARGET_URL</code> or an unconfirmed <code class="k">scope.md</code> would only surface once the orchestrator actually tries to use it — potentially after several agents have already dispatched — leaving you with a half-finished engagement to clean up. It's a cheap, mechanical gate deliberately placed before the expensive part.</p></div>
-        <div class="tip"><b>If something's reported missing</b>Go back to Step 6 (<code class="k">.secrets</code>) or Step 7 (<code class="k">scope.md</code>) and re-run this command until everything shows ✅.</div>
+        <div class="tip"><b>If something's reported missing</b>Go back to Step 5 and re-run <code class="k">bash scripts/setup-engagement.sh acme-corp</code> (or hand-edit <code class="k">.env</code> / <code class="k">scope.md</code> directly) until everything shows ✅.</div>
       </section>
 
-      <!-- STEP 9 -->
-      <section class="step reveal" id="s9">
-        <div class="st-h"><div class="st-n">9</div><h2>Meet the agents — how they're organized</h2></div>
+      <!-- STEP 7 -->
+      <section class="step reveal" id="s7">
+        <div class="st-h"><div class="st-n">7</div><h2>Meet the agents — how they're organized</h2></div>
         <p class="does"><b>What this does:</b> before running anything, know what you're triggering. 106 agent spec files live in <code class="k">orchestrator/agents/*.md</code>. Each one lists its tools, testing approach, and what evidence it must produce. The framework's design groups these into a sequential run of phases (recon → surface testing → deep exploitation → post-exploitation → specialized/platform testing → infrastructure/database/API depth → reporting) — the categories below are how this guide organizes the real files for browsing; <b>every single one is searchable in the Agent Explorer</b> further down this page.</p>
         <div class="phasegrid">
           <div class="phasecard"><div class="pn">Starts here</div><div class="pt">Reconnaissance</div><div class="pd">Passive OSINT + active discovery → builds the surface map every later agent uses</div></div>
@@ -650,23 +619,23 @@ authorization.confirmed: true
         <span class="badge pt">penetration-tester</span> active exploitation agents (recon, web, API, exploitation, mobile, wireless, post-exploitation)
         <br><span class="badge sa">security-auditor</span> assessment/compliance agents (dependency scanning, compliance checks, finding aggregation, final reporting)
         <div class="note"><b>What a spec file actually contains</b>Open any file, e.g. <code class="k">orchestrator/agents/Agent-001-Reconnaissance.md</code> — it reads like a briefing: Overview, Tools Integrated, Testing Approach (step by step), Validation Requirements, CVSS scoring guidance. When an agent is dispatched, this file's content becomes the <code class="k">prompt</code> passed to the Agent tool.</div>
-        <div class="why"><b>Why this matters</b><p>Each of the 106 agents runs in its own isolated Agent-tool context — it doesn't see the other 105 agents' reasoning or conversation, only whatever slice of <code class="k">execution_context</code> is explicitly handed to it (e.g. the surface map, or a prior phase's findings). That isolation is deliberate: it keeps every agent narrowly focused on one job instead of one giant, unfocused 106-topic conversation, and it's what makes running just one agent (Step 12) meaningful — you get the same quality of output whether it runs alone or as part of the full 106.</p></div>
+        <div class="why"><b>Why this matters</b><p>Each of the 106 agents runs in its own isolated Agent-tool context — it doesn't see the other 105 agents' reasoning or conversation, only whatever slice of <code class="k">execution_context</code> is explicitly handed to it (e.g. the surface map, or a prior phase's findings). That isolation is deliberate: it keeps every agent narrowly focused on one job instead of one giant, unfocused 106-topic conversation, and it's what makes running just one agent (Step 10) meaningful — you get the same quality of output whether it runs alone or as part of the full 106.</p></div>
       </section>
 
-      <!-- STEP 10 -->
-      <section class="step reveal" id="s10">
-        <div class="st-h"><div class="st-n">10</div><h2>Initiate testing — run all 106 agents</h2></div>
+      <!-- STEP 8 -->
+      <section class="step reveal" id="s8">
+        <div class="st-h"><div class="st-n">8</div><h2>Initiate testing — run all 106 agents</h2></div>
         <p class="does"><b>What this does:</b> tells Claude Code to dispatch all 106 agents in sequence, letting output from earlier agents feed later ones. <b>This is the command that starts everything.</b></p>
         <div class="lbl">In Claude Code, type</div>
         <div class="cmd"><pre><code>Run full penetration test for acme-corp</code></pre></div>
         <p>What happens under the hood, per agent:</p>
         <ol>
-          <li>Claude Code reads <code class="k">engagements/acme-corp/config.yaml</code>, <code class="k">scope.md</code>, <code class="k">.secrets</code> (your URL + creds from Step 6), and the current <code class="k">execution_context</code> (everything found so far).</li>
+          <li>Claude Code reads <code class="k">engagements/acme-corp/config.yaml</code>, <code class="k">scope.md</code>, <code class="k">.env</code> (your URL + role credentials from Step 5), and the current <code class="k">execution_context</code> (everything found so far).</li>
           <li>It loads the next agent's spec, e.g. <code class="k">orchestrator/agents/Agent-002A-SQL-Injection.md</code>.</li>
           <li>It calls the <b>Agent tool</b> with <code class="k">subagent_type: "penetration-tester"</code> (or <code class="k">security-auditor</code>), passing that spec plus the relevant slice of <code class="k">execution_context</code> (e.g. the surface map from recon) as the prompt.</li>
           <li>The subagent runs the real tools against Kali over SSH (via <code class="k">orchestrator/kali-wrapper.sh</code>) and returns findings.</li>
           <li>Findings are written as JSON to <code class="k">engagements/acme-corp/evidence/findings/</code>, following <code class="k">templates/finding-schema.json</code>.</li>
-          <li>Each finding passes the <b>4-layer validation gate</b> (see Step 11) before it's added to <code class="k">execution_context</code> for the next agent.</li>
+          <li>Each finding passes the <b>4-layer validation gate</b> (see Step 9) before it's added to <code class="k">execution_context</code> for the next agent.</li>
         </ol>
         <div class="out"><span class="h">Expected output (start)</span>🚀 Starting penetration test for: acme-corp
 ✅ Scope gate passed
@@ -681,9 +650,9 @@ authorization.confirmed: true
         <div class="tip"><b>Terminal alternative</b>You can also drive it from a shell instead of asking Claude Code directly: <code class="k">bash scripts/run-pentest.sh acme-corp</code> (validates config, then runs <code class="k">node orchestrator/Orchestrator.js acme-corp</code>). The Node script itself doesn't call any AI — it tracks agent completion state so a run can resume; the actual agent dispatch still happens through Claude Code.</div>
       </section>
 
-      <!-- STEP 11 -->
-      <section class="step reveal" id="s11">
-        <div class="st-h"><div class="st-n">11</div><h2>Understand the 4-layer validation gate</h2></div>
+      <!-- STEP 9 -->
+      <section class="step reveal" id="s9">
+        <div class="st-h"><div class="st-n">9</div><h2>Understand the 4-layer validation gate</h2></div>
         <p class="does"><b>What this does:</b> every single finding, from every agent, must pass all four gates below before it's added to <code class="k">execution_context</code> or written into the final report. This is how the framework targets 0% false positives.</p>
         <div class="vflow">
           <div class="vgate"><div class="vn">1</div><h4>Format Validation</h4><ul><li>Valid JSON against <code class="k">finding-schema.json</code></li><li>All required fields present</li><li>Correct data types</li></ul></div>
@@ -694,14 +663,14 @@ authorization.confirmed: true
           <span class="varw">→</span>
           <div class="vgate"><div class="vn">4</div><h4>Remediation Validation</h4><ul><li>Vulnerable + fixed code examples</li><li>Clear fix steps</li><li>Realistic effort estimate</li></ul></div>
         </div>
-        <p>A finding that fails any gate is <b>rejected</b>, not silently dropped — it's logged so you can see why. Only findings that clear all four gates reach <code class="k">validated_findings_only</code>, which is the only thing the final report (Step 14) is built from.</p>
-        <div class="note"><b>This runs automatically</b>You don't invoke validation separately — it happens after every agent, as part of Step 10. This step exists so you understand <em>why</em> a finding might not show up in the report even though an agent flagged something.</div>
+        <p>A finding that fails any gate is <b>rejected</b>, not silently dropped — it's logged so you can see why. Only findings that clear all four gates reach <code class="k">validated_findings_only</code>, which is the only thing the final report (Step 12) is built from.</p>
+        <div class="note"><b>This runs automatically</b>You don't invoke validation separately — it happens after every agent, as part of Step 8. This step exists so you understand <em>why</em> a finding might not show up in the report even though an agent flagged something.</div>
         <div class="why"><b>Why this matters</b><p>Concretely: say an agent reports "possible reflected XSS on the search field" but can't produce an actual payload and the server's response that proves it fired — that finding fails Gate 2 (Evidence) and never reaches the report, even though the agent suspected something. This is the mechanism behind the framework's "0% false positive" goal — it's not that agents never guess wrong, it's that a guess without hard evidence, a justified CVSS score, and a working fix is stopped before it reaches a client-facing document. It also means a thin report isn't necessarily a clean target — check <code class="k">evidence/findings/</code> for rejected findings if you want to see what was suspected but not proven.</p></div>
       </section>
 
-      <!-- STEP 12 -->
-      <section class="step reveal" id="s12">
-        <div class="st-h"><div class="st-n">12</div><h2>Run a single agent or targeted phase (alternative to the full run)</h2></div>
+      <!-- STEP 10 -->
+      <section class="step reveal" id="s10">
+        <div class="st-h"><div class="st-n">10</div><h2>Run a single agent or targeted phase (alternative to the full run)</h2></div>
         <p class="does"><b>What this does:</b> instead of all 106 agents, dispatch just the ones you need — useful for re-testing one area, a quick spot-check, or picking up where a partial run left off.</p>
         <div class="lbl">Example prompts you can type in Claude Code</div>
         <div class="cmd"><pre><code>Run the recon agent (Agent-001) for acme-corp and show me the surface map
@@ -715,9 +684,9 @@ the existing surface map from evidence/findings/</code></pre></div>
         <div class="tip"><b>Not sure which agent name to use?</b>Search the <a href="#" onclick="document.getElementById('expSearch').scrollIntoView({behavior:'smooth'});return false;">Agent Explorer</a> below by topic (e.g. "JWT", "kubernetes") to find the exact filename.</div>
       </section>
 
-      <!-- STEP 13 -->
-      <section class="step reveal" id="s13">
-        <div class="st-h"><div class="st-n">13</div><h2>Monitor progress &amp; approve critical findings</h2></div>
+      <!-- STEP 11 -->
+      <section class="step reveal" id="s11">
+        <div class="st-h"><div class="st-n">11</div><h2>Monitor progress &amp; approve critical findings</h2></div>
         <p class="does"><b>What this does:</b> lets you watch a run in progress, and stops the run for your sign-off whenever something severe turns up — this is intentional, not a bug.</p>
         <div class="lbl">Check progress at any time — safe to run in another terminal during a live test</div>
         <div class="cmd"><pre><code>bash scripts/check-status.sh acme-corp</code></pre></div>
@@ -745,10 +714,10 @@ the existing surface map from evidence/findings/</code></pre></div>
         <div class="why"><b>Why this matters</b><p>The 7.0 threshold means only High and Critical findings pause for sign-off, not every minor issue. The reason it's a human gate rather than automatic: some agents (exploitation, post-exploitation) can go further once a serious vulnerability is confirmed — e.g. attempting to actually extract data via a confirmed SQLi — and that next step can have real side effects on the target. Requiring an explicit yes/no here means nothing high-impact happens against a live system without a person consciously agreeing to it.</p></div>
       </section>
 
-      <!-- STEP 14 -->
-      <section class="step reveal" id="s14">
-        <div class="st-h"><div class="st-n">14</div><h2>Open &amp; understand the final HTML report</h2></div>
-        <p class="does"><b>What this does:</b> the last agent (Agent-035-Reporting) takes only <code class="k">validated_findings_only</code> from Step 11, masks PII, maps OWASP/CWE/MITRE, and writes the deliverable.</p>
+      <!-- STEP 12 -->
+      <section class="step reveal" id="s12">
+        <div class="st-h"><div class="st-n">12</div><h2>Open &amp; understand the final HTML report</h2></div>
+        <p class="does"><b>What this does:</b> the last agent (Agent-035-Reporting) takes only <code class="k">validated_findings_only</code> from Step 9, masks PII, maps OWASP/CWE/MITRE, and writes the deliverable.</p>
         <div class="lbl">Command (pick your OS)</div>
         <div class="cmd"><pre><code><span class="cmt"># Windows</span>
 start engagements/acme-corp/report/report.html
@@ -780,9 +749,9 @@ xdg-open engagements/acme-corp/report/report.html</code></pre></div>
         <div class="tip"><b>Machine-readable copy</b>A <code class="k">report.json</code> is written alongside <code class="k">report.html</code> if you need to feed findings into another system (Jira, a dashboard, etc.).</div>
       </section>
 
-      <!-- STEP 15 -->
-      <section class="step reveal" id="s15">
-        <div class="st-h"><div class="st-n">15</div><h2>Resume an interrupted run, re-run, or start a new engagement</h2></div>
+      <!-- STEP 13 -->
+      <section class="step reveal" id="s13">
+        <div class="st-h"><div class="st-n">13</div><h2>Resume an interrupted run, re-run, or start a new engagement</h2></div>
         <p class="does"><b>What this does:</b> wraps up the workflow — how to pick a run back up if it stops partway, and how to start fresh against another target.</p>
         <div class="lbl">Resume after an interruption — just run it again</div>
         <div class="cmd"><pre><code>bash scripts/run-pentest.sh acme-corp
@@ -791,14 +760,14 @@ Run full penetration test for acme-corp</code></pre></div>
         <p>The orchestrator writes <code class="k">engagements/acme-corp/.orchestrator-state.json</code> after every agent completes. On a re-run, already-completed agents are skipped and only the remaining ones dispatch.</p>
         <div class="lbl">Start testing a new target</div>
         <div class="cmd"><pre><code>bash scripts/setup-engagement.sh another-client
-<span class="cmt"># then repeat from Step 6 (target URL & credentials) with the new name</span></code></pre></div>
+<span class="cmt"># then repeat from Step 5 (target URL, roles & authorization) with the new name</span></code></pre></div>
         <div class="why"><b>Why this matters</b><p>State is written to a file rather than kept only in memory specifically so a resume is safe even if Claude Code was closed, your machine restarted, or the connection dropped — without that, an interruption at agent 60 of 106 would mean starting the entire ~15-hour run over, and hitting the target with duplicate traffic for everything already tested. Because each engagement is its own isolated folder (Step 5), starting a new target is just as safe: nothing from <code class="k">acme-corp</code> leaks into <code class="k">another-client</code>.</p></div>
-        <div class="tip"><b>That's the whole workflow</b>Clone → tools → credentials → scope → agents → validation → report — every engagement follows the same 15 steps end to end.</div>
+        <div class="tip"><b>That's the whole workflow</b>Clone → tools → engagement (URL/roles/authorization) → agents → validation → report — every engagement follows the same 13 steps end to end.</div>
       </section>
 
       <!-- AGENT EXPLORER -->
       <h2 class="section-title reveal">Agent Explorer — all 106 agents</h2>
-      <p class="section-desc reveal">Search by name/topic, or filter by category and subagent type. Generated directly from the 106 real spec files in <code class="k">orchestrator/agents/*.md</code> — this is the complete, accurate catalog behind Step 9.</p>
+      <p class="section-desc reveal">Search by name/topic, or filter by category and subagent type. Generated directly from the 106 real spec files in <code class="k">orchestrator/agents/*.md</code> — this is the complete, accurate catalog behind Step 7.</p>
       <div class="explorer reveal">
         <div class="exp-controls">
           <input class="exp-search" id="expSearch" type="text" placeholder="Search agents… e.g. sqlmap, JWT, kubernetes, OSINT">
@@ -889,15 +858,13 @@ Run full penetration test for acme-corp</code></pre></div>
     ["2","git clone https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali.git","Clone the framework"],
     ["3","bash kali-setup/install-tools.sh","Install 150+ Kali tools"],
     ["4","bash orchestrator/kali-health-check.sh","Verify Kali connectivity"],
-    ["5","bash scripts/setup-engagement.sh acme-corp","Create an engagement"],
-    ["6","nano engagements/acme-corp/.secrets","Set TARGET_URL + TARGET_USERNAME/PASSWORD"],
-    ["7","nano engagements/acme-corp/scope.md","Add: authorization.confirmed: true"],
-    ["8","bash scripts/validate-config.sh acme-corp","Validate configuration"],
-    ["10","Run full penetration test for acme-corp","(In Claude Code) initiate testing — dispatch all 106 agents"],
-    ["12","Run Agent-002A-SQL-Injection.md against acme-corp","(In Claude Code) dispatch one agent instead"],
-    ["13","bash scripts/check-status.sh acme-corp","Check progress from another terminal"],
-    ["14","start engagements/acme-corp/report/report.html","Open the final report (Windows)"],
-    ["15","bash scripts/run-pentest.sh acme-corp","Resume an interrupted run"]
+    ["5","bash scripts/setup-engagement.sh acme-corp","Interactive: create engagement, set URL/roles, confirm authorization"],
+    ["6","bash scripts/validate-config.sh acme-corp","Validate configuration"],
+    ["8","Run full penetration test for acme-corp","(In Claude Code) initiate testing — dispatch all 106 agents"],
+    ["10","Run Agent-002A-SQL-Injection.md against acme-corp","(In Claude Code) dispatch one agent instead"],
+    ["11","bash scripts/check-status.sh acme-corp","Check progress from another terminal"],
+    ["12","start engagements/acme-corp/report/report.html","Open the final report (Windows)"],
+    ["13","bash scripts/run-pentest.sh acme-corp","Resume an interrupted run"]
   ];
   $("#cheatRows").innerHTML=CHEAT.map(function(r){
     return '<tr><td class="c">'+r[0]+'</td><td class="c">'+r[1]+'</td><td style="color:var(--muted)">'+r[2]+'</td></tr>';
@@ -905,13 +872,13 @@ Run full penetration test for acme-corp</code></pre></div>
 
   /* ---- troubleshooting ---- */
   var TS=[
-    ["The run won't start — \"Authorization not confirmed\"","Open engagements/&lt;name&gt;/scope.md and add the exact line authorization.confirmed: true, then re-run. This is the safety gate in Step 7 — agents refuse to dispatch without it."],
+    ["The run won't start — \"Authorization not confirmed\"","Re-run bash scripts/setup-engagement.sh &lt;name&gt; and type yes at the authorization prompt (or hand-edit scope.md to add the exact line authorization.confirmed: true), then re-validate. This is the safety gate in Step 5 — agents refuse to dispatch without it."],
     ["Claude Code says it can't find the agent spec","Confirm you're in the project root (SecurityTestingMultiAgentWithKali) and the file exists under orchestrator/agents/ — list them with: ls orchestrator/agents/"],
     ["Kali tools fail / SSH errors mid-run","Re-run bash orchestrator/kali-health-check.sh in another terminal. If it fails, recheck KALI_HOST/KALI_USER/KALI_KEY from Step 4 and that SSH is enabled on Kali."],
-    ["The run appears stuck","Check if it's paused on a critical-finding approval (Step 13) — reply yes/no in Claude Code. Use bash scripts/check-status.sh acme-corp to confirm what's actually happening."],
-    ["I want to resume after an interruption","Just ask Claude Code to run the full test again, or bash scripts/run-pentest.sh acme-corp — the orchestrator's .orchestrator-state.json tracks completed agents and skips them (Step 15)."],
-    ["Findings look wrong or incomplete","Check engagements/&lt;name&gt;/evidence/findings/ for the raw JSON per agent, and confirm each finding passed all 4 validation gates (Step 11) before assuming a bug in the report."],
-    ["A finding I expected isn't in the report","It likely failed one of the 4 validation gates (Step 11) and was rejected, not dropped silently — check the agent's raw finding JSON in evidence/findings/ against finding-schema.json to see which gate it failed."],
+    ["The run appears stuck","Check if it's paused on a critical-finding approval (Step 11) — reply yes/no in Claude Code. Use bash scripts/check-status.sh acme-corp to confirm what's actually happening."],
+    ["I want to resume after an interruption","Just ask Claude Code to run the full test again, or bash scripts/run-pentest.sh acme-corp — the orchestrator's .orchestrator-state.json tracks completed agents and skips them (Step 13)."],
+    ["Findings look wrong or incomplete","Check engagements/&lt;name&gt;/evidence/findings/ for the raw JSON per agent, and confirm each finding passed all 4 validation gates (Step 9) before assuming a bug in the report."],
+    ["A finding I expected isn't in the report","It likely failed one of the 4 validation gates (Step 9) and was rejected, not dropped silently — check the agent's raw finding JSON in evidence/findings/ against finding-schema.json to see which gate it failed."],
     ["\"command not found: node / python3 / git\"","Install the missing tool (Step 1 links). On Windows, run commands in Git Bash. After installing, close and reopen the terminal."]
   ];
   $("#tsList").innerHTML=TS.map(function(q,i){
@@ -1195,7 +1162,7 @@ Run full penetration test for acme-corp</code></pre></div>
 </script>
 
 <script>
-/* ===== Live simulation engine — replays Steps 1-15 in the fake terminal ===== */
+/* ===== Live simulation engine — replays Steps 1-13 in the fake terminal ===== */
 (function(){
   "use strict";
   var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1212,27 +1179,23 @@ Run full penetration test for acme-corp</code></pre></div>
       out:["{cmt}# installing 150+ Kali tools (this takes ~20-30 min)...","{ok}✅ nmap  ✅ sqlmap  ✅ nuclei  ✅ ffuf  ✅ hydra  (+145 more)","{ok}✅ All required tools are installed!"]},
     {n:4, cmd:["ssh-copy-id -i ~/.ssh/kali_key.pub kali@192.168.56.101","export KALI_HOST=192.168.56.101 KALI_USER=kali KALI_KEY=~/.ssh/kali_key","bash orchestrator/kali-health-check.sh"],
       out:["Number of key(s) added: 1","🔍 Kali health check","  SSH connectivity... {ok}✅   nmap... {ok}✅   sqlmap... {ok}✅","{ok}✅ Kali is ready."]},
-    {n:5, cmd:["bash scripts/setup-engagement.sh acme-corp"],
-      out:["🔧 Setting up engagement: acme-corp","{ok}✅ Engagement setup complete!","{cmt}# created engagements/acme-corp/ (config.yaml, scope.md, .secrets.template)"]},
-    {n:6, cmd:["cp engagements/acme-corp/.secrets.template engagements/acme-corp/.secrets","nano engagements/acme-corp/.secrets"],
-      out:["{cmt}# TARGET_URL=https://staging.acme-corp.com","{cmt}# TARGET_USERNAME=testuser@acme-corp.com","{ok}✓ saved .secrets (git-ignored)"]},
-    {n:7, cmd:["nano engagements/acme-corp/scope.md"],
-      out:["{stp}+ authorization.confirmed: true","{cmt}# in-scope: web app + APIs   out-of-scope: production DB","{ok}✓ saved scope.md — safety gate satisfied"]},
-    {n:8, cmd:["bash scripts/validate-config.sh acme-corp"],
-      out:["🔍 Validating engagement configuration: acme-corp","{ok}✅ Found: config.yaml","{ok}✅ Found: scope.md","{ok}✅ Found: .secrets","{ok}✅ Configuration validation complete!"]},
-    {n:9, cmd:["ls orchestrator/agents | wc -l"],
+    {n:5, cmd:["bash scripts/setup-engagement.sh acme-corp","{cmt}# Target URL: https://staging.acme-corp.com","{cmt}# Role #1 name: admin → username: admin_user → password: (hidden)","{cmt}# Role #2 name: standard-user → username: std_user → password: (hidden)","{cmt}# Type 'yes' to confirm authorization → Jane Doe / jane@acme-corp.com"],
+      out:["🔧 Setting up engagement: acme-corp","{ok}✅ Engagement setup complete!","{cmt}# saved engagements/acme-corp/config.yaml, scope.md, .env (2 roles)"]},
+    {n:6, cmd:["bash scripts/validate-config.sh acme-corp"],
+      out:["🔍 Validating engagement configuration: acme-corp","{ok}✅ Found: config.yaml","{ok}✅ Found: scope.md","{ok}✅ Found: .env","{ok}✅ Found 2 authorized test-user role(s) in .env","{ok}✅ Authorization confirmed in scope.md","{ok}✅ Configuration validation complete!"]},
+    {n:7, cmd:["ls orchestrator/agents | wc -l"],
       out:["106","{cmt}# 106 real agent spec files — searchable in the Agent Explorer below"]},
-    {n:10, cmd:["Run full penetration test for acme-corp"],
+    {n:8, cmd:["Run full penetration test for acme-corp"],
       out:["🚀 Starting penetration test for: acme-corp","{ok}✅ Scope gate passed","{stp}▶ Recon — Agent-001A / Agent-001B ......... done (12 findings)","{stp}▶ Web / API / Auth — Agent-002x/003x/004x .. done (23 findings)","{cmt}# ...remaining agent groups dispatch in sequence...","{stp}▶ Reporting — Agent-035-Reporting .......... done"]},
-    {n:11, cmd:["{cmt}# validation runs automatically after every agent"],
+    {n:9, cmd:["{cmt}# validation runs automatically after every agent"],
       out:["Finding WEB-014 → GATE 1 Format {ok}✅ → GATE 2 Evidence {ok}✅","             → GATE 3 Technical {ok}✅ → GATE 4 Remediation {ok}✅","{ok}✅ VALIDATED — added to execution_context"]},
-    {n:12, cmd:["Run Agent-002A-SQL-Injection.md against acme-corp"],
+    {n:10, cmd:["Run Agent-002A-SQL-Injection.md against acme-corp"],
       out:["{stp}▶ Agent-002A dispatched (subagent_type: penetration-tester)","{ok}✅ 2 findings saved to evidence/findings/"]},
-    {n:13, cmd:["bash scripts/check-status.sh acme-corp"],
+    {n:11, cmd:["bash scripts/check-status.sh acme-corp"],
       out:["📊 Completed agents: 75/106","⚠️  CRITICAL finding awaiting sign-off: WEB-014 (CVSS 9.1)","{cmt}# reply yes/no in Claude Code to continue"]},
-    {n:14, cmd:["start engagements/acme-corp/report/report.html"],
+    {n:12, cmd:["start engagements/acme-corp/report/report.html"],
       out:["{cmt}# opening report in your browser...","{ok}✅ Report ready — 57 findings, all evidence-backed, PII masked"]},
-    {n:15, cmd:["bash scripts/check-status.sh acme-corp"],
+    {n:13, cmd:["bash scripts/check-status.sh acme-corp"],
       out:["Completed agents: 106/106","{ok}🎉 Engagement complete!","{cmt}# start a new one: bash scripts/setup-engagement.sh another-client"]}
   ];
 
@@ -1247,7 +1210,7 @@ Run full penetration test for acme-corp</code></pre></div>
   function clsOf(line){ if(line.indexOf("{ok}")===0)return["ok",line.slice(4)]; if(line.indexOf("{cmt}")===0)return["cmt",line.slice(5)]; if(line.indexOf("{stp}")===0)return["stp",line.slice(5)]; return["out",line]; }
 
   function setLabel(){ playBtn.textContent = done ? "⟲  Replay" : (playing ? "⏸  Pause" : "▶  Play"); }
-  function resetSim(){ gen++; playing=false; started=false; done=false; term.innerHTML=""; chips.forEach(function(c){c.classList.remove("active","done");}); addLine("cmt","# press ▶ Play to simulate the full 15-step run"); setLabel(); }
+  function resetSim(){ gen++; playing=false; started=false; done=false; term.innerHTML=""; chips.forEach(function(c){c.classList.remove("active","done");}); addLine("cmt","# press ▶ Play to simulate the full 13-step run"); setLabel(); }
 
   async function run(myGen){
     for(var i=0;i<SIM.length && gen===myGen;i++){

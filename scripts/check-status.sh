@@ -38,7 +38,7 @@ if command -v node > /dev/null 2>&1; then
     node -e '
         const s = require("./" + process.argv[1]);
         console.log("  Completed phases:", (s.completedPhases||[]).length);
-        console.log("  Completed agents:", (s.completedAgents||[]).length + "/86");
+        console.log("  Completed agents:", (s.completedAgents||[]).length + "/106");
         console.log("  Findings so far :", s.findingsCount || 0);
         console.log("  Errors          :", s.errors || 0);
         console.log("  Last update     :", s.lastUpdate || "n/a");
