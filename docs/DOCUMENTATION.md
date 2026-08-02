@@ -85,7 +85,7 @@ In Claude Code, run:
 Run full penetration test for my-client
 ```
 
-The orchestrator will execute 33 phases with 106 agents, taking ~2 hours for a complete penetration test.
+The orchestrator will execute 33 phases with 106 agents, taking ~15 hours (unattended) for a complete penetration test.
 
 #### Step 7: Review Report
 ```bash
@@ -1961,7 +1961,7 @@ A: Review validation error. Most likely: evidence not authentic or impact statem
 A: Normal for some targets. Some may have good security. Re-run with different phases to verify.
 
 **Q: Test takes too long**
-A: Complex targets take longer. Estimate 2-2.5 hours for comprehensive testing.
+A: A full 106-agent run is expected to take approximately 13-17 hours unattended; complex targets can take longer. This is normal — most agents run unattended, so plan it as an overnight/background run rather than watching it continuously.
 
 **Q: Credentials not working**
 A: Verify .secrets file format. Ensure credentials have necessary permissions to test the target.

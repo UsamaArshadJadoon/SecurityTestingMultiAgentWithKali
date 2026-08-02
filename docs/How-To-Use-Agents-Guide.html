@@ -338,7 +338,7 @@
     <div class="stat"><b data-count="33">0</b><span>Phases</span></div>
     <div class="stat"><b data-count="150">0</b><span>Tools</span></div>
     <div class="stat"><b data-count="4">0</b><span>Validation gates</span></div>
-    <div class="stat"><b data-count="0">~17h</b><span>End-to-end</span></div>
+    <div class="stat"><b data-count="0">~15h</b><span>End-to-end</span></div>
   </div>
 
   <div class="hero-term">
@@ -450,7 +450,7 @@ nano engagements/acme-corp/.secrets   <span class="cmt"># ← set TARGET_URL + c
             <div class="tseg" style="flex:900;background:var(--amber);color:#231a04" title="Step 10: Full 106-agent test run (approximately 15 hours)"><b>Step 10 — Full 106-agent run (~15h)</b></div>
             <div class="tseg" style="flex:37.5;background:var(--green)" title="Steps 13-14: Monitor, approve criticals, review report (~30-45 min)"></div>
           </div>
-          <div class="timenote"># bar is proportional to time — hover any segment for its estimate. Setup (left) and wrap-up (right) are real minutes; they just look thin next to a ~12 hour run.</div>
+          <div class="timenote"># bar is proportional to time — hover any segment for its estimate. Setup (left) and wrap-up (right) are real minutes; they just look thin next to a ~15 hour run.</div>
         </div>
         <div class="tablewrap">
           <table>
@@ -466,7 +466,7 @@ nano engagements/acme-corp/.secrets   <span class="cmt"># ← set TARGET_URL + c
             </tbody>
           </table>
         </div>
-        <div class="total-banner"><span class="tb-ic">⏱️</span><b>Grand total end-to-end: approximately 17 hours</b><span>— almost all of it is Step 10 running unattended; your hands-on time across setup and review is under 2 hours.</span></div>
+        <div class="total-banner"><span class="tb-ic">⏱️</span><b>Grand total end-to-end: approximately 15 hours</b><span>— almost all of it is Step 10 running unattended; your hands-on time across setup and review is under 2 hours.</span></div>
         <div class="tip"><b>Why this is much longer than "a couple hours"</b>106 agents run sequentially because later ones depend on earlier findings (Step 10's <code class="k">execution_context</code>), and many individual agents genuinely take real wall-clock time against a live target — password/hash cracking (hashcat, john), WiFi handshake capture, full port/vuln scans, firmware extraction, and thorough manual-style exploitation attempts don't finish in seconds. Plan a full engagement as an overnight or unattended background run, with Step 13 used to check in periodically rather than watching it continuously.</div>
       </div>
 
@@ -620,7 +620,7 @@ authorization.confirmed: true
       <!-- STEP 8 -->
       <section class="step reveal" id="s8">
         <div class="st-h"><div class="st-n">8</div><h2>Validate the configuration</h2></div>
-        <p class="does"><b>What this does:</b> checks that <code class="k">config.yaml</code>, <code class="k">scope.md</code>, and <code class="k">.secrets</code> all exist and look complete — catches mistakes before a run that takes approximately 12 hours, instead of during it.</p>
+        <p class="does"><b>What this does:</b> checks that <code class="k">config.yaml</code>, <code class="k">scope.md</code>, and <code class="k">.secrets</code> all exist and look complete — catches mistakes before a run that takes approximately 15 hours, instead of during it.</p>
         <div class="lbl">Command</div>
         <div class="cmd"><pre><code>bash scripts/validate-config.sh acme-corp</code></pre></div>
         <div class="out"><span class="h">Expected output</span>🔍 Validating engagement configuration: acme-corp
@@ -629,7 +629,7 @@ authorization.confirmed: true
 ✅ Found: .secrets
 ✅ Configuration validation complete!
 📋 Ready to run: node orchestrator/Orchestrator.js acme-corp</div>
-        <div class="why"><b>Why this matters</b><p>This check exists so a typo costs you 5 seconds instead of most of a ~12 hour run. Without it, a missing <code class="k">TARGET_URL</code> or an unconfirmed <code class="k">scope.md</code> would only surface once the orchestrator actually tries to use it — potentially after several agents have already dispatched — leaving you with a half-finished engagement to clean up. It's a cheap, mechanical gate deliberately placed before the expensive part.</p></div>
+        <div class="why"><b>Why this matters</b><p>This check exists so a typo costs you 5 seconds instead of most of a ~15 hour run. Without it, a missing <code class="k">TARGET_URL</code> or an unconfirmed <code class="k">scope.md</code> would only surface once the orchestrator actually tries to use it — potentially after several agents have already dispatched — leaving you with a half-finished engagement to clean up. It's a cheap, mechanical gate deliberately placed before the expensive part.</p></div>
         <div class="tip"><b>If something's reported missing</b>Go back to Step 6 (<code class="k">.secrets</code>) or Step 7 (<code class="k">scope.md</code>) and re-run this command until everything shows ✅.</div>
       </section>
 
