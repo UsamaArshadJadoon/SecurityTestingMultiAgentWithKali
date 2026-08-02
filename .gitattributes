@@ -1,0 +1,29 @@
+# Force LF line endings for these files regardless of any contributor's or
+# cloner's local core.autocrlf setting. This matters for more than style:
+# shell scripts here are meant to run on Kali Linux — a CRLF shebang line
+# (#!/bin/bash\r) makes Linux's script loader look for a "/bin/bash\r"
+# interpreter that doesn't exist, so the script fails outright with
+# "bad interpreter" rather than just looking odd in a diff. It also keeps
+# LF-anchored parsing (agent-spec verification tooling, README phase
+# parsing) working the same for every contributor.
+
+* text=auto eol=lf
+
+*.sh text eol=lf
+*.js text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+
+# Binary/asset files — never touch line endings
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
