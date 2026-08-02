@@ -34,7 +34,9 @@ const CVSS_SEVERITY_RANGES = {
 // Matches if the effort string STARTS WITH one of these — agents are allowed to
 // append context after the estimate (e.g. "2-4 hours (plus a firewall rule change)"),
 // matching the same tolerance as templates/finding-schema.json's effort pattern.
-const VALID_EFFORT_PREFIXES = ['1-2 hours', '2-4 hours', '4-8 hours', '1-3 days', '3+ days'];
+// "0 hours" is valid for negative/informational findings where nothing needs
+// remediating (e.g. "tested default credentials, all correctly rejected").
+const VALID_EFFORT_PREFIXES = ['0 hours', '1-2 hours', '2-4 hours', '4-8 hours', '1-3 days', '3+ days'];
 
 function isPlaceholder(str) {
   if (str === undefined || str === null) return true;
