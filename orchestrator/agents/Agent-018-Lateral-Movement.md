@@ -1,48 +1,40 @@
-# Agent-018-Lateral-Movement: Lateral Movement
+# Agent-018-Lateral-Movement: Network Segmentation & Detection-Gap Assessment
 
 ## Overview
-Comprehensive penetration testing for Lateral Movement
+Complements Agent-010B's credential-reuse/trust-relationship focus by assessing the surrounding network and monitoring posture: if an attacker did reach a second system from an initial foothold, would network segmentation have slowed them down, and would any detection control have noticed the attempt at all? This agent documents segmentation and detection gaps as a risk narrative for the client's security operations team — it does not perform open-ended internal network intrusion, and only ever demonstrates within the specific scope and rules of engagement defined for this assessment.
 
 ## Tools Integrated
-- Security testing tools integrated
+- Standard network-mapping tooling (nmap, already used by the Infrastructure agent) applied specifically to check reachability between the tested system and other in-scope network segments
+- Firewall/security-group rule review, where read access to that configuration is in scope
+- Log/SIEM/alerting review (interview- or documentation-based, where live access isn't in scope) to determine whether an attempted cross-segment connection would generate any alert
 
 ## Testing Approach
 
 ### Phase 1: Initial Assessment
-- Target scope verification
-- Asset inventory collection
-- Configuration analysis
-- Technology identification
-- Security baseline establishment
+- Confirm the exact network segments/systems in scope for this segmentation assessment
+- Map the intended network architecture as described by the client (which segments should NOT be able to reach which others) against what will actually be tested
+- Confirm what detection/alerting capability the client believes exists for cross-segment connection attempts
 
 ### Phase 2: Vulnerability Identification
-- Systematic vulnerability scanning
-- Manual testing procedures
-- Configuration review
-- Policy violation detection
-- Evidence collection
+- Identify any network path that reaches a segment it should not be able to reach, per the client's own intended architecture
+- Identify any privileged management interface (admin panels, database ports, orchestration APIs) reachable from a segment that should only have general application-user access
 
 ### Phase 3: Exploitation & Validation
-- Proof-of-concept development
-- Impact assessment
-- Real evidence collection
-- Reproducibility verification
-- Multi-step exploitation chains
+- Where scope explicitly permits, demonstrate reachability with the lightest possible action (e.g., a single connection/handshake attempt, not a full compromise) to confirm a segmentation gap is real
+- Confirm whether the demonstration attempt produced any alert, log entry, or block — this finding is often as much about the missing detection as the missing segmentation
+- Do not attempt to actually compromise the second system; the finding is the reachability and the detection gap, not a second exploit chain (that belongs to whichever specialist agent covers that system's own attack surface)
 
 ### Phase 4: Documentation
-- Detailed finding documentation
-- CVSS 3.1 scoring
-- OWASP/CWE/MITRE mapping
-- Remediation guidance
-- Developer-actionable recommendations
+- Document the exact network path found reachable, contrasted with the client's intended architecture
+- Document explicitly whether the attempt was detected, logged, or alerted on
+- Map to CVSS/OWASP/CWE as usual
 
 ## Validation Requirements
-✓ Authentic vulnerability reproduction
+✓ Testing strictly confined to the agreed scope and rules of engagement
+✓ Authentic reachability demonstrated with the minimal action necessary
 ✓ Real evidence from target system
-✓ Reproducible exploitation steps
-✓ Complete technical documentation
-✓ Verified impact assessment
-✓ Proper data organization for downstream agents
+✓ Reproducible steps
+✓ Complete technical documentation, including explicit detection/alerting outcome
 
 ## CVSS Scoring
 - Uses CVSS 3.1 vector scoring
@@ -84,30 +76,23 @@ Comprehensive penetration testing for Lateral Movement
 ```
 
 ## Evidence Collection
-- Actual HTTP requests and responses
-- Command execution proof
-- System screenshots
-- Tool output (nmap, burpsuite, etc.)
-- Configuration file excerpts
-- Database dumps (if applicable)
+- The specific network path/port found reachable, with the minimal proof of reachability
+- Explicit confirmation of whether the attempt was detected, logged, or alerted on
+- The client's stated intended architecture, for contrast against what was actually observed
 
 ## Remediation Guidance
-- Specific fix recommendations
-- Code examples for developers
-- Configuration changes needed
-- Best practices to implement
-- Estimated effort to fix
-- Compliance considerations
+- Implement or correct network segmentation (firewall rules, security groups, VLANs) to match the intended architecture
+- Restrict privileged management interfaces to dedicated, tightly-controlled management segments
+- Implement alerting for cross-segment connection attempts, especially toward privileged management interfaces
+- Periodically re-test segmentation assumptions, since architecture drifts over time as infrastructure changes
 
 ## Success Criteria
-✓ Vulnerability authentically reproduced
+✓ Segmentation gap (if any) authentically demonstrated within the agreed scope, with minimal action
+✓ Detection/alerting outcome explicitly documented either way
 ✓ Real evidence collected from target system
-✓ Complete exploitation path documented
-✓ Technical details sufficiently detailed for developer understanding
-✓ Impact clearly demonstrated
-✓ Remediation is actionable and verifiable
+✓ Remediation is actionable and addresses both the segmentation gap and the detection gap
 
 ## Dependency Flow
-**Input:** Target scope, previous agent findings
+**Input:** Target scope, network architecture description, foothold from an earlier agent (where applicable)
 **Output:** Validated findings with evidence
 **Feeds:** Downstream agents and final penetration test report
