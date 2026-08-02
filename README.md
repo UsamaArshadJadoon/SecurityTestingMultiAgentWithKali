@@ -1,6 +1,6 @@
 # 🔐 Security Testing Multi-Agent Framework
 
-**Complete Penetration Testing Framework with 86 Specialized Agents & 150+ Kali Tools**
+**Complete Penetration Testing Framework with 106 Specialized Agents & 150+ Kali Tools**
 
 ![Version](https://img.shields.io/badge/Version-2.0.0-brightgreen)
 ![Python](https://img.shields.io/badge/Python-3.8+-blue)
@@ -11,7 +11,7 @@
 
 ## 📋 What is This?
 
-A production-ready penetration testing framework that orchestrates **86 specialized security agents** across **30 sequential testing phases**, integrating **150+ Kali Linux tools** via SSH. 
+A production-ready penetration testing framework that orchestrates **106 specialized security agents** across **33 sequential testing phases**, integrating **150+ Kali Linux tools** via SSH. 
 
 Each finding is validated through **4 security layers** ensuring **100% accuracy with zero false positives**, backed by **real evidence**, **reproducible steps**, and **working code fixes**.
 
@@ -23,9 +23,9 @@ Each finding is validated through **4 security layers** ensuring **100% accuracy
 
 | Feature | Details |
 |---------|---------|
-| **86 Agents** | Web, API, auth, mobile, cloud, IoT, wireless, Windows, Linux, database, and more |
+| **106 Agents** | Web, API, auth, mobile, cloud, IoT, wireless, Windows, Linux, database, and more |
 | **150+ Tools** | nmap, sqlmap, ffuf, nuclei, hashcat, metasploit, frida, ghidra, and 140+ more |
-| **30 Phases** | Recon → Web → API → Auth → Exploitation → Mobile → Wireless → Cloud → Reporting |
+| **33 Phases** | Recon → Web → API → Auth → Exploitation → Mobile → Wireless → Cloud → Reporting |
 | **4-Layer Validation** | Format → Evidence → Technical → Remediation (0% false positives) |
 | **Enterprise Reporting** | CVSS 3.1, OWASP Top 10, CWE Top 25, MITRE ATT&CK mapping |
 | **Secure Credentials** | .secrets file (git-ignored), automatic PII masking |
@@ -87,8 +87,8 @@ nano engagements/my-client/scope.md
 Me: "Run full penetration test for my-client"
 
 Result:
-  ✅ Phase 1-30: All testing phases complete
-  ✅ 86 agents executed sequentially
+  ✅ Phase 1-33: All testing phases complete
+  ✅ 106 agents executed sequentially
   ✅ All findings validated (4-layer validation)
   ✅ Report generated: engagements/my-client/report/report.html
 ```
@@ -108,8 +108,8 @@ start engagements/my-client/report/report.html
 
 **🌟 [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)** - Complete interactive documentation with:
 - Overview & Framework Summary
-- All 86 Agents (searchable)
-- 30 Sequential Phases
+- All 106 Agents (searchable)
+- 33 Sequential Phases
 - 4-Layer Validation System
 - Security & Credentials Management
 - Complete Data Flow Architecture
@@ -121,8 +121,8 @@ start engagements/my-client/report/report.html
 ### Comprehensive Documentation
 | Document | Contains |
 |----------|----------|
-| **[DOCUMENTATION.md](docs/DOCUMENTATION.md)** | Everything: Installation, Usage, Reports, All 86 Agents, 150+ Tools, Framework Overview, Validation System, Security Management |
-| **[How-To-Use-Agents-Guide.html](docs/How-To-Use-Agents-Guide.html)** | Animated, interactive walkthrough: git clone → target URL/credentials → initiating a test → a searchable explorer of all 86 real agents |
+| **[DOCUMENTATION.md](docs/DOCUMENTATION.md)** | Everything: Installation, Usage, Reports, All 106 Agents, 150+ Tools, Framework Overview, Validation System, Security Management |
+| **[How-To-Use-Agents-Guide.html](docs/How-To-Use-Agents-Guide.html)** | Animated, interactive walkthrough: git clone → target URL/credentials → initiating a test → a searchable explorer of all 106 real agents |
 
 ---
 
@@ -130,9 +130,9 @@ start engagements/my-client/report/report.html
 
 ### **Framework Core**
 - ✅ Orchestrator.js (750+ lines) - Agent orchestration
-- ✅ 86 agent specifications - Detailed requirements
+- ✅ 106 agent specifications - Detailed requirements
 - ✅ 150+ tool integrations - Kali tools via SSH
-- ✅ 30 sequential phases - Data flow between phases
+- ✅ 33 sequential phases - Data flow between phases
 
 ### **Quality Assurance**
 - ✅ 4-layer validation gates - Format → Evidence → Technical → Remediation
@@ -167,11 +167,11 @@ SecurityTestingMultiAgentWithKali/
 │
 ├── orchestrator/                     # Core orchestration engine
 │   ├── Orchestrator.js               # Main engine (750+ lines)
-│   ├── agents/                       # Agent specifications (86 files)
+│   ├── agents/                       # Agent specifications (106 files)
 │   │   ├── README.md                 # Agents overview
 │   │   ├── Agent-001-Reconnaissance.md
 │   │   ├── Agent-002-Web-Pentest.md
-│   │   └── ...                       # through Agent-044 + sub-agents (86 total)
+│   │   └── ...                       # through Agent-064 + sub-agents (106 total)
 │   ├── kali-wrapper.sh               # Run tools on Kali over SSH
 │   └── kali-health-check.sh          # Verify Kali connectivity & tools
 │
@@ -218,7 +218,7 @@ SecurityTestingMultiAgentWithKali/
 ```
 ╔═════════════════════════════════════════════════════════════════════════════╗
 ║                  SECURITY TESTING ORCHESTRATOR - DATA FLOW                  ║
-║                    86 Agents with Full Dependency Chain                     ║
+║                    106 Agents with Full Dependency Chain                    ║
 ╚═════════════════════════════════════════════════════════════════════════════╝
 
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -434,7 +434,7 @@ SecurityTestingMultiAgentWithKali/
 ╠═════════════════════════════════════════════════════════════════════════════╣
 ║                                                                             ║
 ║ ALL Findings ──→ GATE 1 ──→ GATE 2 ──→ GATE 3 ──→ GATE 4 ──→ APPROVED    ║
-║ (from all 86   Format     Evidence   Technical   Remediation  (if CVSS     ║
+║ (from all 106  Format     Evidence   Technical   Remediation  (if CVSS     ║
 ║  agents)      Validation Validation  Accuracy    Validation   ≥7.0)        ║
 ║                                                                             ║
 ║ execution_context.validated_findings_only = [                              ║
@@ -484,6 +484,7 @@ SecurityTestingMultiAgentWithKali/
 | 4-9 | 015-020 | phase3_findings | advanced_findings | Phase 3 |
 | 10-20 | 021-029 | all_prior_findings | specialized_findings | All prior |
 | 30 | 030 | validated_findings | html_report | All phases |
+| 31-33 | 045-064 (20 agents) | validated_findings + prior context | extension_findings | Infrastructure, Database, Web/Mobile/API depth |
 
 ### **Execution Context Object Evolution**
 
@@ -529,6 +530,7 @@ ExecutionContext = {
 | 4-9 | Advanced Testing | 20+ | Specific vulnerabilities |
 | 10-20 | Specialized | 30+ | Protocols, platforms, logic |
 | 21-30 | Extended | 15+ | Edge cases, hardening |
+| 31-33 | Extension | 20 | Infrastructure, Database, Web/Mobile/API depth |
 
 ### **Data Flow Between Phases**
 
@@ -593,7 +595,7 @@ bash scripts/validate-config.sh acme-corp
 ```
 Me: "Run full penetration test for acme-corp"
 
-Claude: Orchestrating 86 agents across 30 phases...
+Claude: Orchestrating 106 agents across 33 phases...
 
 [Progress updates as each agent completes]
 ✅ recon-agent (5 findings)
@@ -657,8 +659,8 @@ Report includes:
 1. **Home** - Framework overview with statistics
 2. **Overview** - Why use this framework, unique features, FAQ
 3. **Features** - Vulnerability coverage, advanced capabilities
-4. **Agents** - All 86 agents explained (searchable)
-5. **Phases** - 30 sequential testing phases with timing
+4. **Agents** - All 106 agents explained (searchable)
+5. **Phases** - 33 sequential testing phases with timing
 6. **Validation** - 4-layer validation system and accuracy
 7. **Security** - Credential protection, PII masking, audit logging
 8. **Workflow** - Complete data flow architecture
@@ -670,7 +672,7 @@ Report includes:
 - **[Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)** - Interactive documentation with tabs (Agents, Phases, Validation, Security, Installation, FAQ)
 
 **🔍 For Specific Topics:**
-- **Agents:** See [orchestrator/agents/](orchestrator/agents/) directory (86 individual specification files) or DOCUMENTATION.md
+- **Agents:** See [orchestrator/agents/](orchestrator/agents/) directory (106 individual specification files) or DOCUMENTATION.md
 - **Tools:** All 150+ tools documented in each agent spec file and DOCUMENTATION.md
 - **Validation:** 4-layer system explained in DOCUMENTATION.md with interactive visualization in Master Portal
 - **Workflows:** Agent-to-agent data flow diagram above in this README, plus complete interactive documentation
@@ -681,12 +683,12 @@ Report includes:
 
 | Metric | Value |
 |--------|-------|
-| **Agents** | 86 specialized |
-| **Phases** | 30 sequential |
+| **Agents** | 106 specialized |
+| **Phases** | 33 sequential |
 | **Tools** | 150+ integrated |
 | **Code** | 5,000+ lines |
 | **Documentation** | Comprehensive guides + interactive portal |
-| **Agent Specs** | 86 detailed agent files |
+| **Agent Specs** | 106 detailed agent files |
 | **Test Duration** | ~2 hours full test |
 | **False Positive Rate** | 0% (4-layer validation) |
 | **OWASP Coverage** | 100% (10/10) |
@@ -717,7 +719,7 @@ Apache License 2.0 - See [LICENSE](LICENSE) file for details
 
 ## 🌟 Why Use This Framework?
 
-✅ **Complete:** 86 agents × 30 phases = comprehensive coverage  
+✅ **Complete:** 106 agents × 33 phases = comprehensive coverage  
 ✅ **Accurate:** 4-layer validation = 0% false positives  
 ✅ **Fast:** ~2 hours for full penetration test  
 ✅ **Secure:** Credentials protected, PII masked automatically  

@@ -1,10 +1,10 @@
-# 📋 86 Specialized Penetration Testing Agents
+# 📋 106 Specialized Penetration Testing Agents
 
-Complete specifications for all 86 agents organized across 30 sequential testing phases.
+Complete specifications for all 106 agents organized across 33 sequential testing phases.
 
 **Framework Statistics:**
-- **86 Agent Specification Files** (Agent-001 through Agent-044 with variants)
-- **30 Sequential Phases** from reconnaissance through reporting
+- **106 Agent Specification Files** (Agent-001 through Agent-064 with variants)
+- **33 Sequential Phases** from reconnaissance through reporting
 - **150+ Integrated Kali Linux Tools** via SSH
 - **4-Layer Validation System** ensuring 0% false positives
 - **CVSS 3.1 Scoring** with OWASP/CWE/MITRE mapping
@@ -236,6 +236,32 @@ Complete specifications for all 86 agents organized across 30 sequential testing
 - Agent-030A-Finding-Aggregation - Data compilation, deduplication
 - **Agent-035-Reporting.md** - Report generation with CVSS, OWASP mapping
 
+### Phase 31: Advanced Infrastructure Security (8 Agents)
+- **Agent-045-Network-Segmentation.md** - Network segmentation & zero-trust validation
+- **Agent-046-LoadBalancer-ReverseProxy.md** - Load balancer & reverse proxy security
+- **Agent-047-VPN-RemoteAccess.md** - VPN & remote access security
+- **Agent-048-Container-Orchestration-Deep.md** - Deep container orchestration & service mesh security
+- **Agent-049-Email-Infrastructure-Hardening.md** - Mail server & MTA infrastructure hardening
+- **Agent-050-Backup-DR-Security.md** - Backup & disaster recovery security
+- **Agent-051-Physical-Virtual-Infra-Config.md** - Virtual infrastructure & hypervisor hardening
+- **Agent-052-Network-Device-Hardening.md** - Network device hardening (routers, switches, firewalls)
+
+### Phase 32: Advanced Database Security (6 Agents)
+- **Agent-053-NoSQL-Deep-Dive.md** - NoSQL engine-specific injection & misconfiguration testing
+- **Agent-054-DB-Privilege-Replication-Audit.md** - Database privilege, replication & audit-log security review
+- **Agent-055-ORM-QueryBuilder-Injection.md** - ORM & query-builder abstraction-layer injection testing
+- **Agent-056-DBaaS-Managed-Database-Security.md** - Managed database service (DBaaS) configuration security review
+- **Agent-057-Database-Encryption-KeyManagement.md** - Database encryption & key management review
+- **Agent-058-DataWarehouse-BigData-Security.md** - Data warehouse & big data platform security testing
+
+### Phase 33: Web, Mobile & API Coverage Extension (6 Agents)
+- **Agent-059-WebAuthn-Passkey-Security.md** - WebAuthn / FIDO2 passkey security
+- **Agent-060-PWA-ServiceWorker-Security.md** - PWA / service worker security
+- **Agent-061-CrossPlatform-Framework-Security.md** - Cross-platform framework bridge security (React Native, Flutter, hybrid apps)
+- **Agent-062-Mobile-Supply-Chain-Security.md** - Mobile app supply chain security
+- **Agent-063-API-Gateway-Deep-Dive.md** - API gateway platform deep dive (Kong, Apigee, AWS/Azure API gateways)
+- **Agent-064-Webhook-Security.md** - Webhook security
+
 ## Agent Specification Format
 
 Each agent file includes:
@@ -249,7 +275,7 @@ Each agent file includes:
 
 ## Complete Framework Coverage
 
-✅ **100+ Agents** - Comprehensive coverage
+✅ **106 Agents** - Comprehensive coverage
 ✅ **150+ Tools** - Full tool integration
 ✅ **100% OWASP** - Top 10 + extended
 ✅ **100% CWE** - Top 25 + additional
