@@ -314,7 +314,7 @@
   <section id="workflow" class="section">
     <div class="kicker">Interactive pipeline</div>
     <h2 class="section-title" style="margin-top:.2em">Every phase, every agent — live</h2>
-    <p class="section-desc">Press <b>▶ Play run</b> to watch one engagement flow through all <b>13 orchestrated phases</b>, or <b>click any phase to expand its agents</b>. The rail shows the wired runtime; the full <b>106-spec catalog</b> is at the bottom. Every finding clears the 4-layer validation before it reaches the report.</p>
+    <p class="section-desc">Press <b>▶ Play run</b> to watch a simplified <b>13-stage</b> walkthrough of the pipeline mechanics (intake → testing → exploitation → validation → sign-off → report), or <b>click any stage to expand its agents</b>. This is an illustrative subset for clarity, not the full runtime — the real orchestrator dispatches the complete <b>106-agent catalog</b> (browsable at the bottom), organized into 23 execution categories. Every finding clears the 4-layer validation before it reaches the report.</p>
 
     <div class="stats" id="wfStats"></div>
 
@@ -346,7 +346,7 @@
 
     <details class="catalog" id="catalog">
       <summary><span class="tw">▶</span> Full agent specification library <small>106 spec files</small></summary>
-      <p class="catnote">Every agent spec that ships in <code>orchestrator/agents/</code>, grouped by theme. The orchestrator currently dispatches 35 of these across the 13 phases above; the remainder are extended specifications (mobile, wireless, Windows AD, IoT, reverse engineering, infrastructure/database/API depth, and more) not yet wired into the runtime.</p>
+      <p class="catnote">Every agent spec that ships in <code>orchestrator/agents/</code>, grouped by theme. All 106 are dispatched by the real orchestrator (<code>orchestrator/Orchestrator.js</code>, organized into 23 execution categories internally — see <code>orchestrator/agents/README.md</code> for the 33-phase file-directory view of the same catalog). The 13-stage pipeline above is a simplified illustration of the mechanics (intake → testing → exploitation → validation → sign-off → report), not a stage-by-stage map of every one of the 106 agents.</p>
       <div class="catgrid" id="catgrid"></div>
     </details>
   </section>
@@ -398,7 +398,7 @@
 
   /* ---------- STATIC DATA ---------- */
   var STATS=[["106","Agents"],["33","Phases"],["150+","Tools"],["0%","False positives"],["100%","Accuracy"],["~15h","Test time"]];
-  var WFSTATS=[["13","","orchestrated phases"],["35","","agents in runtime"],["106","","agent specs (catalog)"],["150","+","Kali tools via SSH"],["0","%","false-positive rate"]];
+  var WFSTATS=[["13","","illustrative pipeline stages"],["106","","agents in runtime"],["23","","execution categories"],["150","+","Kali tools via SSH"],["0","%","false-positive rate"]];
 
   var FEATURES=[
     ["✓","Zero false positives","Every finding backed by real evidence through 4-layer validation."],
@@ -464,18 +464,18 @@
     {n:33,title:"Web, Mobile & API Extension",a:[["🔑","WebAuthn/Passkey","python-fido2, burp, mitmproxy"],["📲","PWA/Service Worker","chrome devtools, lighthouse, workbox"],["🌉","Cross-Platform Bridge","frida, jadx, blutter/reflutter"],["📦","Mobile Supply Chain","apktool, mobsf, dependency-track"],["🚪","API Gateway Deep Dive","kong admin api, apigee api, burp"],["🪝","Webhook Security","burp, custom hmac scripts, interactsh"]]}
   ];
 
-  /* ---------- PIPELINE (13 orchestrated phases, from Orchestrator.js) ---------- */
+  /* ---------- PIPELINE (13-stage simplified illustration of Orchestrator.js's mechanics — the real runtime dispatches all 106 agents across 23 categories) ---------- */
   var STAGES=[
     {t:"you",ic:"▶",label:"Security lead",sub:"run <code>Run full pentest for acme-corp</code>",title:"You start the engagement",
       role:"One instruction with an engagement name kicks off every phase. You only step back in at the human sign-off gate.",
       reads:["scope.md + authorization",".env (credentials)"],writes:["ExecutionContext"],badge:"input",
       proc:"The orchestrator loads config.yaml, the git-ignored .env, and scope.md, verifies written authorization, and runs the scope guard before anything touches the target.",
       eg:"Loaded acme-corp scope and confirmed every target is in-scope and authorized."},
-    {t:"orch",ic:"◆",label:"Orchestrator",sub:"sequences 35 agents · 13 phases",title:"Orchestrator",
-      role:"Sequences every phase, threads one ExecutionContext through each agent, runs the 4-layer validation after each finding, and holds critical findings at the human gate. It coordinates — the agents do the testing.",
+    {t:"orch",ic:"◆",label:"Orchestrator",sub:"sequences all 106 agents · 23 categories",title:"Orchestrator",
+      role:"Sequences every category, threads one ExecutionContext through each agent, runs the 4-layer validation after each finding, and holds critical findings at the human gate. It coordinates — the agents do the testing. This 13-stage rail below is a simplified illustration of that mechanic, not a 1:1 map of all 106 agents.",
       reads:["config.yaml","ExecutionContext"],writes:["ExecutionContext (evolving)"],badge:"conductor",
-      proc:"Orchestrator.js passes each phase only the prior data it needs (surface map → findings → validated findings); every finding flows forward through the shared context.",
-      eg:"Drove all 13 phases for acme-corp end to end."},
+      proc:"Orchestrator.js passes each category only the prior data it needs (surface map → findings → validated findings); every finding flows forward through the shared context.",
+      eg:"Drove all 106 agents for acme-corp end to end."},
     {t:"agent",ic:"1",label:"Phase 1 · Reconnaissance",sub:"1 agent → <code>surface_map</code>",title:"Phase 1 — Reconnaissance",
       reads:["target URLs","scope"],writes:["surface_map"],badge:"1 agent",
       role:"Maps the attack surface before anything is tested.",

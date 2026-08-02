@@ -1467,7 +1467,9 @@ Report Generation (HTML Report)
 
 #### 1. Orchestrator.js
 - Main orchestration engine (500+ lines)
-- Manages 33 sequential phases
+- Manages 23 execution categories internally (its own `defineAgents()`
+  grouping — see [orchestrator/agents/README.md](../orchestrator/agents/README.md)
+  for the 33-phase file-directory view of the same 106 agents)
 - Dispatches 106 agents
 - Handles data flow between phases
 - Implements retry logic and error handling
@@ -1480,7 +1482,7 @@ Report Generation (HTML Report)
 - Collects findings from agents
 - Validates findings before next phase
 
-#### 3. Agent Specifications (87 files)
+#### 3. Agent Specifications (106 files)
 - Located in `orchestrator/agents/`
 - Each agent has detailed specification
 - Tools used by agent
@@ -1495,18 +1497,23 @@ Report Generation (HTML Report)
 - Handles errors and timeouts
 - Secures credential passing
 
-#### 5. Validation System
-- 4 independent validation layers
-- Format, Evidence, Technical, Remediation gates
-- Rejection criteria for each gate
+#### 5. Validation System (`orchestrator/validation-gate.js`)
+- 4 independent validation layers, implemented as real deterministic checks
+- Format (JSON-schema, via ajv), Evidence, Technical Accuracy (CVSS/severity
+  consistency), Remediation gates
+- Rejection criteria for each gate — a finding failing any gate is rejected
+  with the specific reason, never silently dropped
 - Human approval for CVSS ≥ 7.0
 
-#### 6. Report Generator
+#### 6. Report Generator (`orchestrator/report-generator.js`)
+- Re-validates every finding against the same 4 gates before including it
+  (defensive — never trusts a pre-set `validation_status` field)
 - Aggregates validated findings
 - Calculates risk matrix
 - Assigns CVSS scores
 - Maps to OWASP/CWE/MITRE
-- Generates professional HTML report
+- Generates professional HTML report, reusing the shared design system in
+  `templates/report/styles.css`
 
 ### Data Flow
 
