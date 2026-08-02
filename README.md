@@ -163,6 +163,7 @@ SecurityTestingMultiAgentWithKali/
 │
 ├── orchestrator/                     # Core orchestration engine
 │   ├── Orchestrator.js               # Main engine (750+ lines)
+│   ├── validation-gate.js            # Real 4-layer finding validation
 │   ├── report-generator.js           # Renders report.html from validated findings
 │   ├── agents/                       # Agent specifications (106 files)
 │   │   ├── README.md                 # Agents overview
