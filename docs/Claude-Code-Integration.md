@@ -2,7 +2,7 @@
 
 **Security Testing Multi-Agent Framework for Claude Code**
 
-Since you're using **Claude Code locally**, all 106 agents dispatch through Claude Code's **Agent tool** across 33 sequential phases.
+Since you're using **Claude Code locally**, all 106 agents dispatch through Claude Code's **Agent tool** across 23 dependency-ordered execution categories (`Orchestrator.js`'s own internal grouping — a separate, purely organizational 33-"phase" file-directory catalog also exists in `orchestrator/agents/README.md` for browsing the same 106 spec files by theme, but it isn't the execution order).
 
 ---
 
@@ -18,7 +18,7 @@ orchestrator/ (instructions)
        ↓
 Agent Tool (Claude Code built-in)
        ↓
-106 Agents (33 phases, each is a specialized agent call)
+106 Agents (23 execution categories, each agent a specialized live Agent-tool call)
        ↓
 findings/ (JSON output)
        ↓
@@ -364,7 +364,7 @@ noted otherwise):
 
 ## 📈 EXPECTED OUTCOMES
 
-After running all 106 agents across 33 phases:
+After running all 106 agents across 23 execution categories:
 
 **Deliverables:**
 - `engagements/acme-corp/evidence/findings/` — All findings (JSON)
@@ -381,9 +381,9 @@ After running all 106 agents across 33 phases:
 - Concrete evidence for each
 
 **Timeline:**
-- ~13-17 hours comprehensive testing (unattended)
-- Fully automated via Claude Code
-- Sequential execution with data flow
+- No fixed duration — scales with how many of the 106 agents you dispatch in the session, and how long each one's real tooling takes against the target
+- Driven by a live Claude Code session via the Agent tool — no unattended/background mode
+- Sequential, dependency-ordered execution with data flow between categories
 
 ---
 

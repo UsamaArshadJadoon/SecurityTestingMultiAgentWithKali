@@ -91,7 +91,7 @@ In Claude Code, run:
 Run full penetration test for my-client
 ```
 
-The orchestrator will execute 33 phases with 106 agents, taking ~15 hours (unattended) for a complete penetration test.
+Claude Code reads each agent's spec file and dispatches it live via its Agent tool, working through all 106 agents in 23 dependency-ordered execution categories. There's no unattended background mode — duration scales with how many agents you run in the session and how long each one's real tooling takes against the target.
 
 #### Step 6: Review Report
 ```bash
@@ -266,9 +266,9 @@ At a glance:
 
 ## All 106 Agents
 
-> **Note on organization:** the entries below are grouped by testing *capability/theme* — most entries consolidate several related spec files from `orchestrator/agents/` under one representative write-up (e.g. "Agent-002: Web Application Security" below summarizes the combined coverage of `Agent-002-Web-Pentest.md` and its `Agent-002A`-`Agent-002G` variants). The three most recently added phases (31-33) map one-to-one with individual spec files. For the authoritative, file-by-file directory of all 106 agents organized into 33 sequential phases, see [orchestrator/agents/README.md](../orchestrator/agents/README.md) — that file is the ground truth for exact filenames, phase numbers, and per-file counts.
+> **Note on organization:** the "Capability Bundle" numbers below are a documentation-only grouping for readability — they do **not** reflect execution order and are unrelated to the numbers in the same-named 33-entry file-directory catalog in `orchestrator/agents/README.md` (a coincidental overlap in count, not the same numbering). Most bundles below consolidate several related spec files from `orchestrator/agents/` under one representative write-up (e.g. "Agent-002: Web Application Security" summarizes the combined coverage of `Agent-002-Web-Pentest.md` and its `Agent-002A`-`Agent-002G` variants); Bundles 31-33 map one-to-one with individual spec files. **The real execution order is 23 dependency-ordered categories**, defined in `Orchestrator.js`'s own `defineAgents()`/`getPhaseName()` — see the [Framework Overview](#framework-overview) section below for that list. For the file-by-file directory of all 106 agent spec files (exact filenames, per-file counts), see [orchestrator/agents/README.md](../orchestrator/agents/README.md).
 
-### Phase 1: Reconnaissance (1 Agent)
+### Capability Bundle 1: Reconnaissance (1 Agent)
 
 #### Agent-001: Reconnaissance
 **Purpose:** Build complete attack surface map
@@ -291,7 +291,7 @@ At a glance:
 
 ---
 
-### Phase 2: Surface Testing (6 Agents)
+### Capability Bundle 2: Surface Testing (6 Agents)
 
 #### Agent-002: Web Application Security
 **Purpose:** Full OWASP WSTG coverage
@@ -441,7 +441,7 @@ At a glance:
 
 ---
 
-### Phase 3: Deep Exploitation (7 Agents)
+### Capability Bundle 3: Deep Exploitation (7 Agents)
 
 #### Agent-008: SSRF Exploitation
 **Purpose:** Server-side request forgery attacks
@@ -597,7 +597,7 @@ At a glance:
 
 ---
 
-### Phase 4: Post-Exploitation (4 Agents)
+### Capability Bundle 4: Post-Exploitation (4 Agents)
 
 #### Agent-015: Post-Exploitation
 **Purpose:** System abuse and persistence
@@ -691,7 +691,7 @@ At a glance:
 
 ---
 
-### Phase 5: Source Code Analysis (2 Agents)
+### Capability Bundle 5: Source Code Analysis (2 Agents)
 
 #### Agent-019: Source Code Disclosure
 **Purpose:** Hunt exposed source code
@@ -739,7 +739,7 @@ At a glance:
 
 ---
 
-### Phase 6: Cloud Testing (3 Agents)
+### Capability Bundle 6: Cloud Testing (3 Agents)
 
 #### Agent-021: AWS Security
 **Purpose:** AWS-specific misconfigurations
@@ -811,7 +811,7 @@ At a glance:
 
 ---
 
-### Phase 7: Advanced Authentication (5 Agents)
+### Capability Bundle 7: Advanced Authentication (5 Agents)
 
 #### Agent-024: OAuth/SAML/JWT
 **Purpose:** Advanced authentication protocol testing
@@ -1021,7 +1021,7 @@ At a glance:
 
 ---
 
-### Phase 31: Advanced Infrastructure Security (8 Agents)
+### Capability Bundle 31: Advanced Infrastructure Security (8 Agents)
 
 #### Agent-045: Network Segmentation
 **Purpose:** Network segmentation & zero-trust validation
@@ -1159,7 +1159,7 @@ At a glance:
 
 ---
 
-### Phase 32: Advanced Database Security (6 Agents)
+### Capability Bundle 32: Advanced Database Security (6 Agents)
 
 #### Agent-053: NoSQL Deep Dive
 **Purpose:** NoSQL engine-specific injection & misconfiguration testing
@@ -1263,7 +1263,7 @@ At a glance:
 
 ---
 
-### Phase 33: Web, Mobile & API Coverage Extension (6 Agents)
+### Capability Bundle 33: Web, Mobile & API Coverage Extension (6 Agents)
 
 #### Agent-059: WebAuthn / Passkey Security
 **Purpose:** WebAuthn / FIDO2 passkey security
@@ -1444,45 +1444,70 @@ At a glance:
 ### Architecture
 
 ```
-User Request (Claude Code)
+User Request (Claude Code, "run full pentest for <engagement>")
         ↓
-   Orchestrator.js (Main Engine)
+Claude Code reads orchestrator/Orchestrator.js's defineAgents() list
         ↓
-Phase Manager (Sequential Execution)
+   23 dependency-ordered execution categories (Category 1-23)
         ↓
-    Phase 1-33 (33 Phases)
+For each agent: Claude Code reads its spec file and dispatches it live
+via the Agent tool (Orchestrator.js's own executeAgent() is a stub —
+it does not call any agent itself; a live Claude Code session does)
         ↓
-Agent Dispatch (106 Agents)
-        ↓
-Tool Execution (150+ Tools via SSH)
+Tool Execution (150+ Tools via SSH, orchestrator/kali-wrapper.sh)
         ↓
 Finding Generation (Raw Findings)
         ↓
-4-Layer Validation Gates
+4-Layer Validation Gates (orchestrator/validation-gate.js)
         ↓
-Report Generation (HTML Report)
+Report Generation (HTML Report, orchestrator/report-generator.js)
 ```
+
+### The 23 Execution Categories
+
+This is the real order `Orchestrator.js`'s `defineAgents()`/`getPhaseName()` runs agents in — each category's agents depend on every prior category, so they receive earlier categories' real findings as context.
+
+| # | Category | Agents |
+|---|----------|--------|
+| 1 | Reconnaissance & Discovery | 3 |
+| 2 | Web Application Testing | 8 |
+| 3 | API Security | 8 |
+| 4 | Authentication & Authorization | 3 |
+| 5 | Infrastructure, Cloud & AI Surface | 3 |
+| 6 | Deep Exploitation & RCE | 7 |
+| 7 | Post-Exploitation | 9 |
+| 8 | Rate-Limiting, Protocol Abuse & Business Logic | 10 |
+| 9 | Network Protocols | 4 |
+| 10 | Mobile Security | 6 |
+| 11 | Wireless Security | 5 |
+| 12 | Windows & Linux Exploitation | 2 |
+| 13 | Reverse Engineering & Forensics | 3 |
+| 14 | Cloud Platforms — AWS / GCP / Azure | 4 |
+| 15 | Defense Evasion | 1 |
+| 16 | CI/CD, Dependencies & IaC | 3 |
+| 17 | Cryptography | 1 |
+| 18 | IoT & Firmware | 1 |
+| 19 | Database Security | 1 |
+| 20 | Compliance, Chaining & Reporting | 4 |
+| 21 | Advanced Infrastructure Security | 8 |
+| 22 | Advanced Database Security | 6 |
+| 23 | Web, Mobile & API Coverage Extension | 6 |
 
 ### Core Components
 
 #### 1. Orchestrator.js
-- Main orchestration engine (500+ lines)
-- Manages 23 execution categories internally (its own `defineAgents()`
-  grouping — see [orchestrator/agents/README.md](../orchestrator/agents/README.md)
-  for the 33-phase file-directory view of the same 106 agents)
-- Dispatches 106 agents
-- Handles data flow between phases
-- Implements retry logic and error handling
-- Tracks execution metrics
+- Main orchestration engine (588 lines)
+- Defines all 106 agents grouped into 23 execution categories via its own
+  `defineAgents()`/`getPhaseName()` (a separate, purely organizational
+  33-entry file-directory catalog also exists in
+  [orchestrator/agents/README.md](../orchestrator/agents/README.md) for
+  browsing the same 106 spec files by theme — it is not the execution order)
+- Tracks per-agent and per-category completion state for resume support
+- `executeAgent()` is an intentional stub: real dispatch happens through a
+  live Claude Code session reading each spec and calling the Agent tool,
+  not through this Node process calling an API
 
-#### 2. Phase Manager
-- Executes phases sequentially
-- Passes context from prior phases
-- Manages agent parallelization
-- Collects findings from agents
-- Validates findings before next phase
-
-#### 3. Agent Specifications (106 files)
+#### 2. Agent Specifications (106 files)
 - Located in `orchestrator/agents/`
 - Each agent has detailed specification
 - Tools used by agent
@@ -1490,14 +1515,14 @@ Report Generation (HTML Report)
 - Validation requirements
 - Expected outputs
 
-#### 4. Tool Wrapper (kali-wrapper.sh)
+#### 3. Tool Wrapper (kali-wrapper.sh)
 - SSH wrapper for remote tool execution
 - Manages tool execution on Kali VM
 - Captures output and results
 - Handles errors and timeouts
 - Secures credential passing
 
-#### 5. Validation System (`orchestrator/validation-gate.js`)
+#### 4. Validation System (`orchestrator/validation-gate.js`)
 - 4 independent validation layers, implemented as real deterministic checks
 - Format (JSON-schema, via ajv), Evidence, Technical Accuracy (CVSS/severity
   consistency), Remediation gates
@@ -1505,7 +1530,7 @@ Report Generation (HTML Report)
   with the specific reason, never silently dropped
 - Human approval for CVSS ≥ 7.0
 
-#### 6. Report Generator (`orchestrator/report-generator.js`)
+#### 5. Report Generator (`orchestrator/report-generator.js`)
 - Re-validates every finding against the same 4 gates before including it
   (defensive — never trusts a pre-set `validation_status` field)
 - Aggregates validated findings
@@ -1523,14 +1548,14 @@ Step 1: Configuration Loading
   └─ Validate credentials
   └─ Setup execution context
 
-Step 2: Phase 1 Execution
-  └─ Reconnaissance Agent runs
+Step 2: Category 1 (Reconnaissance & Discovery) Execution
+  └─ Recon agents run
   └─ Generates attack surface map
 
-Step 3: Phases 2-33 Execution
-  └─ Pass prior phase output as context
-  └─ Execute agents with prior findings
-  └─ Collect raw findings
+Step 3: Categories 2-23 Execution
+  └─ Pass prior categories' validated findings as context
+  └─ Claude Code dispatches each agent live via the Agent tool
+  └─ Collect raw findings as each agent completes
 
 Step 4: 4-Layer Validation
   └─ Format Validation Gate
@@ -1556,15 +1581,17 @@ Step 7: Delivery
 
 ### Key Features
 
-1. **Sequential Phase Architecture**
-   - Each phase builds on prior findings
-   - Context flows from phase to phase
-   - Agents aware of prior testing
+1. **Dependency-Ordered Category Architecture**
+   - Each of the 23 categories builds on prior categories' validated findings
+   - Context flows forward category to category
+   - Agents receive earlier categories' real findings, not just raw target info
 
-2. **Parallel Agent Execution**
-   - Within each phase, agents run concurrently
-   - Maximizes testing speed
-   - No dependencies between agents in same phase
+2. **Agent Dispatch**
+   - Claude Code can dispatch multiple agents within the same category in
+     parallel by batching several Agent-tool calls in one turn, since
+     agents in the same category don't depend on each other
+   - Whether that happens is up to how the session chooses to batch its
+     tool calls — it isn't an automatic scheduler guarantee
 
 3. **Real Evidence Requirement**
    - Every finding backed by actual evidence
@@ -1953,10 +1980,10 @@ A: Ensure Kali VM is running and SSH port 22 is accessible.
 A: Review validation error. Most likely: evidence not authentic or impact statement too vague.
 
 **Q: Report is empty (no findings)**
-A: Normal for some targets. Some may have good security. Re-run with different phases to verify.
+A: Normal for some targets. Some may have good security. Re-run a subset of agents/categories to verify.
 
 **Q: Test takes too long**
-A: A full 106-agent run is expected to take approximately 13-17 hours unattended; complex targets can take longer. This is normal — most agents run unattended, so plan it as an overnight/background run rather than watching it continuously.
+A: There's no fixed duration and no unattended/background mode — a live Claude Code session dispatches each of the 106 agents via its Agent tool, so wall-clock time scales with how many agents you run and how long each one's real tooling takes against the target (password/hash cracking, full port/vuln scans, and similar genuinely take real time). Plan a full run as an active session, not something to leave running overnight; running a smaller, targeted subset of agents is often faster and sufficient for a quick check.
 
 **Q: Credentials not working**
 A: Verify .env file format (run `bash scripts/validate-config.sh <name>`). Ensure credentials have necessary permissions to test the target.
@@ -1970,7 +1997,7 @@ A: Verify .env file format (run `bash scripts/validate-config.sh <name>`). Ensur
 
 ---
 
-**Framework Version:** 2.0.0 (106 Agents, 33 Phases, 150+ Tools)  
+**Framework Version:** 2.0.0 (106 Agents, 23 Execution Categories, 150+ Tools)  
 **Last Updated:** July 30, 2024  
 **Status:** Production Ready | False Positive Rate: 0%  
 **License:** Apache 2.0  
