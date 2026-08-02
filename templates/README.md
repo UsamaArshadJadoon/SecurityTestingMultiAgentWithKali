@@ -11,6 +11,14 @@ JSON schema for validated security findings. All findings must conform to this s
 - Ensures evidence includes proof of concept with request/response
 - Requires code examples for remediation
 
+### report/styles.css
+The dark "case file" dossier design system shared by every generated report — CSS
+custom properties for the severity/status palette, sticky nav + severity strip,
+cover page, findings cards, priority-tier roadmap, sortable risk table, and
+scroll-reveal animations. Consumed by `orchestrator/report-generator.js`, which
+inlines it into each engagement's `report/report.html`. Edit this one file to
+restyle every future report consistently.
+
 ## Usage
 
 ### Validating a Finding

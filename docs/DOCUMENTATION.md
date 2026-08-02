@@ -173,7 +173,11 @@ Final output includes path to report: `engagements/my-client/report/report.html`
 
 ### Report Structure
 
-Each HTML report contains:
+`engagements/<name>/report/report.html` is generated automatically by
+`orchestrator/report-generator.js` from that engagement's validated findings
+(`evidence/findings/*.json`), reusing the shared dark "case file" dossier
+design system in `templates/report/styles.css` — the same rich, professional
+format across every engagement. Each HTML report contains:
 
 #### Executive Summary
 - High-level overview of findings
