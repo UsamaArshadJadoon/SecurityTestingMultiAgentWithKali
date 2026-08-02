@@ -4,7 +4,7 @@
   "description": "Schema for validated security findings",
   "type": "object",
   "required": [
-    "id",
+    "finding_id",
     "title",
     "description",
     "severity",
@@ -14,7 +14,7 @@
     "remediation"
   ],
   "properties": {
-    "id": {
+    "finding_id": {
       "type": "string",
       "description": "Unique finding identifier",
       "pattern": "^FINDING-[0-9]{4}$"
@@ -23,13 +23,13 @@
       "type": "string",
       "description": "Short vulnerability title",
       "minLength": 5,
-      "maxLength": 100
+      "maxLength": 150
     },
     "description": {
       "type": "string",
       "description": "Detailed vulnerability description",
       "minLength": 20,
-      "maxLength": 1000
+      "maxLength": 3000
     },
     "severity": {
       "type": "string",
@@ -96,8 +96,8 @@
         },
         "effort": {
           "type": "string",
-          "description": "Effort to fix",
-          "enum": ["1-2 hours", "2-4 hours", "4-8 hours", "1-3 days", "3+ days"]
+          "description": "Effort to fix — must start with one of: 1-2 hours, 2-4 hours, 4-8 hours, 1-3 days, 3+ days (additional context after the estimate is allowed, e.g. '2-4 hours (plus a firewall rule change)')",
+          "pattern": "^(1-2 hours|2-4 hours|4-8 hours|1-3 days|3\\+ days)"
         }
       }
     },
