@@ -32,7 +32,7 @@ Each finding is validated through **4 security layers** ensuring **100% accuracy
 | **Human Approval** | Critical findings require security lead sign-off |
 | **100% Real Evidence** | Actual HTTP requests, tool output, screenshots, reproducible steps |
 | **Code Examples** | Vulnerable code + fixed code for every finding |
-| **~2 Hour Tests** | Full comprehensive penetration test in ~2 hours |
+| **~15 Hour Tests** | Full comprehensive penetration test in ~15 hours (unattended) |
 
 ---
 
@@ -689,7 +689,7 @@ Report includes:
 | **Code** | 5,000+ lines |
 | **Documentation** | Comprehensive guides + interactive portal |
 | **Agent Specs** | 106 detailed agent files |
-| **Test Duration** | ~2 hours full test |
+| **Test Duration** | ~15 hours full test (unattended) |
 | **False Positive Rate** | 0% (4-layer validation) |
 | **OWASP Coverage** | 100% (10/10) |
 | **CWE Coverage** | 100% (25/25) |
@@ -721,7 +721,7 @@ Apache License 2.0 - See [LICENSE](LICENSE) file for details
 
 ✅ **Complete:** 106 agents × 33 phases = comprehensive coverage  
 ✅ **Accurate:** 4-layer validation = 0% false positives  
-✅ **Fast:** ~2 hours for full penetration test  
+✅ **Thorough:** ~15 hours for a full, unattended penetration test  
 ✅ **Secure:** Credentials protected, PII masked automatically  
 ✅ **Actionable:** Code examples & clear remediation steps  
 ✅ **Professional:** Enterprise-grade HTML reports  

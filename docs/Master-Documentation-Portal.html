@@ -398,12 +398,12 @@
   var $=function(id){return document.getElementById(id);};
 
   /* ---------- STATIC DATA ---------- */
-  var STATS=[["106","Agents"],["33","Phases"],["150+","Tools"],["0%","False positives"],["100%","Accuracy"],["~2h","Test time"]];
+  var STATS=[["106","Agents"],["33","Phases"],["150+","Tools"],["0%","False positives"],["100%","Accuracy"],["~15h","Test time"]];
   var WFSTATS=[["13","","orchestrated phases"],["35","","agents in runtime"],["106","","agent specs (catalog)"],["150","+","Kali tools via SSH"],["0","%","false-positive rate"]];
 
   var FEATURES=[
     ["✓","Zero false positives","Every finding backed by real evidence through 4-layer validation."],
-    ["⚡","Lightning fast","A complete penetration test in ~2 hours with sequenced execution."],
+    ["🌙","Runs unattended","A complete penetration test runs unattended in ~15 hours with sequenced execution."],
     ["🎯","Complete coverage","100% OWASP Top 10, CWE Top 25, and MITRE ATT&CK mapping."],
     ["🔐","Enterprise secure","Credentials protected, PII masked automatically, fully audit-logged."],
     ["📊","Professional reports","HTML reports with CVSS scoring, evidence, and remediation."],
@@ -423,7 +423,7 @@
   ];
   var FAQ=[
     ["How accurate are findings?","100% accurate with 0% false positives. Every finding passes four layers of validation and includes real evidence from actual testing."],
-    ["How long does a test take?","Typically 1.5–2.5 hours for a comprehensive test, depending on target complexity and size."],
+    ["How long does a test take?","Typically ~13-17 hours for a full unattended run, depending on target complexity and size — most of it runs unattended, with well under 2 hours of hands-on setup and review time."],
     ["Can I run specific phases?","Yes — run any phase range for focused retesting or quick assessments, ideal for validating fixes."],
     ["Is this production-ready?","Yes. Enterprise-grade with security hardening, error handling, validation gates, and professional reporting."],
     ["How are credentials protected?",".secrets files are git-ignored and loaded at runtime only, with automatic PII masking, audit logging, and secure cleanup."]
