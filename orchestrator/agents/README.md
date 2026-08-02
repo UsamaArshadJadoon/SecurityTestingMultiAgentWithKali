@@ -49,9 +49,9 @@ Complete specifications for all 86 agents organized across 30 sequential testing
 ### Phase 5: Exploitation & RCE (9 Agents)
 - **Agent-008-SSRF-Exploitation.md** - Server-side request forgery
 - **Agent-009-Request-Smuggling.md** - HTTP request smuggling
-- **Agent-010-File-Upload-RCE.md** - File upload & RCE
-- **Agent-011-Path-Traversal-LFI.md** - Path traversal & LFI
-- **Agent-012-XXE-Injection.md** - XML external entity injection
+- **Agent-0010-File-Upload-RCE.md** - File upload & RCE
+- **Agent-0011-Path-Traversal-LFI.md** - Path traversal & LFI
+- **Agent-0012-XXE-Injection.md** - XML external entity injection
 - Agent-005A-Deserialization - ysoserial, gadget chains
 - Agent-005B-Command-Injection - OS command injection, commix
 - Agent-005C-Crypto-Weakness - Weak algorithms, hashcat
@@ -118,7 +118,7 @@ Complete specifications for all 86 agents organized across 30 sequential testing
 - Agent-014D-Mobile-Injection - Frida hooking, code injection
 
 ### Phase 14: Wireless Security (5 Agents)
-- **Agent-017-Wireless-WiFi-Hacking.md** - WiFi penetration testing
+- **Agent-038-Wireless-WiFi-Hacking.md** - WiFi penetration testing
 - Agent-014E-WPA-Cracking - WPA2/WPA3 handshake, hashcat
 - Agent-014F-Bluetooth - Bluetooth hacking, bluesnarfer
 - Agent-014G-RFID-NFC - libnfc, proxmark, card cloning
@@ -126,7 +126,7 @@ Complete specifications for all 86 agents organized across 30 sequential testing
 
 ### Phase 15: Windows Exploitation (7 Agents)
 - Agent-015A-Windows-Enum - bloodhound, adexplorer, powersploit
-- **Agent-015-Windows-AD-Kerberos.md** - Windows AD & Kerberos testing
+- **Agent-036-Windows-AD-Kerberos.md** - Windows AD & Kerberos testing
 - Agent-015B-Credential-Theft - mimikatz, procdump, memory dumps
 - Agent-015C-Privilege-Esc - winpeas, UACME, token impersonation
 - Agent-015D-Lateral-Movement - psexec, wmiexec, dcomexec
@@ -142,7 +142,7 @@ Complete specifications for all 86 agents organized across 30 sequential testing
 - Agent-016E-Persistence - Cron, systemd, .bashrc persistence
 
 ### Phase 17: Reverse Engineering (5 Agents)
-- **Agent-018-Reverse-Engineering-Binary.md** - Binary reverse engineering
+- **Agent-039-Reverse-Engineering-Binary.md** - Binary reverse engineering
 - Agent-017A-Disassembly - Objdump, readelf, binwalk
 - Agent-017B-Code-Patching - Pwntools, keystone, radare2
 - Agent-017C-Exploit-Dev - ROP gadgets, shellcode, payload dev
@@ -174,7 +174,7 @@ Complete specifications for all 86 agents organized across 30 sequential testing
 - Agent-020G-Anti-Analysis - Obfuscation, anti-debug, anti-VM
 
 ### Phase 21: IoT & Embedded (5 Agents)
-- **Agent-021-IoT-Firmware-Analysis.md** - IoT firmware testing
+- **Agent-042-IoT-Firmware-Analysis.md** - IoT firmware testing
 - Agent-021A-IoT-Scanning - shodan, zmap, IoT scanner
 - Agent-021B-Firmware-Analysis - binwalk, firmwalker, extraction
 - Agent-021C-UART-Serial - Serial access, minicom, picocom
@@ -188,7 +188,7 @@ Complete specifications for all 86 agents organized across 30 sequential testing
 - Agent-022D-IPC-Analysis - Named pipes, sockets, RPC
 
 ### Phase 23: Database Security (5 Agents)
-- **Agent-023-Database-Security-Testing.md** - Database security testing
+- **Agent-044-Database-Security-Testing.md** - Database security testing
 - Agent-023A-SQL-Injection - SQLmap, manual injection
 - Agent-023B-NoSQL-Injection - MongoDB, NoSQL injection
 - Agent-023C-DB-Enumeration - Database structure mapping

@@ -175,10 +175,10 @@ SecurityTestingMultiAgentWithKali/
 │
 ├─ orchestrator/
 │  ├─ agents/
-│  │  ├─ 01-recon-agent.md         # Agent specs (prompts)
-│  │  ├─ 02-web-pentest-agent.md
-│  │  ├─ 03-api-security-agent.md
-│  │  └─ ... (31 total)
+│  │  ├─ Agent-001-Reconnaissance.md   # Agent specs (prompts)
+│  │  ├─ Agent-002-Web-Pentest.md
+│  │  ├─ Agent-003-API-Security.md
+│  │  └─ ... (86 total)
 │  ├─ kali-wrapper.sh              # SSH to Kali
 │  └─ README.md
 │
@@ -251,7 +251,7 @@ nano engagements/acme-corp/.secrets
 
 **Start with Phase 1 in Claude Code:**
 
-Me: "Please run the recon-agent for acme-corp engagement using the orchestrator/agents/01-recon-agent.md specification"
+Me: "Please run the recon-agent for acme-corp engagement using the orchestrator/agents/Agent-001-Reconnaissance.md specification"
 
 I will:
 1. Read the agent specification

@@ -917,7 +917,7 @@ At a glance:
 
 ---
 
-### Phase 8-12: Advanced Testing (6 Agents)
+### Phase 8-12: Advanced Testing (4 Agents)
 
 #### Agent-029: Business Logic
 **Purpose:** Workflow abuse and state machine bypass
@@ -1622,10 +1622,10 @@ A: Verify .secrets file format. Ensure credentials have necessary permissions to
 
 ### Getting Help
 
-- Check Framework-Overview.md for architecture details
-- Review Agent-Specifications.md for specific agent behavior
-- See Tool-Reference.md for tool-specific options
-- Consult Validation-System.md for validation details
+- Check the [Framework Overview](#framework-overview) section above for architecture details
+- Review [All 86 Agents](#all-86-agents) for specific agent behavior
+- See [Tools Reference (150+ Integrated)](#tools-reference-150-integrated) for tool-specific options
+- Consult [Validation System](#validation-system) for validation details
 
 ---
 
