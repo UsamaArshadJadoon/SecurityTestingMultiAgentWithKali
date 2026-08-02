@@ -7,7 +7,16 @@
 credentials.*
 secrets.*
 
-# ===== ENGAGEMENT CREDENTIALS =====
+# ===== ENGAGEMENTS - ENTIRE DIRECTORY IS RUNTIME-GENERATED, NEVER COMMIT =====
+# Everything under engagements/<name>/ is real client-engagement data
+# (target URLs, credentials, findings, reports) created by
+# scripts/setup-engagement.sh at runtime. This blanket rule is the actual
+# enforcement of what the docs already describe as git-ignored — the more
+# specific patterns below predate it and are kept only as defense-in-depth
+# in case this rule is ever narrowed.
+engagements/
+
+# ===== ENGAGEMENT CREDENTIALS (defense-in-depth, see blanket rule above) =====
 engagements/*/.secrets
 engagements/*/.env
 engagements/*/.env.local
@@ -120,3 +129,6 @@ authorized_keys
 # ===== REPORT SENSITIVE DATA =====
 engagements/*/report/*-unmasked.html
 engagements/*/report/*-raw.json
+
+# ===== PLAYWRIGHT MCP SCRATCH (may capture credentials in accessibility snapshots) =====
+.playwright-mcp/
