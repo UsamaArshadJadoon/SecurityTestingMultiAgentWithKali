@@ -36,14 +36,15 @@ This script:
 bash kali-setup/install-tools.sh
 ```
 
-This installs:
-- **Network Tools:** nmap, zmap, masscan, rustscan, shodan
+This installs (per-package, so one unavailable/renamed package doesn't abort the rest — see `install-tools.sh` for the exact list and any that fail on your specific Kali release):
+- **Network Tools:** nmap, zmap, masscan
 - **Web Testing:** burpsuite, sqlmap, ffuf, wfuzz, nuclei, zaproxy
-- **API Testing:** postman, grpcurl
-- **Exploitation:** metasploit, hashcat, john
+- **OSINT:** python3-shodan
+- **Exploitation:** metasploit-framework, hashcat, john
 - **Analysis:** ghidra, radare2, binwalk
 - **Wireless:** aircrack-ng, wifite, pixiewps
-- And 100+ more...
+- **Others:** git, curl, wget, openssl, ssh, netcat-traditional
+- Postman has no apt package on Kali/Debian — install manually (AppImage/snap) if needed; it's optional since curl/httpie cover the same testing
 
 ### Step 3: Verify Tools
 
@@ -82,19 +83,17 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub kali@<kali-ip>
 ssh kali@<kali-ip> "echo 'SSH works!'"
 ```
 
-### 3. Update Framework SSH Configuration
+### 3. Set the Kali Connection Environment Variables
 
-Edit `orchestrator/Orchestrator.js` with your Kali details:
+The framework does not have a config object to edit — `orchestrator/kali-wrapper.sh` and `orchestrator/kali-health-check.sh` read the connection details from environment variables (or your engagement's git-ignored `.env`, if you set them there):
 
-```javascript
-const KALI_CONFIG = {
-  host: 'kali-vm-ip-or-hostname',
-  port: 22,
-  username: 'kali',
-  privateKeyPath: '/path/to/.ssh/id_rsa',
-  // OR use password (less secure)
-  password: 'kali-password'
-};
+```bash
+export KALI_HOST=kali-vm-ip-or-hostname   # default: 127.0.0.1
+export KALI_USER=kali                     # default: kali
+export KALI_KEY=/path/to/.ssh/id_ed25519  # optional; omit to use ssh-agent/default key
+
+# Verify it works
+bash orchestrator/kali-health-check.sh
 ```
 
 ## Troubleshooting
