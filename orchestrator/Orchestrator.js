@@ -388,7 +388,15 @@ class PenetrationTestOrchestrator {
       const phaseName = this.getPhaseName(parseInt(phaseNum));
 
       console.log(`\n${'▓'.repeat(80)}`);
-      console.log(`PHASE ${phaseNum} | ${phaseName.toUpperCase()}`);
+      // Deliberately "CATEGORY", not "PHASE": this numbering is
+      // Orchestrator.js's own 23-category grouping (matching the Agent
+      // Explorer in docs/How-To-Use-Agents-Guide.html) and does NOT line up
+      // with the 33 "Phase N" numbers in orchestrator/agents/README.md —
+      // those are a different, file-directory-oriented grouping of the
+      // same 106 agents. Using "PHASE" here would silently collide (e.g.
+      // category 5 here is "Infrastructure, Cloud & AI Surface", but
+      // Phase 5 in that README is "Exploitation & RCE").
+      console.log(`CATEGORY ${phaseNum} | ${phaseName.toUpperCase()}`);
       console.log(`${agents.length} agent(s) to execute`);
       console.log(`${'▓'.repeat(80)}\n`);
 
@@ -454,6 +462,13 @@ class PenetrationTestOrchestrator {
         // Save state after each agent
         this.context.saveState();
       }
+
+      // Mark this phase complete once every one of its agents has been
+      // attempted (whether they succeeded or failed) — this is what
+      // completedPhases in .orchestrator-state.json / check-status.sh
+      // actually reflects.
+      this.context.phases[phaseNum] = { name: phaseName, completedAt: new Date().toISOString() };
+      this.context.saveState();
     }
 
     const totalDuration = ((Date.now() - startTime) / 1000 / 60).toFixed(2);

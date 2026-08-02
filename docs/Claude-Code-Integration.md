@@ -269,8 +269,10 @@ during this loop except the one explicit sign-off gate below.
    the exact line `authorization.confirmed: true` (already true if the
    engagement was created via `setup-engagement.sh`'s interactive intake).
 3. **For each agent in `orchestrator/Orchestrator.js`'s `defineAgents()` list**,
-   in phase order (1 → 23, covering all 106 real spec files in
-   `orchestrator/agents/*.md`):
+   in execution-category order (categories 1 → 23 — Orchestrator.js's own
+   internal grouping, distinct from the 33 "Phase N" file-directory groupings
+   in `orchestrator/agents/README.md`; both cover the same 106 real spec
+   files in `orchestrator/agents/*.md`, just organized two different ways):
    - Read that agent's full spec file as the prompt.
    - Call the **Agent tool** with `subagent_type: "penetration-tester"` or
      `"security-auditor"` (per that agent's `type`), passing the spec plus
@@ -296,14 +298,14 @@ during this loop except the one explicit sign-off gate below.
    `evidence/findings/*.json`.
 
 ```
-PHASE 1  (3 agents)  Reconnaissance & Discovery      → Agent-001*
-PHASE 2  (8 agents)  Web Application Testing         → Agent-002*
-PHASE 3  (8 agents)  API Security                    → Agent-003*
-PHASE 4  (3 agents)  Authentication & Authorization   → Agent-004*, Agent-024
-PHASE 5  (3 agents)  Infrastructure, Cloud & AI       → Agent-005, 006, 007
-PHASE 6  (7 agents)  Deep Exploitation & RCE          → Agent-008, 009, 0010-0014
-[... continues through Phase 23 ...]
-PHASE 23 (6 agents)  Web/Mobile/API Coverage Extension → Agent-059 – Agent-064
+CATEGORY 1  (3 agents)  Reconnaissance & Discovery      → Agent-001*
+CATEGORY 2  (8 agents)  Web Application Testing         → Agent-002*
+CATEGORY 3  (8 agents)  API Security                    → Agent-003*
+CATEGORY 4  (3 agents)  Authentication & Authorization   → Agent-004*, Agent-024
+CATEGORY 5  (3 agents)  Infrastructure, Cloud & AI       → Agent-005, 006, 007
+CATEGORY 6  (7 agents)  Deep Exploitation & RCE          → Agent-008, 009, 0010-0014
+[... continues through category 23 ...]
+CATEGORY 23 (6 agents)  Web/Mobile/API Coverage Extension → Agent-059 – Agent-064
   └─> generateFinalReport() → report.html
 ```
 
