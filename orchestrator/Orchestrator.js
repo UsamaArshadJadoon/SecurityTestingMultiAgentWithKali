@@ -673,43 +673,14 @@ class PenetrationTestOrchestrator {
   }
 
   /**
-   * Generate final report with CVSS scoring and OWASP mapping
+   * Generate final report.html + report.json from evidence/findings/*.json,
+   * using the shared design system in templates/report/styles.css.
    */
   async generateFinalReport() {
     console.log('📊 Generating final report...');
-
-    const report = {
-      engagement: this.engagementName,
-      date: new Date().toISOString(),
-      totalFindings: this.context.allFindings.length,
-      validatedFindings: this.context.validatedFindings.length,
-      findings: this.context.allFindings.map(f => ({
-        id: f.id,
-        title: f.title,
-        severity: f.severity,
-        cvss: f.cvss_v3_1?.score || 'N/A',
-        owasp: f.owasp || [],
-        cwe: f.cwe || [],
-        status: f.status
-      })),
-      summary: {
-        critical: this.context.allFindings.filter(f => f.severity === 'critical').length,
-        high: this.context.allFindings.filter(f => f.severity === 'high').length,
-        medium: this.context.allFindings.filter(f => f.severity === 'medium').length,
-        low: this.context.allFindings.filter(f => f.severity === 'low').length
-      }
-    };
-
-    // Save report
-    const reportDir = path.join(ENGAGEMENT_PATH, 'report');
-    if (!fs.existsSync(reportDir)) fs.mkdirSync(reportDir, { recursive: true });
-
-    fs.writeFileSync(
-      path.join(reportDir, 'report.json'),
-      JSON.stringify(report, null, 2)
-    );
-
-    console.log('✅ Report generated');
+    const { generateReport } = require('./report-generator.js');
+    const reportFile = generateReport(this.engagementName);
+    console.log(`✅ Report generated: ${reportFile}`);
   }
 
   /**

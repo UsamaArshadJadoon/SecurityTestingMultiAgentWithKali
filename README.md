@@ -28,7 +28,7 @@ Each finding is validated through **4 security layers** ensuring **100% accuracy
 | **33 Phases** | Recon → Web → API → Auth → Exploitation → Mobile → Wireless → Cloud → Reporting |
 | **4-Layer Validation** | Format → Evidence → Technical → Remediation (0% false positives) |
 | **Enterprise Reporting** | CVSS 3.1, OWASP Top 10, CWE Top 25, MITRE ATT&CK mapping |
-| **Secure Credentials** | .secrets file (git-ignored), automatic PII masking |
+| **Secure Credentials** | .env file (git-ignored), automatic PII masking |
 | **Human Approval** | Critical findings require security lead sign-off |
 | **100% Real Evidence** | Actual HTTP requests, tool output, screenshots, reproducible steps |
 | **Code Examples** | Vulnerable code + fixed code for every finding |
@@ -137,7 +137,7 @@ start engagements/my-client/report/report.html
 - ✅ 0% false positive policy - Every finding is real
 
 ### **Security**
-- ✅ .secrets file management - Git-ignored credentials
+- ✅ .env file management - Git-ignored credentials, interactively collected
 - ✅ PII protection - Automatic masking
 - ✅ Audit logging - Complete trail
 - ✅ Secure cleanup - No data left behind
@@ -163,6 +163,7 @@ SecurityTestingMultiAgentWithKali/
 │
 ├── orchestrator/                     # Core orchestration engine
 │   ├── Orchestrator.js               # Main engine (750+ lines)
+│   ├── report-generator.js           # Renders report.html from validated findings
 │   ├── agents/                       # Agent specifications (106 files)
 │   │   ├── README.md                 # Agents overview
 │   │   ├── Agent-001-Reconnaissance.md
@@ -191,13 +192,14 @@ SecurityTestingMultiAgentWithKali/
 │
 ├── templates/                        # Schemas & templates
 │   ├── README.md
-│   └── finding-schema.json           # Validated-finding JSON schema
+│   ├── finding-schema.json           # Validated-finding JSON schema
+│   └── report/styles.css             # Shared report design system
 │
 ├── engagements/                      # Created per engagement at runtime (git-ignored)
 │   └── <name>/                       # e.g. acme-corp
 │       ├── config.yaml               # Configuration
 │       ├── scope.md                  # Scope & authorization
-│       ├── .secrets                  # Credentials (git-ignored)
+│       ├── .env                      # Target URL + role credentials (git-ignored)
 │       └── report/report.html        # Generated report
 │
 ├── README.md                         # This file
@@ -622,7 +624,7 @@ Report includes:
 ## 🔒 Security Features
 
 ### **Credential Protection**
-- `.secrets` file format (git-ignored)
+- `.env` file format (git-ignored), collected interactively — never hand-written
 - Credentials loaded at runtime, never committed
 - Automatic masking in findings
 - Secure cleanup after testing
