@@ -273,8 +273,8 @@
   <!-- HOME -->
   <section id="home" class="section active">
     <div class="kicker">Production-ready penetration testing</div>
-    <h1>106 agents. 33 phases. One command.</h1>
-    <p class="sub">A multi-agent penetration testing framework that orchestrates <b>106 specialized security agents</b> across <b>33 sequential phases</b>, integrating <b>150+ Kali Linux tools</b> via SSH. Every finding is proven through a <b>4-layer validation</b> pipeline — real evidence, reproducible steps, working code fixes.</p>
+    <h1>106 agents. 23 categories. One command.</h1>
+    <p class="sub">A multi-agent penetration testing framework that orchestrates <b>106 specialized security agents</b> across <b>23 dependency-ordered execution categories</b>, integrating <b>150+ Kali Linux tools</b> via SSH. Every finding is proven through a <b>4-layer validation</b> pipeline — real evidence, reproducible steps, working code fixes. (The same 106 agent files are also browsable as 33 themed groups on disk — see the Agents tab.)</p>
     <div class="stats" id="stats"></div>
     <div style="margin-top:60px">
       <h2 class="section-title">Why choose this?</h2>
@@ -285,19 +285,19 @@
 
   <!-- AGENTS -->
   <section id="agents" class="section">
-    <h2 class="section-title">Capabilities across 33 phases</h2>
-    <p class="section-desc">The 106 specialized agents execute these testing capabilities — grouped by phase — backed by 150+ integrated Kali tools.</p>
+    <h2 class="section-title">Capabilities by theme</h2>
+    <p class="section-desc">The 106 specialized agents execute these testing capabilities — grouped here into 33 themed browsing groups (matching <code>orchestrator/agents/README.md</code>'s file-directory organization), backed by 150+ integrated Kali tools. This is a browsing view, not the execution order — see the Workflow tab for how the real orchestrator sequences all 106 agents into 23 dependency-ordered categories.</p>
     <input type="text" class="search" id="agentSearch" placeholder="🔍  Search capabilities, tools…">
     <div id="agentGroups"></div>
   </section>
 
   <!-- PHASES -->
   <section id="phases" class="section">
-    <h2 class="section-title">33 sequential phases</h2>
-    <p class="section-desc">Each phase consumes prior findings and feeds the next — from reconnaissance through reporting.</p>
+    <h2 class="section-title">33 themed groups (file-directory view)</h2>
+    <p class="section-desc">This is the same theme-based grouping used above and in <code>orchestrator/agents/README.md</code>, for browsing all 106 agent spec files by subject. It is <b>not</b> the real execution order — the actual orchestrator runs all 106 agents in 23 dependency-ordered categories (see the Workflow tab), where each category consumes prior categories' real findings and feeds the next.</p>
     <div class="tablewrap">
       <table>
-        <thead><tr><th>#</th><th>Phase</th><th>Agents</th><th>Focus</th></tr></thead>
+        <thead><tr><th>#</th><th>Theme</th><th>Agents</th><th>Focus</th></tr></thead>
         <tbody id="phaseRows"></tbody>
       </table>
     </div>
@@ -397,12 +397,12 @@
   var $=function(id){return document.getElementById(id);};
 
   /* ---------- STATIC DATA ---------- */
-  var STATS=[["106","Agents"],["33","Phases"],["150+","Tools"],["0%","False positives"],["100%","Accuracy"],["~15h","Test time"]];
+  var STATS=[["106","Agents"],["23","Categories"],["150+","Tools"],["0%","False positive policy"],["4","Validation gates"],["7.0","Sign-off CVSS threshold"]];
   var WFSTATS=[["13","","illustrative pipeline stages"],["106","","agents in runtime"],["23","","execution categories"],["150","+","Kali tools via SSH"],["0","%","false-positive rate"]];
 
   var FEATURES=[
     ["✓","Zero false positives","Every finding backed by real evidence through 4-layer validation."],
-    ["🌙","Runs unattended","A complete penetration test runs unattended in ~15 hours with sequenced execution."],
+    ["🤖","Claude-Code-driven","A live Claude Code session dispatches each of the 106 agents via its Agent tool — no unattended background process; duration scales with how many agents you run in that session."],
     ["🎯","Complete coverage","100% OWASP Top 10, CWE Top 25, and MITRE ATT&CK mapping."],
     ["🔐","Enterprise secure","Credentials protected, PII masked automatically, fully audit-logged."],
     ["📊","Professional reports","HTML reports with CVSS scoring, evidence, and remediation."],
@@ -422,8 +422,8 @@
   ];
   var FAQ=[
     ["How accurate are findings?","100% accurate with 0% false positives. Every finding passes four layers of validation and includes real evidence from actual testing."],
-    ["How long does a test take?","Typically ~13-17 hours for a full unattended run, depending on target complexity and size — most of it runs unattended, with well under 2 hours of hands-on setup and review time."],
-    ["Can I run specific phases?","Yes — run any phase range for focused retesting or quick assessments, ideal for validating fixes."],
+    ["How long does a test take?","There's no fixed duration — a live Claude Code session dispatches each agent via its Agent tool, one at a time (or several in parallel), so wall-clock time scales with how many of the 106 agents you run in that session and how long each one's real tooling takes against the target. There's no unattended background mode to leave running overnight."],
+    ["Can I run a subset of agents?","Yes — ask Claude Code to run specific agents or categories for focused retesting or a quick assessment, ideal for validating a single fix without re-running all 106."],
     ["Is this production-ready?","Yes. Enterprise-grade with security hardening, error handling, validation gates, and professional reporting."],
     ["How are credentials protected?",".env files are git-ignored and loaded at runtime only, with automatic PII masking, audit logging, and secure cleanup."]
   ];

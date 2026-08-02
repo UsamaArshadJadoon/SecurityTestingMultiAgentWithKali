@@ -335,10 +335,10 @@
 
   <div class="stats" id="stats">
     <div class="stat"><b data-count="106">0</b><span>Agents</span></div>
-    <div class="stat"><b data-count="33">0</b><span>Phases</span></div>
+    <div class="stat"><b data-count="23">0</b><span>Categories</span></div>
     <div class="stat"><b data-count="150">0</b><span>Tools</span></div>
     <div class="stat"><b data-count="4">0</b><span>Validation gates</span></div>
-    <div class="stat"><b data-count="0">~15h</b><span>End-to-end</span></div>
+    <div class="stat"><b data-count="0">Live</b><span>Session-driven, no unattended mode</span></div>
   </div>
 
   <div class="hero-term">
@@ -436,7 +436,7 @@ cd SecurityTestingMultiAgentWithKali</code></pre></div></div>
       <!-- TIME ESTIMATE -->
       <div class="panel reveal">
         <h3>⏱ How long does this actually take?</h3>
-        <p style="color:var(--muted);font-size:.9rem;margin:0 0 4px">Setup is minutes; the 106-agent run itself is the overwhelming majority of the time. Ranges below are per-step — actual timing varies by target size and network conditions.</p>
+        <p style="color:var(--muted);font-size:.9rem;margin:0 0 4px">Setup is minutes; Step 8 (the actual 106-agent run) is the overwhelming majority of the time — and unlike the setup steps, it has no fixed duration. Ranges below are per-step — actual timing varies by target size, network conditions, and how many agents you run in a sitting.</p>
         <div class="timewrap">
           <div class="timebar">
             <div class="tseg" style="flex:7.5;background:var(--teal)" title="Steps 1-2: Prerequisites + clone (~5-10 min)"></div>
@@ -444,10 +444,10 @@ cd SecurityTestingMultiAgentWithKali</code></pre></div></div>
             <div class="tseg" style="flex:12.5;background:var(--blue)" title="Step 4: SSH connect + health check (~10-15 min)"></div>
             <div class="tseg" style="flex:20;background:var(--purple)" title="Steps 5-6: Engagement (interactive: URL/roles/authorization), validate (~15-25 min)"></div>
             <div class="tseg" style="flex:12.5;background:#6a5bc4" title="Step 7: Orient with the 106 agents, first time (~10-15 min)"></div>
-            <div class="tseg" style="flex:900;background:var(--amber);color:#231a04" title="Step 8: Full 106-agent test run (approximately 15 hours)"><b>Step 8 — Full 106-agent run (~15h)</b></div>
+            <div class="tseg" style="flex:900;background:var(--amber);color:#231a04" title="Step 8: Full 106-agent test run — a live Claude Code session dispatches each agent via its Agent tool; no fixed duration, no background mode"><b>Step 8 — Full 106-agent run (live session, variable duration)</b></div>
             <div class="tseg" style="flex:37.5;background:var(--green)" title="Steps 11-12: Monitor, approve criticals, review report (~30-45 min)"></div>
           </div>
-          <div class="timenote"># bar is proportional to time — hover any segment for its estimate. Setup (left) and wrap-up (right) are real minutes; they just look thin next to a ~15 hour run.</div>
+          <div class="timenote"># bar shows relative proportion, not a literal time scale — Step 8 has no fixed length. Setup (left) and wrap-up (right) are real minutes; Step 8 is however long a live session takes to work through the agents you dispatch.</div>
         </div>
         <div class="tablewrap">
           <table>
@@ -458,13 +458,13 @@ cd SecurityTestingMultiAgentWithKali</code></pre></div></div>
               <tr><td class="c">4</td><td>Connect over SSH, run the health check</td><td class="c">~10–15 min</td></tr>
               <tr><td class="c">5–6</td><td>Create &amp; configure engagement (interactive: URL, roles, authorization), validate</td><td class="c">~15–25 min</td></tr>
               <tr><td class="c">7</td><td>Orient yourself with the 106 agents (first time only)</td><td class="c">~10–15 min</td></tr>
-              <tr><td class="c">8–10</td><td><b style="color:var(--amber)">Full 106-agent test run</b> (recon → surface testing → deep exploitation → specialized/platform testing → reporting)</td><td class="c" style="color:var(--amber)"><b>~15 hours</b></td></tr>
+              <tr><td class="c">8–10</td><td><b style="color:var(--amber)">Full 106-agent test run</b> (recon → surface testing → deep exploitation → specialized/platform testing → reporting) — a live Claude Code session, driving each agent turn by turn</td><td class="c" style="color:var(--amber)"><b>Variable — no fixed duration</b></td></tr>
               <tr><td class="c">11–12</td><td>Monitor progress, approve critical findings, review the report</td><td class="c">~30–45 min</td></tr>
             </tbody>
           </table>
         </div>
-        <div class="total-banner"><span class="tb-ic">⏱️</span><b>Grand total end-to-end: approximately 15 hours</b><span>— almost all of it is Step 8 running unattended; your hands-on time across setup and review is under 2 hours.</span></div>
-        <div class="tip"><b>Why this is much longer than "a couple hours"</b>106 agents run sequentially because later ones depend on earlier findings (Step 8's <code class="k">execution_context</code>), and many individual agents genuinely take real wall-clock time against a live target — password/hash cracking (hashcat, john), WiFi handshake capture, full port/vuln scans, firmware extraction, and thorough manual-style exploitation attempts don't finish in seconds. Plan a full engagement as an overnight or unattended background run, with Step 11 used to check in periodically rather than watching it continuously.</div>
+        <div class="total-banner"><span class="tb-ic">⏱️</span><b>Grand total end-to-end: no fixed number</b><span>— setup and review together are well under 2 hours; Step 8 itself scales with how many of the 106 agents you dispatch in the session and how long each one's real tooling takes, and there's no unattended/background mode to leave it running in.</span></div>
+        <div class="tip"><b>Why this can take a long time</b>106 agents run sequentially (within dependency order) because later ones depend on earlier findings (Step 8's <code class="k">execution_context</code>), and many individual agents genuinely take real wall-clock time against a live target — password/hash cracking (hashcat, john), WiFi handshake capture, full port/vuln scans, firmware extraction, and thorough manual-style exploitation attempts don't finish in seconds. A live Claude Code session drives every agent, so a full 106-agent pass means staying engaged with that session throughout — there's no way to kick it off and walk away. If that's not practical in one sitting, running a smaller, targeted subset of agents (see below) across multiple sessions works fine, since each agent's output is written to disk as it completes.</div>
       </div>
 
       <!-- STEP 1 -->
@@ -587,7 +587,7 @@ engagements/acme-corp/report/</div>
       <!-- STEP 6 -->
       <section class="step reveal" id="s6">
         <div class="st-h"><div class="st-n">6</div><h2>Validate the configuration</h2></div>
-        <p class="does"><b>What this does:</b> checks that <code class="k">config.yaml</code>, <code class="k">scope.md</code>, and <code class="k">.env</code> all exist and look complete — catches mistakes before a run that takes approximately 15 hours, instead of during it.</p>
+        <p class="does"><b>What this does:</b> checks that <code class="k">config.yaml</code>, <code class="k">scope.md</code>, and <code class="k">.env</code> all exist and look complete — catches mistakes before a long, live-driven agent run, instead of partway through it.</p>
         <div class="lbl">Command</div>
         <div class="cmd"><pre><code>bash scripts/validate-config.sh acme-corp</code></pre></div>
         <div class="out"><span class="h">Expected output</span>🔍 Validating engagement configuration: acme-corp
@@ -598,7 +598,7 @@ engagements/acme-corp/report/</div>
 ✅ Authorization confirmed in scope.md
 ✅ Configuration validation complete!
 📋 Ready to run: bash scripts/run-pentest.sh acme-corp</div>
-        <div class="why"><b>Why this matters</b><p>This check exists so a typo costs you 5 seconds instead of most of a ~15 hour run. Without it, a missing <code class="k">TARGET_URL</code> or an unconfirmed <code class="k">scope.md</code> would only surface once the orchestrator actually tries to use it — potentially after several agents have already dispatched — leaving you with a half-finished engagement to clean up. It's a cheap, mechanical gate deliberately placed before the expensive part.</p></div>
+        <div class="why"><b>Why this matters</b><p>This check exists so a typo costs you 5 seconds instead of a chunk of a long, actively-driven session. Without it, a missing <code class="k">TARGET_URL</code> or an unconfirmed <code class="k">scope.md</code> would only surface once the orchestrator actually tries to use it — potentially after several agents have already dispatched — leaving you with a half-finished engagement to clean up. It's a cheap, mechanical gate deliberately placed before the expensive part.</p></div>
         <div class="tip"><b>If something's reported missing</b>Go back to Step 5 and re-run <code class="k">bash scripts/setup-engagement.sh acme-corp</code> (or hand-edit <code class="k">.env</code> / <code class="k">scope.md</code> directly) until everything shows ✅.</div>
       </section>
 
@@ -646,7 +646,7 @@ engagements/acme-corp/report/</div>
 ▶️  Web / API / Auth surface — Agent-002x / Agent-003x / Agent-004x
    ✅ Agent-002A (SQL Injection) — 2 findings
    ...</div>
-        <div class="why"><b>Why this matters</b><p>Agents run in sequence, not all at once, because later agents genuinely depend on earlier discoveries — there's no point testing SQL injection on an endpoint recon hasn't found yet, and exploitation agents need confirmed findings from surface-testing agents before they attempt anything deeper. <code class="k">execution_context</code> is the mechanism that carries that forward: it's one growing JSON object threaded through every agent call, where each phase's validated output becomes the next phase's input — recon's surface map feeds web/API testing, which feeds exploitation, and so on through to the report. A full run typically takes approximately 15 hours precisely because of this chain: it can't meaningfully be sped up by running everything in parallel, and several individual agents (password cracking, WiFi handshake capture, full vulnerability scans) genuinely take real wall-clock time on their own.</p></div>
+        <div class="why"><b>Why this matters</b><p>Agents run in dependency order, category by category, because later ones genuinely depend on earlier discoveries — there's no point testing SQL injection on an endpoint recon hasn't found yet, and exploitation agents need confirmed findings from surface-testing agents before they attempt anything deeper. <code class="k">execution_context</code> is the mechanism that carries that forward: it's one growing JSON object threaded through every agent call, where each category's validated output becomes the next category's input — recon's surface map feeds web/API testing, which feeds exploitation, and so on through to the report. A full run can take a long time precisely because of this chain: it can't meaningfully be sped up by running everything in parallel (agents within the same category can be, but categories themselves can't), and several individual agents (password cracking, WiFi handshake capture, full vulnerability scans) genuinely take real wall-clock time on their own — on top of which a live Claude Code session has to stay engaged the whole way through, since there's no background mode.</p></div>
         <div class="tip"><b>Terminal alternative</b>You can also drive it from a shell instead of asking Claude Code directly: <code class="k">bash scripts/run-pentest.sh acme-corp</code> (validates config, then runs <code class="k">node orchestrator/Orchestrator.js acme-corp</code>). The Node script itself doesn't call any AI — it tracks agent completion state so a run can resume; the actual agent dispatch still happens through Claude Code.</div>
       </section>
 
@@ -680,7 +680,7 @@ Run Agent-002A-SQL-Injection.md against acme-corp's discovered endpoints
 Re-run only the API security agents (Agent-003x) for acme-corp using
 the existing surface map from evidence/findings/</code></pre></div>
         <p>Claude Code still: loads that agent's spec file, calls the Agent tool with the right subagent type, saves findings under the same <code class="k">evidence/findings/</code> folder, and runs them through the same 4-layer validation gate — it just skips the agents you didn't ask for.</p>
-        <div class="why"><b>Why this matters</b><p>The full 106-agent run and a single targeted agent use exactly the same pipeline (spec → Agent tool → findings → validation gate) — targeted runs aren't a lighter-weight shortcut, they just narrow the scope. The most common real use: a developer fixes the SQL injection Agent-002A found, and you want to confirm the fix without re-running all 106 agents and re-hitting the target for another 15 hours. It's also useful for a fast pre-check on one area (e.g. just auth) before committing to a full engagement.</p></div>
+        <div class="why"><b>Why this matters</b><p>The full 106-agent run and a single targeted agent use exactly the same pipeline (spec → Agent tool → findings → validation gate) — targeted runs aren't a lighter-weight shortcut, they just narrow the scope. The most common real use: a developer fixes the SQL injection Agent-002A found, and you want to confirm the fix without re-running all 106 agents and re-hitting the target again. It's also useful for a fast pre-check on one area (e.g. just auth) before committing to a full, actively-driven engagement.</p></div>
         <div class="tip"><b>Not sure which agent name to use?</b>Search the <a href="#" onclick="document.getElementById('expSearch').scrollIntoView({behavior:'smooth'});return false;">Agent Explorer</a> below by topic (e.g. "JWT", "kubernetes") to find the exact filename.</div>
       </section>
 
@@ -822,7 +822,7 @@ Run full penetration test for acme-corp</code></pre></div>
 
 <footer>
   <div class="mk">🤖</div>
-  <span><b>Security Testing Multi-Agent Framework</b> · How to Use the Agents · 106 agents · 33 phases · 150+ tools · Developed by Usama Arshad Jadoon.</span>
+  <span><b>Security Testing Multi-Agent Framework</b> · How to Use the Agents · 106 agents · 23 execution categories · 150+ tools · Developed by Usama Arshad Jadoon.</span>
 </footer>
 
 <script>
