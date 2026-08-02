@@ -3,13 +3,14 @@
 /**
  * PENETRATION TESTING ORCHESTRATOR - PRODUCTION READY
  *
- * Version: 2.0.0 - 86 Agents Framework
+ * Version: 2.0.0 - 106 Agents Framework
  *
  * Features:
- * - 86 specialized agents across 30 sequential phases
+ * - 106 specialized agents across 33 sequential phases
  * - Claude Code Agent dispatch (no external API)
  * - Complete data flow between phases
- * - 4-layer validation (Format → Evidence → Technical → Remediation)
+ * - 4-layer validation (Format → Evidence → Technical → Remediation),
+ *   enforced for real by orchestrator/validation-gate.js
  * - Automatic CVSS 3.1 scoring and mapping (OWASP/CWE/MITRE)
  * - Error handling and retry logic
  * - Real-time progress tracking
@@ -20,6 +21,7 @@
 const fs = require('fs');
 const path = require('path');
 const YAML = require('js-yaml');
+const { validateFinding } = require('./validation-gate.js');
 
 // ============================================================================
 // CONFIGURATION & CONSTANTS
@@ -88,23 +90,45 @@ class ExecutionContext {
   }
 
   /**
-   * Add findings from agent
+   * Add findings from agent, running each through the real 4-layer
+   * validation gate (Format → Evidence → Technical Accuracy → Remediation)
+   * before it's accepted into validatedFindings. A finding that fails any
+   * gate is rejected, not silently dropped — it's recorded in
+   * rejectedFindings with the gate and reasons it failed.
    */
   addFindings(agentName, findings) {
     if (!Array.isArray(findings)) findings = [findings];
 
     findings.forEach(finding => {
-      // Auto-validate if finding has evidence
-      if (finding.evidence && finding.evidence.proof_of_concept) {
-        finding.status = 'candidate';
-      }
-
-      this.allFindings.push({
+      const stamped = {
         ...finding,
         discovered_by: agentName,
         timestamp: new Date().toISOString()
-      });
+      };
+
+      this.allFindings.push(stamped);
+
+      const result = validateFinding(stamped);
+      if (result.valid) {
+        const validatedFinding = { ...stamped, validation_status: 'validated' };
+        this.validatedFindings.push(validatedFinding);
+        this.writeFindingFile(FINDINGS_PATH, validatedFinding);
+      } else {
+        const rejectedFinding = { ...stamped, validation_status: 'rejected', rejected_at_gate: result.failedAt, rejection_reasons: result.errors };
+        this.rejectedFindings.push(rejectedFinding);
+        this.writeFindingFile(path.join(EVIDENCE_PATH, 'findings-rejected'), rejectedFinding);
+      }
     });
+  }
+
+  /**
+   * Persists a single finding to disk so it survives a resume and (for
+   * validated findings) is picked up by report-generator.js.
+   */
+  writeFindingFile(dir, finding) {
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    const id = finding.id || `FINDING-${Date.now()}`;
+    fs.writeFileSync(path.join(dir, `${id}.json`), JSON.stringify(finding, null, 2));
   }
 
   /**
@@ -197,350 +221,142 @@ class PenetrationTestOrchestrator {
   }
 
   /**
-   * Define all 86 agents with dependencies and specifications
+   * Define all 106 agents with dependencies and specifications,
+   * grouped into 23 capability categories spanning the real files in
+   * orchestrator/agents/*.md (see docs/How-To-Use-Agents-Guide.html's
+   * Agent Explorer for the same catalog, browsable by phase/type).
    */
   defineAgents() {
     return [
-      // PHASE 1: RECONNAISSANCE
-      {
-        phase: 1,
-        name: 'recon-agent',
-        description: 'OSINT, service enumeration, tech stack fingerprinting',
-        type: 'security-auditor',
-        timeout: 3600,
-        dependencies: [],
-        expectedOutputs: ['surface-map.md', 'api-inventory.md', 'tech-stack.md']
-      },
-
-      // PHASE 2: SURFACE-LEVEL EXPLOITATION (6 agents)
-      {
-        phase: 2,
-        name: 'web-pentest-agent',
-        description: 'Web app security: auth, IDOR, RBAC, XSS, CSRF, injection, DOS, headers',
-        type: 'penetration-tester',
-        timeout: 7200,
-        dependencies: ['recon-agent'],
-        expectedOutputs: ['WEB-*.json']
-      },
-      {
-        phase: 2,
-        name: 'api-security-agent',
-        description: 'API security: advanced SQLi, NoSQL, fuzzing, BOLA, DOS, GraphQL, gRPC, JWT',
-        type: 'penetration-tester',
-        timeout: 7200,
-        dependencies: ['recon-agent'],
-        expectedOutputs: ['API-*.json']
-      },
-      {
-        phase: 2,
-        name: 'authn-authz-agent',
-        description: 'Authentication & RBAC: MFA, JWT, session, OAuth, SAML, privilege escalation',
-        type: 'penetration-tester',
-        timeout: 5400,
-        dependencies: ['recon-agent'],
-        expectedOutputs: ['AUTHZ-*.json']
-      },
-      {
-        phase: 2,
-        name: 'infra-agent',
-        description: 'Infrastructure: network scan, TLS, DNS, services, K8s, WAF, DOS',
-        type: 'penetration-tester',
-        timeout: 7200,
-        dependencies: ['recon-agent'],
-        expectedOutputs: ['INFRA-*.json']
-      },
-      {
-        phase: 2,
-        name: 'cloud-container-agent',
-        description: 'Cloud & container security: AWS, GCP, Azure, Docker, Kubernetes',
-        type: 'penetration-tester',
-        timeout: 5400,
-        dependencies: ['recon-agent', 'infra-agent'],
-        expectedOutputs: ['CLOUD-*.json']
-      },
-      {
-        phase: 2,
-        name: 'ai-llm-agent',
-        description: 'AI/LLM testing: prompt injection, jailbreak, token leakage',
-        type: 'penetration-tester',
-        timeout: 3600,
-        dependencies: ['recon-agent'],
-        expectedOutputs: ['AI-*.json']
-      },
-
-      // PHASE 3: DEEP EXPLOITATION (7 agents)
-      {
-        phase: 3,
-        name: 'ssrf-exploitation-agent',
-        description: 'SSRF & cloud metadata exploitation',
-        type: 'penetration-tester',
-        timeout: 5400,
-        dependencies: ['recon-agent', 'api-security-agent'],
-        expectedOutputs: ['SSRF-*.json']
-      },
-      {
-        phase: 3,
-        name: 'request-smuggling-agent',
-        description: 'HTTP request smuggling (CL.TE, TE.CL, HTTP/2)',
-        type: 'penetration-tester',
-        timeout: 5400,
-        dependencies: ['recon-agent', 'web-pentest-agent'],
-        expectedOutputs: ['SMUGGLING-*.json']
-      },
-      {
-        phase: 3,
-        name: 'file-upload-rce-agent',
-        description: 'File upload RCE (polyglot, magic bytes, htaccess)',
-        type: 'penetration-tester',
-        timeout: 5400,
-        dependencies: ['recon-agent', 'web-pentest-agent'],
-        expectedOutputs: ['FILEUPLOAD-*.json']
-      },
-      {
-        phase: 3,
-        name: 'path-traversal-agent',
-        description: 'Path traversal & directory traversal',
-        type: 'penetration-tester',
-        timeout: 3600,
-        dependencies: ['recon-agent', 'web-pentest-agent'],
-        expectedOutputs: ['TRAVERSAL-*.json']
-      },
-      {
-        phase: 3,
-        name: 'xxe-injection-agent',
-        description: 'XXE injection (DTD, file read, SSRF, blind XXE, XML bomb)',
-        type: 'penetration-tester',
-        timeout: 5400,
-        dependencies: ['recon-agent', 'api-security-agent'],
-        expectedOutputs: ['XXE-*.json']
-      },
-      {
-        phase: 3,
-        name: 'deserialization-rce-agent',
-        description: 'Deserialization RCE (Java gadgets, PHP unserialize, Python pickle)',
-        type: 'penetration-tester',
-        timeout: 5400,
-        dependencies: ['recon-agent', 'api-security-agent'],
-        expectedOutputs: ['DESER-*.json']
-      },
-      {
-        phase: 3,
-        name: 'ssti-exploitation-agent',
-        description: 'SSTI & Expression Language RCE (Jinja2, EL, MVEL)',
-        type: 'penetration-tester',
-        timeout: 5400,
-        dependencies: ['recon-agent', 'web-pentest-agent'],
-        expectedOutputs: ['SSTI-*.json']
-      },
-
-      // PHASE 4: POST-EXPLOITATION (4 agents)
-      {
-        phase: 4,
-        name: 'post-exploitation-agent',
-        description: 'Post-exploitation enumeration',
-        type: 'penetration-tester',
-        timeout: 5400,
-        dependencies: ['ssrf-exploitation-agent', 'file-upload-rce-agent', 'ssti-exploitation-agent'],
-        expectedOutputs: ['POSTEX-*.json']
-      },
-      {
-        phase: 4,
-        name: 'privilege-escalation-agent',
-        description: 'Local privilege escalation',
-        type: 'penetration-tester',
-        timeout: 5400,
-        dependencies: ['post-exploitation-agent'],
-        expectedOutputs: ['PRIVESC-*.json']
-      },
-      {
-        phase: 4,
-        name: 'secrets-harvesting-agent',
-        description: 'Secrets & hardcoded credentials',
-        type: 'penetration-tester',
-        timeout: 3600,
-        dependencies: ['post-exploitation-agent'],
-        expectedOutputs: ['SECRETS-*.json']
-      },
-      {
-        phase: 4,
-        name: 'lateral-movement-agent',
-        description: 'Lateral movement & persistence',
-        type: 'penetration-tester',
-        timeout: 5400,
-        dependencies: ['post-exploitation-agent', 'privilege-escalation-agent'],
-        expectedOutputs: ['LATERAL-*.json']
-      },
-
-      // PHASE 5: SOURCE CODE & GIT FORENSICS (2 agents)
-      {
-        phase: 5,
-        name: 'source-code-disclosure-agent',
-        description: 'Source code disclosure (.git, .svn, backups)',
-        type: 'security-auditor',
-        timeout: 3600,
-        dependencies: ['recon-agent', 'web-pentest-agent'],
-        expectedOutputs: ['SRCDISC-*.json']
-      },
-      {
-        phase: 5,
-        name: 'git-forensics-agent',
-        description: 'Git history mining & deleted secrets',
-        type: 'security-auditor',
-        timeout: 3600,
-        dependencies: ['source-code-disclosure-agent'],
-        expectedOutputs: ['GITFOREN-*.json']
-      },
-
-      // PHASE 6: CLOUD EXPLOITATION (3 agents)
-      {
-        phase: 6,
-        name: 'aws-exploitation-agent',
-        description: 'AWS exploitation (S3, EC2, Lambda, RDS, IAM)',
-        type: 'penetration-tester',
-        timeout: 5400,
-        dependencies: ['cloud-container-agent', 'ssrf-exploitation-agent'],
-        expectedOutputs: ['AWS-*.json']
-      },
-      {
-        phase: 6,
-        name: 'gcp-exploitation-agent',
-        description: 'GCP exploitation (GCS, Cloud Functions, Firestore)',
-        type: 'penetration-tester',
-        timeout: 5400,
-        dependencies: ['cloud-container-agent', 'ssrf-exploitation-agent'],
-        expectedOutputs: ['GCP-*.json']
-      },
-      {
-        phase: 6,
-        name: 'azure-exploitation-agent',
-        description: 'Azure exploitation (Storage, App Service, Key Vault)',
-        type: 'penetration-tester',
-        timeout: 5400,
-        dependencies: ['cloud-container-agent', 'ssrf-exploitation-agent'],
-        expectedOutputs: ['AZURE-*.json']
-      },
-
-      // PHASE 7: ADVANCED AUTHENTICATION (2 agents)
-      {
-        phase: 7,
-        name: 'oauth-saml-agent',
-        description: 'OAuth 2.0 & SAML attacks',
-        type: 'penetration-tester',
-        timeout: 5400,
-        dependencies: ['authn-authz-agent'],
-        expectedOutputs: ['OAUTH-*.json']
-      },
-      {
-        phase: 7,
-        name: 'cryptography-weakness-agent',
-        description: 'Cryptography weaknesses',
-        type: 'security-auditor',
-        timeout: 3600,
-        dependencies: ['authn-authz-agent', 'secrets-harvesting-agent'],
-        expectedOutputs: ['CRYPTO-*.json']
-      },
-
-      // PHASE 8: SUPPLY CHAIN & COMPLIANCE (3 agents)
-      {
-        phase: 8,
-        name: 'dependency-scanning-agent',
-        description: 'Dependency scanning (CVE, outdated libraries)',
-        type: 'security-auditor',
-        timeout: 3600,
-        dependencies: ['source-code-disclosure-agent'],
-        expectedOutputs: ['DEPS-*.json']
-      },
-      {
-        phase: 8,
-        name: 'ci-cd-pipeline-agent',
-        description: 'CI/CD pipeline security',
-        type: 'security-auditor',
-        timeout: 3600,
-        dependencies: ['source-code-disclosure-agent', 'git-forensics-agent'],
-        expectedOutputs: ['CICD-*.json']
-      },
-      {
-        phase: 8,
-        name: 'compliance-testing-agent',
-        description: 'Compliance testing (GDPR, HIPAA, PCI-DSS, SOC2)',
-        type: 'security-auditor',
-        timeout: 3600,
-        dependencies: [],
-        expectedOutputs: ['COMPLIANCE-*.json']
-      },
-
-      // PHASE 9: BUSINESS LOGIC (1 agent)
-      {
-        phase: 9,
-        name: 'business-logic-agent',
-        description: 'Business logic abuse',
-        type: 'penetration-tester',
-        timeout: 5400,
-        dependencies: ['authn-authz-agent', 'api-security-agent'],
-        expectedOutputs: ['LOGIC-*.json']
-      },
-
-      // PHASE 10: RATE LIMITING & BRUTE FORCE (2 agents)
-      {
-        phase: 10,
-        name: 'rate-limiting-bypass-agent',
-        description: 'Rate limiting bypass',
-        type: 'penetration-tester',
-        timeout: 3600,
-        dependencies: ['api-security-agent', 'web-pentest-agent'],
-        expectedOutputs: ['RATELIMIT-*.json']
-      },
-      {
-        phase: 10,
-        name: 'mass-assignment-agent',
-        description: 'Mass assignment & over-posting',
-        type: 'penetration-tester',
-        timeout: 3600,
-        dependencies: ['api-security-agent', 'authn-authz-agent'],
-        expectedOutputs: ['MASSASSIGN-*.json']
-      },
-
-      // PHASE 11: ADVANCED PROTOCOLS (2 agents)
-      {
-        phase: 11,
-        name: 'websocket-security-agent',
-        description: 'WebSocket security',
-        type: 'penetration-tester',
-        timeout: 3600,
-        dependencies: ['recon-agent', 'web-pentest-agent'],
-        expectedOutputs: ['WS-*.json']
-      },
-      {
-        phase: 11,
-        name: 'grpc-testing-agent',
-        description: 'gRPC security testing',
-        type: 'penetration-tester',
-        timeout: 3600,
-        dependencies: ['recon-agent', 'api-security-agent'],
-        expectedOutputs: ['GRPC-*.json']
-      },
-
-      // PHASE 12: EXPLOITATION CHAINING (1 agent)
-      {
-        phase: 12,
-        name: 'exploitation-agent',
-        description: 'Exploitation chaining & validation',
-        type: 'penetration-tester',
-        timeout: 7200,
-        dependencies: [],
-        expectedOutputs: ['CHAIN-*.json']
-      },
-
-      // PHASE 13: REPORTING (1 agent)
-      {
-        phase: 13,
-        name: 'reporting-agent',
-        description: 'Final reporting & documentation',
-        type: 'security-auditor',
-        timeout: 3600,
-        dependencies: ['exploitation-agent'],
-        expectedOutputs: ['report.html', 'report.json']
-      }
+      // PHASE 1: RECONNAISSANCE & DISCOVERY (3 agents)
+      { phase: 1, name: 'Agent-001-Reconnaissance', description: 'Master recon agent — passive + active discovery to map the full attack surface (whois, nslookup, dig, theHarvester)', type: 'penetration-tester', timeout: 3600, dependencies: [], expectedOutputs: ['Agent-001-Reconnaissance-*.json'] },
+      { phase: 1, name: 'Agent-001A-Passive-Recon', description: 'Passive information gathering / OSINT without active probing', type: 'penetration-tester', timeout: 3600, dependencies: [], expectedOutputs: ['Agent-001A-Passive-Recon-*.json'] },
+      { phase: 1, name: 'Agent-001B-Active-Discovery', description: 'Active network scanning, service enumeration, network mapping', type: 'penetration-tester', timeout: 3600, dependencies: [], expectedOutputs: ['Agent-001B-Active-Discovery-*.json'] },
+      // PHASE 2: WEB APPLICATION TESTING (8 agents)
+      { phase: 2, name: 'Agent-002-Web-Pentest', description: 'Comprehensive web application penetration testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-001-Reconnaissance', 'Agent-001A-Passive-Recon', 'Agent-001B-Active-Discovery'], expectedOutputs: ['Agent-002-Web-Pentest-*.json'] },
+      { phase: 2, name: 'Agent-002A-SQL-Injection', description: 'SQL injection testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-001-Reconnaissance', 'Agent-001A-Passive-Recon', 'Agent-001B-Active-Discovery'], expectedOutputs: ['Agent-002A-SQL-Injection-*.json'] },
+      { phase: 2, name: 'Agent-002B-XSS-Testing', description: 'Cross-site scripting (reflected, stored, DOM)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-001-Reconnaissance', 'Agent-001A-Passive-Recon', 'Agent-001B-Active-Discovery'], expectedOutputs: ['Agent-002B-XSS-Testing-*.json'] },
+      { phase: 2, name: 'Agent-002C-CSRF-CORS', description: 'CSRF and CORS misconfiguration testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-001-Reconnaissance', 'Agent-001A-Passive-Recon', 'Agent-001B-Active-Discovery'], expectedOutputs: ['Agent-002C-CSRF-CORS-*.json'] },
+      { phase: 2, name: 'Agent-002D-Template-Injection', description: 'Server-side template injection', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-001-Reconnaissance', 'Agent-001A-Passive-Recon', 'Agent-001B-Active-Discovery'], expectedOutputs: ['Agent-002D-Template-Injection-*.json'] },
+      { phase: 2, name: 'Agent-002E-Session-Testing', description: 'Session management weaknesses', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-001-Reconnaissance', 'Agent-001A-Passive-Recon', 'Agent-001B-Active-Discovery'], expectedOutputs: ['Agent-002E-Session-Testing-*.json'] },
+      { phase: 2, name: 'Agent-002F-XXE-Injection', description: 'XML external entity injection', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-001-Reconnaissance', 'Agent-001A-Passive-Recon', 'Agent-001B-Active-Discovery'], expectedOutputs: ['Agent-002F-XXE-Injection-*.json'] },
+      { phase: 2, name: 'Agent-002G-Path-Traversal', description: 'Path traversal and local file inclusion', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-001-Reconnaissance', 'Agent-001A-Passive-Recon', 'Agent-001B-Active-Discovery'], expectedOutputs: ['Agent-002G-Path-Traversal-*.json'] },
+      // PHASE 3: API SECURITY (8 agents)
+      { phase: 3, name: 'Agent-003-API-Security', description: 'API security testing overview', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-002-Web-Pentest', 'Agent-002A-SQL-Injection', 'Agent-002B-XSS-Testing', 'Agent-002C-CSRF-CORS', 'Agent-002D-Template-Injection', 'Agent-002E-Session-Testing', 'Agent-002F-XXE-Injection', 'Agent-002G-Path-Traversal'], expectedOutputs: ['Agent-003-API-Security-*.json'] },
+      { phase: 3, name: 'Agent-003A-REST-API', description: 'REST API security testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-002-Web-Pentest', 'Agent-002A-SQL-Injection', 'Agent-002B-XSS-Testing', 'Agent-002C-CSRF-CORS', 'Agent-002D-Template-Injection', 'Agent-002E-Session-Testing', 'Agent-002F-XXE-Injection', 'Agent-002G-Path-Traversal'], expectedOutputs: ['Agent-003A-REST-API-*.json'] },
+      { phase: 3, name: 'Agent-003B-GraphQL', description: 'GraphQL introspection & query abuse', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-002-Web-Pentest', 'Agent-002A-SQL-Injection', 'Agent-002B-XSS-Testing', 'Agent-002C-CSRF-CORS', 'Agent-002D-Template-Injection', 'Agent-002E-Session-Testing', 'Agent-002F-XXE-Injection', 'Agent-002G-Path-Traversal'], expectedOutputs: ['Agent-003B-GraphQL-*.json'] },
+      { phase: 3, name: 'Agent-003C-gRPC', description: 'gRPC / protocol buffer testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-002-Web-Pentest', 'Agent-002A-SQL-Injection', 'Agent-002B-XSS-Testing', 'Agent-002C-CSRF-CORS', 'Agent-002D-Template-Injection', 'Agent-002E-Session-Testing', 'Agent-002F-XXE-Injection', 'Agent-002G-Path-Traversal'], expectedOutputs: ['Agent-003C-gRPC-*.json'] },
+      { phase: 3, name: 'Agent-003D-SOAP', description: 'SOAP web service testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-002-Web-Pentest', 'Agent-002A-SQL-Injection', 'Agent-002B-XSS-Testing', 'Agent-002C-CSRF-CORS', 'Agent-002D-Template-Injection', 'Agent-002E-Session-Testing', 'Agent-002F-XXE-Injection', 'Agent-002G-Path-Traversal'], expectedOutputs: ['Agent-003D-SOAP-*.json'] },
+      { phase: 3, name: 'Agent-003E-WebSocket', description: 'WebSocket security testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-002-Web-Pentest', 'Agent-002A-SQL-Injection', 'Agent-002B-XSS-Testing', 'Agent-002C-CSRF-CORS', 'Agent-002D-Template-Injection', 'Agent-002E-Session-Testing', 'Agent-002F-XXE-Injection', 'Agent-002G-Path-Traversal'], expectedOutputs: ['Agent-003E-WebSocket-*.json'] },
+      { phase: 3, name: 'Agent-003F-BOLA-Testing', description: 'Broken object-level authorization', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-002-Web-Pentest', 'Agent-002A-SQL-Injection', 'Agent-002B-XSS-Testing', 'Agent-002C-CSRF-CORS', 'Agent-002D-Template-Injection', 'Agent-002E-Session-Testing', 'Agent-002F-XXE-Injection', 'Agent-002G-Path-Traversal'], expectedOutputs: ['Agent-003F-BOLA-Testing-*.json'] },
+      { phase: 3, name: 'Agent-003G-Mass-Assignment', description: 'Mass assignment vulnerability testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-002-Web-Pentest', 'Agent-002A-SQL-Injection', 'Agent-002B-XSS-Testing', 'Agent-002C-CSRF-CORS', 'Agent-002D-Template-Injection', 'Agent-002E-Session-Testing', 'Agent-002F-XXE-Injection', 'Agent-002G-Path-Traversal'], expectedOutputs: ['Agent-003G-Mass-Assignment-*.json'] },
+      // PHASE 4: AUTHENTICATION & AUTHORIZATION (3 agents)
+      { phase: 4, name: 'Agent-004-Authentication-Authorization', description: 'Auth / authorization testing overview', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-003-API-Security', 'Agent-003A-REST-API', 'Agent-003B-GraphQL', 'Agent-003C-gRPC', 'Agent-003D-SOAP', 'Agent-003E-WebSocket', 'Agent-003F-BOLA-Testing', 'Agent-003G-Mass-Assignment'], expectedOutputs: ['Agent-004-Authentication-Authorization-*.json'] },
+      { phase: 4, name: 'Agent-004A-Auth-Flow', description: 'OAuth2, OpenID Connect and SAML flow testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-003-API-Security', 'Agent-003A-REST-API', 'Agent-003B-GraphQL', 'Agent-003C-gRPC', 'Agent-003D-SOAP', 'Agent-003E-WebSocket', 'Agent-003F-BOLA-Testing', 'Agent-003G-Mass-Assignment'], expectedOutputs: ['Agent-004A-Auth-Flow-*.json'] },
+      { phase: 4, name: 'Agent-024-OAuth-SAML-JWT', description: 'Deep-dive OAuth / SAML / JWT testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-003-API-Security', 'Agent-003A-REST-API', 'Agent-003B-GraphQL', 'Agent-003C-gRPC', 'Agent-003D-SOAP', 'Agent-003E-WebSocket', 'Agent-003F-BOLA-Testing', 'Agent-003G-Mass-Assignment'], expectedOutputs: ['Agent-024-OAuth-SAML-JWT-*.json'] },
+      // PHASE 5: INFRASTRUCTURE, CLOUD & AI SURFACE (3 agents)
+      { phase: 5, name: 'Agent-005-Infrastructure', description: 'Network / infrastructure testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-004-Authentication-Authorization', 'Agent-004A-Auth-Flow', 'Agent-024-OAuth-SAML-JWT'], expectedOutputs: ['Agent-005-Infrastructure-*.json'] },
+      { phase: 5, name: 'Agent-006-Cloud-Container', description: 'Cloud & container security testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-004-Authentication-Authorization', 'Agent-004A-Auth-Flow', 'Agent-024-OAuth-SAML-JWT'], expectedOutputs: ['Agent-006-Cloud-Container-*.json'] },
+      { phase: 5, name: 'Agent-007-AI-LLM', description: 'AI / LLM endpoint security testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-004-Authentication-Authorization', 'Agent-004A-Auth-Flow', 'Agent-024-OAuth-SAML-JWT'], expectedOutputs: ['Agent-007-AI-LLM-*.json'] },
+      // PHASE 6: DEEP EXPLOITATION & RCE (7 agents)
+      { phase: 6, name: 'Agent-008-SSRF-Exploitation', description: 'Server-side request forgery exploitation', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-005-Infrastructure', 'Agent-006-Cloud-Container', 'Agent-007-AI-LLM'], expectedOutputs: ['Agent-008-SSRF-Exploitation-*.json'] },
+      { phase: 6, name: 'Agent-009-Request-Smuggling', description: 'HTTP request smuggling', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-005-Infrastructure', 'Agent-006-Cloud-Container', 'Agent-007-AI-LLM'], expectedOutputs: ['Agent-009-Request-Smuggling-*.json'] },
+      { phase: 6, name: 'Agent-0010-File-Upload-RCE', description: 'File upload → remote code execution', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-005-Infrastructure', 'Agent-006-Cloud-Container', 'Agent-007-AI-LLM'], expectedOutputs: ['Agent-0010-File-Upload-RCE-*.json'] },
+      { phase: 6, name: 'Agent-0011-Path-Traversal-LFI', description: 'Path traversal / LFI exploitation', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-005-Infrastructure', 'Agent-006-Cloud-Container', 'Agent-007-AI-LLM'], expectedOutputs: ['Agent-0011-Path-Traversal-LFI-*.json'] },
+      { phase: 6, name: 'Agent-0012-XXE-Injection', description: 'XXE exploitation (deep)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-005-Infrastructure', 'Agent-006-Cloud-Container', 'Agent-007-AI-LLM'], expectedOutputs: ['Agent-0012-XXE-Injection-*.json'] },
+      { phase: 6, name: 'Agent-0013-Deserialization-RCE', description: 'Insecure deserialization → RCE', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-005-Infrastructure', 'Agent-006-Cloud-Container', 'Agent-007-AI-LLM'], expectedOutputs: ['Agent-0013-Deserialization-RCE-*.json'] },
+      { phase: 6, name: 'Agent-0014-SSTI-Exploitation', description: 'Server-side template injection exploitation', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-005-Infrastructure', 'Agent-006-Cloud-Container', 'Agent-007-AI-LLM'], expectedOutputs: ['Agent-0014-SSTI-Exploitation-*.json'] },
+      // PHASE 7: POST-EXPLOITATION (9 agents)
+      { phase: 7, name: 'Agent-010A-Privilege-Escalation', description: 'Linux/Windows privilege escalation techniques', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-008-SSRF-Exploitation', 'Agent-009-Request-Smuggling', 'Agent-0010-File-Upload-RCE', 'Agent-0011-Path-Traversal-LFI', 'Agent-0012-XXE-Injection', 'Agent-0013-Deserialization-RCE', 'Agent-0014-SSTI-Exploitation'], expectedOutputs: ['Agent-010A-Privilege-Escalation-*.json'] },
+      { phase: 7, name: 'Agent-010B-Lateral-Movement', description: 'Lateral movement across a network', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-008-SSRF-Exploitation', 'Agent-009-Request-Smuggling', 'Agent-0010-File-Upload-RCE', 'Agent-0011-Path-Traversal-LFI', 'Agent-0012-XXE-Injection', 'Agent-0013-Deserialization-RCE', 'Agent-0014-SSTI-Exploitation'], expectedOutputs: ['Agent-010B-Lateral-Movement-*.json'] },
+      { phase: 7, name: 'Agent-010C-Persistence', description: 'Establishing persistence', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-008-SSRF-Exploitation', 'Agent-009-Request-Smuggling', 'Agent-0010-File-Upload-RCE', 'Agent-0011-Path-Traversal-LFI', 'Agent-0012-XXE-Injection', 'Agent-0013-Deserialization-RCE', 'Agent-0014-SSTI-Exploitation'], expectedOutputs: ['Agent-010C-Persistence-*.json'] },
+      { phase: 7, name: 'Agent-010D-Data-Exfiltration', description: 'Data exfiltration techniques', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-008-SSRF-Exploitation', 'Agent-009-Request-Smuggling', 'Agent-0010-File-Upload-RCE', 'Agent-0011-Path-Traversal-LFI', 'Agent-0012-XXE-Injection', 'Agent-0013-Deserialization-RCE', 'Agent-0014-SSTI-Exploitation'], expectedOutputs: ['Agent-010D-Data-Exfiltration-*.json'] },
+      { phase: 7, name: 'Agent-010E-Cleanup', description: 'Post-test cleanup / artifact removal', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-008-SSRF-Exploitation', 'Agent-009-Request-Smuggling', 'Agent-0010-File-Upload-RCE', 'Agent-0011-Path-Traversal-LFI', 'Agent-0012-XXE-Injection', 'Agent-0013-Deserialization-RCE', 'Agent-0014-SSTI-Exploitation'], expectedOutputs: ['Agent-010E-Cleanup-*.json'] },
+      { phase: 7, name: 'Agent-015-Post-Exploitation', description: 'General post-exploitation testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-008-SSRF-Exploitation', 'Agent-009-Request-Smuggling', 'Agent-0010-File-Upload-RCE', 'Agent-0011-Path-Traversal-LFI', 'Agent-0012-XXE-Injection', 'Agent-0013-Deserialization-RCE', 'Agent-0014-SSTI-Exploitation'], expectedOutputs: ['Agent-015-Post-Exploitation-*.json'] },
+      { phase: 7, name: 'Agent-017-Secrets-Harvesting', description: 'Harvesting secrets from compromised systems', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-008-SSRF-Exploitation', 'Agent-009-Request-Smuggling', 'Agent-0010-File-Upload-RCE', 'Agent-0011-Path-Traversal-LFI', 'Agent-0012-XXE-Injection', 'Agent-0013-Deserialization-RCE', 'Agent-0014-SSTI-Exploitation'], expectedOutputs: ['Agent-017-Secrets-Harvesting-*.json'] },
+      { phase: 7, name: 'Agent-018-Lateral-Movement', description: 'Lateral movement (deep-dive)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-008-SSRF-Exploitation', 'Agent-009-Request-Smuggling', 'Agent-0010-File-Upload-RCE', 'Agent-0011-Path-Traversal-LFI', 'Agent-0012-XXE-Injection', 'Agent-0013-Deserialization-RCE', 'Agent-0014-SSTI-Exploitation'], expectedOutputs: ['Agent-018-Lateral-Movement-*.json'] },
+      { phase: 7, name: 'Agent-037-Privilege-Escalation', description: 'Privilege escalation (deep-dive)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-008-SSRF-Exploitation', 'Agent-009-Request-Smuggling', 'Agent-0010-File-Upload-RCE', 'Agent-0011-Path-Traversal-LFI', 'Agent-0012-XXE-Injection', 'Agent-0013-Deserialization-RCE', 'Agent-0014-SSTI-Exploitation'], expectedOutputs: ['Agent-037-Privilege-Escalation-*.json'] },
+      // PHASE 8: RATE-LIMITING, PROTOCOL ABUSE & BUSINESS LOGIC (10 agents)
+      { phase: 8, name: 'Agent-011A-Rate-Limit', description: 'Rate limit bypass testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-010A-Privilege-Escalation', 'Agent-010B-Lateral-Movement', 'Agent-010C-Persistence', 'Agent-010D-Data-Exfiltration', 'Agent-010E-Cleanup', 'Agent-015-Post-Exploitation', 'Agent-017-Secrets-Harvesting', 'Agent-018-Lateral-Movement', 'Agent-037-Privilege-Escalation'], expectedOutputs: ['Agent-011A-Rate-Limit-*.json'] },
+      { phase: 8, name: 'Agent-011B-DoS-Attacks', description: 'Denial-of-service testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-010A-Privilege-Escalation', 'Agent-010B-Lateral-Movement', 'Agent-010C-Persistence', 'Agent-010D-Data-Exfiltration', 'Agent-010E-Cleanup', 'Agent-015-Post-Exploitation', 'Agent-017-Secrets-Harvesting', 'Agent-018-Lateral-Movement', 'Agent-037-Privilege-Escalation'], expectedOutputs: ['Agent-011B-DoS-Attacks-*.json'] },
+      { phase: 8, name: 'Agent-011C-Resource-Abuse', description: 'API resource / quota abuse', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-010A-Privilege-Escalation', 'Agent-010B-Lateral-Movement', 'Agent-010C-Persistence', 'Agent-010D-Data-Exfiltration', 'Agent-010E-Cleanup', 'Agent-015-Post-Exploitation', 'Agent-017-Secrets-Harvesting', 'Agent-018-Lateral-Movement', 'Agent-037-Privilege-Escalation'], expectedOutputs: ['Agent-011C-Resource-Abuse-*.json'] },
+      { phase: 8, name: 'Agent-029-Business-Logic', description: 'Business logic flaw testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-010A-Privilege-Escalation', 'Agent-010B-Lateral-Movement', 'Agent-010C-Persistence', 'Agent-010D-Data-Exfiltration', 'Agent-010E-Cleanup', 'Agent-015-Post-Exploitation', 'Agent-017-Secrets-Harvesting', 'Agent-018-Lateral-Movement', 'Agent-037-Privilege-Escalation'], expectedOutputs: ['Agent-029-Business-Logic-*.json'] },
+      { phase: 8, name: 'Agent-030-Rate-Limiting', description: 'Rate limiting (deep-dive)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-010A-Privilege-Escalation', 'Agent-010B-Lateral-Movement', 'Agent-010C-Persistence', 'Agent-010D-Data-Exfiltration', 'Agent-010E-Cleanup', 'Agent-015-Post-Exploitation', 'Agent-017-Secrets-Harvesting', 'Agent-018-Lateral-Movement', 'Agent-037-Privilege-Escalation'], expectedOutputs: ['Agent-030-Rate-Limiting-*.json'] },
+      { phase: 8, name: 'Agent-031-Mass-Assignment', description: 'Mass assignment (deep-dive)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-010A-Privilege-Escalation', 'Agent-010B-Lateral-Movement', 'Agent-010C-Persistence', 'Agent-010D-Data-Exfiltration', 'Agent-010E-Cleanup', 'Agent-015-Post-Exploitation', 'Agent-017-Secrets-Harvesting', 'Agent-018-Lateral-Movement', 'Agent-037-Privilege-Escalation'], expectedOutputs: ['Agent-031-Mass-Assignment-*.json'] },
+      { phase: 8, name: 'Agent-031A-Extras', description: 'Additional/extra vulnerability checks', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-010A-Privilege-Escalation', 'Agent-010B-Lateral-Movement', 'Agent-010C-Persistence', 'Agent-010D-Data-Exfiltration', 'Agent-010E-Cleanup', 'Agent-015-Post-Exploitation', 'Agent-017-Secrets-Harvesting', 'Agent-018-Lateral-Movement', 'Agent-037-Privilege-Escalation'], expectedOutputs: ['Agent-031A-Extras-*.json'] },
+      { phase: 8, name: 'Agent-032-WebSocket', description: 'WebSocket testing (deep-dive)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-010A-Privilege-Escalation', 'Agent-010B-Lateral-Movement', 'Agent-010C-Persistence', 'Agent-010D-Data-Exfiltration', 'Agent-010E-Cleanup', 'Agent-015-Post-Exploitation', 'Agent-017-Secrets-Harvesting', 'Agent-018-Lateral-Movement', 'Agent-037-Privilege-Escalation'], expectedOutputs: ['Agent-032-WebSocket-*.json'] },
+      { phase: 8, name: 'Agent-032A-Advanced', description: 'Advanced protocol testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-010A-Privilege-Escalation', 'Agent-010B-Lateral-Movement', 'Agent-010C-Persistence', 'Agent-010D-Data-Exfiltration', 'Agent-010E-Cleanup', 'Agent-015-Post-Exploitation', 'Agent-017-Secrets-Harvesting', 'Agent-018-Lateral-Movement', 'Agent-037-Privilege-Escalation'], expectedOutputs: ['Agent-032A-Advanced-*.json'] },
+      { phase: 8, name: 'Agent-033-gRPC', description: 'gRPC testing (deep-dive)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-010A-Privilege-Escalation', 'Agent-010B-Lateral-Movement', 'Agent-010C-Persistence', 'Agent-010D-Data-Exfiltration', 'Agent-010E-Cleanup', 'Agent-015-Post-Exploitation', 'Agent-017-Secrets-Harvesting', 'Agent-018-Lateral-Movement', 'Agent-037-Privilege-Escalation'], expectedOutputs: ['Agent-033-gRPC-*.json'] },
+      // PHASE 9: NETWORK PROTOCOLS (4 agents)
+      { phase: 9, name: 'Agent-012A-SMTP-Email', description: 'SMTP / email security testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-011A-Rate-Limit', 'Agent-011B-DoS-Attacks', 'Agent-011C-Resource-Abuse', 'Agent-029-Business-Logic', 'Agent-030-Rate-Limiting', 'Agent-031-Mass-Assignment', 'Agent-031A-Extras', 'Agent-032-WebSocket', 'Agent-032A-Advanced', 'Agent-033-gRPC'], expectedOutputs: ['Agent-012A-SMTP-Email-*.json'] },
+      { phase: 9, name: 'Agent-012B-LDAP-Directory', description: 'LDAP / directory service testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-011A-Rate-Limit', 'Agent-011B-DoS-Attacks', 'Agent-011C-Resource-Abuse', 'Agent-029-Business-Logic', 'Agent-030-Rate-Limiting', 'Agent-031-Mass-Assignment', 'Agent-031A-Extras', 'Agent-032-WebSocket', 'Agent-032A-Advanced', 'Agent-033-gRPC'], expectedOutputs: ['Agent-012B-LDAP-Directory-*.json'] },
+      { phase: 9, name: 'Agent-012C-Database', description: 'Direct database protocol testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-011A-Rate-Limit', 'Agent-011B-DoS-Attacks', 'Agent-011C-Resource-Abuse', 'Agent-029-Business-Logic', 'Agent-030-Rate-Limiting', 'Agent-031-Mass-Assignment', 'Agent-031A-Extras', 'Agent-032-WebSocket', 'Agent-032A-Advanced', 'Agent-033-gRPC'], expectedOutputs: ['Agent-012C-Database-*.json'] },
+      { phase: 9, name: 'Agent-012D-RDP-Remote', description: 'RDP / remote access testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-011A-Rate-Limit', 'Agent-011B-DoS-Attacks', 'Agent-011C-Resource-Abuse', 'Agent-029-Business-Logic', 'Agent-030-Rate-Limiting', 'Agent-031-Mass-Assignment', 'Agent-031A-Extras', 'Agent-032-WebSocket', 'Agent-032A-Advanced', 'Agent-033-gRPC'], expectedOutputs: ['Agent-012D-RDP-Remote-*.json'] },
+      // PHASE 10: MOBILE SECURITY (6 agents)
+      { phase: 10, name: 'Agent-013-Mobile-iOS', description: 'iOS application security testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-012A-SMTP-Email', 'Agent-012B-LDAP-Directory', 'Agent-012C-Database', 'Agent-012D-RDP-Remote'], expectedOutputs: ['Agent-013-Mobile-iOS-*.json'] },
+      { phase: 10, name: 'Agent-014-Mobile-Android', description: 'Android application security testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-012A-SMTP-Email', 'Agent-012B-LDAP-Directory', 'Agent-012C-Database', 'Agent-012D-RDP-Remote'], expectedOutputs: ['Agent-014-Mobile-Android-*.json'] },
+      { phase: 10, name: 'Agent-014A-Mobile-Auth', description: 'Mobile authentication testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-012A-SMTP-Email', 'Agent-012B-LDAP-Directory', 'Agent-012C-Database', 'Agent-012D-RDP-Remote'], expectedOutputs: ['Agent-014A-Mobile-Auth-*.json'] },
+      { phase: 10, name: 'Agent-014B-Mobile-Storage', description: 'Mobile local storage security', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-012A-SMTP-Email', 'Agent-012B-LDAP-Directory', 'Agent-012C-Database', 'Agent-012D-RDP-Remote'], expectedOutputs: ['Agent-014B-Mobile-Storage-*.json'] },
+      { phase: 10, name: 'Agent-014C-Mobile-Comms', description: 'Mobile communications / MITM testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-012A-SMTP-Email', 'Agent-012B-LDAP-Directory', 'Agent-012C-Database', 'Agent-012D-RDP-Remote'], expectedOutputs: ['Agent-014C-Mobile-Comms-*.json'] },
+      { phase: 10, name: 'Agent-014D-Mobile-Injection', description: 'Mobile runtime injection (Frida, etc.)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-012A-SMTP-Email', 'Agent-012B-LDAP-Directory', 'Agent-012C-Database', 'Agent-012D-RDP-Remote'], expectedOutputs: ['Agent-014D-Mobile-Injection-*.json'] },
+      // PHASE 11: WIRELESS SECURITY (5 agents)
+      { phase: 11, name: 'Agent-014E-WPA-Cracking', description: 'WPA2/WPA3 handshake cracking', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-013-Mobile-iOS', 'Agent-014-Mobile-Android', 'Agent-014A-Mobile-Auth', 'Agent-014B-Mobile-Storage', 'Agent-014C-Mobile-Comms', 'Agent-014D-Mobile-Injection'], expectedOutputs: ['Agent-014E-WPA-Cracking-*.json'] },
+      { phase: 11, name: 'Agent-014F-Bluetooth', description: 'Bluetooth security testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-013-Mobile-iOS', 'Agent-014-Mobile-Android', 'Agent-014A-Mobile-Auth', 'Agent-014B-Mobile-Storage', 'Agent-014C-Mobile-Comms', 'Agent-014D-Mobile-Injection'], expectedOutputs: ['Agent-014F-Bluetooth-*.json'] },
+      { phase: 11, name: 'Agent-014G-RFID-NFC', description: 'RFID / NFC testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-013-Mobile-iOS', 'Agent-014-Mobile-Android', 'Agent-014A-Mobile-Auth', 'Agent-014B-Mobile-Storage', 'Agent-014C-Mobile-Comms', 'Agent-014D-Mobile-Injection'], expectedOutputs: ['Agent-014G-RFID-NFC-*.json'] },
+      { phase: 11, name: 'Agent-014H-Cellular', description: 'Cellular network testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-013-Mobile-iOS', 'Agent-014-Mobile-Android', 'Agent-014A-Mobile-Auth', 'Agent-014B-Mobile-Storage', 'Agent-014C-Mobile-Comms', 'Agent-014D-Mobile-Injection'], expectedOutputs: ['Agent-014H-Cellular-*.json'] },
+      { phase: 11, name: 'Agent-038-Wireless-WiFi-Hacking', description: 'Comprehensive WiFi penetration testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-013-Mobile-iOS', 'Agent-014-Mobile-Android', 'Agent-014A-Mobile-Auth', 'Agent-014B-Mobile-Storage', 'Agent-014C-Mobile-Comms', 'Agent-014D-Mobile-Injection'], expectedOutputs: ['Agent-038-Wireless-WiFi-Hacking-*.json'] },
+      // PHASE 12: WINDOWS & LINUX EXPLOITATION (2 agents)
+      { phase: 12, name: 'Agent-016-Linux-Kernel-Exploit', description: 'Advanced Linux kernel exploitation', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-014E-WPA-Cracking', 'Agent-014F-Bluetooth', 'Agent-014G-RFID-NFC', 'Agent-014H-Cellular', 'Agent-038-Wireless-WiFi-Hacking'], expectedOutputs: ['Agent-016-Linux-Kernel-Exploit-*.json'] },
+      { phase: 12, name: 'Agent-036-Windows-AD-Kerberos', description: 'Windows Active Directory & Kerberos testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-014E-WPA-Cracking', 'Agent-014F-Bluetooth', 'Agent-014G-RFID-NFC', 'Agent-014H-Cellular', 'Agent-038-Wireless-WiFi-Hacking'], expectedOutputs: ['Agent-036-Windows-AD-Kerberos-*.json'] },
+      // PHASE 13: REVERSE ENGINEERING & FORENSICS (3 agents)
+      { phase: 13, name: 'Agent-039-Reverse-Engineering-Binary', description: 'Binary analysis & reverse engineering for exploit dev', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-016-Linux-Kernel-Exploit', 'Agent-036-Windows-AD-Kerberos'], expectedOutputs: ['Agent-039-Reverse-Engineering-Binary-*.json'] },
+      { phase: 13, name: 'Agent-040-Source-Code-Disclosure', description: 'Source code disclosure testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-016-Linux-Kernel-Exploit', 'Agent-036-Windows-AD-Kerberos'], expectedOutputs: ['Agent-040-Source-Code-Disclosure-*.json'] },
+      { phase: 13, name: 'Agent-041-Git-Forensics', description: 'Git history / repo forensics', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-016-Linux-Kernel-Exploit', 'Agent-036-Windows-AD-Kerberos'], expectedOutputs: ['Agent-041-Git-Forensics-*.json'] },
+      // PHASE 14: CLOUD PLATFORMS — AWS / GCP / AZURE (4 agents)
+      { phase: 14, name: 'Agent-019-Cloud-AWS-Security', description: 'Comprehensive AWS cloud security assessment', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-039-Reverse-Engineering-Binary', 'Agent-040-Source-Code-Disclosure', 'Agent-041-Git-Forensics'], expectedOutputs: ['Agent-019-Cloud-AWS-Security-*.json'] },
+      { phase: 14, name: 'Agent-021-AWS-Exploitation', description: 'AWS exploitation (deep-dive)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-039-Reverse-Engineering-Binary', 'Agent-040-Source-Code-Disclosure', 'Agent-041-Git-Forensics'], expectedOutputs: ['Agent-021-AWS-Exploitation-*.json'] },
+      { phase: 14, name: 'Agent-023-Azure-Exploitation', description: 'Azure exploitation', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-039-Reverse-Engineering-Binary', 'Agent-040-Source-Code-Disclosure', 'Agent-041-Git-Forensics'], expectedOutputs: ['Agent-023-Azure-Exploitation-*.json'] },
+      { phase: 14, name: 'Agent-043-GCP-Exploitation', description: 'GCP exploitation', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-039-Reverse-Engineering-Binary', 'Agent-040-Source-Code-Disclosure', 'Agent-041-Git-Forensics'], expectedOutputs: ['Agent-043-GCP-Exploitation-*.json'] },
+      // PHASE 15: DEFENSE EVASION (1 agent)
+      { phase: 15, name: 'Agent-020-Defense-Evasion-AV-EDR', description: 'AV / EDR bypass & detection evasion testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-019-Cloud-AWS-Security', 'Agent-021-AWS-Exploitation', 'Agent-023-Azure-Exploitation', 'Agent-043-GCP-Exploitation'], expectedOutputs: ['Agent-020-Defense-Evasion-AV-EDR-*.json'] },
+      // PHASE 16: CI/CD, DEPENDENCIES & IAC (3 agents)
+      { phase: 16, name: 'Agent-022-CI-CD-Pipeline-Security', description: 'CI/CD pipeline security testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-020-Defense-Evasion-AV-EDR'], expectedOutputs: ['Agent-022-CI-CD-Pipeline-Security-*.json'] },
+      { phase: 16, name: 'Agent-026-Dependency-Scanning', description: 'Dependency vulnerability scanning', type: 'security-auditor', timeout: 3600, dependencies: ['Agent-020-Defense-Evasion-AV-EDR'], expectedOutputs: ['Agent-026-Dependency-Scanning-*.json'] },
+      { phase: 16, name: 'Agent-027-CI-CD-Pipeline', description: 'CI/CD pipeline testing (deep-dive)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-020-Defense-Evasion-AV-EDR'], expectedOutputs: ['Agent-027-CI-CD-Pipeline-*.json'] },
+      // PHASE 17: CRYPTOGRAPHY (1 agent)
+      { phase: 17, name: 'Agent-025-Cryptography', description: 'Cryptographic weakness testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-022-CI-CD-Pipeline-Security', 'Agent-026-Dependency-Scanning', 'Agent-027-CI-CD-Pipeline'], expectedOutputs: ['Agent-025-Cryptography-*.json'] },
+      // PHASE 18: IOT & FIRMWARE (1 agent)
+      { phase: 18, name: 'Agent-042-IoT-Firmware-Analysis', description: 'IoT and embedded firmware security testing', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-025-Cryptography'], expectedOutputs: ['Agent-042-IoT-Firmware-Analysis-*.json'] },
+      // PHASE 19: DATABASE SECURITY (1 agent)
+      { phase: 19, name: 'Agent-044-Database-Security-Testing', description: 'SQL/NoSQL injection & database security assessment', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-042-IoT-Firmware-Analysis'], expectedOutputs: ['Agent-044-Database-Security-Testing-*.json'] },
+      // PHASE 20: COMPLIANCE, CHAINING & REPORTING (4 agents)
+      { phase: 20, name: 'Agent-028-Compliance', description: 'Compliance framework assessment', type: 'security-auditor', timeout: 3600, dependencies: ['Agent-044-Database-Security-Testing'], expectedOutputs: ['Agent-028-Compliance-*.json'] },
+      { phase: 20, name: 'Agent-030B-Report-Analysis', description: 'Finding aggregation & analysis', type: 'security-auditor', timeout: 3600, dependencies: ['Agent-044-Database-Security-Testing'], expectedOutputs: ['Agent-030B-Report-Analysis-*.json'] },
+      { phase: 20, name: 'Agent-034-Exploitation-Chaining', description: 'Chaining findings into multi-step exploits', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-044-Database-Security-Testing'], expectedOutputs: ['Agent-034-Exploitation-Chaining-*.json'] },
+      { phase: 20, name: 'Agent-035-Reporting', description: 'Final HTML/JSON report generation with CVSS + OWASP/CWE mapping', type: 'security-auditor', timeout: 3600, dependencies: ['Agent-044-Database-Security-Testing'], expectedOutputs: ['Agent-035-Reporting-*.json'] },
+      // PHASE 21: ADVANCED INFRASTRUCTURE SECURITY (8 agents)
+      { phase: 21, name: 'Agent-045-Network-Segmentation', description: 'Network segmentation & zero-trust validation', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-028-Compliance', 'Agent-030B-Report-Analysis', 'Agent-034-Exploitation-Chaining', 'Agent-035-Reporting'], expectedOutputs: ['Agent-045-Network-Segmentation-*.json'] },
+      { phase: 21, name: 'Agent-046-LoadBalancer-ReverseProxy', description: 'Load balancer & reverse proxy security (request smuggling, header trust)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-028-Compliance', 'Agent-030B-Report-Analysis', 'Agent-034-Exploitation-Chaining', 'Agent-035-Reporting'], expectedOutputs: ['Agent-046-LoadBalancer-ReverseProxy-*.json'] },
+      { phase: 21, name: 'Agent-047-VPN-RemoteAccess', description: 'VPN & remote access security (IKE/IPsec, SSL-VPN, RDP gateway)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-028-Compliance', 'Agent-030B-Report-Analysis', 'Agent-034-Exploitation-Chaining', 'Agent-035-Reporting'], expectedOutputs: ['Agent-047-VPN-RemoteAccess-*.json'] },
+      { phase: 21, name: 'Agent-048-Container-Orchestration-Deep', description: 'Deep container orchestration & service mesh security (RBAC, mTLS)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-028-Compliance', 'Agent-030B-Report-Analysis', 'Agent-034-Exploitation-Chaining', 'Agent-035-Reporting'], expectedOutputs: ['Agent-048-Container-Orchestration-Deep-*.json'] },
+      { phase: 21, name: 'Agent-049-Email-Infrastructure-Hardening', description: 'Mail server & MTA infrastructure hardening (open relay, SPF/DKIM/DMARC)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-028-Compliance', 'Agent-030B-Report-Analysis', 'Agent-034-Exploitation-Chaining', 'Agent-035-Reporting'], expectedOutputs: ['Agent-049-Email-Infrastructure-Hardening-*.json'] },
+      { phase: 21, name: 'Agent-050-Backup-DR-Security', description: 'Backup & disaster recovery security (exposed buckets, snapshots)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-028-Compliance', 'Agent-030B-Report-Analysis', 'Agent-034-Exploitation-Chaining', 'Agent-035-Reporting'], expectedOutputs: ['Agent-050-Backup-DR-Security-*.json'] },
+      { phase: 21, name: 'Agent-051-Physical-Virtual-Infra-Config', description: 'Virtual infrastructure & hypervisor hardening (vCenter, ESXi, Hyper-V)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-028-Compliance', 'Agent-030B-Report-Analysis', 'Agent-034-Exploitation-Chaining', 'Agent-035-Reporting'], expectedOutputs: ['Agent-051-Physical-Virtual-Infra-Config-*.json'] },
+      { phase: 21, name: 'Agent-052-Network-Device-Hardening', description: 'Network device hardening — routers, switches, firewalls (SNMP, L2 abuse)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-028-Compliance', 'Agent-030B-Report-Analysis', 'Agent-034-Exploitation-Chaining', 'Agent-035-Reporting'], expectedOutputs: ['Agent-052-Network-Device-Hardening-*.json'] },
+      // PHASE 22: ADVANCED DATABASE SECURITY (6 agents)
+      { phase: 22, name: 'Agent-053-NoSQL-Deep-Dive', description: 'NoSQL engine-specific injection & misconfiguration (MongoDB, Redis, Elasticsearch, Cassandra)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-045-Network-Segmentation', 'Agent-046-LoadBalancer-ReverseProxy', 'Agent-047-VPN-RemoteAccess', 'Agent-048-Container-Orchestration-Deep', 'Agent-049-Email-Infrastructure-Hardening', 'Agent-050-Backup-DR-Security', 'Agent-051-Physical-Virtual-Infra-Config', 'Agent-052-Network-Device-Hardening'], expectedOutputs: ['Agent-053-NoSQL-Deep-Dive-*.json'] },
+      { phase: 22, name: 'Agent-054-DB-Privilege-Replication-Audit', description: 'Database privilege, replication & audit-log security review', type: 'security-auditor', timeout: 3600, dependencies: ['Agent-045-Network-Segmentation', 'Agent-046-LoadBalancer-ReverseProxy', 'Agent-047-VPN-RemoteAccess', 'Agent-048-Container-Orchestration-Deep', 'Agent-049-Email-Infrastructure-Hardening', 'Agent-050-Backup-DR-Security', 'Agent-051-Physical-Virtual-Infra-Config', 'Agent-052-Network-Device-Hardening'], expectedOutputs: ['Agent-054-DB-Privilege-Replication-Audit-*.json'] },
+      { phase: 22, name: 'Agent-055-ORM-QueryBuilder-Injection', description: 'ORM & query-builder abstraction-layer injection (Hibernate, Sequelize, TypeORM)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-045-Network-Segmentation', 'Agent-046-LoadBalancer-ReverseProxy', 'Agent-047-VPN-RemoteAccess', 'Agent-048-Container-Orchestration-Deep', 'Agent-049-Email-Infrastructure-Hardening', 'Agent-050-Backup-DR-Security', 'Agent-051-Physical-Virtual-Infra-Config', 'Agent-052-Network-Device-Hardening'], expectedOutputs: ['Agent-055-ORM-QueryBuilder-Injection-*.json'] },
+      { phase: 22, name: 'Agent-056-DBaaS-Managed-Database-Security', description: 'Managed database service (DBaaS) configuration review — RDS, Cosmos DB, Cloud SQL', type: 'security-auditor', timeout: 3600, dependencies: ['Agent-045-Network-Segmentation', 'Agent-046-LoadBalancer-ReverseProxy', 'Agent-047-VPN-RemoteAccess', 'Agent-048-Container-Orchestration-Deep', 'Agent-049-Email-Infrastructure-Hardening', 'Agent-050-Backup-DR-Security', 'Agent-051-Physical-Virtual-Infra-Config', 'Agent-052-Network-Device-Hardening'], expectedOutputs: ['Agent-056-DBaaS-Managed-Database-Security-*.json'] },
+      { phase: 22, name: 'Agent-057-Database-Encryption-KeyManagement', description: 'Database encryption & key management review (TDE, KMS/HSM)', type: 'security-auditor', timeout: 3600, dependencies: ['Agent-045-Network-Segmentation', 'Agent-046-LoadBalancer-ReverseProxy', 'Agent-047-VPN-RemoteAccess', 'Agent-048-Container-Orchestration-Deep', 'Agent-049-Email-Infrastructure-Hardening', 'Agent-050-Backup-DR-Security', 'Agent-051-Physical-Virtual-Infra-Config', 'Agent-052-Network-Device-Hardening'], expectedOutputs: ['Agent-057-Database-Encryption-KeyManagement-*.json'] },
+      { phase: 22, name: 'Agent-058-DataWarehouse-BigData-Security', description: 'Data warehouse & big data platform security (Snowflake, BigQuery, Hadoop/Spark)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-045-Network-Segmentation', 'Agent-046-LoadBalancer-ReverseProxy', 'Agent-047-VPN-RemoteAccess', 'Agent-048-Container-Orchestration-Deep', 'Agent-049-Email-Infrastructure-Hardening', 'Agent-050-Backup-DR-Security', 'Agent-051-Physical-Virtual-Infra-Config', 'Agent-052-Network-Device-Hardening'], expectedOutputs: ['Agent-058-DataWarehouse-BigData-Security-*.json'] },
+      // PHASE 23: WEB, MOBILE & API COVERAGE EXTENSION (6 agents)
+      { phase: 23, name: 'Agent-059-WebAuthn-Passkey-Security', description: 'WebAuthn / FIDO2 passkey security (attestation, ceremony validation)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-053-NoSQL-Deep-Dive', 'Agent-054-DB-Privilege-Replication-Audit', 'Agent-055-ORM-QueryBuilder-Injection', 'Agent-056-DBaaS-Managed-Database-Security', 'Agent-057-Database-Encryption-KeyManagement', 'Agent-058-DataWarehouse-BigData-Security'], expectedOutputs: ['Agent-059-WebAuthn-Passkey-Security-*.json'] },
+      { phase: 23, name: 'Agent-060-PWA-ServiceWorker-Security', description: 'PWA / service worker security (cache poisoning, push abuse)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-053-NoSQL-Deep-Dive', 'Agent-054-DB-Privilege-Replication-Audit', 'Agent-055-ORM-QueryBuilder-Injection', 'Agent-056-DBaaS-Managed-Database-Security', 'Agent-057-Database-Encryption-KeyManagement', 'Agent-058-DataWarehouse-BigData-Security'], expectedOutputs: ['Agent-060-PWA-ServiceWorker-Security-*.json'] },
+      { phase: 23, name: 'Agent-061-CrossPlatform-Framework-Security', description: 'Cross-platform framework bridge security (React Native, Flutter, hybrid apps)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-053-NoSQL-Deep-Dive', 'Agent-054-DB-Privilege-Replication-Audit', 'Agent-055-ORM-QueryBuilder-Injection', 'Agent-056-DBaaS-Managed-Database-Security', 'Agent-057-Database-Encryption-KeyManagement', 'Agent-058-DataWarehouse-BigData-Security'], expectedOutputs: ['Agent-061-CrossPlatform-Framework-Security-*.json'] },
+      { phase: 23, name: 'Agent-062-Mobile-Supply-Chain-Security', description: 'Mobile app supply chain security (signing, SBOM, CI/CD pipeline)', type: 'security-auditor', timeout: 3600, dependencies: ['Agent-053-NoSQL-Deep-Dive', 'Agent-054-DB-Privilege-Replication-Audit', 'Agent-055-ORM-QueryBuilder-Injection', 'Agent-056-DBaaS-Managed-Database-Security', 'Agent-057-Database-Encryption-KeyManagement', 'Agent-058-DataWarehouse-BigData-Security'], expectedOutputs: ['Agent-062-Mobile-Supply-Chain-Security-*.json'] },
+      { phase: 23, name: 'Agent-063-API-Gateway-Deep-Dive', description: 'API gateway platform deep dive — Kong, Apigee, AWS/Azure API gateways', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-053-NoSQL-Deep-Dive', 'Agent-054-DB-Privilege-Replication-Audit', 'Agent-055-ORM-QueryBuilder-Injection', 'Agent-056-DBaaS-Managed-Database-Security', 'Agent-057-Database-Encryption-KeyManagement', 'Agent-058-DataWarehouse-BigData-Security'], expectedOutputs: ['Agent-063-API-Gateway-Deep-Dive-*.json'] },
+      { phase: 23, name: 'Agent-064-Webhook-Security', description: 'Webhook security (HMAC validation, replay, SSRF via callback URL)', type: 'penetration-tester', timeout: 3600, dependencies: ['Agent-053-NoSQL-Deep-Dive', 'Agent-054-DB-Privilege-Replication-Audit', 'Agent-055-ORM-QueryBuilder-Injection', 'Agent-056-DBaaS-Managed-Database-Security', 'Agent-057-Database-Encryption-KeyManagement', 'Agent-058-DataWarehouse-BigData-Security'], expectedOutputs: ['Agent-064-Webhook-Security-*.json'] },
     ];
   }
 
@@ -550,7 +366,7 @@ class PenetrationTestOrchestrator {
   async executeAll() {
     console.log('\n╔════════════════════════════════════════════════════════════════════════════╗');
     console.log('║     PENETRATION TESTING ORCHESTRATOR - FULL EXECUTION                      ║');
-    console.log('║     86 Agents | 30 Phases | Claude Code Agent Dispatch                     ║');
+    console.log('║     106 Agents | 23 Categories | Claude Code Agent Dispatch                ║');
     console.log('╚════════════════════════════════════════════════════════════════════════════╝\n');
 
     this.validatePrerequisites();
@@ -656,14 +472,25 @@ class PenetrationTestOrchestrator {
   }
 
   /**
-   * Execute single agent via Claude API
+   * Placeholder for direct/standalone execution of a single agent.
+   *
+   * By design, this framework does NOT call the Anthropic API from this
+   * Node process. Real agent dispatch happens through a live Claude Code
+   * session: the user asks Claude Code to run the test, and Claude Code
+   * itself reads each orchestrator/agents/Agent-XXX.md spec file and
+   * dispatches it via its own Agent tool — see
+   * docs/Claude-Code-Integration.md for the exact operating model. That
+   * session then calls ExecutionContext.addFindings() (which runs every
+   * finding through the real validation-gate.js 4-layer check) and, when
+   * an engagement completes, generateFinalReport() below.
+   *
+   * This method exists only so `node orchestrator/Orchestrator.js <name>`
+   * can be run standalone (e.g. in CI, or to exercise state/resume logic)
+   * without a live session; it returns an empty result rather than
+   * fabricating findings.
    */
   async executeAgent(agent) {
-    // Get context for this agent
     const context = this.context.getContextForPhase(agent.phase);
-
-    // TODO: Integrate with Claude API here
-    // For now, return mock result
     return {
       agentName: agent.name,
       findings: [],
@@ -684,17 +511,34 @@ class PenetrationTestOrchestrator {
   }
 
   /**
-   * Get phase name from number
+   * Get phase name from number — matches the 23-category catalog in
+   * docs/How-To-Use-Agents-Guide.html's Agent Explorer.
    */
   getPhaseName(phase) {
     const names = {
-      1: 'Reconnaissance', 2: 'Surface-Level Exploitation',
-      3: 'Deep Exploitation', 4: 'Post-Exploitation',
-      5: 'Source Code & Git Forensics', 6: 'Cloud Exploitation',
-      7: 'Advanced Authentication', 8: 'Supply Chain & Compliance',
-      9: 'Business Logic', 10: 'Rate Limiting & Brute Force',
-      11: 'Advanced Protocols', 12: 'Exploitation Chaining',
-      13: 'Reporting & Documentation'
+      1: 'Reconnaissance & Discovery',
+      2: 'Web Application Testing',
+      3: 'API Security',
+      4: 'Authentication & Authorization',
+      5: 'Infrastructure, Cloud & AI Surface',
+      6: 'Deep Exploitation & RCE',
+      7: 'Post-Exploitation',
+      8: 'Rate-Limiting, Protocol Abuse & Business Logic',
+      9: 'Network Protocols',
+      10: 'Mobile Security',
+      11: 'Wireless Security',
+      12: 'Windows & Linux Exploitation',
+      13: 'Reverse Engineering & Forensics',
+      14: 'Cloud Platforms — AWS / GCP / Azure',
+      15: 'Defense Evasion',
+      16: 'CI/CD, Dependencies & IaC',
+      17: 'Cryptography',
+      18: 'IoT & Firmware',
+      19: 'Database Security',
+      20: 'Compliance, Chaining & Reporting',
+      21: 'Advanced Infrastructure Security',
+      22: 'Advanced Database Security',
+      23: 'Web, Mobile & API Coverage Extension'
     };
     return names[phase] || `Phase ${phase}`;
   }

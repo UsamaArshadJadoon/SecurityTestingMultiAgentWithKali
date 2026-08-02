@@ -1,0 +1,18 @@
+{
+  "name": "security-testing-multiagent-kali",
+  "version": "2.0.0",
+  "description": "Multi-agent penetration testing orchestration framework driving Kali Linux tools via Claude Code",
+  "main": "orchestrator/Orchestrator.js",
+  "scripts": {
+    "orchestrate": "node orchestrator/Orchestrator.js",
+    "report": "node orchestrator/report-generator.js"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "ajv": "^8.17.1"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "license": "Apache-2.0"
+}

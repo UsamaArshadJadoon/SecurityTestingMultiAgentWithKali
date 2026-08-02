@@ -37,36 +37,25 @@ cd SecurityTestingMultiAgentWithKali
 
 ### Step 2: Create Engagement
 ```bash
-# Create folder structure for new client
+# Interactive — asks for the target URL, each authorized test-user role's
+# username/password, and authorization confirmation; saves config.yaml,
+# scope.md, and .env automatically
 bash scripts/setup-engagement.sh my-client-name
-
-# Edit configuration
-nano engagements/my-client-name/config.yaml
-nano engagements/my-client-name/scope.md
 ```
 
 ### Step 3: Start Orchestration in Claude Code
 
-**Option A: Use Claude Code's Prompt to Start Sequential Agents**
+**Option A: Ask Claude Code to run the full test hands-off**
 
 In Claude Code, ask me:
 ```
-Start penetration testing orchestration for my-client-name
-
-Phase 1: Reconnaissance
-- Run recon-agent
-- Map attack surface
-- Discover API endpoints
-
-Phase 2: Surface-Level Testing
-- Run web-pentest-agent
-- Run api-security-agent  
-- Run authn-authz-agent
-- Run infra-agent
-- Run cloud-container-agent
-
-[etc. for all 33 phases]
+Run full penetration test for my-client-name
 ```
+
+This follows the exact AUTONOMOUS OPERATING PROTOCOL described above —
+Claude Code dispatches all 106 agents across 23 categories in order, running
+every finding through the real validation gate, pausing only for the one
+CVSS ≥ 7.0 sign-off gate, then generates the report.
 
 **Option B: Use Shell Script to Coordinate Agents**
 
@@ -98,6 +87,13 @@ I will:
 ---
 
 ## 📋 AGENT SPECIFICATIONS (106 Agents)
+
+> **Note:** the bolded names below (`recon-agent`, `web-pentest-agent`, etc.) are
+> conceptual role labels for this section's narrative, not real filenames — the
+> exact spec file to read and dispatch for each role is named beside it or in
+> the AUTONOMOUS OPERATING PROTOCOL section above. The authoritative,
+> file-by-file 106-agent directory lives in
+> [orchestrator/agents/README.md](../orchestrator/agents/README.md).
 
 ### PHASE 1: Reconnaissance (1 agent)
 **recon-agent**
@@ -247,7 +243,7 @@ bash scripts/setup-engagement.sh acme-corp
 
 **Start with Phase 1 in Claude Code:**
 
-Me: "Please run the recon-agent for acme-corp engagement using the orchestrator/agents/Agent-001-Reconnaissance.md specification"
+Me: "Please run Agent-001-Reconnaissance for the acme-corp engagement using the orchestrator/agents/Agent-001-Reconnaissance.md specification"
 
 I will:
 1. Read the agent specification
@@ -258,71 +254,97 @@ I will:
 
 ---
 
-## 🔄 SEQUENTIAL WORKFLOW IN CLAUDE CODE
+## 🔄 AUTONOMOUS OPERATING PROTOCOL — "Run full penetration test for acme-corp"
 
-### You: "Run full penetration test for acme-corp"
+This is the exact hands-off protocol Claude Code follows once you give that
+instruction. No API key or external service is involved — Claude Code's own
+Agent tool IS the dispatch mechanism; `Orchestrator.js` only tracks state and
+runs the real validation gate. Claude Code does not stop to ask you anything
+during this loop except the one explicit sign-off gate below.
 
-I will execute sequentially in Claude Code:
+1. **Load state.** Read `engagements/acme-corp/config.yaml`, `scope.md`, `.env`,
+   and `.orchestrator-state.json` (if a prior run left one) to know what's
+   already completed — resuming skips agents already marked complete.
+2. **Confirm the scope gate.** Refuse to proceed unless `scope.md` contains
+   the exact line `authorization.confirmed: true` (already true if the
+   engagement was created via `setup-engagement.sh`'s interactive intake).
+3. **For each agent in `orchestrator/Orchestrator.js`'s `defineAgents()` list**,
+   in phase order (1 → 23, covering all 106 real spec files in
+   `orchestrator/agents/*.md`):
+   - Read that agent's full spec file as the prompt.
+   - Call the **Agent tool** with `subagent_type: "penetration-tester"` or
+     `"security-auditor"` (per that agent's `type`), passing the spec plus
+     the relevant slice of `execution_context` (e.g. the surface map from
+     recon, or confirmed findings from an earlier phase).
+   - The subagent drives real Kali tools over SSH via
+     `orchestrator/kali-wrapper.sh` and returns findings as JSON.
+   - **Validate before handoff:** every finding is run through
+     `orchestrator/validation-gate.js`'s 4 gates (Format → Evidence →
+     Technical Accuracy → Remediation) *before* it's added to
+     `execution_context` or handed to the next agent. A finding that fails
+     any gate is rejected — logged with the specific gate and reason, not
+     silently dropped — and never reaches the report.
+   - Mark the agent complete in `.orchestrator-state.json` and move to the
+     next one. No pause, no confirmation needed at this step.
+4. **The one sign-off gate:** if a validated finding scores CVSS ≥ 7.0
+   (High/Critical), pause and ask you to approve or reject it before
+   continuing. This is the only point requiring your input between intake
+   and the final report.
+5. **Generate the report.** Once every agent has run, call
+   `orchestrator/report-generator.js`'s `generateReport()` to render
+   `report/report.html` from every validated finding in
+   `evidence/findings/*.json`.
 
 ```
-PHASE 1: Reconnaissance
-  └─> Run recon-agent
-      └─ Findings saved
-      
-PHASE 2: Surface Testing (6 agents, sequential)
-  ├─> Run web-pentest-agent (uses recon output)
-  ├─> Run api-security-agent (uses recon output)
-  ├─> Run authn-authz-agent (uses recon output)
-  ├─> Run infra-agent (uses recon output)
-  ├─> Run cloud-container-agent (uses recon + infra)
-  └─> Run ai-llm-agent (uses recon output)
-
-PHASE 3: Deep Exploitation (7 agents, sequential)
-  ├─> Run ssrf-exploitation-agent (uses web + api findings)
-  ├─> Run request-smuggling-agent (uses web findings)
-  ├─> Run file-upload-rce-agent (uses web findings)
-  ├─> Run path-traversal-agent (uses web findings)
-  ├─> Run xxe-injection-agent (uses api findings)
-  ├─> Run deserialization-rce-agent (uses api findings)
-  └─> Run ssti-exploitation-agent (uses web findings)
-
-[... Phases 4-13 ...]
-
-PHASE 13: Reporting
-  └─> Run reporting-agent
-      └─ Generate report.html
+PHASE 1  (3 agents)  Reconnaissance & Discovery      → Agent-001*
+PHASE 2  (8 agents)  Web Application Testing         → Agent-002*
+PHASE 3  (8 agents)  API Security                    → Agent-003*
+PHASE 4  (3 agents)  Authentication & Authorization   → Agent-004*, Agent-024
+PHASE 5  (3 agents)  Infrastructure, Cloud & AI       → Agent-005, 006, 007
+PHASE 6  (7 agents)  Deep Exploitation & RCE          → Agent-008, 009, 0010-0014
+[... continues through Phase 23 ...]
+PHASE 23 (6 agents)  Web/Mobile/API Coverage Extension → Agent-059 – Agent-064
+  └─> generateFinalReport() → report.html
 ```
+
+See `orchestrator/agents/README.md` for the complete, authoritative
+phase-by-phase file listing, and `docs/How-To-Use-Agents-Guide.html`'s Agent
+Explorer for the same 106-agent catalog, searchable by name/tool/topic.
 
 ---
 
 ## 📊 FINDING FORMAT
 
-All findings saved as JSON following `templates/finding-schema.json`:
+All findings saved as JSON following `templates/finding-schema.json` exactly
+(this is the real, authoritative shape — every field below is required unless
+noted otherwise):
 
 ```json
 {
-  "id": "WEB-001",
+  "finding_id": "FINDING-0001",
+  "agent": "Agent-002-Web-Pentest",
   "title": "Clickjacking via Missing X-Frame-Options",
-  "description": "...",
-  "severity": "high",
-  "cvss_v3_1": {
-    "score": 6.5,
-    "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
-  },
-  "status": "candidate",
-  "agent": "web-pentest-agent",
+  "description": "The application does not set X-Frame-Options or a frame-ancestors CSP directive, allowing the page to be embedded in a malicious iframe for clickjacking attacks.",
+  "severity": "High",
+  "cvss_score": 6.5,
+  "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+  "affected_component": "GET / (all pages)",
   "evidence": {
-    "proof_of_concept": "...",
-    "request": {...},
-    "response": {...},
-    "tool_used": "burp-repeater",
-    "screenshots": [...]
+    "proof_of_concept": "Embedded the login page in an <iframe> on an attacker-controlled page; it rendered without any framing restriction.",
+    "request": "GET / HTTP/1.1\nHost: staging.acme-corp.com",
+    "response": "HTTP/1.1 200 OK\n(no X-Frame-Options or CSP frame-ancestors header present)",
+    "screenshots": []
   },
-  "impact": {...},
-  "remediation": {...},
-  "owasp": ["A01:2021 – Broken Access Control"],
-  "cwe": [{"id": "CWE-693", "title": "Protection Mechanism Failure"}],
-  "timestamp": "2026-07-29T12:00:00Z"
+  "remediation": {
+    "description": "Set X-Frame-Options: DENY (or SAMEORIGIN) and/or a CSP frame-ancestors directive on every response.",
+    "vulnerable_code": "// no frame-protection header set",
+    "fixed_code": "res.setHeader('X-Frame-Options', 'DENY');",
+    "effort": "1-2 hours"
+  },
+  "owasp_category": "A01:2021 - Broken Access Control",
+  "cwe_id": "CWE-1021",
+  "validation_status": "validated",
+  "validation_date": "2026-07-29T12:00:00Z"
 }
 ```
 
