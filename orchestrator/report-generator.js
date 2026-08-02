@@ -14,6 +14,7 @@
 const fs = require('fs');
 const path = require('path');
 const YAML = require('js-yaml');
+const { validateFinding } = require('./validation-gate.js');
 
 // Set by generateReport() at call time — supports both CLI use (name from
 // argv) and programmatic use (name passed as a parameter, e.g. from
@@ -90,15 +91,32 @@ function loadFindings() {
   if (!fs.existsSync(FINDINGS_PATH)) return [];
   const files = fs.readdirSync(FINDINGS_PATH).filter(f => f.endsWith('.json'));
   const findings = [];
+  let rejectedCount = 0;
   files.forEach(f => {
+    let raw;
     try {
-      const raw = JSON.parse(fs.readFileSync(path.join(FINDINGS_PATH, f), 'utf8'));
-      if (raw.validation_status === 'rejected') return; // rejected findings never reach the report
-      findings.push(raw);
+      raw = JSON.parse(fs.readFileSync(path.join(FINDINGS_PATH, f), 'utf8'));
     } catch (e) {
       console.error(`⚠️  Skipping invalid finding file ${f}: ${e.message}`);
+      return;
     }
+    // Defensive re-validation: never trust a pre-set validation_status field.
+    // A finding that reaches this directory by any path other than
+    // Orchestrator.js's addFindings() (e.g. an agent writing JSON directly)
+    // has not necessarily cleared the 4-layer gate yet — re-check here so
+    // the report's "0% false positive" guarantee holds regardless of how
+    // the file got there.
+    const result = validateFinding(raw);
+    if (!result.valid) {
+      rejectedCount++;
+      console.error(`⚠️  ${f} rejected at ${result.failedAt} gate: ${result.errors.join('; ')}`);
+      return;
+    }
+    findings.push({ ...raw, validation_status: 'validated' });
   });
+  if (rejectedCount) {
+    console.log(`   ${rejectedCount} finding(s) failed validation and were excluded from the report — see stderr above.`);
+  }
   findings.sort((a, b) => {
     const sa = SEVERITY_ORDER.indexOf(a.severity), sb = SEVERITY_ORDER.indexOf(b.severity);
     if (sa !== sb) return sa - sb;
