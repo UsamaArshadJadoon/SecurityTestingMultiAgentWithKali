@@ -29,7 +29,7 @@
       "type": "string",
       "description": "Detailed vulnerability description",
       "minLength": 20,
-      "maxLength": 3000
+      "maxLength": 6000
     },
     "severity": {
       "type": "string",
