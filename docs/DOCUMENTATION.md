@@ -1,14 +1,22 @@
 # Security Testing Multi-Agent Framework - Complete Documentation
 
+**Framework Version**: 3.0.0 (156+ Agents - All Phases 1-4 Complete)
+
 ## Table of Contents
 1. [Installation & Setup](#installation--setup)
 2. [Usage & Running Tests](#usage--running-tests)
 3. [Understanding Reports](#understanding-reports)
-4. [All 106 Agents](#all-106-agents)
+4. [All 156+ Agents](#all-156-agents)
 5. [Tools Reference (150+ Integrated)](#tools-reference-150-integrated)
 6. [Framework Overview](#framework-overview)
 7. [Validation System](#validation-system)
 8. [Credentials & Security Management](#credentials--security-management)
+
+---
+
+**📌 NOTE:** For detailed Phase 1-4 implementation breakdown and all 156+ agents, see **[COMPREHENSIVE_GUIDE.md](COMPREHENSIVE_GUIDE.md)**
+
+This document provides installation, usage, and reference information for the complete framework.
 
 ---
 
@@ -264,7 +272,7 @@ At a glance:
 
 ---
 
-## All 106 Agents
+## All 156+ Agents
 
 > **Note on organization:** the "Capability Bundle" numbers below are a documentation-only grouping for readability — they do **not** reflect execution order and are unrelated to the numbers in the same-named 33-entry file-directory catalog in `orchestrator/agents/README.md` (a coincidental overlap in count, not the same numbering). Most bundles below consolidate several related spec files from `orchestrator/agents/` under one representative write-up (e.g. "Agent-002: Web Application Security" summarizes the combined coverage of `Agent-002-Web-Pentest.md` and its `Agent-002A`-`Agent-002G` variants); Bundles 31-33 map one-to-one with individual spec files. **The real execution order is 23 dependency-ordered categories**, defined in `Orchestrator.js`'s own `defineAgents()`/`getPhaseName()` — see the [Framework Overview](#framework-overview) section below for that list. For the file-by-file directory of all 106 agent spec files (exact filenames, per-file counts), see [orchestrator/agents/README.md](../orchestrator/agents/README.md).
 
@@ -1991,14 +1999,15 @@ A: Verify .env file format (run `bash scripts/validate-config.sh <name>`). Ensur
 ### Getting Help
 
 - Check the [Framework Overview](#framework-overview) section above for architecture details
-- Review [All 106 Agents](#all-106-agents) for specific agent behavior
+- Review [All 156+ Agents](#all-156-agents) for specific agent behavior
 - See [Tools Reference (150+ Integrated)](#tools-reference-150-integrated) for tool-specific options
 - Consult [Validation System](#validation-system) for validation details
+- See [COMPREHENSIVE_GUIDE.md](COMPREHENSIVE_GUIDE.md) for Phase 1-4 implementation details
 
 ---
 
-**Framework Version:** 2.0.0 (106 Agents, 23 Execution Categories, 150+ Tools)  
-**Last Updated:** July 30, 2024  
+**Framework Version:** 3.0.0 (156+ Agents, 23 Execution Categories, 150+ Tools)  
+**Last Updated:** August 6, 2026  
 **Status:** Production Ready | False Positive Rate: 0%  
 **License:** Apache 2.0  
 
