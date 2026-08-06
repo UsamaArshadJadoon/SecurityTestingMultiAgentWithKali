@@ -120,6 +120,7 @@ start engagements/my-client/report/report.html
 **Everything you need in one beautiful, professional, fully interactive page!**
 
 ### Comprehensive Documentation
+
 | Document | Contains |
 |----------|----------|
 | **[DOCUMENTATION.md](docs/DOCUMENTATION.md)** | Everything: Installation, Usage, Reports, All 156+ Agents, 150+ Tools, Framework Overview, Validation System, Security Management |
