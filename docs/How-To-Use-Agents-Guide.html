@@ -330,8 +330,8 @@
 
 <div class="wrap">
   <div class="kicker"><span class="dot"></span>Agent operator's guide · live &amp; interactive</div>
-  <h1>Running the 106 agents — from git clone to the final HTML report</h1>
-  <p class="sub">Everything you need to <b>initiate a test</b>, <b>supply the target URL &amp; credentials</b>, and understand <b>exactly which of the 106 agents run and when</b> — with a full searchable agent explorer at the bottom. Follow the numbered steps top to bottom for your first run.</p>
+  <h1>Running the 156+ agents — from git clone to the final HTML report</h1>
+  <p class="sub">Everything you need to <b>initiate a test</b>, <b>supply the target URL &amp; credentials</b>, and understand <b>exactly which of the 156+ agents run and when</b> — with a full searchable agent explorer at the bottom. Follow the numbered steps top to bottom for your first run.</p>
 
   <div class="stats" id="stats">
     <div class="stat"><b data-count="106">0</b><span>Agents</span></div>
@@ -414,7 +414,7 @@ cd SecurityTestingMultiAgentWithKali</code></pre></div></div>
           <div><b>The target URL</b> you're authorized to test, plus any test login credentials</div>
           <div><b>Written authorization</b> to test the target — the framework refuses to run without it</div>
         </div>
-        <div class="note" style="margin-top:14px"><b>The key thing to understand</b>There is no external API and no separate "agent server". The 106 agents are <b>Claude Code subagent calls</b> — when you ask Claude Code to run the framework, it reads a plain-text specification file for each agent (in <code class="k">orchestrator/agents/</code>) and dispatches it via Claude Code's built-in <code class="k">Agent</code> tool, using <code class="k">penetration-tester</code> or <code class="k">security-auditor</code> as the subagent type. The Node scripts just track state and validate config — they do not call any AI themselves.</div>
+        <div class="note" style="margin-top:14px"><b>The key thing to understand</b>There is no external API and no separate "agent server". The 156+ agents are <b>Claude Code subagent calls</b> — when you ask Claude Code to run the framework, it reads a plain-text specification file for each agent (in <code class="k">orchestrator/agents/</code>) and dispatches it via Claude Code's built-in <code class="k">Agent</code> tool, using <code class="k">penetration-tester</code> or <code class="k">security-auditor</code> as the subagent type. The Node scripts just track state and validate config — they do not call any AI themselves.</div>
         <p style="margin:16px 0 0;color:var(--muted);font-size:.88rem">The same journey, drawn out:</p>
         <div class="arch">
           <div class="archnode"><div class="an-ic">🧑‍💻</div><h4>You, in Claude Code</h4><p>"Run full penetration test for acme-corp"</p></div>
@@ -443,7 +443,7 @@ cd SecurityTestingMultiAgentWithKali</code></pre></div></div>
             <div class="tseg" style="flex:25;background:var(--teal2)" title="Step 3: Install & verify Kali tools (~20-30 min)"></div>
             <div class="tseg" style="flex:12.5;background:var(--blue)" title="Step 4: SSH connect + health check (~10-15 min)"></div>
             <div class="tseg" style="flex:20;background:var(--purple)" title="Steps 5-6: Engagement (interactive: URL/roles/authorization), validate (~15-25 min)"></div>
-            <div class="tseg" style="flex:12.5;background:#6a5bc4" title="Step 7: Orient with the 106 agents, first time (~10-15 min)"></div>
+            <div class="tseg" style="flex:12.5;background:#6a5bc4" title="Step 7: Orient with the 156+ agents, first time (~10-15 min)"></div>
             <div class="tseg" style="flex:900;background:var(--amber);color:#231a04" title="Step 8: Full 106-agent test run — a live Claude Code session dispatches each agent via its Agent tool; no fixed duration, no background mode"><b>Step 8 — Full 106-agent run (live session, variable duration)</b></div>
             <div class="tseg" style="flex:37.5;background:var(--green)" title="Steps 11-12: Monitor, approve criticals, review report (~30-45 min)"></div>
           </div>
@@ -457,14 +457,14 @@ cd SecurityTestingMultiAgentWithKali</code></pre></div></div>
               <tr><td class="c">3</td><td>Install &amp; verify 150+ Kali tools (one-time per Kali box)</td><td class="c">~20–30 min</td></tr>
               <tr><td class="c">4</td><td>Connect over SSH, run the health check</td><td class="c">~10–15 min</td></tr>
               <tr><td class="c">5–6</td><td>Create &amp; configure engagement (interactive: URL, roles, authorization), validate</td><td class="c">~15–25 min</td></tr>
-              <tr><td class="c">7</td><td>Orient yourself with the 106 agents (first time only)</td><td class="c">~10–15 min</td></tr>
+              <tr><td class="c">7</td><td>Orient yourself with the 156+ agents (first time only)</td><td class="c">~10–15 min</td></tr>
               <tr><td class="c">8–10</td><td><b style="color:var(--amber)">Full 106-agent test run</b> (recon → surface testing → deep exploitation → specialized/platform testing → reporting) — a live Claude Code session, driving each agent turn by turn</td><td class="c" style="color:var(--amber)"><b>Variable — no fixed duration</b></td></tr>
               <tr><td class="c">11–12</td><td>Monitor progress, approve critical findings, review the report</td><td class="c">~30–45 min</td></tr>
             </tbody>
           </table>
         </div>
-        <div class="total-banner"><span class="tb-ic">⏱️</span><b>Grand total end-to-end: no fixed number</b><span>— setup and review together are well under 2 hours; Step 8 itself scales with how many of the 106 agents you dispatch in the session and how long each one's real tooling takes, and there's no unattended/background mode to leave it running in.</span></div>
-        <div class="tip"><b>Why this can take a long time</b>106 agents run sequentially (within dependency order) because later ones depend on earlier findings (Step 8's <code class="k">execution_context</code>), and many individual agents genuinely take real wall-clock time against a live target — password/hash cracking (hashcat, john), WiFi handshake capture, full port/vuln scans, firmware extraction, and thorough manual-style exploitation attempts don't finish in seconds. A live Claude Code session drives every agent, so a full 106-agent pass means staying engaged with that session throughout — there's no way to kick it off and walk away. If that's not practical in one sitting, running a smaller, targeted subset of agents (see below) across multiple sessions works fine, since each agent's output is written to disk as it completes.</div>
+        <div class="total-banner"><span class="tb-ic">⏱️</span><b>Grand total end-to-end: no fixed number</b><span>— setup and review together are well under 2 hours; Step 8 itself scales with how many of the 156+ agents you dispatch in the session and how long each one's real tooling takes, and there's no unattended/background mode to leave it running in.</span></div>
+        <div class="tip"><b>Why this can take a long time</b>156+ agents run sequentially (within dependency order) because later ones depend on earlier findings (Step 8's <code class="k">execution_context</code>), and many individual agents genuinely take real wall-clock time against a live target — password/hash cracking (hashcat, john), WiFi handshake capture, full port/vuln scans, firmware extraction, and thorough manual-style exploitation attempts don't finish in seconds. A live Claude Code session drives every agent, so a full 106-agent pass means staying engaged with that session throughout — there's no way to kick it off and walk away. If that's not practical in one sitting, running a smaller, targeted subset of agents (see below) across multiple sessions works fine, since each agent's output is written to disk as it completes.</div>
       </div>
 
       <!-- STEP 1 -->
@@ -479,7 +479,7 @@ git --version</code></pre></div>
 Python 3.11.6
 git version 2.43.0</div>
         <div class="why"><b>Why this matters</b><p>Node 14+ is what runs <code class="k">orchestrator/Orchestrator.js</code> — the small engine that tracks which agents have finished and writes <code class="k">.orchestrator-state.json</code> so a run can resume (Step 13). Python 3.8+ is what several of the 150+ Kali tools the agents drive are written in or depend on (sqlmap, many OSINT scripts). Git is needed both to clone the repo and, later, for the git-forensics-style agent that inspects repository history. Skipping this check doesn't fail loudly — an old Node version tends to surface later as a confusing YAML/JSON parsing error deep into a run that can last most of a day, which is why it's worth 10 seconds now.</p></div>
-        <div class="tip"><b>If a command says "not found"</b>Install the missing tool: <a href="https://nodejs.org">nodejs.org</a> (Node 14+), <a href="https://python.org">python.org</a> (Python 3.8+), <a href="https://git-scm.com">git-scm.com</a> (Git). On Windows, run these in Git Bash. Make sure Claude Code itself is also installed and signed in — that's the piece that actually dispatches the 106 agents.</div>
+        <div class="tip"><b>If a command says "not found"</b>Install the missing tool: <a href="https://nodejs.org">nodejs.org</a> (Node 14+), <a href="https://python.org">python.org</a> (Python 3.8+), <a href="https://git-scm.com">git-scm.com</a> (Git). On Windows, run these in Git Bash. Make sure Claude Code itself is also installed and signed in — that's the piece that actually dispatches the 156+ agents.</div>
       </section>
 
       <!-- STEP 2 -->
@@ -619,13 +619,13 @@ engagements/acme-corp/report/</div>
         <span class="badge pt">penetration-tester</span> active exploitation agents (recon, web, API, exploitation, mobile, wireless, post-exploitation)
         <br><span class="badge sa">security-auditor</span> assessment/compliance agents (dependency scanning, compliance checks, finding aggregation, final reporting)
         <div class="note"><b>What a spec file actually contains</b>Open any file, e.g. <code class="k">orchestrator/agents/Agent-001-Reconnaissance.md</code> — it reads like a briefing: Overview, Tools Integrated, Testing Approach (step by step), Validation Requirements, CVSS scoring guidance. When an agent is dispatched, this file's content becomes the <code class="k">prompt</code> passed to the Agent tool.</div>
-        <div class="why"><b>Why this matters</b><p>Each of the 106 agents runs in its own isolated Agent-tool context — it doesn't see the other 105 agents' reasoning or conversation, only whatever slice of <code class="k">execution_context</code> is explicitly handed to it (e.g. the surface map, or a prior phase's findings). That isolation is deliberate: it keeps every agent narrowly focused on one job instead of one giant, unfocused 106-topic conversation, and it's what makes running just one agent (Step 10) meaningful — you get the same quality of output whether it runs alone or as part of the full 106.</p></div>
+        <div class="why"><b>Why this matters</b><p>Each of the 156+ agents runs in its own isolated Agent-tool context — it doesn't see the other 105 agents' reasoning or conversation, only whatever slice of <code class="k">execution_context</code> is explicitly handed to it (e.g. the surface map, or a prior phase's findings). That isolation is deliberate: it keeps every agent narrowly focused on one job instead of one giant, unfocused 106-topic conversation, and it's what makes running just one agent (Step 10) meaningful — you get the same quality of output whether it runs alone or as part of the full 106.</p></div>
       </section>
 
       <!-- STEP 8 -->
       <section class="step reveal" id="s8">
-        <div class="st-h"><div class="st-n">8</div><h2>Initiate testing — run all 106 agents</h2></div>
-        <p class="does"><b>What this does:</b> tells Claude Code to dispatch all 106 agents in sequence, letting output from earlier agents feed later ones. <b>This is the command that starts everything.</b></p>
+        <div class="st-h"><div class="st-n">8</div><h2>Initiate testing — run all 156+ agents</h2></div>
+        <p class="does"><b>What this does:</b> tells Claude Code to dispatch all 156+ agents in sequence, letting output from earlier agents feed later ones. <b>This is the command that starts everything.</b></p>
         <div class="lbl">In Claude Code, type</div>
         <div class="cmd"><pre><code>Run full penetration test for acme-corp</code></pre></div>
         <p>What happens under the hood, per agent:</p>
@@ -671,7 +671,7 @@ engagements/acme-corp/report/</div>
       <!-- STEP 10 -->
       <section class="step reveal" id="s10">
         <div class="st-h"><div class="st-n">10</div><h2>Run a single agent or targeted phase (alternative to the full run)</h2></div>
-        <p class="does"><b>What this does:</b> instead of all 106 agents, dispatch just the ones you need — useful for re-testing one area, a quick spot-check, or picking up where a partial run left off.</p>
+        <p class="does"><b>What this does:</b> instead of all 156+ agents, dispatch just the ones you need — useful for re-testing one area, a quick spot-check, or picking up where a partial run left off.</p>
         <div class="lbl">Example prompts you can type in Claude Code</div>
         <div class="cmd"><pre><code>Run the recon agent (Agent-001) for acme-corp and show me the surface map
 
@@ -680,7 +680,7 @@ Run Agent-002A-SQL-Injection.md against acme-corp's discovered endpoints
 Re-run only the API security agents (Agent-003x) for acme-corp using
 the existing surface map from evidence/findings/</code></pre></div>
         <p>Claude Code still: loads that agent's spec file, calls the Agent tool with the right subagent type, saves findings under the same <code class="k">evidence/findings/</code> folder, and runs them through the same 4-layer validation gate — it just skips the agents you didn't ask for.</p>
-        <div class="why"><b>Why this matters</b><p>The full 106-agent run and a single targeted agent use exactly the same pipeline (spec → Agent tool → findings → validation gate) — targeted runs aren't a lighter-weight shortcut, they just narrow the scope. The most common real use: a developer fixes the SQL injection Agent-002A found, and you want to confirm the fix without re-running all 106 agents and re-hitting the target again. It's also useful for a fast pre-check on one area (e.g. just auth) before committing to a full, actively-driven engagement.</p></div>
+        <div class="why"><b>Why this matters</b><p>The full 106-agent run and a single targeted agent use exactly the same pipeline (spec → Agent tool → findings → validation gate) — targeted runs aren't a lighter-weight shortcut, they just narrow the scope. The most common real use: a developer fixes the SQL injection Agent-002A found, and you want to confirm the fix without re-running all 156+ agents and re-hitting the target again. It's also useful for a fast pre-check on one area (e.g. just auth) before committing to a full, actively-driven engagement.</p></div>
         <div class="tip"><b>Not sure which agent name to use?</b>Search the <a href="#" onclick="document.getElementById('expSearch').scrollIntoView({behavior:'smooth'});return false;">Agent Explorer</a> below by topic (e.g. "JWT", "kubernetes") to find the exact filename.</div>
       </section>
 
@@ -766,7 +766,7 @@ Run full penetration test for acme-corp</code></pre></div>
       </section>
 
       <!-- AGENT EXPLORER -->
-      <h2 class="section-title reveal">Agent Explorer — all 106 agents</h2>
+      <h2 class="section-title reveal">Agent Explorer — all 156+ agents</h2>
       <p class="section-desc reveal">Search by name/topic, or filter by category and subagent type. Generated directly from the 106 real spec files in <code class="k">orchestrator/agents/*.md</code> — this is the complete, accurate catalog behind Step 7.</p>
       <div class="explorer reveal">
         <div class="exp-controls">
@@ -812,7 +812,7 @@ Run full penetration test for acme-corp</code></pre></div>
       <!-- NEXT -->
       <h2 class="section-title reveal">Where to go next</h2>
       <div class="phasegrid reveal">
-        <div class="phasecard"><div class="pn">Full reference</div><div class="pt"><a href="https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali/blob/main/docs/DOCUMENTATION.md" target="_blank" rel="noopener">DOCUMENTATION.md</a></div><div class="pd">All 106 agents, 150+ tools, validation system, security management</div></div>
+        <div class="phasecard"><div class="pn">Full reference</div><div class="pt"><a href="https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali/blob/main/docs/DOCUMENTATION.md" target="_blank" rel="noopener">DOCUMENTATION.md</a></div><div class="pd">All 156+ agents, 150+ tools, validation system, security management</div></div>
         <div class="phasecard"><div class="pn">Interactive</div><div class="pt"><a href="Master-Documentation-Portal.html">Master-Documentation-Portal.html</a></div><div class="pd">Searchable agent directory, phases, FAQ</div></div>
         <div class="phasecard"><div class="pn">Integration detail</div><div class="pt"><a href="https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali/blob/main/docs/Claude-Code-Integration.md" target="_blank" rel="noopener">Claude-Code-Integration.md</a></div><div class="pd">Exactly how Claude Code's Agent tool is called per phase</div></div>
       </div>
@@ -822,7 +822,7 @@ Run full penetration test for acme-corp</code></pre></div>
 
 <footer>
   <div class="mk">🤖</div>
-  <span><b>Security Testing Multi-Agent Framework</b> · How to Use the Agents · 106 agents · 23 execution categories · 150+ tools · Developed by Usama Arshad Jadoon.</span>
+  <span><b>Security Testing Multi-Agent Framework</b> · How to Use the Agents · 156+ agents · 23 execution categories · 150+ tools · Developed by Usama Arshad Jadoon.</span>
 </footer>
 
 <script>
@@ -860,7 +860,7 @@ Run full penetration test for acme-corp</code></pre></div>
     ["4","bash orchestrator/kali-health-check.sh","Verify Kali connectivity"],
     ["5","bash scripts/setup-engagement.sh acme-corp","Interactive: create engagement, set URL/roles, confirm authorization"],
     ["6","bash scripts/validate-config.sh acme-corp","Validate configuration"],
-    ["8","Run full penetration test for acme-corp","(In Claude Code) initiate testing — dispatch all 106 agents"],
+    ["8","Run full penetration test for acme-corp","(In Claude Code) initiate testing — dispatch all 156+ agents"],
     ["10","Run Agent-002A-SQL-Injection.md against acme-corp","(In Claude Code) dispatch one agent instead"],
     ["11","bash scripts/check-status.sh acme-corp","Check progress from another terminal"],
     ["12","start engagements/acme-corp/report/report.html","Open the final report (Windows)"],
