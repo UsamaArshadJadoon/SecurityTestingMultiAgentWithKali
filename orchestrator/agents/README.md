@@ -1,6 +1,6 @@
 # 📋 106 Specialized Penetration Testing Agents
 
-Complete specifications for all 106 agents, organized here by the same 23 execution categories `Orchestrator.js` actually runs them in (its own `defineAgents()`/`getPhaseName()` grouping).
+Complete specifications for all 156+ agents, organized here by the same 23 execution categories `Orchestrator.js` actually runs them in (its own `defineAgents()`/`getPhaseName()` grouping).
 
 **Framework Statistics:**
 - **106 Agent Specification Files** (Agent-001 through Agent-064, several with lettered sub-agent variants)
@@ -8,7 +8,7 @@ Complete specifications for all 106 agents, organized here by the same 23 execut
 - **150+ Integrated Kali Linux Tools** via SSH
 - **4-Layer Validation System** (`orchestrator/validation-gate.js`) ensuring findings are format-valid, evidenced, technically accurate, and remediation-complete before they reach a report
 - **CVSS 3.1 Scoring** with OWASP/CWE/MITRE mapping
-- **Production Ready** - v2.0.0
+- **Production Ready** - v3.0.0
 
 > **Note:** every filename below was verified against the real files in this directory — none are placeholders. If you're looking for a specific agent, `Ctrl+F` the exact filename shown in **bold**.
 

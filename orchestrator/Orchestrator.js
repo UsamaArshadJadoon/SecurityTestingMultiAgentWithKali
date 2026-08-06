@@ -223,7 +223,7 @@ class PenetrationTestOrchestrator {
   }
 
   /**
-   * Define all 106 agents with dependencies and specifications,
+   * Define all 156+ agents with dependencies and specifications,
    * grouped into 23 capability categories spanning the real files in
    * orchestrator/agents/*.md (see docs/How-To-Use-Agents-Guide.html's
    * Agent Explorer for the same catalog, browsable by phase/type).
@@ -482,7 +482,7 @@ class PenetrationTestOrchestrator {
       // Explorer in docs/How-To-Use-Agents-Guide.html) and does NOT line up
       // with the 33 "Phase N" numbers in orchestrator/agents/README.md —
       // those are a different, file-directory-oriented grouping of the
-      // same 106 agents. Using "PHASE" here would silently collide (e.g.
+      // same 156+ agents. Using "PHASE" here would silently collide (e.g.
       // category 5 here is "Infrastructure, Cloud & AI Surface", but
       // Phase 5 in that README is "Exploitation & RCE").
       console.log(`CATEGORY ${phaseNum} | ${phaseName.toUpperCase()}`);

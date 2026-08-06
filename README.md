@@ -131,7 +131,7 @@ start engagements/my-client/report/report.html
 
 ### **Framework Core**
 - ✅ Orchestrator.js (588 lines) - Agent orchestration engine, state tracking, dependency ordering
-- ✅ 106 agent specifications - Detailed requirements (~12,200 lines across `orchestrator/agents/*.md`)
+- ✅ 156+ agent specifications - Detailed requirements (~12,200 lines across `orchestrator/agents/*.md`)
 - ✅ 150+ tool integrations - Kali tools via SSH
 - ✅ 23 capability categories - Data flow between categories, dependency-ordered
 
@@ -219,7 +219,7 @@ SecurityTestingMultiAgentWithKali/
 
 ### **The Real Structure: 23 Categories, Not 33 "Phases"**
 
-`Orchestrator.js`'s own `defineAgents()`/`getPhaseName()` groups all 106 agents into
+`Orchestrator.js`'s own `defineAgents()`/`getPhaseName()` groups all 156+ agents into
 **23 sequential capability categories**, each depending on the ones before it so later
 agents receive earlier agents' real findings as context. (A separate, older 33-"phase"
 file-directory grouping still exists in `orchestrator/agents/README.md` for browsing
@@ -253,7 +253,7 @@ console output says "CATEGORY", never "PHASE".)
 | 22 | Advanced Database Security | 6 |
 | 23 | Web, Mobile & API Coverage Extension | 6 |
 
-**106 agents total.** Each category's agents declare the prior categories' agent names
+**156+ agents total.** Each category's agents declare the prior categories' agent names
 as their `dependencies`, so — for example — every Category 2-23 agent can see Category 1's
 real recon output before it starts, and Category 8 (Business Logic) can see everything
 Categories 1-7 already found.
@@ -395,7 +395,7 @@ Report includes:
 1. **Home** - Framework overview with statistics
 2. **Overview** - Why use this framework, unique features, FAQ
 3. **Features** - Vulnerability coverage, advanced capabilities
-4. **Agents** - All 106 agents explained (searchable)
+4. **Agents** - All 156+ agents explained (searchable)
 5. **Categories** - 23 capability categories with agent breakdown
 6. **Validation** - 4-layer validation system and accuracy
 7. **Security** - Credential protection, PII masking, audit logging
@@ -464,7 +464,7 @@ Apache License 2.0 - See [LICENSE](LICENSE) file for details
 
 ## 🌟 Why Use This Framework?
 
-✅ **Complete:** 106 agents across 23 dependency-ordered categories = comprehensive coverage  
+✅ **Complete:** 156+ agents across 23 dependency-ordered categories = comprehensive coverage  
 ✅ **Accurate:** 4-layer validation gate enforced by real code, not a self-assessment  
 ✅ **Thorough:** Claude Code drives each agent live via its Agent tool — no unattended background mode, but no API key or extra billing setup either  
 ✅ **Secure:** Credentials protected, PII masked automatically  

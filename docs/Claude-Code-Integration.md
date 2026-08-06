@@ -2,7 +2,7 @@
 
 **Security Testing Multi-Agent Framework for Claude Code**
 
-Since you're using **Claude Code locally**, all 106 agents dispatch through Claude Code's **Agent tool** across 23 dependency-ordered execution categories (`Orchestrator.js`'s own internal grouping — a separate, purely organizational 33-"phase" file-directory catalog also exists in `orchestrator/agents/README.md` for browsing the same 106 spec files by theme, but it isn't the execution order).
+Since you're using **Claude Code locally**, all 156+ agents dispatch through Claude Code's **Agent tool** across 23 dependency-ordered execution categories (`Orchestrator.js`'s own internal grouping — a separate, purely organizational 33-"phase" file-directory catalog also exists in `orchestrator/agents/README.md` for browsing the same 106 spec files by theme, but it isn't the execution order).
 
 ---
 
@@ -53,7 +53,7 @@ Run full penetration test for my-client-name
 ```
 
 This follows the exact AUTONOMOUS OPERATING PROTOCOL described above —
-Claude Code dispatches all 106 agents across 23 categories in order, running
+Claude Code dispatches all 156+ agents across 23 categories in order, running
 every finding through the real validation gate, pausing only for the one
 CVSS ≥ 7.0 sign-off gate, then generates the report.
 
@@ -364,7 +364,7 @@ noted otherwise):
 
 ## 📈 EXPECTED OUTCOMES
 
-After running all 106 agents across 23 execution categories:
+After running all 156+ agents across 23 execution categories:
 
 **Deliverables:**
 - `engagements/acme-corp/evidence/findings/` — All findings (JSON)
@@ -381,7 +381,7 @@ After running all 106 agents across 23 execution categories:
 - Concrete evidence for each
 
 **Timeline:**
-- No fixed duration — scales with how many of the 106 agents you dispatch in the session, and how long each one's real tooling takes against the target
+- No fixed duration — scales with how many of the 156+ agents you dispatch in the session, and how long each one's real tooling takes against the target
 - Driven by a live Claude Code session via the Agent tool — no unattended/background mode
 - Sequential, dependency-ordered execution with data flow between categories
 
@@ -435,7 +435,7 @@ bash scripts/run-pentest.sh acme-corp
 - **Sequential execution** - Each agent waits for prior phase
 - **Data flow** - Context passes between agents
 - **Auto-validation** - Exploitation agent validates all findings
-- **Full automation** - 106 agents, minimal manual work
+- **Full automation** - 156+ agents, minimal manual work
 - **Enterprise-ready** - CVSS scoring, OWASP mapping, remediation
 
 ---
