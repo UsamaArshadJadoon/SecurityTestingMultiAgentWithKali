@@ -27,7 +27,7 @@ Each finding is validated through **4 security layers** enforced by real, determ
 
 | Feature | Details |
 |---------|---------|
-| **126+ Agents** | 20 new Phase 1 agents: API security + exploitation (106 existing + 20 new) |
+| **156+ Agents** | All phases complete: 106 baseline + 20 Phase 1 + 30 Phase 2 + 6 Phase 3 + 24 Phase 4 |
 | **150+ Tools** | nmap, sqlmap, ffuf, nuclei, hashcat, metasploit, frida, ghidra, ysoserial, commix, and 140+ more |
 | **23 Categories** | Recon → Web → API (enhanced) → Auth → Infrastructure → Exploitation (enhanced) → Mobile → Wireless → Cloud → Reporting |
 | **4-Layer Validation** | Format → Evidence → Technical → Remediation, enforced by real code (`validation-gate.js`) |
@@ -109,7 +109,7 @@ start engagements/my-client/report/report.html
 
 **🌟 [Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)** - Complete interactive documentation with:
 - Overview & Framework Summary
-- All 106 Agents (searchable)
+- All 156+ Agents (searchable)
 - 23 Capability Categories
 - 4-Layer Validation System
 - Security & Credentials Management
@@ -122,8 +122,8 @@ start engagements/my-client/report/report.html
 ### Comprehensive Documentation
 | Document | Contains |
 |----------|----------|
-| **[DOCUMENTATION.md](docs/DOCUMENTATION.md)** | Everything: Installation, Usage, Reports, All 106 Agents, 150+ Tools, Framework Overview, Validation System, Security Management |
-| **[How-To-Use-Agents-Guide.html](docs/How-To-Use-Agents-Guide.html)** | Animated, interactive walkthrough: git clone → target URL/credentials → initiating a test → a searchable explorer of all 106 real agents |
+| **[DOCUMENTATION.md](docs/DOCUMENTATION.md)** | Everything: Installation, Usage, Reports, All 156+ Agents, 150+ Tools, Framework Overview, Validation System, Security Management |
+| **[How-To-Use-Agents-Guide.html](docs/How-To-Use-Agents-Guide.html)** | Animated, interactive walkthrough: git clone → target URL/credentials → initiating a test → a searchable explorer of all 156+ real agents |
 
 ---
 
@@ -170,11 +170,11 @@ SecurityTestingMultiAgentWithKali/
 │   ├── Orchestrator.js               # Main engine (588 lines)
 │   ├── validation-gate.js            # Real 4-layer finding validation
 │   ├── report-generator.js           # Renders report.html from validated findings
-│   ├── agents/                       # Agent specifications (106 files)
+│   ├── agents/                       # Agent specifications (166 files)
 │   │   ├── README.md                 # Agents overview
 │   │   ├── Agent-001-Reconnaissance.md
 │   │   ├── Agent-002-Web-Pentest.md
-│   │   └── ...                       # through Agent-064 + sub-agents (106 total)
+│   │   └── ...                       # through Agent-088 (166 total, 181 registered)
 │   ├── kali-wrapper.sh               # Run tools on Kali over SSH
 │   └── kali-health-check.sh          # Verify Kali connectivity & tools
 │
@@ -408,7 +408,7 @@ Report includes:
 - **[Master-Documentation-Portal.html](docs/Master-Documentation-Portal.html)** - Interactive documentation with tabs (Agents, Phases, Validation, Security, Installation, FAQ)
 
 **🔍 For Specific Topics:**
-- **Agents:** See [orchestrator/agents/](orchestrator/agents/) directory (106 individual specification files) or DOCUMENTATION.md
+- **Agents:** See [orchestrator/agents/](orchestrator/agents/) directory (166 specification files, 181 registered) or DOCUMENTATION.md
 - **Tools:** All 150+ tools documented in each agent spec file and DOCUMENTATION.md
 - **Validation:** 4-layer system explained in DOCUMENTATION.md with interactive visualization in Master Portal
 - **Workflows:** Agent-to-agent data flow diagram above in this README, plus complete interactive documentation
