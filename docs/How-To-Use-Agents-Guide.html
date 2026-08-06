@@ -485,13 +485,13 @@ git version 2.43.0</div>
       <!-- STEP 2 -->
       <section class="step reveal" id="s2">
         <div class="st-h"><div class="st-n">2</div><h2>Clone the repository</h2></div>
-        <p class="does"><b>What this does:</b> gets the orchestrator, the 106 agent specifications, setup scripts, and templates onto your machine.</p>
+        <p class="does"><b>What this does:</b> gets the orchestrator, the 156+ agent specifications, setup scripts, and templates onto your machine.</p>
         <div class="lbl">Command</div>
         <div class="cmd"><pre><code>git clone https://github.com/UsamaArshadJadoon/SecurityTestingMultiAgentWithKali.git
 cd SecurityTestingMultiAgentWithKali</code></pre></div>
         <div class="out"><span class="h">Expected output</span>Cloning into 'SecurityTestingMultiAgentWithKali'...
 done.</div>
-        <div class="why"><b>Why this matters</b><p>Knowing the folder layout up front makes every later command make sense instead of feeling like magic paths. <code class="k">orchestrator/</code> holds the engine and all 106 agent specs; <code class="k">kali-setup/</code> holds one-time tool installers; <code class="k">scripts/</code> holds the small helpers you'll run in Steps 5–6 and 11/13; <code class="k">engagements/</code> is where <em>your</em> data lives (git-ignored, created fresh in Step 5); <code class="k">templates/</code> defines the JSON shape every finding must match (see Step 9); <code class="k">docs/</code> is this guide plus the others linked at the bottom of the page.</p></div>
+        <div class="why"><b>Why this matters</b><p>Knowing the folder layout up front makes every later command make sense instead of feeling like magic paths. <code class="k">orchestrator/</code> holds the engine and all 156+ agent specs; <code class="k">kali-setup/</code> holds one-time tool installers; <code class="k">scripts/</code> holds the small helpers you'll run in Steps 5–6 and 11/13; <code class="k">engagements/</code> is where <em>your</em> data lives (git-ignored, created fresh in Step 5); <code class="k">templates/</code> defines the JSON shape every finding must match (see Step 9); <code class="k">docs/</code> is this guide plus the others linked at the bottom of the page.</p></div>
         <div class="tip"><b>Open this folder in Claude Code</b>Everything from Step 8 onward happens by talking to Claude Code inside this project folder — that's how agents get invoked. Stay in this folder for every command below.</div>
       </section>
 
@@ -605,7 +605,7 @@ engagements/acme-corp/report/</div>
       <!-- STEP 7 -->
       <section class="step reveal" id="s7">
         <div class="st-h"><div class="st-n">7</div><h2>Meet the agents — how they're organized</h2></div>
-        <p class="does"><b>What this does:</b> before running anything, know what you're triggering. 106 agent spec files live in <code class="k">orchestrator/agents/*.md</code>. Each one lists its tools, testing approach, and what evidence it must produce. The framework's design groups these into a sequential run of phases (recon → surface testing → deep exploitation → post-exploitation → specialized/platform testing → infrastructure/database/API depth → reporting) — the categories below are how this guide organizes the real files for browsing; <b>every single one is searchable in the Agent Explorer</b> further down this page.</p>
+        <p class="does"><b>What this does:</b> before running anything, know what you're triggering. 156+ agent spec files live in <code class="k">orchestrator/agents/*.md</code>. Each one lists its tools, testing approach, and what evidence it must produce. The framework's design groups these into a sequential run of phases (recon → surface testing → deep exploitation → post-exploitation → specialized/platform testing → infrastructure/database/API depth → reporting) — the categories below are how this guide organizes the real files for browsing; <b>every single one is searchable in the Agent Explorer</b> further down this page.</p>
         <div class="phasegrid">
           <div class="phasecard"><div class="pn">Starts here</div><div class="pt">Reconnaissance</div><div class="pd">Passive OSINT + active discovery → builds the surface map every later agent uses</div></div>
           <div class="phasecard"><div class="pn">Surface testing</div><div class="pt">Web / API / Auth</div><div class="pd">SQLi, XSS, CSRF, REST/GraphQL/gRPC, OAuth/SAML/JWT</div></div>

@@ -99,7 +99,7 @@ In Claude Code, run:
 Run full penetration test for my-client
 ```
 
-Claude Code reads each agent's spec file and dispatches it live via its Agent tool, working through all 106 agents in 23 dependency-ordered execution categories. There's no unattended background mode — duration scales with how many agents you run in the session and how long each one's real tooling takes against the target.
+Claude Code reads each agent's spec file and dispatches it live via its Agent tool, working through all 156+ agents in 23 dependency-ordered execution categories. There's no unattended background mode — duration scales with how many agents you run in the session and how long each one's real tooling takes against the target.
 
 #### Step 6: Review Report
 ```bash
@@ -274,7 +274,7 @@ At a glance:
 
 ## All 156+ Agents
 
-> **Note on organization:** the "Capability Bundle" numbers below are a documentation-only grouping for readability — they do **not** reflect execution order and are unrelated to the numbers in the same-named 33-entry file-directory catalog in `orchestrator/agents/README.md` (a coincidental overlap in count, not the same numbering). Most bundles below consolidate several related spec files from `orchestrator/agents/` under one representative write-up (e.g. "Agent-002: Web Application Security" summarizes the combined coverage of `Agent-002-Web-Pentest.md` and its `Agent-002A`-`Agent-002G` variants); Bundles 31-33 map one-to-one with individual spec files. **The real execution order is 23 dependency-ordered categories**, defined in `Orchestrator.js`'s own `defineAgents()`/`getPhaseName()` — see the [Framework Overview](#framework-overview) section below for that list. For the file-by-file directory of all 106 agent spec files (exact filenames, per-file counts), see [orchestrator/agents/README.md](../orchestrator/agents/README.md).
+> **Note on organization:** the "Capability Bundle" numbers below are a documentation-only grouping for readability — they do **not** reflect execution order and are unrelated to the numbers in the same-named 33-entry file-directory catalog in `orchestrator/agents/README.md` (a coincidental overlap in count, not the same numbering). Most bundles below consolidate several related spec files from `orchestrator/agents/` under one representative write-up (e.g. "Agent-002: Web Application Security" summarizes the combined coverage of `Agent-002-Web-Pentest.md` and its `Agent-002A`-`Agent-002G` variants); Bundles 31-33 map one-to-one with individual spec files. **The real execution order is 23 dependency-ordered categories**, defined in `Orchestrator.js`'s own `defineAgents()`/`getPhaseName()` — see the [Framework Overview](#framework-overview) section below for that list. For the file-by-file directory of all 156+ agent spec files (exact filenames, per-file counts), see [orchestrator/agents/README.md](../orchestrator/agents/README.md).
 
 ### Capability Bundle 1: Reconnaissance (1 Agent)
 
@@ -1505,7 +1505,7 @@ This is the real order `Orchestrator.js`'s `defineAgents()`/`getPhaseName()` run
 
 #### 1. Orchestrator.js
 - Main orchestration engine (588 lines)
-- Defines all 106 agents grouped into 23 execution categories via its own
+- Defines all 156+ agents grouped into 23 execution categories via its own
   `defineAgents()`/`getPhaseName()` (a separate, purely organizational
   33-entry file-directory catalog also exists in
   [orchestrator/agents/README.md](../orchestrator/agents/README.md) for
@@ -1991,7 +1991,7 @@ A: Review validation error. Most likely: evidence not authentic or impact statem
 A: Normal for some targets. Some may have good security. Re-run a subset of agents/categories to verify.
 
 **Q: Test takes too long**
-A: There's no fixed duration and no unattended/background mode — a live Claude Code session dispatches each of the 106 agents via its Agent tool, so wall-clock time scales with how many agents you run and how long each one's real tooling takes against the target (password/hash cracking, full port/vuln scans, and similar genuinely take real time). Plan a full run as an active session, not something to leave running overnight; running a smaller, targeted subset of agents is often faster and sufficient for a quick check.
+A: There's no fixed duration and no unattended/background mode — a live Claude Code session dispatches each of the 156+ agents via its Agent tool, so wall-clock time scales with how many agents you run and how long each one's real tooling takes against the target (password/hash cracking, full port/vuln scans, and similar genuinely take real time). Plan a full run as an active session, not something to leave running overnight; running a smaller, targeted subset of agents is often faster and sufficient for a quick check.
 
 **Q: Credentials not working**
 A: Verify .env file format (run `bash scripts/validate-config.sh <name>`). Ensure credentials have necessary permissions to test the target.

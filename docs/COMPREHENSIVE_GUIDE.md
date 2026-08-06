@@ -195,7 +195,7 @@ FRAMEWORK v3.0.0 - FINAL STATISTICS
 ═════════════════════════════════════════════════════
 
 Agents by Phase:
-  Phase 1 (Baseline):         106 agents
+  Phase 1 (Baseline):         156+ agents
   Phase 1 (Enhancement):      +20 agents (API + Exploitation)
   Phase 2 (Infrastructure):   +30 agents (DNS, TLS, Auth, Cloud)
   Phase 3 (Advanced):         +6 agents (Chains, Persistence, Evasion)
