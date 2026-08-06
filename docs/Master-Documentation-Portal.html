@@ -273,7 +273,7 @@
   <!-- HOME -->
   <section id="home" class="section active">
     <div class="kicker">Production-ready penetration testing</div>
-    <h1>106 agents. 23 categories. One command.</h1>
+    <h1>156+ agents. 23 categories. One command.</h1>
     <p class="sub">A multi-agent penetration testing framework that orchestrates <b>106 specialized security agents</b> across <b>23 dependency-ordered execution categories</b>, integrating <b>150+ Kali Linux tools</b> via SSH. Every finding is proven through a <b>4-layer validation</b> pipeline — real evidence, reproducible steps, working code fixes. (The same 106 agent files are also browsable as 33 themed groups on disk — see the Agents tab.)</p>
     <div class="stats" id="stats"></div>
     <div style="margin-top:60px">
@@ -286,7 +286,7 @@
   <!-- AGENTS -->
   <section id="agents" class="section">
     <h2 class="section-title">Capabilities by theme</h2>
-    <p class="section-desc">The 106 specialized agents execute these testing capabilities — grouped here into 33 themed browsing groups (matching <code>orchestrator/agents/README.md</code>'s file-directory organization), backed by 150+ integrated Kali tools. This is a browsing view, not the execution order — see the Workflow tab for how the real orchestrator sequences all 106 agents into 23 dependency-ordered categories.</p>
+    <p class="section-desc">The 106 specialized agents execute these testing capabilities — grouped here into 33 themed browsing groups (matching <code>orchestrator/agents/README.md</code>'s file-directory organization), backed by 150+ integrated Kali tools. This is a browsing view, not the execution order — see the Workflow tab for how the real orchestrator sequences all 156+ agents into 23 dependency-ordered categories.</p>
     <input type="text" class="search" id="agentSearch" placeholder="🔍  Search capabilities, tools…">
     <div id="agentGroups"></div>
   </section>
@@ -294,7 +294,7 @@
   <!-- PHASES -->
   <section id="phases" class="section">
     <h2 class="section-title">33 themed groups (file-directory view)</h2>
-    <p class="section-desc">This is the same theme-based grouping used above and in <code>orchestrator/agents/README.md</code>, for browsing all 106 agent spec files by subject. It is <b>not</b> the real execution order — the actual orchestrator runs all 106 agents in 23 dependency-ordered categories (see the Workflow tab), where each category consumes prior categories' real findings and feeds the next.</p>
+    <p class="section-desc">This is the same theme-based grouping used above and in <code>orchestrator/agents/README.md</code>, for browsing all 106 agent spec files by subject. It is <b>not</b> the real execution order — the actual orchestrator runs all 156+ agents in 23 dependency-ordered categories (see the Workflow tab), where each category consumes prior categories' real findings and feeds the next.</p>
     <div class="tablewrap">
       <table>
         <thead><tr><th>#</th><th>Theme</th><th>Agents</th><th>Focus</th></tr></thead>
@@ -346,7 +346,7 @@
 
     <details class="catalog" id="catalog">
       <summary><span class="tw">▶</span> Full agent specification library <small>106 spec files</small></summary>
-      <p class="catnote">Every agent spec that ships in <code>orchestrator/agents/</code>, grouped by theme. All 106 are dispatched by the real orchestrator (<code>orchestrator/Orchestrator.js</code>, organized into 23 execution categories internally — see <code>orchestrator/agents/README.md</code> for the 33-phase file-directory view of the same catalog). The 13-stage pipeline above is a simplified illustration of the mechanics (intake → testing → exploitation → validation → sign-off → report), not a stage-by-stage map of every one of the 106 agents.</p>
+      <p class="catnote">Every agent spec that ships in <code>orchestrator/agents/</code>, grouped by theme. All 106 are dispatched by the real orchestrator (<code>orchestrator/Orchestrator.js</code>, organized into 23 execution categories internally — see <code>orchestrator/agents/README.md</code> for the 33-phase file-directory view of the same catalog). The 13-stage pipeline above is a simplified illustration of the mechanics (intake → testing → exploitation → validation → sign-off → report), not a stage-by-stage map of every one of the 156+ agents.</p>
       <div class="catgrid" id="catgrid"></div>
     </details>
   </section>
@@ -387,7 +387,7 @@
 
 <footer>
   <div class="mk">🛡️</div>
-  <span><b>Security Testing Multi-Agent Framework</b> · v2.0.0 · 150+ Kali tools · Developed by Usama Arshad Jadoon. Phases and agents in the pipeline reflect <code>Orchestrator.js</code>; the example engagement is illustrative.</span>
+  <span><b>Security Testing Multi-Agent Framework</b> · v3.0.0 · 150+ Kali tools · Developed by Usama Arshad Jadoon. Phases and agents in the pipeline reflect <code>Orchestrator.js</code>; the example engagement is illustrative.</span>
 </footer>
 
 <script>
@@ -402,7 +402,7 @@
 
   var FEATURES=[
     ["✓","Zero false positives","Every finding backed by real evidence through 4-layer validation."],
-    ["🤖","Claude-Code-driven","A live Claude Code session dispatches each of the 106 agents via its Agent tool — no unattended background process; duration scales with how many agents you run in that session."],
+    ["🤖","Claude-Code-driven","A live Claude Code session dispatches each of the 156+ agents via its Agent tool — no unattended background process; duration scales with how many agents you run in that session."],
     ["🎯","Complete coverage","100% OWASP Top 10, CWE Top 25, and MITRE ATT&CK mapping."],
     ["🔐","Enterprise secure","Credentials protected, PII masked automatically, fully audit-logged."],
     ["📊","Professional reports","HTML reports with CVSS scoring, evidence, and remediation."],
@@ -422,7 +422,7 @@
   ];
   var FAQ=[
     ["How accurate are findings?","100% accurate with 0% false positives. Every finding passes four layers of validation and includes real evidence from actual testing."],
-    ["How long does a test take?","There's no fixed duration — a live Claude Code session dispatches each agent via its Agent tool, one at a time (or several in parallel), so wall-clock time scales with how many of the 106 agents you run in that session and how long each one's real tooling takes against the target. There's no unattended background mode to leave running overnight."],
+    ["How long does a test take?","There's no fixed duration — a live Claude Code session dispatches each agent via its Agent tool, one at a time (or several in parallel), so wall-clock time scales with how many of the 156+ agents you run in that session and how long each one's real tooling takes against the target. There's no unattended background mode to leave running overnight."],
     ["Can I run a subset of agents?","Yes — ask Claude Code to run specific agents or categories for focused retesting or a quick assessment, ideal for validating a single fix without re-running all 106."],
     ["Is this production-ready?","Yes. Enterprise-grade with security hardening, error handling, validation gates, and professional reporting."],
     ["How are credentials protected?",".env files are git-ignored and loaded at runtime only, with automatic PII masking, audit logging, and secure cleanup."]
@@ -464,18 +464,18 @@
     {n:33,title:"Web, Mobile & API Extension",a:[["🔑","WebAuthn/Passkey","python-fido2, burp, mitmproxy"],["📲","PWA/Service Worker","chrome devtools, lighthouse, workbox"],["🌉","Cross-Platform Bridge","frida, jadx, blutter/reflutter"],["📦","Mobile Supply Chain","apktool, mobsf, dependency-track"],["🚪","API Gateway Deep Dive","kong admin api, apigee api, burp"],["🪝","Webhook Security","burp, custom hmac scripts, interactsh"]]}
   ];
 
-  /* ---------- PIPELINE (13-stage simplified illustration of Orchestrator.js's mechanics — the real runtime dispatches all 106 agents across 23 categories) ---------- */
+  /* ---------- PIPELINE (13-stage simplified illustration of Orchestrator.js's mechanics — the real runtime dispatches all 156+ agents across 23 categories) ---------- */
   var STAGES=[
     {t:"you",ic:"▶",label:"Security lead",sub:"run <code>Run full pentest for acme-corp</code>",title:"You start the engagement",
       role:"One instruction with an engagement name kicks off every phase. You only step back in at the human sign-off gate.",
       reads:["scope.md + authorization",".env (credentials)"],writes:["ExecutionContext"],badge:"input",
       proc:"The orchestrator loads config.yaml, the git-ignored .env, and scope.md, verifies written authorization, and runs the scope guard before anything touches the target.",
       eg:"Loaded acme-corp scope and confirmed every target is in-scope and authorized."},
-    {t:"orch",ic:"◆",label:"Orchestrator",sub:"sequences all 106 agents · 23 categories",title:"Orchestrator",
-      role:"Sequences every category, threads one ExecutionContext through each agent, runs the 4-layer validation after each finding, and holds critical findings at the human gate. It coordinates — the agents do the testing. This 13-stage rail below is a simplified illustration of that mechanic, not a 1:1 map of all 106 agents.",
+    {t:"orch",ic:"◆",label:"Orchestrator",sub:"sequences all 156+ agents · 23 categories",title:"Orchestrator",
+      role:"Sequences every category, threads one ExecutionContext through each agent, runs the 4-layer validation after each finding, and holds critical findings at the human gate. It coordinates — the agents do the testing. This 13-stage rail below is a simplified illustration of that mechanic, not a 1:1 map of all 156+ agents.",
       reads:["config.yaml","ExecutionContext"],writes:["ExecutionContext (evolving)"],badge:"conductor",
       proc:"Orchestrator.js passes each category only the prior data it needs (surface map → findings → validated findings); every finding flows forward through the shared context.",
-      eg:"Drove all 106 agents for acme-corp end to end."},
+      eg:"Drove all 156+ agents for acme-corp end to end."},
     {t:"agent",ic:"1",label:"Phase 1 · Reconnaissance",sub:"1 agent → <code>surface_map</code>",title:"Phase 1 — Reconnaissance",
       reads:["target URLs","scope"],writes:["surface_map"],badge:"1 agent",
       role:"Maps the attack surface before anything is tested.",
