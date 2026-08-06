@@ -1,8 +1,8 @@
 # 🔐 Security Testing Multi-Agent Framework
 
-**Complete Penetration Testing Framework with 106 Specialized Agents & 150+ Kali Tools**
+**Complete Penetration Testing Framework with 126+ Specialized Agents & 150+ Kali Tools**
 
-![Version](https://img.shields.io/badge/Version-2.0.0-brightgreen)
+![Version](https://img.shields.io/badge/Version-2.1.0--Phase1-brightgreen)
 ![Python](https://img.shields.io/badge/Python-3.8+-blue)
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-green)
@@ -11,7 +11,7 @@
 
 ## 📋 What is This?
 
-A production-ready penetration testing framework that orchestrates **106 specialized security agents** across **23 capability categories** (recon, web, API, auth, infrastructure, exploitation, mobile, wireless, cloud, and more), integrating **150+ Kali Linux tools** via SSH.
+A production-ready penetration testing framework that orchestrates **126+ specialized security agents** across **23 capability categories** (recon, web, API, auth, infrastructure, exploitation, mobile, wireless, cloud, and more), integrating **150+ Kali Linux tools** via SSH.
 
 Each finding is validated through **4 security layers** enforced by real, deterministic code (`orchestrator/validation-gate.js`) — Format → Evidence → Technical Accuracy → Remediation — so a finding that doesn't hold up is rejected, not silently passed through.
 
@@ -25,15 +25,15 @@ Each finding is validated through **4 security layers** enforced by real, determ
 
 | Feature | Details |
 |---------|---------|
-| **106 Agents** | Web, API, auth, mobile, cloud, IoT, wireless, Windows, Linux, database, and more |
-| **150+ Tools** | nmap, sqlmap, ffuf, nuclei, hashcat, metasploit, frida, ghidra, and 140+ more |
-| **23 Categories** | Recon → Web → API → Auth → Infrastructure → Exploitation → Mobile → Wireless → Cloud → Reporting |
+| **126+ Agents** | 20 new Phase 1 agents: API security + exploitation (106 existing + 20 new) |
+| **150+ Tools** | nmap, sqlmap, ffuf, nuclei, hashcat, metasploit, frida, ghidra, ysoserial, commix, and 140+ more |
+| **23 Categories** | Recon → Web → API (enhanced) → Auth → Infrastructure → Exploitation (enhanced) → Mobile → Wireless → Cloud → Reporting |
 | **4-Layer Validation** | Format → Evidence → Technical → Remediation, enforced by real code (`validation-gate.js`) |
 | **Enterprise Reporting** | CVSS 3.1, OWASP Top 10, CWE Top 25, MITRE ATT&CK mapping |
 | **Secure Credentials** | .env file (git-ignored), automatic PII masking |
 | **Human Approval** | Findings scoring CVSS ≥ 7.0 pause for explicit sign-off before being finalized |
 | **Real Evidence Required** | Actual HTTP requests, tool output, screenshots, reproducible steps — findings without them are rejected |
-| **Code Examples** | Vulnerable code + fixed code for every finding |
+| **Code Examples** | Vulnerable code + fixed code for every finding (50+ samples in Phase 1) |
 | **Claude-Code-Driven** | No unattended background mode — a live Claude Code session dispatches each agent via its Agent tool; duration scales with how many agents you run in that session |
 
 ---
@@ -417,18 +417,20 @@ Report includes:
 
 | Metric | Value |
 |--------|-------|
-| **Agents** | 106 specialized |
+| **Agents** | 126+ specialized (106 baseline + 20 Phase 1 new) |
 | **Categories** | 23, dependency-ordered |
-| **Tools** | 150+ integrated |
+| **Tools** | 150+ integrated (ysoserial, commix, nuclei, hashcat, etc.) |
 | **Engine Code** | 588 lines (`Orchestrator.js`) + ~1,900 total across the JS engine and shell scripts |
-| **Agent Specifications** | ~12,200 lines across 106 markdown files |
-| **Documentation** | Comprehensive guides + interactive portal |
+| **Agent Specifications** | ~17,200 lines (12,200 original + 5,000 Phase 1 new) |
+| **Phase 1 Documentation** | 5,000+ lines (comprehensive agents + analysis docs) |
 | **Test Duration** | Scales with agents dispatched in a session — no unattended/background mode; Claude Code drives each agent live |
 | **False Positive Rate** | 0% (4-layer validation) |
 | **OWASP Coverage** | 100% (10/10) |
 | **CWE Coverage** | 100% (25/25) |
 | **Cloud Platforms** | 4 (AWS, GCP, Azure, Serverless) |
 | **API Types** | 6+ (REST, GraphQL, SOAP, gRPC, WebSocket, Message Queues) |
+| **API Agents** | 8 → 16 (+100% Phase 1) |
+| **Exploitation Agents** | 7 → 19 (+170% Phase 1) |
 | **Mobile** | 2 (iOS, Android) |
 | **Wireless** | WiFi, Bluetooth, Cellular, RFID, NFC |
 | **Enterprise** | Windows AD, Kerberos, Linux, BIOS/Firmware |
