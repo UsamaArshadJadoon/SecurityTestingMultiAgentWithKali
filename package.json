@@ -13,7 +13,9 @@
     "test:phase2": "jest tests/phase2-integration.test.js",
     "test:phase3": "jest tests/phase3-integration.test.js",
     "test:kali": "jest tests/kali-tools-integration.test.js",
-    "test:all": "jest --coverage"
+    "test:kali:expanded": "jest tests/kali-tools-expanded.test.js",
+    "test:all": "jest --coverage",
+    "test:tools": "jest tests/kali-tools*.test.js"
   },
   "dependencies": {
     "express": "^4.18.2",
