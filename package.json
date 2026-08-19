@@ -14,6 +14,7 @@
     "test:phase3": "jest tests/phase3-integration.test.js",
     "test:kali": "jest tests/kali-tools-integration.test.js",
     "test:kali:expanded": "jest tests/kali-tools-expanded.test.js",
+    "test:kali:maximum": "jest tests/kali-tools-maximum.test.js",
     "test:all": "jest --coverage",
     "test:tools": "jest tests/kali-tools*.test.js"
   },
