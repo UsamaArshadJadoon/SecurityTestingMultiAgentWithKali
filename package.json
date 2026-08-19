@@ -16,8 +16,10 @@
     "test:kali:expanded": "jest tests/kali-tools-expanded.test.js",
     "test:kali:maximum": "jest tests/kali-tools-maximum.test.js",
     "test:kali:ultra": "jest tests/kali-tools-ultra-maximum.test.js",
+    "test:orchestration": "jest tests/orchestration.test.js",
     "test:all": "jest --coverage",
-    "test:tools": "jest tests/kali-tools*.test.js"
+    "test:tools": "jest tests/kali-tools*.test.js",
+    "test:chains": "jest tests/orchestration.test.js"
   },
   "dependencies": {
     "express": "^4.18.2",
