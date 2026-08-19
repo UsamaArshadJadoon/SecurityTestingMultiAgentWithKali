@@ -1290,6 +1290,10 @@
         <div class="progress-overview">
             <h2 style="margin-bottom: 20px;">📊 Complete Journey Overview</h2>
             <div class="progress-items">
+                <div class="progress-item" onclick="document.getElementById('toc-section').scrollIntoView({behavior:'smooth'});">
+                    <h3>📑 Table of Contents</h3>
+                    <p>Full Guide Index<br>All Sections</p>
+                </div>
                 <div class="progress-item">
                     <h3>Phase 1</h3>
                     <p>Preparation<br>15 minutes</p>
@@ -1325,8 +1329,79 @@
             </div>
         </div>
 
+        <!-- TABLE OF CONTENTS -->
+        <div class="section" id="toc-section">
+            <h2>📑 Complete Table of Contents</h2>
+            <p>Navigate directly to any section of this comprehensive security assessment guide:</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+                <!-- Getting Started -->
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px; border-radius: 12px; color: white;">
+                    <h3 style="margin-bottom: 15px; color: white;">🚀 Getting Started</h3>
+                    <ul style="list-style: none; margin: 0; padding: 0;">
+                        <li style="margin: 10px 0;"><a href="#phase1" style="color: white; text-decoration: none;">📋 Phase 1: Preparation</a></li>
+                        <li style="margin: 10px 0;"><a href="#phase2" style="color: white; text-decoration: none;">⚙️ Phase 2: Setup</a></li>
+                        <li style="margin: 10px 0;"><a href="#phase3" style="color: white; text-decoration: none;">💻 Phase 3: Framework Installation</a></li>
+                        <li style="margin: 10px 0;"><a href="#phase4" style="color: white; text-decoration: none;">🔐 Phase 4: SSH Connection</a></li>
+                    </ul>
+                </div>
+
+                <!-- Running Assessments -->
+                <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 25px; border-radius: 12px; color: white;">
+                    <h3 style="margin-bottom: 15px; color: white;">🎯 Running Assessments</h3>
+                    <ul style="list-style: none; margin: 0; padding: 0;">
+                        <li style="margin: 10px 0;"><a href="#phase5" style="color: white; text-decoration: none;">🧪 Phase 5: Running Assessment</a></li>
+                        <li style="margin: 10px 0;"><a href="#phase6" style="color: white; text-decoration: none;">📊 Phase 6: Results & Analysis</a></li>
+                        <li style="margin: 10px 0;"><a href="#report-format" style="color: white; text-decoration: none;">📄 Report Format Guide</a></li>
+                    </ul>
+                </div>
+
+                <!-- How It Works -->
+                <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 25px; border-radius: 12px; color: white;">
+                    <h3 style="margin-bottom: 15px; color: white;">🤖 How It Works</h3>
+                    <ul style="list-style: none; margin: 0; padding: 0;">
+                        <li style="margin: 10px 0;"><a href="#agents-section" style="color: white; text-decoration: none;">🤖 Multi-Agent Orchestration</a></li>
+                        <li style="margin: 10px 0;"><a href="#tools-section" style="color: white; text-decoration: none;">🔧 Tools & Technologies</a></li>
+                        <li style="margin: 10px 0;"><a href="#scenarios" style="color: white; text-decoration: none;">📚 Simulation Scenarios</a></li>
+                    </ul>
+                </div>
+
+                <!-- Reference -->
+                <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); padding: 25px; border-radius: 12px; color: white;">
+                    <h3 style="margin-bottom: 15px; color: white;">📚 Reference & Credentials</h3>
+                    <ul style="list-style: none; margin: 0; padding: 0;">
+                        <li style="margin: 10px 0;"><a href="#credential-types" style="color: white; text-decoration: none;">🔐 Credential Types</a></li>
+                        <li style="margin: 10px 0;"><a href="#credential-mgmt" style="color: white; text-decoration: none;">🛡️ Credential Management</a></li>
+                        <li style="margin: 10px 0;"><a href="#verification-checklist" style="color: white; text-decoration: none;">✅ Verification Checklist</a></li>
+                    </ul>
+                </div>
+
+                <!-- Advanced Topics -->
+                <div style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); padding: 25px; border-radius: 12px; color: white;">
+                    <h3 style="margin-bottom: 15px; color: white;">🔥 Advanced Topics</h3>
+                    <ul style="list-style: none; margin: 0; padding: 0;">
+                        <li style="margin: 10px 0;"><a href="#mobile-testing" style="color: white; text-decoration: none;">📱 Mobile App Testing</a></li>
+                        <li style="margin: 10px 0;"><a href="#container-k8s" style="color: white; text-decoration: none;">🐳 Container & K8s Testing</a></li>
+                        <li style="margin: 10px 0;"><a href="#alt-vm" style="color: white; text-decoration: none;">💾 Alternative VM Methods</a></li>
+                        <li style="margin: 10px 0;"><a href="#alt-connection" style="color: white; text-decoration: none;">🔗 Alternative Connections</a></li>
+                    </ul>
+                </div>
+
+                <!-- Guidance & Support -->
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px; border-radius: 12px; color: white;">
+                    <h3 style="margin-bottom: 15px; color: white;">💡 Guidance & Support</h3>
+                    <ul style="list-style: none; margin: 0; padding: 0;">
+                        <li style="margin: 10px 0;"><a href="#best-practices" style="color: white; text-decoration: none;">⭐ Best Practices</a></li>
+                        <li style="margin: 10px 0;"><a href="#troubleshooting" style="color: white; text-decoration: none;">🔧 Troubleshooting</a></li>
+                        <li style="margin: 10px 0;"><a href="#performance-monitoring" style="color: white; text-decoration: none;">📈 Performance Monitoring</a></li>
+                        <li style="margin: 10px 0;"><a href="#support-resources" style="color: white; text-decoration: none;">🤝 Support & Resources</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <!-- PHASE 1: PREPARATION -->
-        <div class="section">
+        <div class="section" id="phase1">
             <h2>🔧 Phase 1: Preparation & Requirements (15 minutes)</h2>
 
             <h3>What You'll Need</h3>
@@ -1423,7 +1498,7 @@
         </div>
 
         <!-- PHASE 2: SETUP -->
-        <div class="section">
+        <div class="section" id="phase2">
             <h2>⚙️ Phase 2: Environment Setup (30 minutes)</h2>
 
             <h3>Step 1: Enable Hyper-V on Windows</h3>
@@ -2121,7 +2196,7 @@ Executing: /lib/systemd/systemd-sysv-install enable ssh</span>
         </div>
 
         <!-- PHASE 3: FRAMEWORK INSTALLATION -->
-        <div class="section">
+        <div class="section" id="phase3">
             <h2>📦 Phase 3: Framework Installation (15 minutes)</h2>
 
             <h3>Step 1: Clone Framework Repository</h3>
@@ -2174,7 +2249,7 @@ Executing: /lib/systemd/systemd-sysv-install enable ssh</span>
         </div>
 
         <!-- PHASE 4: SSH CONNECTION -->
-        <div class="section">
+        <div class="section" id="phase4">
             <h2>🔌 Phase 4: Windows to Kali SSH Connection (10 minutes)</h2>
 
             <h3>Step 1: Find Kali VM IP Address</h3>
@@ -2436,7 +2511,7 @@ kali@kali:~$</span>
         </div>
 
         <!-- PHASE 5: RUNNING ASSESSMENT -->
-        <div class="section">
+        <div class="section" id="phase5">
             <h2>📊 Phase 5: Running Security Assessment (30 min - 6 hours)</h2>
 
             <h3>Step 1: Navigate to Framework</h3>
@@ -3125,7 +3200,7 @@ done.</span>
         </div>
 
         <!-- PHASE 6: RESULTS & ANALYSIS -->
-        <div class="section">
+        <div class="section" id="phase6">
             <h2>📄 Phase 6: Analyzing Results (30 minutes)</h2>
 
             <h3>Step 1: Check Assessment Completion</h3>
@@ -3309,7 +3384,7 @@ done.</span>
         </div>
 
         <!-- TROUBLESHOOTING -->
-        <div class="section">
+        <div class="section" id="troubleshooting">
             <h2>🔧 Troubleshooting Common Issues</h2>
 
             <div class="grid-2">
@@ -3360,7 +3435,7 @@ done.</span>
         </div>
 
         <!-- BEST PRACTICES -->
-        <div class="section">
+        <div class="section" id="best-practices">
             <h2>✅ Best Practices & Tips</h2>
 
             <h3>Pre-Assessment</h3>
@@ -3392,7 +3467,7 @@ done.</span>
         </div>
 
         <!-- STEP VERIFICATION CHECKLIST -->
-        <div class="section">
+        <div class="section" id="verification-checklist">
             <h2>✔️ Step Verification Checklist</h2>
             <p>Use this checklist to verify each phase completed successfully:</p>
 
@@ -3450,7 +3525,7 @@ done.</span>
         </div>
 
         <!-- DETAILED CREDENTIAL TYPES -->
-        <div class="section">
+        <div class="section" id="credential-types">
             <h2>🔑 Detailed Credential Type Examples</h2>
             <p>Different targets require different credential formats. Here are detailed examples:</p>
 
@@ -3598,7 +3673,7 @@ Framework Auto-Detection: "public"
         </div>
 
         <!-- CREDENTIAL MANAGEMENT BEST PRACTICES -->
-        <div class="section">
+        <div class="section" id="credential-mgmt">
             <h2>🔐 Credential Management Best Practices</h2>
 
             <h3>Never Store Credentials in Code</h3>
@@ -3686,7 +3761,7 @@ Status: TEMPORARY (delete after assessment)
         </div>
 
         <!-- REPORT FORMAT GUIDE -->
-        <div class="section">
+        <div class="section" id="report-format">
             <h2>📊 Report Format Guide</h2>
             <p>Understand how to read and interpret assessment reports.</p>
 
@@ -3843,7 +3918,7 @@ Status: TEMPORARY (delete after assessment)
         </div>
 
         <!-- PERFORMANCE MONITORING -->
-        <div class="section">
+        <div class="section" id="performance-monitoring">
             <h2>⚡ Performance Monitoring During Assessment</h2>
             <p>Monitor system resources to ensure smooth assessment execution.</p>
 
@@ -3985,7 +4060,7 @@ Swap:         2.0Gi       0.0Gi       2.0Gi</span>
         </div>
 
         <!-- ALTERNATIVE VM SETUP METHODS -->
-        <div class="section">
+        <div class="section" id="alt-vm">
             <h2>🖥️ Alternative VM Setup Methods</h2>
             <p>Besides Hyper-V, you can use other virtualization platforms:</p>
 
@@ -4099,7 +4174,7 @@ Swap:         2.0Gi       0.0Gi       2.0Gi</span>
         </div>
 
         <!-- ALTERNATIVE CONNECTION METHODS -->
-        <div class="section">
+        <div class="section" id="alt-connection">
             <h2>🔗 Alternative Connection Methods</h2>
             <p>Besides SSH, you can connect to Kali in other ways:</p>
 
@@ -4165,7 +4240,7 @@ Swap:         2.0Gi       0.0Gi       2.0Gi</span>
         </div>
 
         <!-- MOBILE APP TESTING -->
-        <div class="section">
+        <div class="section" id="mobile-testing">
             <h2>📱 Mobile Application Testing (Assessment Type 5)</h2>
             <p>Complete walkthrough for testing mobile apps (iOS/Android):</p>
 
@@ -4262,7 +4337,7 @@ Credentials: testuser / TestPass123!</span>
         </div>
 
         <!-- CONTAINER & K8S TESTING -->
-        <div class="section">
+        <div class="section" id="container-k8s">
             <h2>🐳 Container & Kubernetes Testing (Assessment Type 6)</h2>
             <p>Complete guide for testing Docker containers and Kubernetes clusters:</p>
 
@@ -6105,7 +6180,7 @@ Manager: _____________ Date: _______
         </div>
 
         <!-- SUPPORT & RESOURCES -->
-        <div class="section">
+        <div class="section" id="support-resources">
             <h2>🤝 Support & Resources</h2>
 
             <h3>Getting Help</h3>
@@ -6186,7 +6261,7 @@ Manager: _____________ Date: _______
         </div>
 
         <!-- COMPLETE SIMULATION SCENARIOS -->
-        <div class="section">
+        <div class="section" id="scenarios">
             <h2>📚 Complete Simulation Scenarios</h2>
             <p>Here are 5 complete, realistic scenarios you can run right now. Each includes target URL, credentials, assessment type, and expected findings.</p>
 
