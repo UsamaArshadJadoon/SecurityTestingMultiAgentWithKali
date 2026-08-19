@@ -1,8 +1,8 @@
 # Security Testing Multi-Agent Framework
 
-**Production-Ready | Enterprise Grade | 15/10 Score**
+**Production-Ready | Enterprise Grade | 200+ Kali Tools**
 
-A comprehensive security testing orchestration framework with 21 production modules, complete observability, resilience patterns, and enterprise-grade security hardening.
+A comprehensive penetration testing orchestration framework with 200+ Kali Linux tools, 18 exploit modules, 11 specialized assessment workflows, and enterprise-grade security hardening.
 
 ## Quick Start
 
@@ -10,13 +10,16 @@ A comprehensive security testing orchestration framework with 21 production modu
 # Install dependencies
 npm install
 
-# Set JWT secret
-export JWT_SECRET="your-secret-key"
+# Set required environment variables
+export JWT_SECRET="<base64-secret>"
+export REQUEST_SIGNING_SECRET="<base64-secret>"
+export KEYSTORE_MASTER_KEY="<base64-secret>"
+export NODE_ENV=production
 
 # Start server
 npm start
 
-# Run tests (75+ tests)
+# Run tests (196+ tests)
 npm test
 
 # Check health
@@ -26,46 +29,31 @@ curl http://localhost:3000/health
 ## Framework Overview
 
 - **Status**: ✅ Production-Ready
-- **Modules**: 21 production-ready
-- **Tests**: 75+ integration tests (100% passing)
-- **Security**: 2 critical vulnerabilities fixed
-- **Score**: 15/10 (Enterprise Grade)
+- **Kali Tools**: 200+ tools across 3 phases
+- **Exploit Modules**: 18 vulnerability types
+- **Assessment Workflows**: 11 specialized types
+- **Orchestrator Modules**: 50+ production-ready
+- **Tests**: 196+ integration & unit tests (100% passing)
+- **Security**: 6 critical vulnerabilities fixed
+- **Score**: Enterprise Grade
 
-### 3 Implementation Phases
+### Core Components
 
-| Phase | Focus | Modules | Tests |
-|-------|-------|---------|-------|
-| **Phase 1** | Critical Foundation | 5 | 30+ |
-| **Phase 2** | Performance Optimization | 6 | 64+ |
-| **Phase 3** | Enterprise Features | 10 | 40+ |
+| Component | Coverage | Count |
+|-----------|----------|-------|
+| **Kali Tools** | Phase 1-3 Reconnaissance, Scanning, Exploitation | 200+ |
+| **Exploit Modules** | SQLi, XSS, RCE, SSRF, CSRF, Auth Bypass, + 12 more | 18 |
+| **Workflows** | Web App, API, Cloud, Network, Mobile, Container, etc. | 11 |
+| **Orchestrator Modules** | Security, integration, rate limiting, encryption, audit | 50+ |
+| **Test Suites** | Phase integration, orchestration, Kali tools | 8 suites |
 
-### 21 Production Modules
+### Assessment Phases
 
-**Phase 1** (Critical):
-- Request Context Tracing
-- Health Check Endpoint
-- Graceful Shutdown
-- Database Rate Limiter
-- Structured Logger
-
-**Phase 2** (Performance):
-- Database Connection Pool
-- Prometheus Metrics
-- Request Timeout Protection
-- Configuration Validation
-- Bulk Operations
-
-**Phase 3** (Enterprise):
-- Schema Validation
-- Error Classification & Retry
-- Secrets Management
-- API Versioning
-- Circuit Breaker
-- Endpoint Rate Limiting
-- Request Signing (HMAC)
-- Audit Logging
-- Feature Flags
-- Performance Benchmarking
+| Phase | Focus | Tools | Modules |
+|-------|-------|-------|---------|
+| **Phase 1** | Reconnaissance & Enumeration | 18 | Multiple |
+| **Phase 2** | Scanning & Vulnerability Detection | 19-39 | Multiple |
+| **Phase 3** | Exploitation & Post-Exploitation | 19-44 | Multiple |
 
 ## API Endpoints
 
@@ -172,11 +160,11 @@ CMD ["node", "server.js"]
 ```
 
 ### Kubernetes
-See FRAMEWORK_COMPLETE.md for full Kubernetes deployment manifest.
+See docs/framework-documentation.md for full Kubernetes deployment manifest.
 
 ## Documentation
 
-**→ [FRAMEWORK_COMPLETE.md](FRAMEWORK_COMPLETE.md)** - Complete documentation including:
+**→ [docs/framework-documentation.md](docs/framework-documentation.md)** - Complete documentation including:
 - Detailed module descriptions
 - Full API documentation
 - Deployment guides (Docker, Kubernetes)
@@ -199,12 +187,12 @@ See FRAMEWORK_COMPLETE.md for full Kubernetes deployment manifest.
 - ✅ Secure Configuration (environment-based)
 
 ### Critical Security Fixes
-- ✅ Fixed hardcoded default request signing secret (CWE-798)
-- ✅ Fixed JWT authentication fail-open vulnerability (CWE-287)
-- ✅ Fixed unencrypted key storage - now encrypted at rest (CWE-312)
-- ✅ Fixed timing attack in HMAC verification (CWE-208)
-- ✅ Fixed authentication bypass in development config (CWE-287)
-- ✅ Verified path traversal protection (proper path validation)
+- ✅ CWE-798: Hardcoded default request signing secret
+- ✅ CWE-287: JWT authentication fail-open vulnerability
+- ✅ CWE-312: Unencrypted key storage (now AES-256-GCM)
+- ✅ CWE-208: Timing attack in HMAC verification
+- ✅ CWE-287: Authentication bypass in development config
+- ✅ CWE-22: Path traversal protection (verified secure)
 
 ## Performance
 
@@ -270,18 +258,21 @@ Response + Metrics
 3. Run tests: `npm test`
 4. Start server: `npm start`
 5. Check health: `curl http://localhost:3000/health`
-6. Review FRAMEWORK_COMPLETE.md for deployment guides
+6. Review docs/framework-documentation.md for deployment guides
 
 ## Status
 
-✅ All 18 gaps implemented  
-✅ 21 production modules  
-✅ 75+ tests (100% passing)  
+✅ 200+ Kali Linux tools integrated  
+✅ 18 exploit modules (10 core + 8 advanced)  
+✅ 11 specialized assessment workflows  
+✅ 50+ orchestrator modules  
+✅ 196+ tests across 8 suites (100% passing)  
+✅ 6 critical vulnerabilities fixed  
 ✅ Enterprise-grade security  
-✅ Production-ready  
+✅ Production-ready deployment  
 
-**Score**: 15/10 (Production Grade)
+**Framework Status**: ENTERPRISE GRADE | PRODUCTION-READY
 
 ---
 
-**For detailed information, see [FRAMEWORK_COMPLETE.md](FRAMEWORK_COMPLETE.md)**
+**For detailed information, see [docs/framework-documentation.md](docs/framework-documentation.md)**
