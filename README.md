@@ -42,8 +42,7 @@ curl http://localhost:3000/health
 
 ## 📖 Documentation
 
-**→ [📘 Complete Setup Guide (HTML)](docs/complete-setup-guide.html)** *(Comprehensive reference - 6000+ lines)*  
-**→ [📘 Framework Architecture](docs/framework-documentation.md)** *(Technical details)*
+**→ [📘 Complete Setup Guide (HTML)](docs/complete-setup-guide.html)** *(Comprehensive reference - 6000+ lines, all phases and workflows)*
 
 ### What's in the Complete Setup Guide
 
@@ -553,9 +552,7 @@ See [docs/framework-documentation.md](docs/framework-documentation.md) for full 
 
 ## 📚 Complete Documentation
 
-**→ [📘 Complete Setup Guide (HTML)](docs/complete-setup-guide.html)** — Comprehensive reference with all implementation details
-
-**→ [📘 Framework Architecture](docs/framework-documentation.md)** — Technical API reference and architecture deep-dive
+**→ [📘 Complete Setup Guide (HTML)](docs/complete-setup-guide.html)** — Comprehensive reference with all implementation details, 6 phases, 11 workflows, and professional guidance
 
 ---
 
@@ -597,7 +594,7 @@ See [docs/framework-documentation.md](docs/framework-documentation.md) for full 
 | **Remediation Steps** | Section: 🔧 Remediation & Fix Guide |
 | **Integration Setup** | Section: 🔗 Integration Guides |
 | **Troubleshooting** | Section: Troubleshooting & FAQ |
-| **Architecture & API** | [docs/framework-documentation.md](docs/framework-documentation.md) |
+| **All Documentation** | [docs/complete-setup-guide.html](docs/complete-setup-guide.html) |
 
 ---
 
