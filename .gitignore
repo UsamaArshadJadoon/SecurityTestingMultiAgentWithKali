@@ -50,6 +50,11 @@ Thumbs.db
 logs/
 .claude/logs/
 engagements/*/logs/
+audit-logs/
+
+# ===== TEST COVERAGE & ARTIFACTS =====
+coverage/
+.nyc_output/
 
 # ===== IDE FILES =====
 .vscode/
