@@ -6,17 +6,18 @@
   "scripts": {
     "start": "node server.js",
     "start:dev": "NODE_ENV=development node server.js",
-    "orchestrate": "node orchestrator/Orchestrator.js",
-    "report": "node orchestrator/report-generator.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:phase1": "jest tests/phase1-integration.test.js"
+    "test:phase1": "jest tests/phase1-integration.test.js",
+    "test:phase2": "jest tests/phase2-integration.test.js",
+    "test:phase3": "jest tests/phase3-integration.test.js"
   },
   "dependencies": {
     "express": "^4.18.2",
     "js-yaml": "4.1.0",
-    "ajv": "8.17.1"
+    "ajv": "8.17.1",
+    "jsonwebtoken": "^9.1.2"
   },
   "devDependencies": {
     "jest": "^29.7.0",

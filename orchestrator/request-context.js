@@ -103,12 +103,69 @@ const requestContext = new RequestContext();
 
 /**
  * Express middleware to initialize context
+ * SECURITY: Derives userId/tenantId from verified auth, not client headers
  */
 function requestContextMiddleware(req, res, next) {
+  // Extract userId from verified token/session ONLY
+  // Never trust X-User-ID or X-Tenant-ID headers from client
+  let userId = 'anonymous';
+  let tenantId = 'default';
+  let isAuthenticated = false;
+
+  // Check for Bearer token in Authorization header
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.substring(7);
+    try {
+      // NOTE: JWT verification requires:
+      // 1. jsonwebtoken package: npm install jsonwebtoken
+      // 2. JWT_SECRET or JWT_PUBLIC_KEY in environment
+      // For now, fail closed (require verification to be implemented)
+      // DO NOT ship with unverified tokens - this will be a 401
+      // SECURITY: Require JWT_SECRET to be configured - fail if missing
+      const secret = process.env.JWT_SECRET || process.env.JWT_PUBLIC_KEY;
+      if (!secret) {
+        const logger = global.logger;
+        if (logger) {
+          logger.error('FATAL: JWT_SECRET or JWT_PUBLIC_KEY not configured', {
+            path: req.path,
+            message: 'Bearer token provided but no verification key available'
+          });
+        }
+        throw new Error('JWT verification not configured - cannot authenticate bearer tokens');
+      }
+
+      const jwt = require('jsonwebtoken');
+      const options = {
+        algorithms: process.env.JWT_ALGORITHM ? [process.env.JWT_ALGORITHM] : ['HS256']
+      };
+      const claims = jwt.verify(token, secret, options);
+      userId = claims.sub || claims.user_id || claims.id;
+      tenantId = claims.tenant || claims.tenant_id || 'default';
+      isAuthenticated = true;
+    } catch (error) {
+      // Token verification failed - fall back to unauthenticated
+      const logger = global.logger;
+      if (logger) {
+        logger.debug('JWT verification failed', {
+          error: error.message,
+          path: req.path
+        });
+      }
+      isAuthenticated = false;
+    }
+  }
+
+  // Fall back to req.ip for rate limiting unauthenticated requests
+  if (!isAuthenticated) {
+    userId = req.ip || 'unknown-ip';
+  }
+
   const requestId = requestContext.initialize({
     requestId: req.headers['x-request-id'] || undefined,
-    userId: req.user?.id || req.headers['x-user-id'] || 'anonymous',
-    tenantId: req.headers['x-tenant-id'] || 'default',
+    userId,  // From verified auth only, never from client headers
+    tenantId,  // From verified auth only
+    isAuthenticated,
     method: req.method,
     path: req.path,
     ip: req.ip

@@ -191,7 +191,7 @@ class KeyManager {
   }
 
   /**
-   * Loads key store from disk
+   * Loads and decrypts key store from disk
    * @private
    * @returns {object} Keys map
    */
@@ -203,6 +203,18 @@ class KeyManager {
 
     try {
       const content = fs.readFileSync(storeFile, 'utf8');
+
+      // SECURITY: Decrypt keystore if master key is configured
+      if (process.env.KEYSTORE_MASTER_KEY) {
+        const decrypted = this._decryptKeyStore(content);
+        return JSON.parse(decrypted);
+      }
+
+      // Fallback for backwards compatibility (warn in logs)
+      const logger = global.logger;
+      if (logger) {
+        logger.warn('Loading unencrypted keystore - set KEYSTORE_MASTER_KEY to encrypt');
+      }
       return JSON.parse(content);
     } catch (e) {
       console.warn(`Failed to load keystore: ${e.message}`);
@@ -211,14 +223,78 @@ class KeyManager {
   }
 
   /**
-   * Saves key store to disk (encrypted recommended in production)
+   * Saves and encrypts key store to disk
    * @private
    */
   _saveKeyStore() {
     const storeFile = path.join(this.keyStorePath, 'keystore.json');
-    fs.writeFileSync(storeFile, JSON.stringify(this.keys, null, 2), {
+    let dataToWrite = JSON.stringify(this.keys, null, 2);
+
+    // SECURITY: Encrypt keystore at rest if master key configured
+    if (process.env.KEYSTORE_MASTER_KEY) {
+      dataToWrite = this._encryptKeyStore(dataToWrite);
+    } else {
+      const logger = global.logger;
+      if (logger) {
+        logger.warn('Storing unencrypted keystore - set KEYSTORE_MASTER_KEY to encrypt');
+      }
+    }
+
+    fs.writeFileSync(storeFile, dataToWrite, {
       mode: 0o600  // Owner read/write only
     });
+  }
+
+  /**
+   * Encrypts keystore data using master key
+   * @private
+   */
+  _encryptKeyStore(data) {
+    const masterKey = Buffer.from(process.env.KEYSTORE_MASTER_KEY, 'base64');
+    if (masterKey.length !== 32) {
+      throw new Error('KEYSTORE_MASTER_KEY must be 32 bytes (base64 encoded)');
+    }
+
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv('aes-256-gcm', masterKey, iv);
+
+    let encrypted = cipher.update(data, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+
+    const authTag = cipher.getAuthTag();
+    const envelope = {
+      version: 1,
+      algorithm: 'aes-256-gcm',
+      iv: iv.toString('hex'),
+      authTag: authTag.toString('hex'),
+      data: encrypted
+    };
+
+    return JSON.stringify(envelope);
+  }
+
+  /**
+   * Decrypts keystore data using master key
+   * @private
+   */
+  _decryptKeyStore(encryptedEnvelope) {
+    const masterKey = Buffer.from(process.env.KEYSTORE_MASTER_KEY, 'base64');
+    if (masterKey.length !== 32) {
+      throw new Error('KEYSTORE_MASTER_KEY must be 32 bytes (base64 encoded)');
+    }
+
+    const envelope = JSON.parse(encryptedEnvelope);
+    const iv = Buffer.from(envelope.iv, 'hex');
+    const authTag = Buffer.from(envelope.authTag, 'hex');
+    const data = envelope.data;
+
+    const decipher = crypto.createDecipheriv('aes-256-gcm', masterKey, iv);
+    decipher.setAuthTag(authTag);
+
+    let decrypted = decipher.update(data, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+
+    return decrypted;
   }
 
   /**
