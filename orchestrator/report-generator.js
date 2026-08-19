@@ -32,6 +32,11 @@ const PRIORITY_LABEL = { p0: 'P0 — Fix Immediately', p1: 'P1 — Fix This Spri
 // HELPERS
 // ============================================================================
 
+/**
+ * Escapes HTML special characters to prevent XSS in report output.
+ * @param {string|null|undefined} str - Input string to escape
+ * @returns {string} HTML-escaped string, or empty string if input is falsy
+ */
 function esc(str) {
   if (str === undefined || str === null) return '';
   return String(str)
@@ -39,12 +44,21 @@ function esc(str) {
     .replace(/"/g, '&quot;');
 }
 
+/**
+ * Converts a title string to a URL-safe slug (lowercase, alphanumeric + hyphens).
+ * @param {string} str - Input string (e.g., "SQL Injection")
+ * @returns {string} URL-safe slug (e.g., "sql-injection")
+ */
 function slug(str) {
   return String(str || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 }
 
-// js-yaml auto-parses unquoted YYYY-MM-DD scalars into JS Date objects; render
-// those (and real Date instances generally) as a plain ISO date, not toString().
+/**
+ * Formats dates consistently across the report. Handles both Date objects
+ * and YYYY-MM-DD strings (which js-yaml auto-parses into Date objects).
+ * @param {Date|string|null} value - Date object or ISO date string
+ * @returns {string} ISO date string (YYYY-MM-DD), or empty string if falsy
+ */
 function fmtDate(value) {
   if (value === undefined || value === null || value === '') return '';
   if (value instanceof Date) return value.toISOString().slice(0, 10);
@@ -55,6 +69,11 @@ function fmtDate(value) {
 // DATA LOADING
 // ============================================================================
 
+/**
+ * Loads and parses the engagement configuration YAML file.
+ * @returns {object} Parsed configuration object with engagement metadata
+ * @throws {Error} If config.yaml is not found, exits process
+ */
 function loadConfig() {
   const configFile = path.join(ENGAGEMENT_PATH, 'config.yaml');
   if (!fs.existsSync(configFile)) {
@@ -64,6 +83,11 @@ function loadConfig() {
   return YAML.load(fs.readFileSync(configFile, 'utf8')) || {};
 }
 
+/**
+ * Parses engagement scope.md file to extract authorization, in/out-of-scope,
+ * and restrictions information for the report cover page.
+ * @returns {object} Scope metadata including authorization status and details
+ */
 function loadScope() {
   const scopeFile = path.join(ENGAGEMENT_PATH, 'scope.md');
   const content = fs.existsSync(scopeFile) ? fs.readFileSync(scopeFile, 'utf8') : '';
@@ -87,6 +111,12 @@ function loadScope() {
   };
 }
 
+/**
+ * Loads all validated findings from the findings directory, re-validates each
+ * against the 4-layer gate for defensive consistency, sorts by severity and
+ * CVSS score, and assigns report numbering.
+ * @returns {Array<object>} Array of validated findings, sorted by severity
+ */
 function loadFindings() {
   if (!fs.existsSync(FINDINGS_PATH)) return [];
   const files = fs.readdirSync(FINDINGS_PATH).filter(f => f.endsWith('.json'));
@@ -126,6 +156,11 @@ function loadFindings() {
   return findings;
 }
 
+/**
+ * Computes statistics and summary metrics for the report cover page.
+ * @param {Array<object>} findings - Array of validated findings
+ * @returns {object} Statistics object with counts by severity, CVSS metrics, OWASP mapping
+ */
 function computeStats(findings) {
   const counts = { Critical: 0, High: 0, Medium: 0, Low: 0, Info: 0 };
   findings.forEach(f => { if (counts[f.severity] !== undefined) counts[f.severity]++; });

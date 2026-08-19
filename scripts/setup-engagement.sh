@@ -11,6 +11,7 @@
 # ============================================================================
 
 set -e
+set -o pipefail  # Exit on pipe failures
 
 if [ -z "$1" ]; then
     echo "Usage: bash scripts/setup-engagement.sh <engagement-name>"
@@ -195,7 +196,11 @@ TESTING_WINDOW_START=${TODAY}T00:00:00Z
 TESTING_WINDOW_END=${WINDOW_END}T23:59:59Z
 EOF
 
+# Secure .env file — owner read/write only (credentials should not be world-readable)
+chmod 600 "$ENGAGEMENT_DIR/.env"
+
 echo ""
 echo "✅ Engagement setup complete!"
 echo "📋 Saved: $ENGAGEMENT_DIR/config.yaml, scope.md, .env ($ROLE_COUNT role(s))"
+echo "📋 File permissions: .env is owner-read/write only (600)"
 echo "📋 Next: bash scripts/run-pentest.sh $ENGAGEMENT_NAME"

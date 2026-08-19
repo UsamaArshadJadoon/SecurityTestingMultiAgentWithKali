@@ -23,7 +23,25 @@
 const fs = require('fs');
 const path = require('path');
 const YAML = require('js-yaml');
+const Ajv = require('ajv');
 const { validateFinding } = require('./validation-gate.js');
+
+// Config schema for YAML validation
+const CONFIG_SCHEMA = {
+  type: 'object',
+  required: ['engagement_name', 'target_url', 'scope_file'],
+  properties: {
+    engagement_name: { type: 'string', minLength: 1, maxLength: 100 },
+    target_url: { type: 'string', pattern: '^https?://' },
+    scope_file: { type: 'string', minLength: 1 },
+    timezone: { type: 'string' },
+    start_date: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' },
+    end_date: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' }
+  }
+};
+
+const ajv = new Ajv({ allErrors: true });
+const validateConfig = ajv.compile(CONFIG_SCHEMA);
 
 // ============================================================================
 // CONFIGURATION & CONSTANTS
@@ -35,13 +53,16 @@ const CONFIG_FILE = path.join(ENGAGEMENT_PATH, 'config.yaml');
 const EVIDENCE_PATH = path.join(ENGAGEMENT_PATH, 'evidence');
 const FINDINGS_PATH = path.join(EVIDENCE_PATH, 'findings');
 const STATE_FILE = path.join(ENGAGEMENT_PATH, '.orchestrator-state.json');
+const STATE_FILE_TEMP = path.join(ENGAGEMENT_PATH, '.orchestrator-state.json.tmp');
 
 // Agent timeout configuration
+const AGENT_TIMEOUT_SECONDS = 3600; // 1 hour per agent
+const AGENT_RETRIES = 3;
 const AGENT_CONFIG = {
-  timeout: 3600,           // 1 hour per agent
-  retries: 3,              // Retry failed agents
+  timeout: AGENT_TIMEOUT_SECONDS,
+  retries: AGENT_RETRIES,
   retryBackoff: 'exponential',
-  partialResultsOK: true,  // Accept partial findings before timeout
+  partialResultsOK: true,
 };
 
 // ============================================================================
@@ -61,24 +82,40 @@ class ExecutionContext {
   }
 
   /**
-   * Save execution state for resume capability
+   * Save execution state for resume capability using atomic writes
+   * to prevent corruption on process crash mid-write
    */
   saveState() {
-    fs.writeFileSync(STATE_FILE, JSON.stringify({
+    const stateData = JSON.stringify({
       completedPhases: Object.keys(this.phases),
       completedAgents: Object.keys(this.agentResults),
       findingsCount: this.allFindings.length,
       lastUpdate: new Date().toISOString(),
       errors: this.errors.length
-    }, null, 2));
+    }, null, 2);
+
+    try {
+      // Write to temporary file first, then atomic rename
+      fs.writeFileSync(STATE_FILE_TEMP, stateData);
+      // Atomic rename (fails safely if original wasn't writable)
+      fs.renameSync(STATE_FILE_TEMP, STATE_FILE);
+    } catch (error) {
+      console.error(`⚠️  Failed to save state: ${error.message}`);
+      // Continue anyway — orchestration continues even if state save fails
+    }
   }
 
   /**
-   * Load prior execution state for resume
+   * Load prior execution state for resume with error handling
    */
   loadState() {
     if (fs.existsSync(STATE_FILE)) {
-      return JSON.parse(fs.readFileSync(STATE_FILE, 'utf8'));
+      try {
+        return JSON.parse(fs.readFileSync(STATE_FILE, 'utf8'));
+      } catch (error) {
+        console.warn(`⚠️  State file corrupted or unreadable, starting fresh: ${error.message}`);
+        return null;
+      }
     }
     return null;
   }
@@ -126,11 +163,17 @@ class ExecutionContext {
   /**
    * Persists a single finding to disk so it survives a resume and (for
    * validated findings) is picked up by report-generator.js.
+   * Sanitizes finding_id to prevent path traversal attacks.
    */
   writeFindingFile(dir, finding) {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    const id = finding.finding_id || `FINDING-${Date.now()}`;
-    fs.writeFileSync(path.join(dir, `${id}.json`), JSON.stringify(finding, null, 2));
+    // Sanitize: remove any characters that could enable path traversal
+    const rawId = finding.finding_id || `FINDING-${Date.now()}`;
+    const sanitizedId = String(rawId).replace(/[^a-zA-Z0-9\-_]/g, '');
+    if (!sanitizedId) {
+      throw new Error(`Invalid finding_id (no alphanumeric chars): "${rawId}"`);
+    }
+    fs.writeFileSync(path.join(dir, `${sanitizedId}.json`), JSON.stringify(finding, null, 2));
   }
 
   /**
@@ -174,7 +217,7 @@ class PenetrationTestOrchestrator {
   }
 
   /**
-   * Load engagement configuration
+   * Load engagement configuration with schema validation and safe YAML parsing
    */
   loadConfig() {
     if (!fs.existsSync(CONFIG_FILE)) {
@@ -184,9 +227,20 @@ class PenetrationTestOrchestrator {
     }
 
     try {
-      return YAML.load(fs.readFileSync(CONFIG_FILE, 'utf8'));
+      const config = YAML.load(fs.readFileSync(CONFIG_FILE, 'utf8'), {
+        maxAliasCount: 10 // Prevent DOS via recursive YAML aliases
+      });
+
+      // Validate config against schema
+      if (!validateConfig(config)) {
+        const errors = validateConfig.errors.map(e => `${e.instancePath || '(root)'} ${e.message}`).join('; ');
+        console.error(`❌ Invalid config: ${errors}`);
+        process.exit(1);
+      }
+
+      return config;
     } catch (error) {
-      console.error(`❌ Invalid config: ${error.message}`);
+      console.error(`❌ Failed to load config: ${error.message}`);
       process.exit(1);
     }
   }
