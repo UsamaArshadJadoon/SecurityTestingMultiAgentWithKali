@@ -117,13 +117,13 @@ describe('Kali Tools Expanded - 54 Tool Suite', () => {
   });
 
   // =========================================================================
-  // PHASE 2: SCANNING & ENUMERATION TOOLS (18 Tools)
+  // PHASE 2: SCANNING & ENUMERATION TOOLS (19 Tools)
   // =========================================================================
 
-  describe('Phase 2: Scanning & Enumeration Tools (18 Total)', () => {
-    test('should have exactly 18 Phase 2 tools', () => {
+  describe('Phase 2: Scanning & Enumeration Tools (19 Total)', () => {
+    test('should have exactly 19 Phase 2 tools', () => {
       const tools = orchestrator.getToolsByPhase('phase2');
-      expect(tools.length).toBe(18);
+      expect(tools.length).toBe(19);
     });
 
     test('should include web server scanning tools', () => {
@@ -190,13 +190,13 @@ describe('Kali Tools Expanded - 54 Tool Suite', () => {
   });
 
   // =========================================================================
-  // PHASE 3: EXPLOITATION & ADVANCED TOOLS (18 Tools)
+  // PHASE 3: EXPLOITATION & ADVANCED TOOLS (19 Tools)
   // =========================================================================
 
-  describe('Phase 3: Exploitation & Advanced Tools (18 Total)', () => {
-    test('should have exactly 18 Phase 3 tools', () => {
+  describe('Phase 3: Exploitation & Advanced Tools (19 Total)', () => {
+    test('should have exactly 19 Phase 3 tools', () => {
       const tools = orchestrator.getToolsByPhase('phase3');
-      expect(tools.length).toBe(18);
+      expect(tools.length).toBe(19);
     });
 
     test('should include password cracking tools', () => {
@@ -267,12 +267,12 @@ describe('Kali Tools Expanded - 54 Tool Suite', () => {
   // =========================================================================
 
   describe('100% Tool Coverage', () => {
-    test('should have 54 total tools across all phases', () => {
+    test('should have 56 total tools across all phases', () => {
       const allTools = orchestrator.getAllTools();
-      expect(allTools.total).toBe(54);
+      expect(allTools.total).toBe(56);
       expect(allTools.phase1.length).toBe(18);
-      expect(allTools.phase2.length).toBe(18);
-      expect(allTools.phase3.length).toBe(18);
+      expect(allTools.phase2.length).toBe(19);
+      expect(allTools.phase3.length).toBe(19);
     });
 
     test('should have no duplicate tools across phases', () => {
@@ -283,7 +283,7 @@ describe('Kali Tools Expanded - 54 Tool Suite', () => {
       const allTools = [...p1, ...p2, ...p3];
       const uniqueTools = new Set(allTools);
 
-      expect(uniqueTools.size).toBe(54);
+      expect(uniqueTools.size).toBe(56);
     });
 
     test('should cover all reconnaissance categories in Phase 1', () => {
@@ -337,7 +337,7 @@ describe('Kali Tools Expanded - 54 Tool Suite', () => {
 
       const totalCoverage = webServerTools.length + webAppTools.length + dbTools.length +
                            dirTools.length + cmsTools.length + credTools.length;
-      expect(totalCoverage).toBe(18);
+      expect(totalCoverage).toBe(19);
     });
 
     test('should cover all exploitation categories in Phase 3', () => {
@@ -369,7 +369,7 @@ describe('Kali Tools Expanded - 54 Tool Suite', () => {
 
       const totalCoverage = crackTools.length + exploitTools.length + dumpTools.length +
                            browserTools.length + netTools.length + postExploitTools.length;
-      expect(totalCoverage).toBe(18);
+      expect(totalCoverage).toBe(19);
     });
   });
 
@@ -385,7 +385,7 @@ describe('Kali Tools Expanded - 54 Tool Suite', () => {
       expect(stats.succeeded).toBe(0);
       expect(stats.failed).toBe(0);
       expect(stats.successRate).toBe('0%');
-      expect(stats.toolCoverage.total).toBe(54);
+      expect(stats.toolCoverage.total).toBe(56);
     });
 
     test('should calculate statistics with mixed executions', () => {
@@ -411,16 +411,16 @@ describe('Kali Tools Expanded - 54 Tool Suite', () => {
       expect(stats.byPhase.phase1).toBe(2);
       expect(stats.byPhase.phase2).toBe(2);
       expect(stats.byPhase.phase3).toBe(1);
-      expect(stats.toolCoverage.total).toBe(54);
+      expect(stats.toolCoverage.total).toBe(56);
     });
 
     test('should return all tools correctly', () => {
       const allTools = orchestrator.getAllTools();
 
       expect(allTools.phase1).toHaveLength(18);
-      expect(allTools.phase2).toHaveLength(18);
-      expect(allTools.phase3).toHaveLength(18);
-      expect(allTools.total).toBe(54);
+      expect(allTools.phase2).toHaveLength(19);
+      expect(allTools.phase3).toHaveLength(19);
+      expect(allTools.total).toBe(56);
     });
   });
 

@@ -226,7 +226,13 @@ class ToolChainOrchestrator {
       const condition = toolConfig.condition;
 
       // Check if we should execute this tool
-      if (condition && !condition(previousOutput)) {
+      // Merge context with previous output for condition evaluation
+      const conditionInput = {
+        ...context,
+        ...previousOutput
+      };
+
+      if (condition && !condition(conditionInput)) {
         this.logger.info(`  [SKIP] ${toolName} (condition not met)`);
         chainResults.tools.push({
           name: toolName,

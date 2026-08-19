@@ -356,9 +356,9 @@ class Phase3ToolsExpanded {
     return this._executeExploit('impacket', cmd, tool);
   }
 
-  async responder(interface, options = {}) {
-    const cmd = `responder -I ${interface} ${options.analysis ? '-A' : ''}`;
-    return this._executeExploit('responder', cmd, interface);
+  async responder(networkInterface, options = {}) {
+    const cmd = `responder -I ${networkInterface} ${options.analysis ? '-A' : ''}`;
+    return this._executeExploit('responder', cmd, networkInterface);
   }
 
   // ========== Browser & Client Exploitation ==========

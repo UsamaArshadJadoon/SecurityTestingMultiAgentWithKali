@@ -27,14 +27,14 @@ class FeatureFlag {
    * Check if feature is enabled for user
    */
   isEnabledForUser(userId) {
-    // Feature disabled globally
-    if (!this.enabled) return false;
-
     // User explicitly blocked
     if (this.blockedUsers.has(userId)) return false;
 
-    // User explicitly allowed
+    // User explicitly allowed (overrides global setting)
     if (this.allowedUsers.has(userId)) return true;
+
+    // Feature disabled globally
+    if (!this.enabled) return false;
 
     // Percentage-based rollout
     if (this.rolloutPercentage < 100) {

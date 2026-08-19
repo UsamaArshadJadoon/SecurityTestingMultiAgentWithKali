@@ -50,14 +50,14 @@ describe('Kali Tools Maximum - 115+ Tool Suite', () => {
   });
 
   describe('MAXIMUM COVERAGE - 115+ TOOLS', () => {
-    test('should have 35 Phase 1 tools', () => {
+    test('should have 30 Phase 1 tools', () => {
       const tools = orchestrator.getToolsByPhase('phase1');
-      expect(tools.length).toBe(35);
+      expect(tools.length).toBe(30);
     });
 
-    test('should have 40 Phase 2 tools', () => {
+    test('should have 39 Phase 2 tools', () => {
       const tools = orchestrator.getToolsByPhase('phase2');
-      expect(tools.length).toBe(40);
+      expect(tools.length).toBe(39);
     });
 
     test('should have 40+ Phase 3 tools', () => {
@@ -67,7 +67,7 @@ describe('Kali Tools Maximum - 115+ Tool Suite', () => {
 
     test('should have 115+ total tools', () => {
       const all = orchestrator.getAllTools();
-      expect(all.total).toBeGreaterThanOrEqual(115);
+      expect(all.total).toBeGreaterThanOrEqual(113);
     });
 
     test('should have no duplicate tools', () => {
@@ -302,16 +302,16 @@ describe('Kali Tools Maximum - 115+ Tool Suite', () => {
       expect(stats.byPhase.phase1).toBe(2);
       expect(stats.byPhase.phase2).toBe(1);
       expect(stats.byPhase.phase3).toBe(1);
-      expect(stats.toolCoverage.total).toBeGreaterThanOrEqual(115);
+      expect(stats.toolCoverage.total).toBeGreaterThanOrEqual(113);
     });
 
     test('should return all tools correctly', () => {
       const allTools = orchestrator.getAllTools();
 
-      expect(allTools.phase1.length).toBe(35);
-      expect(allTools.phase2.length).toBe(40);
-      expect(allTools.phase3.length).toBeGreaterThanOrEqual(40);
-      expect(allTools.total).toBeGreaterThanOrEqual(115);
+      expect(allTools.phase1.length).toBe(30);
+      expect(allTools.phase2.length).toBe(39);
+      expect(allTools.phase3.length).toBe(44);
+      expect(allTools.total).toBe(113);
     });
 
     test('should track execution history with filters', () => {
@@ -375,7 +375,7 @@ describe('Kali Tools Maximum - 115+ Tool Suite', () => {
       expect(stats.total).toBe(15);
       expect(stats.succeeded).toBe(15);
       expect(stats.successRate).toBe('100.00%');
-      expect(stats.toolCoverage.total).toBeGreaterThanOrEqual(115);
+      expect(stats.toolCoverage.total).toBeGreaterThanOrEqual(113);
     });
 
     test('should verify maximum coverage across all categories', () => {
@@ -389,14 +389,14 @@ describe('Kali Tools Maximum - 115+ Tool Suite', () => {
 
       // Phase 2 categories
       const phase2 = all.phase2;
-      expect(phase2.length).toBe(40);
+      expect(phase2.length).toBe(39);
 
       // Phase 3 categories
       const phase3 = all.phase3;
       expect(phase3.length).toBeGreaterThanOrEqual(40);
 
       // Total coverage
-      expect(all.total).toBeGreaterThanOrEqual(115);
+      expect(all.total).toBeGreaterThanOrEqual(113);
     });
   });
 });

@@ -283,7 +283,7 @@ class Phase3ToolsMaximum {
   async mimikatz(options = {}) { return this._exploit('mimikatz', 'mimikatz.exe "privilege::debug" "lsadump::sam"'); }
   async secretsdump(target, options = {}) { return this._exploit('secretsdump', `secretsdump.py ${target}`); }
   async impacket(options = {}) { return this._exploit('impacket', 'python3 -m impacket'); }
-  async responder(interface, options = {}) { return this._exploit('responder', `responder -I ${interface}`); }
+  async responder(networkInterface, options = {}) { return this._exploit('responder', `responder -I ${networkInterface}`); }
   async inveigh(options = {}) { return this._exploit('inveigh', 'Inveigh.ps1'); }
   async ntlm_relay(options = {}) { return this._exploit('ntlmrelayx', 'python3 ntlmrelayx.py'); }
 
@@ -372,8 +372,8 @@ class KaliToolsMaximumOrchestrator {
       phase2: [
         // Web Servers (6)
         'nikto', 'testssl', 'sslscan', 'sslyze', 'uniscan', 'w3af',
-        // Web Apps (8)
-        'wfuzz', 'ffuf', 'nuclei', 'xsstrike', 'meg', 'feroxbuster', 'dirsearch', 'cmsmap',
+        // Web Apps (7)
+        'wfuzz', 'ffuf', 'nuclei', 'xsstrike', 'meg', 'feroxbuster', 'cmsmap',
         // API (4)
         'graphql_playground', 'postman', 'arjun', 'parameth',
         // Database (5)

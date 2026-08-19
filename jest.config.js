@@ -7,6 +7,7 @@
 module.exports = {
   testEnvironment: 'node',
   testMatch: ['**/tests/**/*.test.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   collectCoverageFrom: [
     'orchestrator/**/*.js',
     '!orchestrator/**/*.test.js'
@@ -20,8 +21,8 @@ module.exports = {
     }
   },
   coverageReporters: ['text', 'lcov', 'html'],
-  verbose: true,
+  verbose: false,
   testTimeout: 10000,
   // Fail fast on first test failure (remove --no-bail to run all tests)
-  bail: true
+  bail: false
 };
