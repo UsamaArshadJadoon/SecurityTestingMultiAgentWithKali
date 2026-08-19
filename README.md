@@ -541,9 +541,11 @@ docker run -p 3000:3000 -e JWT_SECRET=$SECRET pentest-framework
 ```
 
 ### Kubernetes
-See [docs/framework-documentation.md](docs/framework-documentation.md) for full manifests
+
+For Kubernetes deployment manifests and configurations, see the **Complete Setup Guide** in [docs/complete-setup-guide.html](docs/complete-setup-guide.html)
 
 ### Cloud Deployment
+
 - AWS: EC2 + RDS + CloudWatch
 - Azure: VM + Application Insights
 - GCP: Compute Engine + Cloud Logging
