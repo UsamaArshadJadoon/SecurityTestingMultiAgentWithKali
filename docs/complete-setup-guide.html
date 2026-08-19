@@ -1329,6 +1329,255 @@
             </div>
         </div>
 
+        <!-- PHASE EXECUTION TIMELINE -->
+        <div class="section" style="background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%); border-radius: 20px; padding: 50px 45px; margin-bottom: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.12); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5);">
+            <h2 style="background: linear-gradient(135deg, #5B7FFF 0%, #8B5CF6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.2em; font-weight: 800; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 3px solid; border-image: linear-gradient(135deg, #5B7FFF, #8B5CF6) 1; letter-spacing: -0.5px;">⏱️ Phase Execution Timeline & Activities</h2>
+            <p style="color: #334155; line-height: 1.8;">Detailed breakdown of what executes during each phase and time required for each activity.</p>
+
+            <h3 style="color: #1E293B; font-size: 1.5em; margin: 35px 0 18px 0; font-weight: 700;">📋 Phase 1: Preparation & Requirements (15-20 minutes)</h3>
+            <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                <thead>
+                    <tr style="background: #f0f7ff; border-bottom: 2px solid #5B7FFF;">
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Activity</th>
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Time</th>
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">📋 Review Requirements</td>
+                        <td style="padding: 12px; color: #334155;"><strong>3-5 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">Read this guide, understand phases, check hardware</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">✅ Verify Hardware</td>
+                        <td style="padding: 12px; color: #334155;"><strong>3-5 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">Check RAM (16GB+), disk space (100GB+), network connectivity</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">📥 Download Files</td>
+                        <td style="padding: 12px; color: #334155;"><strong>5-10 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">Download Kali Linux ISO (3-4GB), framework files (100MB)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="color: #1E293B; font-size: 1.5em; margin: 35px 0 18px 0; font-weight: 700;">⚙️ Phase 2: Environment Setup (30-45 minutes)</h3>
+            <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                <thead>
+                    <tr style="background: #f0f7ff; border-bottom: 2px solid #5B7FFF;">
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Activity</th>
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Time</th>
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">🔧 Install Hyper-V</td>
+                        <td style="padding: 12px; color: #334155;"><strong>5 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">Enable Hyper-V role (may require Windows Pro edition)</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">🌐 Create Virtual Switch</td>
+                        <td style="padding: 12px; color: #334155;"><strong>5 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">Configure External Virtual Switch for VM networking</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">📥 Import Kali VM</td>
+                        <td style="padding: 12px; color: #334155;"><strong>15-20 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">Import Kali Linux VM image, allocate RAM (8GB), disk (40GB)</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">✅ Start VM & Test</td>
+                        <td style="padding: 12px; color: #334155;"><strong>5-10 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">Boot Kali, test network connectivity, verify SSH port open</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="color: #1E293B; font-size: 1.5em; margin: 35px 0 18px 0; font-weight: 700;">📦 Phase 3: Framework Installation & Tools Setup (20-30 minutes)</h3>
+            <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                <thead>
+                    <tr style="background: #f0f7ff; border-bottom: 2px solid #5B7FFF;">
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Activity</th>
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Time</th>
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">🔄 Update Kali</td>
+                        <td style="padding: 12px; color: #334155;"><strong>5 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">apt update && apt upgrade (fetch latest packages)</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">📥 Install Framework</td>
+                        <td style="padding: 12px; color: #334155;"><strong>5 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">Clone repo, install Node.js, Python 3.x dependencies</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">🔧 Install Tools</td>
+                        <td style="padding: 12px; color: #334155;"><strong>5-10 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">Install: Nmap, SQLMap, Burp Suite, OWASP ZAP, custom scripts</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">✅ Verify Installation</td>
+                        <td style="padding: 12px; color: #334155;"><strong>3-5 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">Test each tool works: nmap -V, sqlmap --version, etc.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="color: #1E293B; font-size: 1.5em; margin: 35px 0 18px 0; font-weight: 700;">🔌 Phase 4: SSH Connection Setup (5-10 minutes)</h3>
+            <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                <thead>
+                    <tr style="background: #f0f7ff; border-bottom: 2px solid #5B7FFF;">
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Activity</th>
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Time</th>
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">🔑 Generate SSH Key</td>
+                        <td style="padding: 12px; color: #334155;"><strong>1 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">ssh-keygen on Windows, create public/private key pair</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">📋 Copy SSH Key</td>
+                        <td style="padding: 12px; color: #334155;"><strong>2-3 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">Copy public key to Kali ~/.ssh/authorized_keys</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">🧪 Test Connection</td>
+                        <td style="padding: 12px; color: #334155;"><strong>2-4 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">ssh root@kali_ip - verify you can connect without password</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="color: #1E293B; font-size: 1.5em; margin: 35px 0 18px 0; font-weight: 700;">📊 Phase 5: Running Assessment (1-8 hours depending on scope)</h3>
+            <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                <thead>
+                    <tr style="background: #f0f7ff; border-bottom: 2px solid #5B7FFF;">
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Assessment Type</th>
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Total Time</th>
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Execution Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #e2e8f0; background: #dcfce7;">
+                        <td style="padding: 12px; color: #334155;"><strong>Light Scan</strong></td>
+                        <td style="padding: 12px; color: #334155;"><strong>30 min - 1 hour</strong></td>
+                        <td style="padding: 12px; color: #334155;">Quick port scan + basic vulnerability check (Nmap, Nikto)</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0; background: #fef08a;">
+                        <td style="padding: 12px; color: #334155;"><strong>Standard Assessment</strong></td>
+                        <td style="padding: 12px; color: #334155;"><strong>1-3 hours</strong></td>
+                        <td style="padding: 12px; color: #334155;">Reconnaissance (20m) → Scanning (40m) → Exploitation (60m)</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0; background: #fed7aa;">
+                        <td style="padding: 12px; color: #334155;"><strong>Thorough Assessment</strong></td>
+                        <td style="padding: 12px; color: #334155;"><strong>4-8 hours</strong></td>
+                        <td style="padding: 12px; color: #334155;">Comprehensive scanning + multi-vector exploitation + analysis</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0; background: #fee2e2;">
+                        <td style="padding: 12px; color: #334155;"><strong>Intensive (Full Coverage)</strong></td>
+                        <td style="padding: 12px; color: #334155;"><strong>8-16+ hours</strong></td>
+                        <td style="padding: 12px; color: #334155;">Full OWASP Top 10 + custom deep dives + mobile/cloud testing</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="color: #334155; margin-top: 15px;"><strong>Activities during Phase 5:</strong></p>
+            <ul style="margin-left: 20px; color: #334155;">
+                <li>🔍 Reconnaissance: DNS enumeration, port scanning, technology detection (5-10 min)</li>
+                <li>📡 Scanning: Web vulnerability scanning, API testing, code analysis (20-60 min)</li>
+                <li>⚔️ Exploitation: PoC creation, privilege escalation, data extraction (30-120 min)</li>
+                <li>📊 Analysis: Findings verification, false positive removal (10-30 min)</li>
+            </ul>
+
+            <h3 style="color: #1E293B; font-size: 1.5em; margin: 35px 0 18px 0; font-weight: 700;">📄 Phase 6: Analysis & Remediation Planning (1-2 hours)</h3>
+            <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                <thead>
+                    <tr style="background: #f0f7ff; border-bottom: 2px solid #5B7FFF;">
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Activity</th>
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Time</th>
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">📊 Consolidate Findings</td>
+                        <td style="padding: 12px; color: #334155;"><strong>10-15 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">Merge findings, deduplicate, calculate CVSS scores</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">🔄 Verify Findings</td>
+                        <td style="padding: 12px; color: #334155;"><strong>20-30 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">Retest critical findings, remove false positives</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">📝 Write Report</td>
+                        <td style="padding: 12px; color: #334155;"><strong>20-30 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">Generate HTML/PDF report with findings and remediation steps</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">🎯 Risk Prioritization</td>
+                        <td style="padding: 12px; color: #334155;"><strong>10-15 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">Organize findings by severity, business impact, remediation effort</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px; color: #334155;">💬 Delivery & Remediation Plan</td>
+                        <td style="padding: 12px; color: #334155;"><strong>10-15 min</strong></td>
+                        <td style="padding: 12px; color: #334155;">Present findings, create remediation timeline, plan retesting</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="color: #1E293B; font-size: 1.5em; margin: 35px 0 18px 0; font-weight: 700;">📈 Total Assessment Duration</h3>
+            <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                <thead>
+                    <tr style="background: #f0f7ff; border-bottom: 2px solid #5B7FFF;">
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Scenario</th>
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Setup Time</th>
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Testing Time</th>
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Analysis</th>
+                        <th style="padding: 12px; text-align: left; color: #1E293B; font-weight: 700;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #e2e8f0; background: #dcfce7;">
+                        <td style="padding: 12px; color: #334155;"><strong>Quick Setup + Light Scan</strong></td>
+                        <td style="padding: 12px; color: #334155;">1.5 hours</td>
+                        <td style="padding: 12px; color: #334155;">30 min</td>
+                        <td style="padding: 12px; color: #334155;">30 min</td>
+                        <td style="padding: 12px; color: #334155;"><strong>2.5 hours</strong></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0; background: #fef08a;">
+                        <td style="padding: 12px; color: #334155;"><strong>Full Setup + Standard Assessment</strong></td>
+                        <td style="padding: 12px; color: #334155;">1.5-2 hours</td>
+                        <td style="padding: 12px; color: #334155;">1-3 hours</td>
+                        <td style="padding: 12px; color: #334155;">1 hour</td>
+                        <td style="padding: 12px; color: #334155;"><strong>3.5-6 hours</strong></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0; background: #fed7aa;">
+                        <td style="padding: 12px; color: #334155;"><strong>Full Setup + Thorough Assessment</strong></td>
+                        <td style="padding: 12px; color: #334155;">1.5-2 hours</td>
+                        <td style="padding: 12px; color: #334155;">4-8 hours</td>
+                        <td style="padding: 12px; color: #334155;">1-2 hours</td>
+                        <td style="padding: 12px; color: #334155;"><strong>6.5-12 hours</strong></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #e2e8f0; background: #fee2e2;">
+                        <td style="padding: 12px; color: #334155;"><strong>Enterprise: Multi-day Assessment</strong></td>
+                        <td style="padding: 12px; color: #334155;">2 hours</td>
+                        <td style="padding: 12px; color: #334155;">8-24 hours</td>
+                        <td style="padding: 12px; color: #334155;">2-4 hours</td>
+                        <td style="padding: 12px; color: #334155;"><strong>12-30 hours</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <!-- TABLE OF CONTENTS -->
         <div class="section" id="toc-section">
             <h2>📑 Complete Table of Contents</h2>
