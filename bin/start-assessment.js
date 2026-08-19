@@ -25,10 +25,24 @@ async function main() {
     // Step 2: Display summary
     handler.displaySummary(config);
 
-    // Step 3: Save configuration
+    // Step 3: Save configuration (SECURE: owner-only permissions)
     const configPath = path.join(process.cwd(), `.assessment-${config.assessmentId}.json`);
-    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-    console.log(`💾 Config saved: ${configPath}\n`);
+
+    // Remove sensitive data from saved config
+    const configToSave = {
+      ...config,
+      credentials: {
+        username: config.credentials.username,
+        type: config.credentials.type
+        // NEVER save password to disk
+      },
+      secrets: {}
+      // NEVER save secrets to disk - keep in memory only
+    };
+
+    // Write with owner-only permissions (0o600 = -rw-------)
+    fs.writeFileSync(configPath, JSON.stringify(configToSave, null, 2), { mode: 0o600 });
+    console.log(`💾 Config saved (owner-only): ${configPath}\n`);
 
     // Step 4: Set environment variables
     process.env.JWT_SECRET = config.secrets.JWT_SECRET;

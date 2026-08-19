@@ -305,30 +305,33 @@ class SimplifiedInputHandler {
   }
 
   /**
-   * EXPORT: Config as environment variables
+   * EXPORT: Config as environment variables (SECURE)
+   * NOTE: Secrets are NOT exported - they remain in memory only
+   * Credentials password is NOT exported - use secret manager instead
    */
   exportAsEnv(config) {
+    // Only safe, non-sensitive configuration
     const envVars = `
-# Generated Assessment Configuration
+# Generated Assessment Configuration (Non-Sensitive Only)
 export ASSESSMENT_ID="${config.assessmentId}"
 export ASSESSMENT_TARGET="${config.target}"
 export ASSESSMENT_TYPE="${config.assessmentType}"
 export ASSESSMENT_INTENSITY="${config.intensityLevel}"
 
-# User Credentials
+# User Credentials (Username only - password from secret manager)
 export CREDENTIAL_USERNAME="${config.credentials.username}"
-export CREDENTIAL_PASSWORD="${config.credentials.password}"
 export CREDENTIAL_TYPE="${config.credentials.type}"
-
-# Auto-Generated Secrets
-export JWT_SECRET="${config.secrets.JWT_SECRET}"
-export REQUEST_SIGNING_SECRET="${config.secrets.REQUEST_SIGNING_SECRET}"
-export KEYSTORE_MASTER_KEY="${config.secrets.KEYSTORE_MASTER_KEY}"
 
 # Assessment Settings
 export NODE_ENV="production"
 export RATE_LIMIT=${config.rateLimit.requestsPerSecond}
 export SCAN_TIMEOUT=${config.timeouts.scanTimeout}
+
+# ⚠️  IMPORTANT SECURITY NOTES:
+# - Secrets (JWT_SECRET, REQUEST_SIGNING_SECRET, KEYSTORE_MASTER_KEY) are auto-generated and kept in memory
+# - Credential passwords are NOT exported - fetch from your secret manager
+# - Never log or commit secrets to files
+# - For production: Use AWS Secrets Manager, Azure Key Vault, or HashiCorp Vault
     `;
     return envVars.trim();
   }
@@ -346,6 +349,17 @@ module.exports = { SimplifiedInputHandler };
  *
  * handler.displaySummary(config);
  *
+ * ⚠️  SECURITY: Secrets stay in memory, not exported
  * const envVars = handler.exportAsEnv(config);
- * console.log(envVars);
+ * // DO NOT log envVars - they contain no secrets but are for reference only
+ *
+ * // Secrets are auto-generated and stored in memory:
+ * // config.secrets.JWT_SECRET
+ * // config.secrets.REQUEST_SIGNING_SECRET
+ * // config.secrets.KEYSTORE_MASTER_KEY
+ *
+ * // For production: Load secrets from vault
+ * // process.env.JWT_SECRET = await vault.getSecret('jwt-secret');
+ * // process.env.REQUEST_SIGNING_SECRET = await vault.getSecret('request-signing-secret');
+ * // process.env.KEYSTORE_MASTER_KEY = await vault.getSecret('keystore-master-key');
  */
