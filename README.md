@@ -42,46 +42,45 @@ curl http://localhost:3000/health
 
 ## 📖 Documentation
 
-**→ [📘 Framework Documentation v4.0.0](docs/framework-documentation.md)** *(Start here!)*
+**→ [📘 Complete Setup Guide (HTML)](docs/complete-setup-guide.html)** *(Comprehensive reference - 6000+ lines)*  
+**→ [📘 Framework Architecture](docs/framework-documentation.md)** *(Technical details)*
 
-### What's in the Professional Documentation
+### What's in the Complete Setup Guide
 
-**Installation & Setup:**
-- ✅ 5-step installation guide with verification
-- ✅ Environment configuration with all required variables
-- ✅ Dependency verification and testing
+**Quick Start:**
 
-**Kali Linux Integration:**
-- ✅ 3 installation options (Native, Docker, VM)
-- ✅ Step-by-step Kali integration
-- ✅ Tool availability verification
-- ✅ Permission configuration
+- ✅ 3-input automation overview (just URL, credentials, assessment type)
+- ✅ Getting started in 15 minutes
+- ✅ Step-by-step assessment workflow
 
-**Getting Started:**
-- ✅ 5-minute quick start walkthrough
-- ✅ Step-by-step code examples
-- ✅ Expected outputs and interpretation
+**6 Phases of Security Assessment:**
 
-**Core Modules:**
-- ✅ Advanced Scanning (9 scanners)
-- ✅ Exploitation (18 modules)
-- ✅ Deep Vulnerability Scanner (7 types)
-- ✅ Code Quality Analysis
-- ✅ Advanced SQL Injection (7 methods)
-- ✅ Burp Suite Equivalent
+- ✅ Phase 1: Preparation & Requirements (15-20 min)
+- ✅ Phase 2: Environment Setup (30-45 min)
+- ✅ Phase 3: Framework Installation (20-30 min)
+- ✅ Phase 4: SSH Connection Setup (5-10 min)
+- ✅ Phase 5: Running Full Assessment (1-8 hours)
+- ✅ Phase 6: Analysis & Remediation (1-2 hours)
 
-**Usage Examples:**
-- ✅ Web app assessment (15 min)
-- ✅ API security assessment (1-2 hrs)
-- ✅ Batch assessment (multiple targets)
-- ✅ Custom workflows
-- ✅ Real-time monitoring
+**11 Assessment Workflows:**
 
-**Troubleshooting & Best Practices:**
-- ✅ 6 common issues with solutions
-- ✅ Assessment planning guide
-- ✅ Security considerations
-- ✅ Performance optimization
+- ✅ Web Application, REST API, Cloud Infrastructure
+- ✅ Network & Infrastructure, Mobile Application, Container & Kubernetes
+- ✅ OWASP Top 10, Data Breach Risk, Incident Response
+- ✅ Supply Chain Security, Threat Modeling & Design Review
+
+**Professional Guidance:**
+
+- ✅ Legal & Ethical Guidelines
+- ✅ Pre-Assessment Checklist
+- ✅ Report Format Guide (JSON, HTML, PDF, CSV, XML)
+- ✅ Remediation & Fix Guide with step-by-step instructions
+- ✅ Integration Guides (Slack, Jira, GitHub, Jenkins, SIEM)
+- ✅ Performance Monitoring & Optimization
+- ✅ Team Collaboration & Reporting
+- ✅ Configuration Reference & Environment Variables
+- ✅ Troubleshooting & FAQ with solutions
+- ✅ Data Protection & Privacy considerations
 
 ---
 
@@ -406,22 +405,9 @@ See [docs/framework-documentation.md](docs/framework-documentation.md) for full 
 
 ## 📚 Complete Documentation
 
-**→ [📘 Professional Framework Documentation](docs/framework-documentation.md)**
+**→ [📘 Complete Setup Guide (HTML)](docs/complete-setup-guide.html)** — Comprehensive reference with all implementation details
 
-Contains:
-- Complete installation guide (5 steps)
-- Kali Linux integration (5 options)
-- Quick start (5-minute walkthrough)
-- Architecture overview
-- Core modules (9 scanners + 6 exploitation tools)
-- Detailed module documentation
-- 5 real-world usage examples
-- Best practices & recommendations
-- Troubleshooting guide (6 issues + solutions)
-- Security considerations
-- Advanced configuration
-- Complete API reference
-- Workflow selection matrix
+**→ [📘 Framework Architecture](docs/framework-documentation.md)** — Technical API reference and architecture deep-dive
 
 ---
 
@@ -443,12 +429,12 @@ Contains:
 
 ## 🎯 Next Steps
 
-1. **Read Documentation:** [docs/framework-documentation.md](docs/framework-documentation.md)
-2. **Install:** Follow 5-step installation guide
-3. **Integrate Kali:** Follow Kali integration guide
-4. **Run Quick Start:** Try 5-minute quick start
-5. **First Assessment:** Choose workflow and run assessment
-6. **Set Up Integration:** Connect SIEM/bug tracker/Slack
+1. **Read Setup Guide:** [docs/complete-setup-guide.html](docs/complete-setup-guide.html) (6000+ lines, all phases covered)
+2. **Quick Start:** Follow 3-input automation walkthrough (15 minutes)
+3. **Choose Assessment Type:** Select from 11 workflows (Web App, API, Cloud, Network, Mobile, Container, etc.)
+4. **Run Assessment:** Provide target URL, credentials, and assessment type
+5. **Review Report:** Analyze findings (Report Format Guide in setup guide)
+6. **Remediate & Retest:** Use Remediation Guide to fix vulnerabilities
 
 ---
 
@@ -456,13 +442,14 @@ Contains:
 
 | Item | Location |
 |------|----------|
-| **Full Guide** | [docs/framework-documentation.md](docs/framework-documentation.md) |
-| **Installation** | See "Installation & Setup" section |
-| **Kali Integration** | See "Kali Linux Integration" section |
-| **Usage Examples** | See "Usage Examples" section |
-| **Troubleshooting** | See "Troubleshooting Guide" section |
-| **API Reference** | See "API Reference" section |
-| **Best Practices** | See "Best Practices" section |
+| **Complete Setup & Reference** | [docs/complete-setup-guide.html](docs/complete-setup-guide.html) |
+| **Quick Start (15 min)** | Section: Quick Start Workflow |
+| **Assessment Types** | Section: 11 Assessment Workflows |
+| **Report Interpretation** | Section: 📄 Report Format Guide |
+| **Remediation Steps** | Section: 🔧 Remediation & Fix Guide |
+| **Integration Setup** | Section: 🔗 Integration Guides |
+| **Troubleshooting** | Section: Troubleshooting & FAQ |
+| **Architecture & API** | [docs/framework-documentation.md](docs/framework-documentation.md) |
 
 ---
 
@@ -476,4 +463,4 @@ Apache License 2.0 - See LICENSE file
 **Status:** ✅ **PRODUCTION READY**  
 **Last Updated:** August 2026
 
-**→ [Start with Full Documentation](docs/framework-documentation.md)**
+**→ [Start with Complete Setup Guide](docs/complete-setup-guide.html)**
