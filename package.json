@@ -15,6 +15,7 @@
     "test:kali": "jest tests/kali-tools-integration.test.js",
     "test:kali:expanded": "jest tests/kali-tools-expanded.test.js",
     "test:kali:maximum": "jest tests/kali-tools-maximum.test.js",
+    "test:kali:ultra": "jest tests/kali-tools-ultra-maximum.test.js",
     "test:all": "jest --coverage",
     "test:tools": "jest tests/kali-tools*.test.js"
   },
