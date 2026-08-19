@@ -18,6 +18,7 @@ const { KaliToolsUltraMaximumOrchestrator } = require('./kali-tools-ultra-maximu
 const { ToolChainOrchestrator, PredefinedChains } = require('./tool-chain-orchestrator');
 const { ExploitModule } = require('./exploit-modules');
 const { SpecializedWorkflows } = require('./specialized-workflows');
+const { AdvancedScanner } = require('./advanced-scanner');
 
 class ToolIntegrationLayer {
   constructor(logger, auditLogger, rateLimiter, circuitBreaker) {
@@ -33,6 +34,7 @@ class ToolIntegrationLayer {
 
     this.toolChain = new ToolChainOrchestrator(logger, auditLogger);
     this.exploitModule = new ExploitModule(logger, auditLogger);
+    this.advancedScanner = new AdvancedScanner(logger, auditLogger);
 
     // Initialize predefined chains
     PredefinedChains.createReconnaissanceChain(this.toolChain);
@@ -170,6 +172,59 @@ class ToolIntegrationLayer {
 
   async generateExploits(target, options = {}) {
     return await this.exploitModule.generateExploits(target, options);
+  }
+
+  /**
+   * ADVANCED SCANNING INTEGRATION
+   */
+  async runComprehensiveScan(target) {
+    this.logger.info(`[ADVANCED SCAN] Running comprehensive scan on ${target}`);
+    return await this.advancedScanner.runComprehensiveScan(target);
+  }
+
+  async scanInfrastructure(host) {
+    this.logger.info(`[INFRASTRUCTURE SCAN] Scanning infrastructure: ${host}`);
+    return await this.advancedScanner.scanInfrastructure(host);
+  }
+
+  async analyzeSSL(host, port = 443) {
+    this.logger.info(`[SSL ANALYSIS] Analyzing SSL/TLS: ${host}:${port}`);
+    return await this.advancedScanner.analyzeSSL(host, port);
+  }
+
+  async enumerateDNS(domain) {
+    this.logger.info(`[DNS ENUM] Enumerating DNS: ${domain}`);
+    return await this.advancedScanner.enumerateDNS(domain);
+  }
+
+  async fingerprintTechnology(url) {
+    this.logger.info(`[TECH FINGERPRINT] Fingerprinting: ${url}`);
+    return await this.advancedScanner.fingerprintTechnology(url);
+  }
+
+  async detectWAF(host) {
+    this.logger.info(`[WAF DETECTION] Detecting WAF: ${host}`);
+    return await this.advancedScanner.detectWAF(host);
+  }
+
+  async discoverSensitiveFiles(url) {
+    this.logger.info(`[SENSITIVE FILES] Discovering files: ${url}`);
+    return await this.advancedScanner.discoverSensitiveFiles(url);
+  }
+
+  async discoverAPIEndpoints(url) {
+    this.logger.info(`[API DISCOVERY] Discovering endpoints: ${url}`);
+    return await this.advancedScanner.discoverAPIEndpoints(url);
+  }
+
+  async scanDependencies(packageJsonPath) {
+    this.logger.info(`[DEPENDENCY SCAN] Scanning: ${packageJsonPath}`);
+    return await this.advancedScanner.scanDependencies(packageJsonPath);
+  }
+
+  async testCredentials(loginUrl) {
+    this.logger.info(`[CREDENTIAL TEST] Testing defaults: ${loginUrl}`);
+    return await this.advancedScanner.testCredentials(loginUrl);
   }
 
   /**

@@ -19,7 +19,7 @@ export NODE_ENV=production
 # Start server
 npm start
 
-# Run tests (196+ tests)
+# Run tests (236+ tests)
 npm test
 
 # Check health
@@ -32,8 +32,9 @@ curl http://localhost:3000/health
 - **Kali Tools**: 200+ tools across 3 phases
 - **Exploit Modules**: 18 vulnerability types
 - **Assessment Workflows**: 11 specialized types
-- **Orchestrator Modules**: 50+ production-ready
-- **Tests**: 196+ integration & unit tests (100% passing)
+- **Advanced Scanners**: 9 professional-grade scanning modules
+- **Orchestrator Modules**: 51+ production-ready
+- **Tests**: 236+ integration & unit tests (100% passing)
 - **Security**: 6 critical vulnerabilities fixed
 - **Score**: Enterprise Grade
 
@@ -44,8 +45,9 @@ curl http://localhost:3000/health
 | **Kali Tools** | Phase 1-3 Reconnaissance, Scanning, Exploitation | 200+ |
 | **Exploit Modules** | SQLi, XSS, RCE, SSRF, CSRF, Auth Bypass, + 12 more | 18 |
 | **Workflows** | Web App, API, Cloud, Network, Mobile, Container, etc. | 11 |
-| **Orchestrator Modules** | Security, integration, rate limiting, encryption, audit | 50+ |
-| **Test Suites** | Phase integration, orchestration, Kali tools | 8 suites |
+| **Advanced Scanners** | Port scanning, SSL/TLS, DNS, WAF detection, dependency scanning | 9 |
+| **Orchestrator Modules** | Security, integration, rate limiting, encryption, audit | 51+ |
+| **Test Suites** | Phase integration, orchestration, Kali tools, scanners | 9 suites |
 
 ### Assessment Phases
 
@@ -265,8 +267,9 @@ Response + Metrics
 ✅ 200+ Kali Linux tools integrated  
 ✅ 18 exploit modules (10 core + 8 advanced)  
 ✅ 11 specialized assessment workflows  
-✅ 50+ orchestrator modules  
-✅ 196+ tests across 8 suites (100% passing)  
+✅ 9 advanced scanning modules (port, SSL, DNS, WAF, tech fingerprint, API discovery, dependency, credential)  
+✅ 51+ orchestrator modules  
+✅ 236+ tests across 9 suites (100% passing)  
 ✅ 6 critical vulnerabilities fixed  
 ✅ Enterprise-grade security  
 ✅ Production-ready deployment  

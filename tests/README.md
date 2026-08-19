@@ -7,8 +7,10 @@ Comprehensive test suite for the penetration testing orchestration framework cov
 - **Phase Integration Tests** — 3 integration test suites for critical phases
 - **Orchestration Tests** — Core tool orchestration, chain execution, exploit modules
 - **Kali Tools Tests** — 3 test suites for 56-113+ integrated Kali tools
+- **Burp Suite Equivalent Tests** — 34 tests for proxy, repeater, intruder, spider, scanner, decoder
+- **Advanced Scanner Tests** — 50+ tests for port scanning, SSL/TLS, DNS, WAF, fingerprinting, API discovery, dependencies
 
-**Total**: 196+ test cases across 8 test suites with 100% passing rate
+**Total**: 236+ test cases across 9 test suites with 100% passing rate
 
 ## Running Tests
 
@@ -172,6 +174,51 @@ Tests 113 integrated Kali tools with expanded coverage:
 - ✅ Full penetration test workflows supported
 - ✅ Multi-phase assessment coverage complete
 
+### Burp Suite Equivalent Tests (34 tests)
+
+Tests Burp Suite-like functionality for web security testing:
+
+**Coverage**:
+- Proxy interception (4 tests)
+- Request repeater (3 tests)
+- Intruder/fuzzing (4 tests)
+- Spider/crawler (4 tests)
+- Decoder/encoder (8 tests)
+- Scanner (5 tests)
+- Integration tests (2 tests)
+- Orchestrator tests (4 tests)
+
+**Key Coverage**:
+- ✅ HTTP/HTTPS traffic interception
+- ✅ Request modification and resending
+- ✅ Automated payload fuzzing (XSS, SQLi, Command, LDAP)
+- ✅ URL discovery and crawling
+- ✅ Multi-format encoding/decoding
+- ✅ Vulnerability scanning
+
+### Advanced Scanner Tests (50+ tests)
+
+Tests professional-grade scanning modules for reconnaissance and vulnerability discovery:
+
+**Modules Covered**:
+- **Port Scanner** (5 tests) — Network port detection, service identification
+- **SSL/TLS Analyzer** (6 tests) — Certificate analysis, protocol detection, vulnerability scanning
+- **DNS Enumerator** (5 tests) — DNS record enumeration, subdomain discovery, DNSSEC detection
+- **Technology Fingerprinting** (7 tests) — Web server, language, framework detection
+- **WAF Detector** (5 tests) — Web Application Firewall identification, evasion techniques
+- **Sensitive File Scanner** (3 tests) — Configuration file, credential file discovery
+- **API Endpoint Discovery** (5 tests) — API path discovery, OpenAPI specification analysis
+- **Dependency Scanner** (3 tests) — Vulnerable package detection, CVE identification
+- **Credential Tester** (3 tests) — Default credential testing, authentication bypass
+- **Orchestrator** (8 tests) — Comprehensive scanning, integration testing
+
+**Key Coverage**:
+- ✅ All 9 scanner modules integrated and tested
+- ✅ Comprehensive network reconnaissance
+- ✅ Technology stack identification
+- ✅ Vulnerability discovery across layers
+- ✅ Professional-grade scanning workflows
+
 ### Test Execution Summary
 
 | Suite | Tests | Focus | Status |
@@ -182,8 +229,10 @@ Tests 113 integrated Kali tools with expanded coverage:
 | Orchestration | 44+ | Tool chains & exploits | ✅ PASS |
 | Kali Tools Expanded | 35+ | 56 tools | ✅ PASS |
 | Kali Tools Maximum | 32+ | 113 tools | ✅ PASS |
+| Burp Suite Equivalent | 34 | Proxy & scanning | ✅ PASS |
+| Advanced Scanner | 50+ | Professional scanning | ✅ PASS |
 | Other Integration | 20+ | Specialized | ✅ PASS |
-| **Total** | **196+** | **All systems** | **✅ PASS** |
+| **Total** | **236+** | **All systems** | **✅ PASS** |
 
 ## Test Coverage Goals
 
