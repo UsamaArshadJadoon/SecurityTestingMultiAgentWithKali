@@ -769,45 +769,19 @@ npm run assess -- --url=example.com
 # (still prompted for credentials and type)
 ```
 
-### Integration with External Systems
+### Integration & Advanced Configuration
+
+For detailed setup of integrations (Slack, Jira, GitHub, Jenkins, SIEM), custom assessment profiles, continuous security scanning, and all environment variables, see **Integration Guides** and **Configuration Reference** in `complete-setup-guide.html`.
+
+Quick reference:
 
 ```bash
-# Configure Slack notifications
+# Example: Slack integration
 export SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/WEBHOOK/URL
-npm run assess
 
-# Configure Jira integration
+# Example: Jira integration
 export JIRA_URL=https://jira.example.com
 export JIRA_PROJECT=SEC
-npm run assess
-
-# Configure SIEM
-export SIEM_ENDPOINT=https://siem.example.com:8088
-npm run assess
-```
-
-### Continuous Security Scanning
-
-```bash
-# Schedule daily assessments
-npm run schedule-assessment \
-  --url=example.com \
-  --user=$API_USER \
-  --pass=$API_PASS \
-  --role=api \
-  --frequency=daily \
-  --time=02:00
-```
-
-### Custom Assessment Configuration
-
-```bash
-# Create custom intensity profile
-npm run create-profile \
-  --name=custom \
-  --tools=nmap,burp,sqlmap \
-  --timeout=120 \
-  --threads=8
 ```
 
 ---
@@ -977,37 +951,29 @@ A: Mostly yes. Only the 3 inputs are required from you. Everything else (configu
 - 💬 **Community:** GitHub Discussions
 - 📧 **Email Support:** security-team@example.com
 
-### Related Documentation
+### Deep Dive Documentation
 
-| Document | Purpose |
-|----------|---------|
-| `complete-setup-guide.html` | Comprehensive guide (30+ sections) |
-| `docs/framework-documentation.md` | Technical architecture & API reference |
-| `docs/configuration-reference.md` | Advanced configuration options |
-| `docs/remediation-guide.md` | How to fix common vulnerabilities |
-| `QUICK_START.md` | This file - fastest way to get started |
+For comprehensive guidance on the following topics, see `complete-setup-guide.html`:
+
+| Topic | Section | Purpose |
+| --- | --- | --- |
+| **Report Interpretation** | 📄 Report Format Guide | Understand JSON/HTML/PDF/CSV output files |
+| **Remediation** | 🔧 Remediation & Fix Guide | Fix vulnerabilities step-by-step |
+| **Integrations** | 🔗 Integration Guides | Set up Slack, Jira, GitHub, Jenkins, SIEM |
+| **Performance** | ⚡ Performance Monitoring | Optimize & troubleshoot assessment speed |
+| **Team Collaboration** | 👥 Team Collaboration & Reporting | Share findings and manage workflows |
+| **Configuration** | 🔧 Configuration Reference | All environment variables & options |
+| **Architecture** | 🤖 Multi-Agent Framework | How the framework works under the hood |
 
 ### Next Steps After Assessment
 
-1. **Review Findings**
-   - Open the HTML report
-   - Prioritize by CVSS score
-   - Understand the business impact
+1. **Review Findings** — See **Report Format Guide** in `complete-setup-guide.html` to understand report structure and CVSS scoring
 
-2. **Create Remediation Plan**
-   - Assign responsibility
-   - Set target fix dates
-   - Track progress
+2. **Create Remediation Plan** — See **Remediation & Fix Guide** for step-by-step instructions on fixing vulnerabilities
 
-3. **Schedule Retest**
-   - After fixes applied
-   - Confirm vulnerabilities closed
-   - Document closure
+3. **Integrate & Automate** — See **Integration Guides** to connect with Jira, Slack, or your SIEM for automated workflows
 
-4. **Continuous Monitoring**
-   - Schedule periodic assessments
-   - Auto-scan on deployments
-   - Track trends over time
+4. **Schedule Retesting** — After fixes are applied, run the assessment again to confirm vulnerabilities are closed
 
 ---
 
