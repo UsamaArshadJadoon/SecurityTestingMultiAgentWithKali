@@ -321,6 +321,154 @@ npm run test:coverage # Coverage report
 
 ---
 
+## 🔄 Assessment Workflow
+
+### 6-Phase Security Assessment Journey
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                                                                             │
+│  PHASE 1: PREPARATION          (15-20 minutes)                            │
+│  ├─ System Requirements Check (RAM, Disk, Network)                        │
+│  ├─ Authorization Verification (Written approval + Scope definition)      │
+│  ├─ Pre-Assessment Checklist (Credentials, Baseline, Team notification)  │
+│  └─ Emergency Contact Setup                                              │
+│                                                                             │
+│  ↓                                                                          │
+│                                                                             │
+│  PHASE 2: ENVIRONMENT SETUP    (30-45 minutes)                            │
+│  ├─ Install Dependencies (Node.js, Python, Docker optional)              │
+│  ├─ Configure Kali Linux (Native, Docker, or VM)                         │
+│  ├─ Set Environment Variables (JWT_SECRET, API keys, SIEM endpoints)    │
+│  └─ Verify All Tools Available (200+ Kali tools)                         │
+│                                                                             │
+│  ↓                                                                          │
+│                                                                             │
+│  PHASE 3: FRAMEWORK SETUP      (20-30 minutes)                            │
+│  ├─ Clone Repository                                                      │
+│  ├─ Install npm Dependencies                                              │
+│  ├─ Generate Security Secrets (encryption keys, JWT secrets)             │
+│  └─ Run Health Check                                                      │
+│                                                                             │
+│  ↓                                                                          │
+│                                                                             │
+│  PHASE 4: ASSESSMENT INPUT     (5-10 minutes)                             │
+│  ├─ Input 1️⃣  Target URL (example.com, 192.168.1.0/24, AWS account)     │
+│  ├─ Input 2️⃣  Credentials (username/password or API key)                │
+│  └─ Input 3️⃣  Assessment Type (Web App, API, Cloud, Network, etc.)      │
+│                                                                             │
+│  ↓                                                                          │
+│                                                                             │
+│  PHASE 5: AUTOMATED ASSESSMENT (1-8 hours depending on scope)            │
+│  ├─ Reconnaissance (DNS enumeration, port scanning, service detection)  │
+│  ├─ Vulnerability Scanning (web, API, code, config, dependencies)       │
+│  ├─ Exploitation & Proof-of-Concept (impact validation)                 │
+│  ├─ Multi-Agent Orchestration (8+ agents working in parallel)           │
+│  └─ Real-time Progress Tracking                                          │
+│                                                                             │
+│  ↓                                                                          │
+│                                                                             │
+│  PHASE 6: ANALYSIS & REPORTING (1-2 hours)                               │
+│  ├─ False Positive Removal                                                │
+│  ├─ CVSS v3.1 Severity Scoring                                            │
+│  ├─ Report Generation (JSON, HTML, PDF, CSV, XML)                        │
+│  ├─ Executive Summary + Technical Details                                │
+│  ├─ Remediation Guidance (step-by-step fix instructions)                 │
+│  └─ Integration with SIEM/Jira/Slack                                     │
+│                                                                             │
+│  ↓                                                                          │
+│                                                                             │
+│  📊 RESULTS DELIVERED                                                      │
+│  ├─ Findings categorized by severity (CRITICAL, HIGH, MEDIUM, LOW)      │
+│  ├─ Detailed technical analysis with proof-of-concept code              │
+│  ├─ Business impact assessment                                            │
+│  ├─ Prioritized remediation roadmap                                       │
+│  └─ Automated ticket creation (Jira, GitHub)                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 3-Input Automation Flow
+
+```
+┌──────────────────┐
+│   START: npm     │
+│   run assess     │
+└────────┬─────────┘
+         │
+         ↓
+┌──────────────────────────────────────┐
+│  INPUT 1: Target URL                 │
+│  • example.com                       │
+│  • https://api.example.com:8080      │
+│  • 192.168.1.0/24                    │
+│  • aws-account-id                    │
+└──────────┬───────────────────────────┘
+           │
+           ↓
+┌──────────────────────────────────────┐
+│  INPUT 2: Credentials                │
+│  • username & password               │
+│  • API key (sk_live_...)             │
+│  • JWT token (eyJ...)                │
+│  • Cloud credentials                 │
+└──────────┬───────────────────────────┘
+           │
+           ↓
+┌──────────────────────────────────────┐
+│  INPUT 3: Assessment Type (1-11)     │
+│  1. Web App     2. API               │
+│  3. Cloud       4. Network           │
+│  5. Mobile      6. Container         │
+│  7. OWASP       8. Data Risk         │
+│  9. IR          10. Supply Chain     │
+│  11. Threat Model                    │
+└──────────┬───────────────────────────┘
+           │
+           ↓
+    ┌──────────────────┐
+    │ EVERYTHING ELSE  │
+    │ IS AUTOMATED!    │
+    └────────┬─────────┘
+             │
+    ┌────────┴──────────┬──────────────┬──────────────┐
+    ↓                   ↓              ↓              ↓
+┌─────────┐     ┌──────────────┐  ┌────────────┐  ┌───────────┐
+│Credential│     │Auto-Detect   │  │Generate    │  │Configure  │
+│Type      │     │Intensity     │  │Security    │  │Integrations
+│Detection │     │Level         │  │Secrets     │  │(SIEM/Slack)
+└────┬────┘     └──────┬───────┘  └────┬───────┘  └─────┬─────┘
+     │                 │               │              │
+     └─────────────────┴───────────────┴──────────────┘
+                       │
+                       ↓
+           ┌───────────────────────────┐
+           │  🚀 ASSESSMENT STARTS     │
+           │  Multi-Agent Execution    │
+           │  200+ Tools Orchestrated  │
+           │  Real-time Progress       │
+           └───────────┬───────────────┘
+                       │
+                       ↓
+           ┌───────────────────────────┐
+           │  📊 REPORTS GENERATED     │
+           │  • JSON (machine-readable)│
+           │  • HTML (executive)       │
+           │  • PDF (technical detail) │
+           │  • CSV (spreadsheet)      │
+           │  • Jira/GitHub tickets    │
+           └───────────┬───────────────┘
+                       │
+                       ↓
+            ┌──────────────────────────┐
+            │  ✅ ASSESSMENT COMPLETE  │
+            │  Findings Ready          │
+            │  Remediation Guide Ready │
+            └──────────────────────────┘
+```
+
+---
+
 ## 🔒 Security
 
 ### Implemented Controls
