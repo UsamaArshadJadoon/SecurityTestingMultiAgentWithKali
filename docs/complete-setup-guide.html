@@ -1314,6 +1314,10 @@
                     <h3>Phase 6</h3>
                     <p>Remediation<br>Ongoing</p>
                 </div>
+                <div class="progress-item" onclick="document.getElementById('agents-section').scrollIntoView({behavior:'smooth'});">
+                    <h3>🤖 Multi-Agent</h3>
+                    <p>Orchestration<br>How They Work</p>
+                </div>
                 <div class="progress-item" onclick="document.getElementById('tools-section').scrollIntoView({behavior:'smooth'});">
                     <h3>📚 Tools & Tech</h3>
                     <p>Reference Guide<br>All Tools</p>
@@ -4795,6 +4799,601 @@ Manager: _____________ Date: _______
                 <strong>Q: Credentials not working in assessment</strong><br>
                 A: Ensure credentials are correct. Framework tries to use them as-is. If they have special characters, they may need escaping.
             </div>
+        </div>
+
+        <!-- MULTI-AGENT ORCHESTRATION -->
+        <div class="section" id="agents-section">
+            <h2>🤖 Multi-Agent Orchestration: How Agents Work Together</h2>
+            <p>The framework uses a sophisticated multi-agent system where specialized agents work collaboratively and in parallel to conduct comprehensive security assessments. Each agent has a specific role and expertise.</p>
+
+            <h3>📋 Agent Types & Specializations</h3>
+            <div class="grid-2">
+                <div class="card">
+                    <h4>🔍 Reconnaissance Agent</h4>
+                    <p><strong>Specialization:</strong> Information gathering and enumeration</p>
+                    <ul style="margin-left: 15px; margin-top: 10px;">
+                        <li>DNS enumeration & subdomain discovery</li>
+                        <li>IP address range scanning (Nmap, Masscan)</li>
+                        <li>Service version detection</li>
+                        <li>Open port mapping</li>
+                        <li>Technology stack identification</li>
+                    </ul>
+                    <p><strong>Tools:</strong> Nmap, Masscan, DNSRecon, Shodan, Whois</p>
+                </div>
+
+                <div class="card">
+                    <h4>🌐 Web Scanner Agent</h4>
+                    <p><strong>Specialization:</strong> Web application vulnerability scanning</p>
+                    <ul style="margin-left: 15px; margin-top: 10px;">
+                        <li>Active & passive scanning</li>
+                        <li>Spider crawling & URL discovery</li>
+                        <li>Input validation testing</li>
+                        <li>Authentication bypass checks</li>
+                        <li>Session management analysis</li>
+                    </ul>
+                    <p><strong>Tools:</strong> Burp Suite, OWASP ZAP, Nikto, SQLMap</p>
+                </div>
+
+                <div class="card">
+                    <h4>⚔️ Exploitation Agent</h4>
+                    <p><strong>Specialization:</strong> Vulnerability exploitation and proof-of-concept</p>
+                    <ul style="margin-left: 15px; margin-top: 10px;">
+                        <li>Payload generation & delivery</li>
+                        <li>Metasploit module execution</li>
+                        <li>Custom exploit development</li>
+                        <li>Post-exploitation activities</li>
+                        <li>Credential harvesting</li>
+                    </ul>
+                    <p><strong>Tools:</strong> Metasploit, Hashcat, John, Custom scripts</p>
+                </div>
+
+                <div class="card">
+                    <h4>🔐 Security Analyzer Agent</h4>
+                    <p><strong>Specialization:</strong> Code analysis and configuration auditing</p>
+                    <ul style="margin-left: 15px; margin-top: 10px;">
+                        <li>Static code analysis</li>
+                        <li>Dependency scanning</li>
+                        <li>Configuration review</li>
+                        <li>Compliance checking</li>
+                        <li>Security misconfiguration detection</li>
+                    </ul>
+                    <p><strong>Tools:</strong> Semgrep, Bandit, SonarQube, Snyk, Trivy</p>
+                </div>
+
+                <div class="card">
+                    <h4>🕵️ Network Analysis Agent</h4>
+                    <p><strong>Specialization:</strong> Network traffic and protocol analysis</p>
+                    <ul style="margin-left: 15px; margin-top: 10px;">
+                        <li>Packet capture & analysis</li>
+                        <li>Man-in-the-middle detection</li>
+                        <li>Protocol fuzzing</li>
+                        <li>Network segmentation testing</li>
+                        <li>Wireless security assessment</li>
+                    </ul>
+                    <p><strong>Tools:</strong> Wireshark, tcpdump, Aircrack-ng, Ettercap</p>
+                </div>
+
+                <div class="card">
+                    <h4>📊 Reporting Agent</h4>
+                    <p><strong>Specialization:</strong> Data aggregation and report generation</p>
+                    <ul style="margin-left: 15px; margin-top: 10px;">
+                        <li>Finding deduplication</li>
+                        <li>Risk scoring & severity calculation</li>
+                        <li>Executive summaries</li>
+                        <li>Detailed technical reports</li>
+                        <li>Compliance mapping</li>
+                    </ul>
+                    <p><strong>Tools:</strong> Python, JSON processing, HTML/PDF generation</p>
+                </div>
+            </div>
+
+            <h3>🔄 Multi-Agent Workflow: Step-by-Step</h3>
+            <p>Here's exactly how agents collaborate during a security assessment:</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <strong>Step 1: Assessment Initialization</strong>
+                    <p><strong>Orchestrator Agent</strong> receives user input (target URL, credentials, assessment type) and creates assessment configuration. All agents are initialized and ready.</p>
+                    <p style="margin-top: 10px;"><code style="background: #f0f0f0; padding: 5px;">Input: {target: "example.com", type: "web-app", intensity: "standard"}</code></p>
+                </div>
+
+                <div class="timeline-item">
+                    <strong>Step 2: Parallel Reconnaissance (Phase 1)</strong>
+                    <p><strong>All reconnaissance agents run in parallel:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>DNS Agent:</strong> Finds subdomains (example.com, api.example.com, admin.example.com)</li>
+                        <li><strong>IP Agent:</strong> Scans port ranges (finds 80, 443, 8080, 3000)</li>
+                        <li><strong>Service Agent:</strong> Detects services (Apache 2.4, Node.js, PostgreSQL)</li>
+                        <li><strong>Tech Agent:</strong> Identifies stack (React, Express, PostgreSQL)</li>
+                    </ul>
+                    <p style="margin-top: 10px; color: #666;"><em>⏱️ Execution time: ~5-10 minutes (all running simultaneously)</em></p>
+                </div>
+
+                <div class="timeline-item">
+                    <strong>Step 3: Data Consolidation & Dependency Detection</strong>
+                    <p><strong>Orchestrator Agent</strong> collects results from all reconnaissance agents and detects dependencies for next phases.</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Merges findings (10 subdomains, 25 open ports identified)</li>
+                        <li>Removes duplicates (finds api.example.com from both DNS and IP scans)</li>
+                        <li>Prioritizes targets based on findings</li>
+                        <li>Determines which agents can run in parallel next</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <strong>Step 4: Parallel Scanning (Phase 2)</strong>
+                    <p><strong>Specialized agents attack different vectors simultaneously:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Web Scanner Agent:</strong> Tests example.com for OWASP Top 10</li>
+                        <li><strong>API Scanner Agent:</strong> Tests api.example.com for API vulnerabilities</li>
+                        <li><strong>Code Analyzer Agent:</strong> Scans for dependency vulnerabilities</li>
+                        <li><strong>Network Agent:</strong> Tests wireless networks & VPN configs</li>
+                    </ul>
+                    <p style="margin-top: 10px; color: #666;"><em>⏱️ Execution time: ~20-60 minutes (4 agents in parallel)</em></p>
+                </div>
+
+                <div class="timeline-item">
+                    <strong>Step 5: Vulnerability Verification</strong>
+                    <p><strong>Each agent independently verifies its own findings:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Web Scanner:</strong> Re-tests SQL injection finding twice to confirm</li>
+                        <li><strong>Code Analyzer:</strong> Checks if vulnerable dependency is actually used</li>
+                        <li><strong>Network Agent:</strong> Verifies unencrypted data transmission</li>
+                        <li>Only confirmed findings proceed to exploitation phase</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <strong>Step 6: Targeted Exploitation (Phase 3)</strong>
+                    <p><strong>Exploitation Agent</strong> uses verified findings to demonstrate impact:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Crafts SQL injection payload based on Web Scanner findings</li>
+                        <li>Generates exploit for known vulnerability in dependency</li>
+                        <li>Attempts to access protected data using identified weakness</li>
+                        <li>Documents proof-of-concept for each vulnerability</li>
+                    </ul>
+                    <p style="margin-top: 10px; color: #666;"><em>⏱️ Execution time: ~30-120 minutes (depends on vulnerability complexity)</em></p>
+                </div>
+
+                <div class="timeline-item">
+                    <strong>Step 7: Post-Exploitation & Data Collection</strong>
+                    <p><strong>Exploitation Agent continues with post-exploitation:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Extracts database contents (user credentials, PII)</li>
+                        <li>Enumerates system information</li>
+                        <li>Checks for lateral movement possibilities</li>
+                        <li>Documents access level & available data</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <strong>Step 8: Parallel Deep Analysis (Phase 4)</strong>
+                    <p><strong>Specialized agents perform deep dives on specific areas:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Auth Agent:</strong> Tests 2FA bypass, session fixation, brute force</li>
+                        <li><strong>Crypto Agent:</strong> Analyzes encryption algorithms & key management</li>
+                        <li><strong>Config Agent:</strong> Audits server headers, CORS, CSP policies</li>
+                        <li><strong>API Agent:</strong> Tests rate limiting, authentication, authorization</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <strong>Step 9: Result Aggregation & Analysis (Phase 5)</strong>
+                    <p><strong>All agents submit findings to Reporting Agent:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Web Scanner: 12 findings (3 Critical, 4 High, 5 Medium)</li>
+                        <li>Code Analyzer: 8 findings (0 Critical, 2 High, 6 Medium)</li>
+                        <li>Exploitation: 4 findings (2 Critical, 2 High)</li>
+                        <li>Network Agent: 6 findings (1 Critical, 3 High, 2 Medium)</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <strong>Step 10: Deduplication & Risk Scoring</strong>
+                    <p><strong>Reporting Agent deduplicates findings:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Finds SQL Injection reported by both Web Scanner & Exploitation Agent → Keep one entry</li>
+                        <li>Merges findings from different agents about same vulnerability</li>
+                        <li>Assigns risk scores based on CVSS 3.1 methodology</li>
+                        <li>Calculates overall risk level</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <strong>Step 11: Report Generation (Phase 6)</strong>
+                    <p><strong>Reporting Agent generates comprehensive reports:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Executive Summary:</strong> 1-page overview for C-suite (2 Critical, 9 High, 13 Medium vulnerabilities, Overall Risk: HIGH)</li>
+                        <li><strong>Technical Report:</strong> Detailed findings with proof-of-concept code</li>
+                        <li><strong>Remediation Guide:</strong> Step-by-step fix instructions for each finding</li>
+                        <li><strong>Compliance Mapping:</strong> Links to OWASP Top 10, NIST, PCI-DSS requirements</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>⚡ Parallel Execution Patterns</h3>
+            <p>The framework uses several patterns to maximize efficiency:</p>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h4>🔀 Fan-Out Pattern</h4>
+                    <p>One agent creates tasks for multiple specialized agents:</p>
+                    <ul style="margin-left: 15px; margin-top: 10px;">
+                        <li>Orchestrator discovers 10 subdomains</li>
+                        <li>Spawns 10 Scanner agents in parallel (one per subdomain)</li>
+                        <li>Each scans independently</li>
+                        <li>Results consolidated when all complete</li>
+                    </ul>
+                    <p style="margin-top: 15px; color: #666;"><strong>Benefit:</strong> 10x faster than sequential scanning</p>
+                </div>
+
+                <div class="card">
+                    <h4>🔗 Pipeline Pattern</h4>
+                    <p>Output from one agent becomes input to next:</p>
+                    <ul style="margin-left: 15px; margin-top: 10px;">
+                        <li>Reconnaissance Agent finds vulnerabilities</li>
+                        <li>→ Web Scanner Agent tests them</li>
+                        <li>→ Verification Agent confirms them</li>
+                        <li>→ Exploitation Agent exploits them</li>
+                    </ul>
+                    <p style="margin-top: 15px; color: #666;"><strong>Benefit:</strong> Progressively more certain findings</p>
+                </div>
+
+                <div class="card">
+                    <h4>🎯 Map-Reduce Pattern</h4>
+                    <p>Many agents process data, results reduced to single output:</p>
+                    <ul style="margin-left: 15px; margin-top: 10px;">
+                        <li><strong>Map:</strong> 6 specialized agents scan simultaneously</li>
+                        <li><strong>Reduce:</strong> Reporting Agent consolidates findings</li>
+                        <li>Deduplicates common vulnerabilities</li>
+                        <li>Creates single comprehensive report</li>
+                    </ul>
+                    <p style="margin-top: 15px; color: #666;"><strong>Benefit:</strong> No duplicate reporting, unified view</p>
+                </div>
+
+                <div class="card">
+                    <h4>🔄 Feedback Loop Pattern</h4>
+                    <p>Results trigger additional specialized investigations:</p>
+                    <ul style="margin-left: 15px; margin-top: 10px;">
+                        <li>Web Scanner finds SQL Injection</li>
+                        <li>→ Triggers Exploitation Agent</li>
+                        <li>→ Exploitation finds database access</li>
+                        <li>→ Triggers Data Extraction Agent</li>
+                    </ul>
+                    <p style="margin-top: 15px; color: #666;"><strong>Benefit:</strong> Adaptive testing based on findings</p>
+                </div>
+            </div>
+
+            <h3>🎯 Real-World Example: Web App Assessment</h3>
+            <div class="step-container" style="background: #f0f7ff; border-left: 4px solid #5B7FFF; padding: 20px; margin: 20px 0; border-radius: 8px;">
+                <p><strong>Scenario:</strong> Assess example.com (e-commerce site)</p>
+                <p style="margin-top: 10px;"><strong>Expected Duration:</strong> 4 hours (vs 12+ hours if sequential)</p>
+
+                <p style="margin-top: 15px; font-weight: bold;">Hour 1 - Reconnaissance (Parallel):</p>
+                <ul style="margin-left: 20px;">
+                    <li>🟢 DNS Agent: Finds 8 subdomains (api, admin, staging, etc.)</li>
+                    <li>🟢 Port Scanner: Finds 12 open ports across all IPs</li>
+                    <li>🟢 Service Detector: Identifies Apache, Node.js, PostgreSQL, Redis</li>
+                    <li>🟢 Tech Stack: React frontend, Express backend, PostgreSQL DB</li>
+                </ul>
+
+                <p style="margin-top: 15px; font-weight: bold;">Hour 2 - Scanning (Parallel):</p>
+                <ul style="margin-left: 20px;">
+                    <li>🟠 Web Scanner: Tests main app → Finds XSS in search, SQL injection in login</li>
+                    <li>🟠 API Scanner: Tests api.example.com → Finds IDOR in user endpoints</li>
+                    <li>🟠 Code Analyzer: Scans dependencies → Finds 3 known CVEs</li>
+                    <li>🟠 Network Agent: Tests internal comms → Finds unencrypted admin traffic</li>
+                </ul>
+
+                <p style="margin-top: 15px; font-weight: bold;">Hour 3 - Exploitation (Sequential based on findings):</p>
+                <ul style="margin-left: 20px;">
+                    <li>🔴 Exploitation Agent: Exploits SQL injection → Dumps user database (50K records)</li>
+                    <li>🔴 Post-Exploitation: Enumerates system access, finds database credentials</li>
+                    <li>🔴 Auth Agent: Bypasses 2FA using timing attack</li>
+                    <li>🔴 Data Agent: Extracts PII (names, emails, phone numbers)</li>
+                </ul>
+
+                <p style="margin-top: 15px; font-weight: bold;">Hour 4 - Reporting:</p>
+                <ul style="margin-left: 20px;">
+                    <li>📊 Consolidates 28 findings from all agents</li>
+                    <li>📊 Removes 8 duplicates → 20 unique findings</li>
+                    <li>📊 Risk scores: 2 Critical, 6 High, 8 Medium, 4 Low</li>
+                    <li>📊 Generates: Executive Summary, Technical Report, Remediation Guide</li>
+                </ul>
+            </div>
+
+            <h3>💡 Key Orchestration Principles</h3>
+            <div class="grid-2">
+                <div class="card">
+                    <h4>✅ Independence</h4>
+                    <p>Each agent works independently on its specialty. Agents don't wait for others unless results are dependencies.</p>
+                </div>
+
+                <div class="card">
+                    <h4>✅ Specialization</h4>
+                    <p>Each agent is expert in one domain (Web, Network, Code, etc.). Specialists do better work than generalists.</p>
+                </div>
+
+                <div class="card">
+                    <h4>✅ Verification</h4>
+                    <p>Each agent verifies its own findings before reporting. No false positives passed downstream.</p>
+                </div>
+
+                <div class="card">
+                    <h4>✅ Communication</h4>
+                    <p>Orchestrator manages communication. Agents report findings in standard format for easy consolidation.</p>
+                </div>
+
+                <div class="card">
+                    <h4>✅ Scalability</h4>
+                    <p>Add new agents for new assessment types without changing existing agents. System grows without modification.</p>
+                </div>
+
+                <div class="card">
+                    <h4>✅ Adaptive</h4>
+                    <p>Findings from one agent trigger specialized investigation by another. Test adapts based on what's discovered.</p>
+                </div>
+            </div>
+
+            <h3>🎨 Complete Agent Orchestration Flow (HD Diagram)</h3>
+            <p>Visual representation of how all agents collaborate from assessment start to final report delivery:</p>
+
+            <div style="background: white; padding: 30px; border-radius: 15px; overflow-x: auto; margin: 20px 0; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
+                <svg viewBox="0 0 1400 1000" style="min-width: 100%; height: auto; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Define gradients -->
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#43e97b;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#38f9d7;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#fa709a;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#fee140;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+
+                    <!-- Title -->
+                    <text x="700" y="40" font-size="28" font-weight="bold" text-anchor="middle" fill="#1E293B">
+                        Multi-Agent Security Assessment Orchestration
+                    </text>
+                    <text x="700" y="65" font-size="14" text-anchor="middle" fill="#666" font-style="italic">
+                        Complete workflow from initial assessment to final report
+                    </text>
+
+                    <!-- PHASE 1: INPUT & INITIALIZATION -->
+                    <g id="phase1">
+                        <rect x="50" y="100" width="300" height="120" fill="url(#grad1)" rx="15" stroke="white" stroke-width="3"/>
+                        <text x="200" y="130" font-size="16" font-weight="bold" text-anchor="middle" fill="white">📥 User Input</text>
+                        <text x="200" y="155" font-size="12" text-anchor="middle" fill="white">Target: example.com</text>
+                        <text x="200" y="175" font-size="12" text-anchor="middle" fill="white">Type: Web App Assessment</text>
+                        <text x="200" y="195" font-size="12" text-anchor="middle" fill="white">Intensity: Standard</text>
+                    </g>
+
+                    <!-- Arrow 1 -->
+                    <path d="M 350 160 L 420 160" stroke="#667eea" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+                    <!-- ORCHESTRATOR AGENT -->
+                    <g id="orchestrator">
+                        <rect x="420" y="100" width="300" height="120" fill="url(#grad1)" rx="15" stroke="white" stroke-width="3"/>
+                        <text x="570" y="130" font-size="16" font-weight="bold" text-anchor="middle" fill="white">🎯 Orchestrator Agent</text>
+                        <text x="570" y="155" font-size="12" text-anchor="middle" fill="white">Initializes workflow</text>
+                        <text x="570" y="175" font-size="12" text-anchor="middle" fill="white">Spawns worker agents</text>
+                        <text x="570" y="195" font-size="12" text-anchor="middle" fill="white">Manages execution</text>
+                    </g>
+
+                    <!-- Arrow to Phase 2 -->
+                    <path d="M 570 220 L 570 280" stroke="#667eea" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+                    <!-- PHASE 2: PARALLEL RECONNAISSANCE -->
+                    <text x="700" y="295" font-size="14" font-weight="bold" fill="#1E293B">Phase 1: RECONNAISSANCE (Parallel Execution)</text>
+
+                    <!-- DNS Agent -->
+                    <g id="dns">
+                        <rect x="50" y="310" width="200" height="100" fill="url(#grad2)" rx="12" stroke="white" stroke-width="2"/>
+                        <text x="150" y="340" font-size="13" font-weight="bold" text-anchor="middle" fill="white">🌐 DNS Agent</text>
+                        <text x="150" y="360" font-size="11" text-anchor="middle" fill="white">Finds 8 subdomains</text>
+                        <text x="150" y="380" font-size="11" text-anchor="middle" fill="white">WHOIS lookups</text>
+                        <text x="150" y="395" font-size="10" text-anchor="middle" fill="white">⏱ 2-3 min</text>
+                    </g>
+
+                    <!-- Port Scanner Agent -->
+                    <g id="port">
+                        <rect x="280" y="310" width="200" height="100" fill="url(#grad2)" rx="12" stroke="white" stroke-width="2"/>
+                        <text x="380" y="340" font-size="13" font-weight="bold" text-anchor="middle" fill="white">🔌 Port Scanner Agent</text>
+                        <text x="380" y="360" font-size="11" text-anchor="middle" fill="white">Scans 65535 ports</text>
+                        <text x="380" y="380" font-size="11" text-anchor="middle" fill="white">Nmap + Masscan</text>
+                        <text x="380" y="395" font-size="10" text-anchor="middle" fill="white">⏱ 5-10 min</text>
+                    </g>
+
+                    <!-- Service Detection Agent -->
+                    <g id="service">
+                        <rect x="510" y="310" width="200" height="100" fill="url(#grad2)" rx="12" stroke="white" stroke-width="2"/>
+                        <text x="610" y="340" font-size="13" font-weight="bold" text-anchor="middle" fill="white">🔍 Service Agent</text>
+                        <text x="610" y="360" font-size="11" text-anchor="middle" fill="white">Version detection</text>
+                        <text x="610" y="380" font-size="11" text-anchor="middle" fill="white">OS fingerprinting</text>
+                        <text x="610" y="395" font-size="10" text-anchor="middle" fill="white">⏱ 3-5 min</text>
+                    </g>
+
+                    <!-- Tech Stack Agent -->
+                    <g id="tech">
+                        <rect x="740" y="310" width="200" height="100" fill="url(#grad2)" rx="12" stroke="white" stroke-width="2"/>
+                        <text x="840" y="340" font-size="13" font-weight="bold" text-anchor="middle" fill="white">⚙️ Tech Stack Agent</text>
+                        <text x="840" y="360" font-size="11" text-anchor="middle" fill="white">Identifies frameworks</text>
+                        <text x="840" y="380" font-size="11" text-anchor="middle" fill="white">Libraries detected</text>
+                        <text x="840" y="395" font-size="10" text-anchor="middle" fill="white">⏱ 2-3 min</text>
+                    </g>
+
+                    <!-- Arrows from Orchestrator to Recon Agents -->
+                    <path d="M 480 220 L 150 310" stroke="#f5576c" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+                    <path d="M 520 220 L 380 310" stroke="#f5576c" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+                    <path d="M 560 220 L 610 310" stroke="#f5576c" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+                    <path d="M 600 220 L 840 310" stroke="#f5576c" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+
+                    <!-- Arrows from Recon to Consolidation -->
+                    <path d="M 150 410 L 400 470" stroke="#667eea" stroke-width="2" fill="none"/>
+                    <path d="M 380 410 L 400 470" stroke="#667eea" stroke-width="2" fill="none"/>
+                    <path d="M 610 410 L 400 470" stroke="#667eea" stroke-width="2" fill="none"/>
+                    <path d="M 840 410 L 400 470" stroke="#667eea" stroke-width="2" fill="none"/>
+
+                    <!-- Consolidation Box -->
+                    <g id="consolidation">
+                        <rect x="300" y="470" width="200" height="80" fill="url(#grad3)" rx="12" stroke="white" stroke-width="2"/>
+                        <text x="400" y="500" font-size="12" font-weight="bold" text-anchor="middle" fill="white">📊 Data Consolidation</text>
+                        <text x="400" y="520" font-size="11" text-anchor="middle" fill="white">Merge & deduplicate</text>
+                        <text x="400" y="535" font-size="10" text-anchor="middle" fill="white">Prioritize targets</text>
+                    </g>
+
+                    <!-- Arrow to Phase 2 Scanning -->
+                    <path d="M 400 550 L 400 600" stroke="#667eea" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+                    <!-- PHASE 2: PARALLEL SCANNING -->
+                    <text x="700" y="615" font-size="14" font-weight="bold" fill="#1E293B">Phase 2: VULNERABILITY SCANNING (Parallel Execution)</text>
+
+                    <!-- Web Scanner Agent -->
+                    <g id="web">
+                        <rect x="80" y="630" width="220" height="100" fill="url(#grad4)" rx="12" stroke="white" stroke-width="2"/>
+                        <text x="190" y="660" font-size="13" font-weight="bold" text-anchor="middle" fill="white">🌐 Web Scanner</text>
+                        <text x="190" y="680" font-size="11" text-anchor="middle" fill="white">OWASP Top 10 testing</text>
+                        <text x="190" y="700" font-size="11" text-anchor="middle" fill="white">Burp Suite + OWASP ZAP</text>
+                        <text x="190" y="715" font-size="10" text-anchor="middle" fill="white">⏱ 20-30 min</text>
+                    </g>
+
+                    <!-- Code Analyzer Agent -->
+                    <g id="code">
+                        <rect x="330" y="630" width="220" height="100" fill="url(#grad4)" rx="12" stroke="white" stroke-width="2"/>
+                        <text x="440" y="660" font-size="13" font-weight="bold" text-anchor="middle" fill="white">🔬 Code Analyzer</text>
+                        <text x="440" y="680" font-size="11" text-anchor="middle" fill="white">Dependency scanning</text>
+                        <text x="440" y="700" font-size="11" text-anchor="middle" fill="white">SonarQube + Semgrep</text>
+                        <text x="440" y="715" font-size="10" text-anchor="middle" fill="white">⏱ 10-15 min</text>
+                    </g>
+
+                    <!-- Network Agent -->
+                    <g id="network">
+                        <rect x="580" y="630" width="220" height="100" fill="url(#grad4)" rx="12" stroke="white" stroke-width="2"/>
+                        <text x="690" y="660" font-size="13" font-weight="bold" text-anchor="middle" fill="white">📡 Network Agent</text>
+                        <text x="690" y="680" font-size="11" text-anchor="middle" fill="white">Packet analysis</text>
+                        <text x="690" y="700" font-size="11" text-anchor="middle" fill="white">Wireshark + tcpdump</text>
+                        <text x="690" y="715" font-size="10" text-anchor="middle" fill="white">⏱ 15-20 min</text>
+                    </g>
+
+                    <!-- API Scanner Agent -->
+                    <g id="api">
+                        <rect x="830" y="630" width="220" height="100" fill="url(#grad4)" rx="12" stroke="white" stroke-width="2"/>
+                        <text x="940" y="660" font-size="13" font-weight="bold" text-anchor="middle" fill="white">🔗 API Scanner</text>
+                        <text x="940" y="680" font-size="11" text-anchor="middle" fill="white">Endpoint testing</text>
+                        <text x="940" y="700" font-size="11" text-anchor="middle" fill="white">REST API security</text>
+                        <text x="940" y="715" font-size="10" text-anchor="middle" fill="white">⏱ 15-25 min</text>
+                    </g>
+
+                    <!-- Arrows from Consolidation to Scanners -->
+                    <path d="M 350 550 L 190 630" stroke="#43e97b" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+                    <path d="M 400 550 L 440 630" stroke="#43e97b" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+                    <path d="M 450 550 L 690 630" stroke="#43e97b" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+                    <path d="M 500 550 L 940 630" stroke="#43e97b" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+
+                    <!-- Arrows from Scanners to Verification -->
+                    <path d="M 190 730 L 400 770" stroke="#667eea" stroke-width="2" fill="none"/>
+                    <path d="M 440 730 L 400 770" stroke="#667eea" stroke-width="2" fill="none"/>
+                    <path d="M 690 730 L 400 770" stroke="#667eea" stroke-width="2" fill="none"/>
+                    <path d="M 940 730 L 400 770" stroke="#667eea" stroke-width="2" fill="none"/>
+
+                    <!-- Verification Box -->
+                    <g id="verify">
+                        <rect x="300" y="770" width="200" height="80" fill="url(#grad5)" rx="12" stroke="white" stroke-width="2"/>
+                        <text x="400" y="800" font-size="12" font-weight="bold" text-anchor="middle" fill="white">✅ Verification</text>
+                        <text x="400" y="820" font-size="11" text-anchor="middle" fill="white">False positive removal</text>
+                        <text x="400" y="835" font-size="10" text-anchor="middle" fill="white">Confirm findings</text>
+                    </g>
+
+                    <!-- Arrow to Exploitation -->
+                    <path d="M 400 850 L 400 900" stroke="#667eea" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+                    <!-- Exploitation Agent (Final Stage) -->
+                    <g id="exploit">
+                        <rect x="250" y="900" width="300" height="80" fill="url(#grad1)" rx="12" stroke="white" stroke-width="3"/>
+                        <text x="400" y="930" font-size="14" font-weight="bold" text-anchor="middle" fill="white">⚔️ Exploitation Agent</text>
+                        <text x="400" y="955" font-size="12" text-anchor="middle" fill="white">PoC Execution → Reporting Agent</text>
+                        <text x="400" y="970" font-size="11" text-anchor="middle" fill="white">⏱ 30-120 min (depends on findings)</text>
+                    </g>
+
+                    <!-- Final Arrow to Reporting -->
+                    <path d="M 700 940 L 950 940" stroke="#667eea" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+                    <!-- Reporting Agent (Output) -->
+                    <g id="report">
+                        <rect x="950" y="900" width="380" height="80" fill="url(#grad1)" rx="12" stroke="white" stroke-width="3"/>
+                        <text x="1140" y="930" font-size="14" font-weight="bold" text-anchor="middle" fill="white">📋 Reporting Agent</text>
+                        <text x="1140" y="955" font-size="11" text-anchor="middle" fill="white">Consolidates findings → Generates reports (Executive, Technical, Remediation)</text>
+                    </g>
+
+                    <!-- Arrow marker definition -->
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#667eea"/>
+                        </marker>
+                    </defs>
+
+                    <!-- Legend -->
+                    <text x="50" y="1000" font-size="12" font-weight="bold" fill="#1E293B">Legend:</text>
+                    <rect x="160" y="985" width="15" height="15" fill="url(#grad2)"/>
+                    <text x="185" y="998" font-size="11" fill="#1E293B">Parallel = Dashed</text>
+
+                    <line x1="380" y1="992" x2="420" y2="992" stroke="#667eea" stroke-width="2"/>
+                    <text x="430" y="998" font-size="11" fill="#1E293B">Sequential = Solid</text>
+                </svg>
+            </div>
+
+            <p style="margin-top: 20px; color: #666; font-style: italic;">
+                💡 <strong>Key Insight:</strong> All agents in the same colored group run in parallel, dramatically reducing total assessment time. The orchestrator intelligently sequences phases based on data dependencies.
+            </p>
+
+            <h3>📈 Performance Comparison</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Approach</th>
+                        <th>Duration</th>
+                        <th>Findings</th>
+                        <th>False Positives</th>
+                        <th>Coverage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Manual Sequential Testing</strong></td>
+                        <td>3-5 days</td>
+                        <td>15-20</td>
+                        <td>5-8 (25-40%)</td>
+                        <td>40-60%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Single Automated Tool</strong></td>
+                        <td>8-12 hours</td>
+                        <td>25-30</td>
+                        <td>8-15 (30-50%)</td>
+                        <td>50-70%</td>
+                    </tr>
+                    <tr style="background: #e8f5e9;">
+                        <td><strong>🤖 Multi-Agent Framework (This)</strong></td>
+                        <td><strong>2-6 hours</strong></td>
+                        <td><strong>30-45</strong></td>
+                        <td><strong>2-3 (5-10%)</strong></td>
+                        <td><strong>85-95%</strong></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <!-- TOOLS & TECHNOLOGIES REFERENCE -->
